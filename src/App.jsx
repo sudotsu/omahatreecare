@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Shield, ThermometerSnowflake, Ruler, AlertTriangle, CheckCircle, ArrowRight, Phone, Menu, X, HardHat } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { AlertTriangle, ArrowRight, CheckCircle, HardHat, Menu, Phone, Ruler, Shield, ThermometerSnowflake, X } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,9 +47,9 @@ const App = () => {
 
     // Basic validation
     if (!formData.address || !formData.phone) {
-      setFormStatus({ 
-        type: 'error', 
-        message: 'Please fill in all fields' 
+      setFormStatus({
+        type: 'error',
+        message: 'Please fill in all fields'
       });
       setIsSubmitting(false);
       return;
@@ -66,9 +66,9 @@ const App = () => {
       if (serviceId === 'YOUR_SERVICE_ID') {
         // For development - just log to console
         console.log('Form submitted:', formData);
-        setFormStatus({ 
-          type: 'success', 
-          message: 'Thanks! We\'ll contact you within 24 hours to schedule your risk audit.' 
+        setFormStatus({
+          type: 'success',
+          message: 'Thanks! We\'ll contact you within 24 hours to schedule your risk audit.'
         });
         setFormData({ address: '', phone: '' });
         setIsSubmitting(false);
@@ -88,17 +88,17 @@ const App = () => {
       );
 
       if (result.status === 200) {
-        setFormStatus({ 
-          type: 'success', 
-          message: 'Thanks! We\'ll contact you within 24 hours to schedule your risk audit.' 
+        setFormStatus({
+          type: 'success',
+          message: 'Thanks! We\'ll contact you within 24 hours to schedule your risk audit.'
         });
         setFormData({ address: '', phone: '' });
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      setFormStatus({ 
-        type: 'error', 
-        message: 'Something went wrong. Please call us at (402) 812-3294' 
+      setFormStatus({
+        type: 'error',
+        message: 'Something went wrong. Please call us at (402) 812-3294'
       });
     } finally {
       setIsSubmitting(false);
@@ -111,7 +111,7 @@ const App = () => {
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@600;800;900&display=swap');
-          
+
           h1, h2, h3, h4, h5, h6 {
             font-family: 'Montserrat', sans-serif;
           }
@@ -171,9 +171,9 @@ const App = () => {
           {/* Fallback dark gradient if image fails */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-900 opacity-95 z-10"></div>
           {/* Conceptual 'Winter Threat' Image */}
-          <img 
-            src="https://images.unsplash.com/photo-1477601263568-180e2c6d046e?auto=format&fit=crop&q=80&w=2000" 
-            alt="Trees heavy with snow" 
+          <img
+            src="https://images.unsplash.com/photo-1477601263568-180e2c6d046e?auto=format&fit=crop&q=80&w=2000"
+            alt="Trees heavy with snow"
             className="w-full h-full object-cover opacity-40"
           />
         </div>
@@ -184,16 +184,16 @@ const App = () => {
               <AlertTriangle size={16} className="text-orange-500" />
               <span className="text-orange-400 text-xs md:text-sm font-bold uppercase tracking-wider">Winter Storm Warning: Omaha Season 2025</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6 drop-shadow-xl">
               IS YOUR PROPERTY READY FOR THE NEXT <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">ICE STORM?</span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl border-l-4 border-orange-600 pl-6">
-              Heavy snow and ice turn weak branches into expensive liabilities. We specialize in 
+              Heavy snow and ice turn weak branches into expensive liabilities. We specialize in
               <strong className="text-white"> winter structural pruning</strong> to protect your roof, vehicles, and power lines before the weather turns.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="#audit" className="group bg-orange-600 hover:bg-orange-700 text-white text-lg font-bold px-8 py-4 rounded shadow-lg shadow-orange-900/40 transition-all flex items-center justify-center">
                 <HardHat className="mr-2 group-hover:rotate-12 transition-transform" size={24} />
@@ -204,7 +204,7 @@ const App = () => {
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </a>
             </div>
-            
+
             <div className="mt-8 flex items-center space-x-6 text-sm font-semibold text-slate-400">
               <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Fully Insured</div>
               <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Safety Obsessed</div>
@@ -263,14 +263,14 @@ const App = () => {
       <section id="about" className="py-20 bg-slate-800">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col lg:flex-row items-center gap-12">
-            
+
             {/* Image Side */}
             <div className="w-full lg:w-1/2 relative">
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-orange-600/20 z-0"></div>
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-slate-600/20 z-0"></div>
-              <img 
-                src="https://images.unsplash.com/photo-1542046183-29d0274726b7?auto=format&fit=crop&q=80&w=1000" 
-                alt="Andrew inspecting a tree" 
+              <img
+                src="https://img1.wsimg.com/isteam/ip/f84ace64-9f94-4487-b225-a5fac24c6158/blob-facf59f.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:1280"
+                alt="Andrew inspecting a tree"
                 className="relative z-10 rounded-sm shadow-2xl grayscale hover:grayscale-0 transition-all duration-500 w-full"
               />
               <div className="absolute bottom-0 left-0 bg-slate-900/90 p-4 z-20 border-t-4 border-orange-600">
@@ -308,7 +308,7 @@ const App = () => {
           <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
             {/* Decorative Elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-orange-600/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-            
+
             <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center gap-10">
               <div className="lg:w-3/5">
                 <div className="inline-block bg-orange-600 text-white text-xs font-black uppercase px-3 py-1 rounded mb-4">
@@ -334,7 +334,7 @@ const App = () => {
                     <span className="text-slate-300">Structural defects invisible when leaves are on.</span>
                   </li>
                 </ul>
-                
+
                 <div className="bg-slate-900/50 p-4 rounded border border-slate-700 flex items-center gap-4">
                   <Shield className="text-green-500 flex-shrink-0" size={24} />
                   <div>
@@ -347,47 +347,47 @@ const App = () => {
               <div className="lg:w-2/5 w-full">
                 <form ref={formRef} onSubmit={handleSubmit} className="bg-white/5 border border-white/10 p-6 rounded-xl backdrop-blur-sm space-y-4">
                   <h3 className="text-white font-bold text-xl mb-2">Secure Your Slot</h3>
-                  
+
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Property Address</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-orange-500 outline-none transition-colors" 
-                      placeholder="1234 Omaha St" 
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-orange-500 outline-none transition-colors"
+                      placeholder="1234 Omaha St"
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Phone Number</label>
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-orange-500 outline-none transition-colors" 
-                      placeholder="(402) 555-0123" 
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-orange-500 outline-none transition-colors"
+                      placeholder="402-812-3294"
                       required
                     />
                   </div>
-                  
+
                   {formStatus.message && (
                     <div className={`p-3 rounded ${formStatus.type === 'success' ? 'bg-green-500/20 border border-green-500/50 text-green-400' : 'bg-red-500/20 border border-red-500/50 text-red-400'}`}>
                       <p className="text-sm">{formStatus.message}</p>
                     </div>
                   )}
-                  
-                  <button 
-                    type="submit" 
+
+                  <button
+                    type="submit"
                     disabled={isSubmitting}
                     className="w-full bg-orange-600 hover:bg-orange-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-black uppercase py-4 rounded shadow-lg transition-all"
                   >
                     {isSubmitting ? 'SUBMITTING...' : 'BOOK RISK AUDIT'}
                   </button>
-                  
+
                   <p className="text-center text-slate-500 text-xs mt-2">
                     Your privacy is protected. No spam.
                   </p>
@@ -453,7 +453,7 @@ const App = () => {
       <footer className="bg-slate-950 border-t border-slate-900 pt-16 pb-8">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
-            
+
             {/* Company Info */}
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
@@ -470,7 +470,7 @@ const App = () => {
               </p>
               <div className="flex items-center space-x-2 text-slate-400">
                 <Phone size={16} />
-                <span className="font-bold">(402) 555-0123</span>
+                <span className="font-bold">402-812-3294</span>
               </div>
             </div>
 
