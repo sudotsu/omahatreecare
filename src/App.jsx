@@ -172,7 +172,7 @@ const App = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-900 opacity-95 z-10"></div>
           {/* Conceptual 'Winter Threat' Image */}
           <img
-            src="https://images.unsplash.com/photo-1477601263568-180e2c6d046e?auto=format&fit=crop&q=80&w=2000"
+            src="/images/hero-winter-wide.png"
             alt="Trees heavy with snow"
             className="w-full h-full object-cover opacity-40"
           />
@@ -186,7 +186,7 @@ const App = () => {
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6 drop-shadow-xl">
-              IS YOUR PROPERTY READY FOR THE NEXT <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">ICE STORM?</span>
+              IS YOUR PROPERTY READY FOR THE NEXT <span className="text-orange-500 font-black">ICE STORM?</span>
             </h1>
 
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl border-l-4 border-orange-600 pl-6">
@@ -269,7 +269,7 @@ const App = () => {
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-orange-600/20 z-0"></div>
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-slate-600/20 z-0"></div>
               <img
-                src="https://img1.wsimg.com/isteam/ip/f84ace64-9f94-4487-b225-a5fac24c6158/blob-facf59f.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:1280"
+                src="/images/andrew.png"
                 alt="Andrew inspecting a tree"
                 className="relative z-10 rounded-sm shadow-2xl grayscale hover:grayscale-0 transition-all duration-500 w-full"
               />
