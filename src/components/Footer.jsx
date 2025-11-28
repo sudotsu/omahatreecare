@@ -21,8 +21,8 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail size={16} aria-hidden="true" />
-                <a href="mailto:info@midwestrootstreeservice.com" className="hover:opacity-70 transition-opacity">
-                  info@midwestrootstreeservice.com
+                <a href="mailto:andrew@midwestroots.info" className="hover:opacity-70 transition-opacity">
+                  andrew@midwestroots.info
                 </a>
               </div>
             </div>
@@ -38,6 +38,8 @@ const Footer = () => {
               <li>Bellevue, NE</li>
               <li>Papillion, NE</li>
               <li>La Vista, NE</li>
+              <li>Gretna, NE</li>
+              <li>Elkhorn, NE</li>
             </ul>
           </div>
 
@@ -50,7 +52,7 @@ const Footer = () => {
               Free tree care resources and diagnostic tools for Omaha homeowners.
             </p>
             <p className="text-xs" style={{ color: '#8b8175' }}>
-              Built by <a href="https://midwestrootstreeservice.com" className="font-semibold hover:opacity-70 transition-opacity" style={{ color: '#c1666b' }}>Midwest Roots Tree Services</a>
+              Built by <a href="https://midwestroots.info" className="font-semibold hover:opacity-70 transition-opacity" style={{ color: '#c1666b' }}>Midwest Roots Tree Services</a>
             </p>
           </div>
         </div>
