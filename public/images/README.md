@@ -1,47 +1,215 @@
-# Images Folder
+# Images Folder - Omaha Tree Care
 
-Put your custom images here to replace the stock photos.
+This folder contains images used throughout the site.
 
-## Recommended Images
+## Current Images
 
-### 1. hero-winter.jpg
-- **Purpose:** Hero section background
-- **Size:** 2000x1200px minimum
-- **Subject:** Winter trees, snow-covered branches, or storm damage
-- **Style:** Dark, moody, dramatic
-- **Where to use:** Replace the Unsplash URL on line ~185 of src/App.jsx
-- **New code:** `src="/images/hero-winter.jpg"`
+### 1. andrew.png (2.0MB)
+- **Purpose:** About section photo on homepage
+- **Size:** Large (needs optimization)
+- **Used in:** `src/pages/HomePage.jsx`
+- **Recommendation:** Compress to ~200KB using TinyPNG or Squoosh
 
-### 2. andrew.jpg
-- **Purpose:** About section photo
-- **Size:** 1000x1000px (square)
-- **Subject:** You in safety gear, next to tree
-- **Style:** Professional but approachable
-- **Where to use:** Replace the Unsplash URL on line ~310 of src/App.jsx
-- **New code:** `src="/images/andrew.jpg"`
+### 2. hero-winter-wide.png (2.1MB)
+- **Purpose:** Hero section background image
+- **Size:** Large (needs optimization)
+- **Used in:** `src/pages/HomePage.jsx`
+- **Recommendation:** Compress to ~300KB using TinyPNG or Squoosh
 
-### 3. Optional: Logo/Favicon
-If you have a Midwest Roots logo, add it here as:
-- **logo.png** or **logo.svg**
-- Update the logo section in the navigation
+## Image Optimization
 
-## Image Optimization Tips
+**Current total:** 4.1MB
+**Target total:** ~500KB (88% reduction)
 
-Before uploading images:
-1. Resize to recommended dimensions
-2. Compress using TinyPNG.com or Squoosh.app
-3. Aim for < 200KB per image for fast loading
-4. Use JPG for photos, PNG for logos
+See `IMAGE-OPTIMIZATION-GUIDE.md` in the root folder for detailed optimization instructions.
 
-## Stock Photos (Temporary)
+Quick optimization:
+1. Go to https://tinypng.com/
+2. Upload both images
+3. Download compressed versions
+4. Replace originals in this folder
 
-The site currently uses Unsplash images. These are fine for testing, but replace them ASAP with your real photos for maximum trust and conversion.
+## Adding New Images
 
-## Adding More Images
+### For Homepage
 
-Put any additional images in this folder and reference them in your code as:
+To add or replace images on the homepage:
+
+1. **Upload image to this folder** (`/public/images/`)
+2. **Reference in code:** `src/pages/HomePage.jsx`
+
+Example:
 ```jsx
-<img src="/images/your-image.jpg" alt="Description" />
+<img src="/images/your-new-image.jpg" alt="Description" />
 ```
 
-The `/images/` path works because Vite serves the `public` folder at the root.
+### For Diagnostic Tools
+
+To add images to the diagnostic tools:
+
+1. **Upload image to this folder**
+2. **Reference in tool component:** `src/components/tool/screens/*.jsx`
+
+Example in SpeciesIdentifier.jsx:
+```jsx
+<img src="/images/oak-tree.jpg" alt="Oak tree identification" />
+```
+
+## Image Best Practices
+
+### File Size
+- **Hero images:** < 300KB
+- **Feature images:** < 200KB
+- **Icons/logos:** < 50KB
+- **Total page weight:** < 1MB for good performance
+
+### Dimensions
+- **Hero background:** 2000x1200px minimum (landscape)
+- **Feature images:** 1200x800px (landscape) or 800x800px (square)
+- **Thumbnails:** 400x400px
+
+### Formats
+- **Photos:** JPG or WebP
+- **Logos/icons:** PNG or SVG
+- **Illustrations:** SVG (preferred) or PNG
+
+### File Naming
+- Use lowercase
+- Use hyphens, not underscores
+- Be descriptive: `oak-tree-hazard.jpg` not `img1.jpg`
+
+## Responsive Images
+
+For better mobile performance, consider using responsive images:
+
+```jsx
+<picture>
+  <source
+    media="(max-width: 768px)"
+    srcSet="/images/hero-mobile.webp"
+  />
+  <source
+    media="(min-width: 769px)"
+    srcSet="/images/hero-desktop.webp"
+  />
+  <img
+    src="/images/hero-desktop.jpg"
+    alt="Winter tree care"
+  />
+</picture>
+```
+
+## WebP Format
+
+For maximum compression with quality:
+
+1. Convert to WebP using Squoosh.app
+2. Provide fallback for older browsers:
+
+```jsx
+<picture>
+  <source srcSet="/images/andrew.webp" type="image/webp" />
+  <img src="/images/andrew.png" alt="Andrew Warner" />
+</picture>
+```
+
+Browser support: 96% (all modern browsers)
+
+## Lazy Loading
+
+For images below the fold, add lazy loading:
+
+```jsx
+<img
+  src="/images/feature.jpg"
+  alt="Description"
+  loading="lazy"
+/>
+```
+
+This improves initial page load time.
+
+## SEO Tips
+
+Always include descriptive alt text:
+
+```jsx
+// Good
+<img src="/images/oak-hazard.jpg" alt="Hazardous oak tree with split trunk near house" />
+
+// Bad
+<img src="/images/oak-hazard.jpg" alt="tree" />
+```
+
+## Current Usage
+
+### Homepage (`src/pages/HomePage.jsx`)
+- Hero background: `hero-winter-wide.png`
+- About section: `andrew.png`
+
+### Tools Page (`src/pages/ToolsPage.jsx`)
+- Currently uses no images (icon-based UI)
+
+### Diagnostic Tools (`src/components/tool/screens/*.jsx`)
+- Currently uses Lucide icons (no image files)
+- Could add educational images in the future
+
+## Planned Images (Future)
+
+Ideas for additional images:
+- Tree species identification photos (oak, maple, elm, ash)
+- Common pest/disease visuals (Emerald Ash Borer, Dutch Elm Disease)
+- Tree hazard examples (leaning trees, dead branches, root damage)
+- Before/after service photos
+
+## Storage Location
+
+**Important:** All images must be in `/public/images/` to work correctly.
+
+- ✅ Correct: `/public/images/my-image.jpg` → Reference as `/images/my-image.jpg`
+- ❌ Wrong: `/src/images/my-image.jpg` (won't work - images need to be in public folder)
+
+## Build Process
+
+During `npm run build`:
+1. Images in `/public/` are copied to `/dist/` as-is
+2. No automatic optimization (optimize manually first)
+3. Images are served from root `/images/` path
+
+## Performance Testing
+
+After adding/optimizing images:
+
+1. Build the site: `npm run build`
+2. Preview: `npm run preview`
+3. Open DevTools (F12) → Network tab
+4. Reload page and check image sizes
+5. Run Lighthouse audit (aim for 90+ performance)
+
+## Tools & Resources
+
+**Free Optimization Tools:**
+- TinyPNG: https://tinypng.com/ (PNG/JPG compression)
+- Squoosh: https://squoosh.app/ (WebP conversion)
+- ImageOptim (Mac): https://imageoptim.com/
+
+**Free Stock Photos (if needed):**
+- Unsplash: https://unsplash.com/ (search "tree", "oak", "winter trees")
+- Pexels: https://pexels.com/
+
+**Paid (Higher Quality):**
+- Adobe Stock
+- Shutterstock
+- iStock
+
+## Questions?
+
+See the main documentation files:
+- `IMAGE-OPTIMIZATION-GUIDE.md` - Detailed optimization instructions
+- `README.md` - Technical overview
+- `DEPLOYMENT-CHECKLIST.md` - Pre-launch image checklist
+
+---
+
+**Last Updated:** December 2024
+**Current Status:** 2 images (4.1MB) - optimization recommended
