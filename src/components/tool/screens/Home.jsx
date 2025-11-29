@@ -48,15 +48,6 @@ export function Home({ setScreen }) {
       color: 'from-yellow-600 to-amber-700',
       iconBg: 'bg-yellow-100',
       iconColor: 'text-yellow-700'
-    },
-    {
-      id: 'help',
-      icon: HelpCircle,
-      title: 'Expert Advice',
-      description: 'General tree care tips and seasonal maintenance guides',
-      color: 'from-teal-600 to-green-700',
-      iconBg: 'bg-teal-100',
-      iconColor: 'text-teal-700'
     }
   ]
 
@@ -64,11 +55,11 @@ export function Home({ setScreen }) {
     <div className="max-w-6xl mx-auto">
       {/* Hero Section */}
       <div className="text-center mb-12 animate-fade-in">
-        <h2 className="text-4xl md:text-5xl font-bold text-amber-900 dark:text-slate-100 dark:text-emerald-400 mb-4 transition-colors duration-300">
+        <h2 className="text-4xl md:text-5xl font-bold text-amber-900 dark:text-emerald-400 mb-4 transition-colors duration-300">
           Your Free Tree Care Assistant
         </h2>
-        <p className="text-xl text-amber-800 dark:text-slate-300 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed transition-colors duration-300">
-          Professional arborist knowledge at your fingertips. Identify problems, 
+        <p className="text-xl text-amber-800 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed transition-colors duration-300">
+          Professional arborist knowledge at your fingertips. Identify problems,
           assess risks, and make informed decisions about your trees.
         </p>
       </div>
@@ -79,7 +70,7 @@ export function Home({ setScreen }) {
           <button
             key={tool.id}
             onClick={() => setScreen(tool.id)}
-            className="group relative bg-white dark:bg-slate-800 dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
+            className="group relative bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
             style={{
               animationDelay: `${index * 100}ms`,
               animation: 'slideUp 0.6s ease-out forwards'
@@ -94,11 +85,11 @@ export function Home({ setScreen }) {
                 <tool.icon className={`w-8 h-8 ${tool.iconColor}`} />
               </div>
               
-              <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 dark:text-slate-100 mb-2 group-hover:text-amber-800 dark:text-slate-300 dark:group-hover:text-emerald-400 transition-colors">
+              <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-2 group-hover:text-amber-800 dark:group-hover:text-emerald-400 transition-colors">
                 {tool.title}
               </h3>
-              
-              <p className="text-amber-700 dark:text-slate-400 dark:text-slate-400 text-sm leading-relaxed">
+
+              <p className="text-amber-700 dark:text-slate-400 text-sm leading-relaxed">
                 {tool.description}
               </p>
             </div>
@@ -114,13 +105,13 @@ export function Home({ setScreen }) {
       </div>
 
       {/* Value Proposition */}
-      <div className="mt-16 bg-white dark:bg-slate-800 dark:bg-slate-800 rounded-2xl shadow-lg p-8 md:p-12 transition-colors duration-300">
+      <div className="mt-16 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 md:p-12 transition-colors duration-300">
         <div className="text-center mb-8">
-          <h3 className="text-3xl font-bold text-amber-900 dark:text-slate-100 dark:text-emerald-400 mb-4 transition-colors duration-300">
+          <h3 className="text-3xl font-bold text-amber-900 dark:text-emerald-400 mb-4 transition-colors duration-300">
             Why We Created This Tool
           </h3>
-          <p className="text-lg text-amber-800 dark:text-slate-300 dark:text-slate-300 max-w-2xl mx-auto transition-colors duration-300">
-            At Midwest Roots Tree Services, we believe in educating homeowners. 
+          <p className="text-lg text-amber-800 dark:text-slate-300 max-w-2xl mx-auto transition-colors duration-300">
+            At Midwest Roots Tree Services, we believe in educating homeowners.
             When you understand your trees, you make better decisions for your property and your budget.
           </p>
         </div>
@@ -130,8 +121,8 @@ export function Home({ setScreen }) {
             <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <TreeDeciduous className="w-8 h-8 text-green-700 dark:text-emerald-400" />
             </div>
-            <h4 className="font-bold text-amber-900 dark:text-slate-100 dark:text-slate-200 mb-2">Expert Knowledge</h4>
-            <p className="text-sm text-amber-700 dark:text-slate-400 dark:text-slate-400">
+            <h4 className="font-bold text-amber-900 dark:text-slate-200 mb-2">Expert Knowledge</h4>
+            <p className="text-sm text-amber-700 dark:text-slate-400">
               Professional arborist insights, simplified for homeowners
             </p>
           </div>
@@ -140,8 +131,8 @@ export function Home({ setScreen }) {
             <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <HelpCircle className="w-8 h-8 text-blue-700 dark:text-blue-400" />
             </div>
-            <h4 className="font-bold text-amber-900 dark:text-slate-100 dark:text-slate-200 mb-2">No Pressure</h4>
-            <p className="text-sm text-amber-700 dark:text-slate-400 dark:text-slate-400">
+            <h4 className="font-bold text-amber-900 dark:text-slate-200 mb-2">No Pressure</h4>
+            <p className="text-sm text-amber-700 dark:text-slate-400">
               Use our tools without any obligation or sales pitch
             </p>
           </div>
@@ -150,8 +141,8 @@ export function Home({ setScreen }) {
             <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <DollarSign className="w-8 h-8 text-yellow-700 dark:text-yellow-400" />
             </div>
-            <h4 className="font-bold text-amber-900 dark:text-slate-100 dark:text-slate-200 mb-2">Save Money</h4>
-            <p className="text-sm text-amber-700 dark:text-slate-400 dark:text-slate-400">
+            <h4 className="font-bold text-amber-900 dark:text-slate-200 mb-2">Save Money</h4>
+            <p className="text-sm text-amber-700 dark:text-slate-400">
               Learn what you can DIY and when to call the pros
             </p>
           </div>

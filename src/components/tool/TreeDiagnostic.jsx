@@ -10,13 +10,25 @@ import { ArrowLeft, Moon, Sun } from 'lucide-react';
 export function TreeDiagnostic() {
   const [currentScreen, setCurrentScreen] = useState('home');
   const [darkMode, setDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Initialize from localStorage on mount (client-side only)
+  useEffect(() => {
+    setMounted(true);
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode !== null) {
+      setDarkMode(savedMode === 'true');
+    }
+  }, []);
 
   useEffect(() => {
     // Apply dark mode class to html element
     if (darkMode) {
       document.documentElement.classList.add('dark');
+      localStorage.setItem('darkMode', 'true');
     } else {
       document.documentElement.classList.remove('dark');
+      localStorage.setItem('darkMode', 'false');
     }
   }, [darkMode]);
 

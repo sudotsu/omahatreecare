@@ -64,17 +64,17 @@ export function HazardAssessment() {
     }
   ]
 
-  const handleAnswer = (value) => {
+  const handleAnswer = (value, issues = [], isConsequence = false) => {
     if (isConsequence) {
       setAssessment(prev => ({ ...prev, consequence: value }))
     } else {
       setAssessment(prev => ({
         ...prev,
         likelihood: Math.max(prev.likelihood, value),
-        issues: [...new Set([...prev.issues, ...newIssues])]
+        issues: [...new Set([...prev.issues, ...issues])]
       }))
     }
-    
+
     if (step < questions.length - 1) {
       setStep(step + 1)
     }
@@ -116,7 +116,7 @@ export function HazardAssessment() {
 
           {/* Results */}
           <div className="p-8 space-y-6">
-            <div className="bg-amber-50 dark:bg-slate-700/50 border-2 border-amber- dark:border-slate-200 dark:border-slate-600 rounded-xl p-6">
+            <div className="bg-amber-50 dark:bg-slate-700/50 border-2 border-amber-200 dark:border-slate-600 rounded-xl p-6">
               <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-3">Recommended Action</h3>
               <p className="text-lg text-amber-800 dark:text-slate-300">{risk.action}</p>
             </div>
@@ -302,7 +302,7 @@ export function HazardAssessment() {
             <button
               key={index}
               onClick={() => handleAnswer(option.value, option.issues, currentQuestion.isConsequence || false)}
-              className="w-full p-5 text-left bg-amber-50 dark:bg-slate-700/50 hover:bg-amber-100 border-2 border-amber- dark:border-slate-200 dark:border-slate-600 hover:border-amber-400 rounded-xl transition-all group"
+              className="w-full p-5 text-left bg-amber-50 dark:bg-slate-700/50 hover:bg-amber-100 dark:hover:bg-slate-600 border-2 border-amber-200 dark:border-slate-600 hover:border-amber-400 dark:hover:border-amber-500 rounded-xl transition-all group"
             >
               <div className="flex items-center justify-between">
                 <span className="text-amber-900 dark:text-slate-100 font-medium group-hover:text-amber-700 dark:text-slate-400 transition-colors">
