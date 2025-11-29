@@ -1,10 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import { ViteReactSSG } from 'vite-react-ssg'
+import { routes } from './routes'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+// SSG setup for static site generation
+export const createRoot = ViteReactSSG(
+  { routes },
+  ({ router, isClient }) => {
+    // Custom setup can go here
+    // router: the react-router instance
+    // isClient: whether running in browser or during SSG
+  },
 )
