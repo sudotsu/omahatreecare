@@ -1,6 +1,65 @@
-# Midwest Roots Winter Defense Site
+# Omaha Tree Care - Free Diagnostic Tools
 
-A high-conversion landing page for winter tree service campaigns in Omaha.
+A professional tree care diagnostic platform for Omaha homeowners. Built with React, Vite, and Static Site Generation (SSG) for optimal SEO and performance.
+
+## Live Site
+
+**Production URL:** https://omahatreecare.com
+
+## What This Is
+
+A free tree diagnostic tool suite that helps Omaha homeowners:
+- Assess tree hazards using ISA (International Society of Arboriculture) standards
+- Identify tree species and care needs
+- Diagnose common tree problems, pests, and diseases
+- Understand DIY vs. professional tree care
+- Get cost estimates for tree services in Omaha
+
+## Technology Stack
+
+- **Framework:** React 18
+- **Build Tool:** Vite 5
+- **SSG:** vite-react-ssg (Static Site Generation)
+- **Routing:** React Router v6 (data API)
+- **Styling:** Tailwind CSS 3
+- **Analytics:** Vercel Analytics
+- **Icons:** Lucide React
+- **Dark Mode:** Tailwind CSS dark mode with localStorage persistence
+
+## Architecture
+
+### Static Site Generation (SSG)
+
+This site uses **vite-react-ssg** to pre-render pages at build time:
+- **Pre-rendered routes:** `/` and `/tools`
+- **Build output:** Static HTML files in `dist/` folder
+- **Benefits:**
+  - Instant page loads
+  - Perfect SEO (crawlable HTML)
+  - No server required
+  - Optimal performance scores
+
+### Key Files
+
+```
+├── src/
+│   ├── main.jsx              # ViteReactSSG entry point
+│   ├── routes.jsx            # Route configuration (data API)
+│   ├── App.jsx               # Root component wrapper
+│   ├── pages/
+│   │   ├── HomePage.jsx      # Landing page
+│   │   └── ToolsPage.jsx     # Tree diagnostic tools
+│   └── components/
+│       └── tool/
+│           ├── TreeDiagnostic.jsx        # Main tool component
+│           └── screens/
+│               ├── Home.jsx              # Tool selection
+│               ├── SpeciesIdentifier.jsx # Species ID tool
+│               ├── HazardAssessment.jsx  # Risk assessment tool
+│               ├── CommonAilments.jsx    # Problem diagnosis tool
+│               ├── DIYvsProGuide.jsx     # DIY vs Pro guide
+│               └── CostEstimator.jsx     # Cost estimation tool
+```
 
 ## Quick Start
 
@@ -9,6 +68,10 @@ A high-conversion landing page for winter tree service campaigns in Omaha.
 ```bash
 npm install
 ```
+
+**Prerequisites:**
+- Node.js 18+ (download from https://nodejs.org)
+- npm (comes with Node.js)
 
 ### 2. Run Development Server
 
@@ -24,196 +87,191 @@ The site will be available at `http://localhost:5173`
 npm run build
 ```
 
-This creates an optimized production build in the `dist` folder.
+This creates an optimized production build with pre-rendered HTML in the `dist/` folder.
 
-## EmailJS Setup (Form Submissions)
-
-The contact form currently logs to console. To receive real submissions:
-
-### Step 1: Create EmailJS Account
-
-1. Go to [https://www.emailjs.com](https://www.emailjs.com)
-2. Sign up for a free account (300 emails/month)
-3. Verify your email
-
-### Step 2: Set Up Email Service
-
-1. Go to Email Services
-2. Click "Add New Service"
-3. Choose your email provider (Gmail recommended)
-4. Connect your email account
-5. Copy the **Service ID**
-
-### Step 3: Create Email Template
-
-1. Go to Email Templates
-2. Click "Create New Template"
-3. Use this template:
-
-**Subject:** New Risk Audit Request - Winter Defense
-
-**Body:**
-```
-New risk audit request from Winter Defense site:
-
-Property Address: {{property_address}}
-Phone Number: {{phone_number}}
-Submission Time: {{submission_time}}
-
----
-This is an automated message from omahatreecare.com
-```
-
-4. Save and copy the **Template ID**
-
-### Step 4: Get Public Key
-
-1. Go to Account > General
-2. Copy your **Public Key**
-
-### Step 5: Update App.jsx
-
-In `src/App.jsx`, find these lines (around line 53):
-
-```javascript
-const serviceId = 'YOUR_SERVICE_ID';
-const templateId = 'YOUR_TEMPLATE_ID';
-const publicKey = 'YOUR_PUBLIC_KEY';
-```
-
-Replace with your actual values:
-
-```javascript
-const serviceId = 'service_abc123';  // Your Service ID
-const templateId = 'template_xyz789';  // Your Template ID
-const publicKey = 'abcdefgh12345678';  // Your Public Key
-```
-
-Save the file and restart your dev server. Test the form!
-
-## Deploying to Vercel
-
-### Option 1: Using Vercel CLI (Recommended)
+### 4. Preview Production Build
 
 ```bash
-# Install Vercel CLI globally
-npm install -g vercel
-
-# Login to Vercel
-vercel login
-
-# Deploy
-vercel
+npm run preview
 ```
 
-Follow the prompts:
-- Set up and deploy? **Y**
-- Which scope? Select your account
-- Link to existing project? **N**
-- Project name? **midwest-roots-winter** (or whatever you want)
-- Directory? Press Enter (use current directory)
-- Override settings? **N**
+## npm Scripts
 
-Your site will be live at a vercel.app URL!
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server with vite-react-ssg |
+| `npm run build` | Build for production with SSG |
+| `npm run preview` | Preview production build locally |
 
-### Option 2: Using Vercel Website
+## Available Tools
 
-1. Go to [https://vercel.com](https://vercel.com)
-2. Sign up with GitHub
-3. Click "Add New Project"
-4. Import the project from your GitHub repo
-5. Vercel auto-detects Vite settings - just click Deploy!
+### 1. Species Identifier
+Helps homeowners identify tree species and learn care requirements specific to Omaha's climate.
 
-## Connecting omahatreecare.com
+### 2. Hazard Assessment
+Uses ISA arborist standards to calculate tree risk based on:
+- Root & trunk condition
+- Branch structure
+- Tree health
+- Target assessment (proximity to structures)
 
-### In Your Domain Registrar (WordPress.com)
+**Risk Levels:** Low, Moderate, High, Extreme (scored 1-16)
 
-1. Log into your WordPress.com account
-2. Go to Domains > Manage Domains
-3. Click on **omahatreecare.com**
-4. Click "DNS Records" or "Name Servers"
+### 3. Common Problems
+Diagnoses tree ailments including:
+- Diseases (Oak Wilt, Dutch Elm Disease, etc.)
+- Pests (Emerald Ash Borer, bagworms, etc.)
+- Environmental stress
+- Nutrient deficiencies
 
-### Option A: Using Vercel Nameservers (Easier)
+### 4. DIY vs Professional
+Helps homeowners decide what they can safely do themselves vs. when to call a professional arborist.
 
-In Vercel:
-1. Go to your project > Settings > Domains
-2. Add **omahatreecare.com**
-3. Vercel will give you nameservers like:
-   - ns1.vercel-dns.com
-   - ns2.vercel-dns.com
+### 5. Cost Estimator
+Provides realistic price ranges for:
+- Tree removal
+- Pruning/trimming
+- Stump grinding
+- Emergency services
+- Treatment programs
 
-In WordPress.com:
-1. Update nameservers to Vercel's nameservers
-2. Wait 24-48 hours for propagation
+## Features
 
-### Option B: Using CNAME Records (Faster)
+### Dark Mode
+- Toggle between light and dark themes
+- Preference saved to localStorage
+- Synced across all tool screens
+- SSR-safe (hydration mismatch protection)
 
-In Vercel:
-1. Go to Settings > Domains
-2. Add **omahatreecare.com**
-3. Vercel shows you the CNAME target (like `cname.vercel-dns.com`)
-
-In WordPress.com:
-1. Add a CNAME record:
-   - Name: `@` (or leave blank)
-   - Points to: `cname.vercel-dns.com` (use actual value from Vercel)
-2. Add another CNAME for www:
-   - Name: `www`
-   - Points to: `cname.vercel-dns.com`
-
-Changes propagate in 1-4 hours.
-
-## Content You Need to Replace
-
-### Priority 1: Contact Info
-- [ ] Phone number: Search for `(402) 555-0123` and replace everywhere
-- [ ] Service areas in footer (confirm cities)
-
-### Priority 2: Images
-1. **Hero Background** (Line ~185): Replace snow/tree image
-2. **Andrew's Photo** (Line ~310): Replace with your photo in safety gear
-
-To replace images:
-1. Upload your images to the `public` folder
-2. Reference them like: `src="/your-image.jpg"`
-3. Or use an image host and reference the full URL
-
-### Priority 3: About Section Content
-- [ ] Update the story to match your actual origin story
-- [ ] Adjust the quote if needed
-
-### Priority 4: Blog Articles
-The 3 blog article placeholders link to `#`. You can:
-1. Create actual blog posts (WordPress or Medium)
-2. Update the href to point to your main site's blog
-3. Remove the section entirely if not needed
-
-## Performance Optimization
-
-This site is already optimized with:
-- Lazy-loaded images
-- Minimal JavaScript
-- Tailwind CSS (purged in production)
+### SEO Optimization
+- Pre-rendered static HTML for both routes
+- Comprehensive meta tags and OpenGraph data
+- Structured data (LocalBusiness, FAQPage, HowTo schemas)
+- Omaha-specific keywords and content
 - Google Fonts preloaded
 
-Expected Lighthouse scores:
+### Performance
+- Lazy-loaded components
+- Optimized Tailwind CSS (purged in production)
+- Minimal JavaScript bundle
+- Static HTML for instant page loads
+
+**Expected Lighthouse Scores:**
 - Performance: 95+
 - Accessibility: 95+
 - Best Practices: 100
 - SEO: 100
 
+## Deployment
+
+### Deploying to Vercel (Recommended)
+
+**Option 1: Vercel CLI**
+```bash
+npm install -g vercel
+vercel login
+vercel
+```
+
+**Option 2: GitHub Integration**
+1. Push code to GitHub
+2. Import project in Vercel dashboard
+3. Vercel auto-detects Vite configuration
+4. Click "Deploy"
+
+### Custom Domain Setup
+
+In Vercel dashboard:
+1. Go to Project Settings > Domains
+2. Add `omahatreecare.com` and `www.omahatreecare.com`
+3. Update DNS records at your domain registrar:
+   - Add CNAME record: `@` → `cname.vercel-dns.com`
+   - Add CNAME record: `www` → `cname.vercel-dns.com`
+
+DNS propagation takes 1-24 hours.
+
+## Configuration
+
+### Vite Config (`vite.config.js`)
+
+```javascript
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+})
+```
+
+**Note:** ViteReactSSG is invoked via CLI (`vite-react-ssg dev/build`), not as a plugin.
+
+### Routes Config (`src/routes.jsx`)
+
+```javascript
+export const routes = [
+  {
+    path: '/',
+    element: <HomePage />,
+    entry: 'src/pages/HomePage.jsx',
+  },
+  {
+    path: '/tools',
+    element: <ToolsPage />,
+    entry: 'src/pages/ToolsPage.jsx',
+  },
+];
+```
+
+To add more pre-rendered routes, add them to this array.
+
+## Development Notes
+
+### React Router Version
+This project uses **React Router v6** (not v7) for compatibility with vite-react-ssg. Do not upgrade to v7 without migrating away from vite-react-ssg.
+
+### Build Process
+1. `npm run build` runs `vite-react-ssg build`
+2. SSG pre-renders routes defined in `src/routes.jsx`
+3. Output: `dist/index.html` and `dist/tools.html`
+4. Static assets in `dist/assets/`
+
+### Dark Mode Implementation
+Dark mode uses Tailwind's `dark:` prefix with class-based switching:
+- `document.documentElement.classList.add('dark')` activates dark mode
+- Preference stored in `localStorage.darkMode`
+- `mounted` state prevents SSR hydration mismatch
+
+## Recent Changes
+
+### December 2024 - SSG Implementation
+- ✅ Migrated from custom HTML injection to proper SSG
+- ✅ Implemented vite-react-ssg for pre-rendering
+- ✅ Converted to React Router v6 data API
+- ✅ Pre-rendering both `/` and `/tools` routes
+
+### Bug Fixes (Latest)
+- ✅ Fixed HazardAssessment navigation stuck at 1/4
+- ✅ Fixed dark mode toggle not working
+- ✅ Fixed dark mode localStorage persistence
+- ✅ Removed non-functional "Expert Advice" tool
+- ✅ Fixed duplicate CSS classes (dark: prefixes)
+
 ## SEO Keywords Implemented
 
-These keywords are in H1/H2 tags for Omaha local SEO:
-- "winter structural pruning"
-- "Omaha" (multiple mentions)
-- "hazardous tree assessment"
-- "storm damage prevention"
+Omaha-specific tree care keywords optimized for local search:
+- "Omaha tree care"
+- "tree hazard assessment Omaha"
+- "tree removal cost Omaha"
+- "Emerald Ash Borer treatment Omaha"
+- Service area cities: Bellevue, Papillion, La Vista, Gretna, Elkhorn
 
-## Support
+## Contact & Support
 
-Questions? Issues? Contact: andrew@midwestrootstreeservice.com
+**Business:** Midwest Roots Tree Services
+**Phone:** (402) 812-3294
+**Email:** andrew@midwestroots.info
+**Website:** https://midwestroots.info
 
 ## License
 
-Proprietary - Midwest Roots Tree Services
+Proprietary - Midwest Roots Tree Services © 2024
