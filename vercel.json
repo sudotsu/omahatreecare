@@ -8,10 +8,6 @@
       "destination": "/guide.html"
     },
     {
-      "source": "/tools",
-      "destination": "/tools/index.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

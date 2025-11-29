@@ -373,4 +373,5 @@ const prerenderToolsPage = () => {
 };
 
 prerenderHomepage();
-prerenderToolsPage();
+// Tools page is now part of the main React app (client-side routed), no separate prerendering needed
+// prerenderToolsPage();
