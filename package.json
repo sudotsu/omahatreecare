@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && node scripts/prerender.js",
+    "dev": "vite-react-ssg dev",
+    "build": "vite-react-ssg build",
+    "build:old": "vite build && node scripts/prerender.js",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,7 +15,7 @@
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^7.9.6"
+    "react-router-dom": "6.30.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
