@@ -16,7 +16,23 @@ This folder contains images used throughout the site.
 - **Used in:** `src/pages/HomePage.jsx`
 - **Recommendation:** Compress to ~300KB using TinyPNG or Squoosh
 
+<<<<<<< HEAD
+### 3. og-image.jpg (REQUIRED for SEO) ⚡
+- **Purpose:** Social media sharing preview (Facebook, LinkedIn, Twitter)
+- **Exact Size:** 1200x630px (JPEG format)
+- **File Name:** og-image.jpg (must match exactly)
+- **Location:** /public/images/og-image.jpg
+- **Subject:** Professional tree care image or Andrew with company branding
+- **Current Status:** ✅ ADDED (91KB - optimized for web)
+- **Impact:** Social shares will now display a professional preview image
+
+### 4. Optional: Logo/Favicon
+If you have a Midwest Roots logo, add it here as:
+- **logo.png** or **logo.svg**
+- Update the logo section in the navigation
+=======
 ## Image Optimization
+>>>>>>> b9513eac789042a4050167ccd586b97bef966d75
 
 **Current total:** 4.1MB
 **Target total:** ~500KB (88% reduction)
