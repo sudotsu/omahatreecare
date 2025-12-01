@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <meta name="description" content="Free tree diagnostic tools for Omaha homeowners. Assess tree risk, get cost estimates, and access expert tree care resources. Omaha-specific, science-based, honest assessments." />
     <meta name="keywords" content="Omaha tree care, tree diagnostic tool, tree risk assessment, Omaha tree service, tree health assessment, EAB treatment, tree removal cost, Bellevue tree service, Papillion tree care, La Vista trees, Gretna tree service, Elkhorn tree care" />
     <meta name="robots" content="index, follow" />
@@ -17,15 +20,19 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Professional tree care services and free diagnostic tools for Omaha homeowners" />
     <title>Omaha Tree Care - Free Diagnostic Tools & Resources</title>
+
+    <!-- Structured Data for AI Overview & SEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "@id": "https://omahatreecare.com/#organization",
       "name": "Midwest Roots Tree Care",
+      "description": "Free tree diagnostic tools and expert tree care resources for Omaha homeowners",
       "image": "https://omahatreecare.com/images/og-image.jpg",
       "url": "https://omahatreecare.com",
       "telephone": "(402) 812-3294",
+      "email": "andrew@midwestroots.info",
       "priceRange": "$$",
       "address": {
         "@type": "PostalAddress",
@@ -100,9 +107,15 @@
         "opens": "08:00",
         "closes": "18:00"
       },
+      "serviceType": [
+        "Tree Risk Assessment",
+        "Tree Diagnostic Tools",
+        "Tree Care Consultation"
+      ],
       "sameAs": []
     }
     </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -113,7 +126,7 @@
           "name": "How do I know if my tree is dangerous?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Use our free Tree Risk Assessment tool to evaluate your tree's condition. Look for signs like dead branches, trunk cracks, leaning, root damage, or fungal growth. Our diagnostic tool provides instant risk ratings based on ISA arborist standards."
+            "text": "Use our free tree diagnostic tool to assess risk factors including: visible decay or cavities, dead branches larger than 2 inches, trunk cracks, leaning more than 15 degrees, fungal growth at the base, or proximity to structures within falling distance. The tool provides an instant risk assessment based on ISA arborist standards."
           }
         },
         {
@@ -121,26 +134,72 @@
           "name": "How much does tree removal cost in Omaha?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Tree removal costs in Omaha typically range from $300-$3,000+ depending on size, location, and complexity. Small trees (under 30ft) average $300-$800, medium trees (30-60ft) cost $800-$1,500, and large trees (60ft+) range from $1,500-$3,000+. Use our Cost Estimator tool for instant pricing specific to your tree."
+            "text": "In Omaha, tree removal costs typically range from $500-$1,500 for small trees (under 30ft), $1,500-$3,500 for medium trees (30-60ft), and $3,500-$7,000+ for large trees (over 60ft). Hazardous trees near structures or requiring crane access cost more. Use our diagnostic tool for a personalized estimate based on your tree's specific conditions."
           }
         },
         {
           "@type": "Question",
-          "name": "When is the best time to remove trees in Nebraska?",
+          "name": "What is Emerald Ash Borer (EAB) and should I treat my ash tree in Omaha?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Late fall through early spring (November-March) is ideal for tree removal in Nebraska. Trees are dormant, frozen ground protects your lawn, and arborists have more availability. However, dangerous trees should be removed immediately regardless of season."
+            "text": "Emerald Ash Borer is an invasive insect that has killed millions of ash trees across Nebraska, including Omaha. If your ash tree is healthy and valuable (large, well-positioned), treatment costs $150-$400 every 2-3 years and is 95% effective. If the tree shows more than 30% canopy decline, removal is more cost-effective than treatment. Our diagnostic tool helps you decide."
           }
         },
         {
           "@type": "Question",
-          "name": "Do I need a permit to remove a tree in Omaha?",
+          "name": "When is the best time to remove a tree in Omaha?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Permit requirements vary by location within the Omaha metro. Some areas require permits for removing trees over certain sizes or in protected zones. Check with your local city forestry department before removal."
+            "text": "In Omaha, late fall through early spring (November-March) is ideal for tree removal when trees are dormant, ground is often frozen for equipment access, and there's less landscape damage. However, hazardous trees should be removed immediately regardless of season. Prices may be lower in winter due to reduced demand."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I remove a tree myself or do I need a professional?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only attempt DIY removal for small trees (under 15ft) with no nearby structures, power lines, or other obstacles. Hire a professional for: trees over 15ft tall, trees near buildings or power lines, trees leaning toward structures, dead or diseased trees (unpredictable falls), or if you lack proper equipment and insurance. Most homeowner injuries occur during DIY tree work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate is the free tree diagnostic tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The diagnostic tool is based on ISA (International Society of Arboriculture) arborist standards and considers Omaha-specific factors like EAB prevalence, soil conditions, and climate. It provides reliable risk assessment and cost estimates for 80-90% of common scenarios. For complex situations, the tool recommends a professional on-site inspection."
           }
         }
       ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Assess Your Tree's Risk Level",
+      "description": "Step-by-step guide to assessing tree risk and determining next steps for your Omaha trees",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Describe Your Tree",
+          "text": "Answer questions about tree species, size, health indicators, and location relative to structures",
+          "url": "https://omahatreecare.com/tools"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Get Instant Risk Assessment",
+          "text": "Receive a risk level classification (low, moderate, high, or extreme) based on ISA arborist standards",
+          "url": "https://omahatreecare.com/tools"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Review Recommendations and Cost Estimates",
+          "text": "Get clear next steps with realistic cost ranges specific to Omaha tree service market",
+          "url": "https://omahatreecare.com/tools"
+        }
+      ],
+      "totalTime": "PT10M"
     }
     </script>
   </head>
