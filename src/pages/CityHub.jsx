@@ -5,8 +5,12 @@ import { MapPin, ArrowLeft, TreeDeciduous } from 'lucide-react'
 import locationsData from '../data/locations.json'
 
 /**
- * City hub page template - lists all neighborhoods
- * Example: /locations/millard shows all Millard neighborhoods
+ * Render a city-specific hub page that lists all neighborhoods served for the current route.
+ *
+ * Reads the `city` route parameter, formats city and neighborhood names, and renders
+ * SEO tags, a hero section, a neighborhoods grid with links, a contact CTA, and JSON-LD
+ * service area schema.
+ * @returns {JSX.Element} The CityHub page component for the active `city` route.
  */
 export default function CityHub() {
   const { city } = useParams()

@@ -5,7 +5,13 @@ import { Phone, MapPin, CheckCircle, ArrowLeft, TreeDeciduous } from 'lucide-rea
 import ContactForm from '../components/ContactForm'
 
 /**
- * Gretna, Nebraska location page - local SEO optimized
+ * Render the Gretna, Nebraska location page with SEO metadata, local service content, and contact options.
+ *
+ * The component injects page-level SEO tags, displays local-focused hero, service and concern sections,
+ * includes a contact form and links to the free diagnostic tool, and triggers analytics events for
+ * page views and phone link clicks.
+ *
+ * @returns {JSX.Element} The rendered Gretna location page component.
  */
 export default function GretnaTreeCare() {
   useEffect(() => {

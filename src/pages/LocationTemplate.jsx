@@ -1,20 +1,17 @@
 import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
-import { Phone, MapPin, CheckCircle, ArrowLeft, TreeDeciduous } from 'lucide-react'
+import { Phone, MapPin, CheckCircle, ArrowLeft, TreeDeciduous, Leaf } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
-
-// Neighborhood-specific data to avoid "doorway page" penalty
-const neighborhoodData = {
-  dundee: { specificRisk: 'Historic tree preservation and mature oak care' },
-  millard: { specificRisk: 'Emerald Ash Borer mitigation' },
-  tiburon: { specificRisk: 'New construction tree damage and soil compaction' },
-  // Add more as needed
-}
+import neighborhoodData from '../data/neighborhoodData.json'
 
 /**
- * Universal template for all neighborhood pages
- * Generates unique SEO metadata and content based on URL params
+ * Render a neighborhood-specific location page with SEO metadata, structured data, CTAs, and a contact form.
+ *
+ * Uses URL parameters (city, neighborhood) to derive display names and select neighborhood-specific content;
+ * tracks page views and phone click events with `gtag` when available.
+ *
+ * @returns {JSX.Element} The rendered React component for the location page.
  */
 export default function LocationTemplate() {
   const { city, neighborhood } = useParams()
@@ -30,11 +27,17 @@ export default function LocationTemplate() {
   const cityName = formatName(city)
   const neighborhoodName = formatName(neighborhood)
 
-  // Get neighborhood-specific data if available
-  const specificData = neighborhoodData[neighborhood] || { specificRisk: 'Tree health and storm damage assessment' }
+  // Get neighborhood-specific data with rich fallback
+  const data = neighborhoodData[neighborhood] || {
+    vibe: "Professional Tree Care",
+    dominant_trees: "mature shade trees and ornamental species",
+    common_issues: "storm safety assessment and seasonal pruning",
+    local_risk: "Weather patterns and tree health require regular monitoring by certified arborists.",
+    meta_snippet: "Professional tree service and arborist consultations."
+  }
 
   const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Care`
-  const metaDescription = `Expert tree service in ${neighborhoodName}, ${cityName}. ${specificData.specificRisk}. Free diagnostic tool. Call (402) 812-3294`
+  const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
 
   useEffect(() => {
     // Track page view
@@ -98,8 +101,7 @@ export default function LocationTemplate() {
           </h1>
 
           <p className="text-xl text-slate-300 mb-8 max-w-2xl">
-            Local tree service for {neighborhoodName} homeowners. {specificData.specificRisk}.
-            Use our free diagnostic tool or call Andrew for honest recommendations.
+            Specialized tree care for {neighborhoodName} homeowners. We handle {data.dominant_trees} and understand the unique challenges of {data.vibe.toLowerCase()} neighborhoods.
           </p>
 
           {/* Two-column layout */}
@@ -169,42 +171,56 @@ export default function LocationTemplate() {
         </div>
       </section>
 
-      {/* Common Issues in this Neighborhood */}
+      {/* Local Insight - The "Mad Scientist" Content Block */}
       <section className="bg-slate-800 py-16">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
-            Common Tree Issues in {neighborhoodName}
-          </h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-emerald-900/40 to-slate-900 border-2 border-emerald-500/30 rounded-2xl p-8 md:p-12">
+              <div className="flex items-center gap-3 mb-6">
+                <Leaf className="w-8 h-8 text-emerald-400" />
+                <h2 className="text-3xl font-bold text-white">
+                  Why {neighborhoodName} is Unique
+                </h2>
+              </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
-              <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">
-                {specificData.specificRisk}
-              </h3>
-              <p className="text-slate-300">
-                We understand the unique challenges facing {neighborhoodName} trees.
-              </p>
-            </div>
+              <div className="space-y-6 text-slate-200">
+                <p className="text-lg leading-relaxed">
+                  Homeowners in <strong className="text-white">{neighborhoodName}</strong> face unique challenges.
+                  The area is dominated by <strong className="text-emerald-300">{data.dominant_trees}</strong>, which means we
+                  frequently handle <strong className="text-white">{data.common_issues}</strong>.
+                </p>
 
-            <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
-              <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">
-                Storm Damage Assessment
-              </h3>
-              <p className="text-slate-300">
-                Nebraska ice storms and wind can damage trees. We help assess and prevent failures.
-              </p>
-            </div>
+                <div className="bg-slate-900/50 border-l-4 border-emerald-500 rounded-r-lg p-6">
+                  <h3 className="text-lg font-bold text-emerald-400 mb-2">Local Risk Factor:</h3>
+                  <p className="text-slate-300 leading-relaxed">
+                    {data.local_risk}
+                  </p>
+                </div>
 
-            <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
-              <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">
-                Free Diagnostic Tool
-              </h3>
-              <p className="text-slate-300">
-                Not sure if you need service? Our free tool gives honest, arborist-grade assessments.
-              </p>
+                <p className="text-lg leading-relaxed">
+                  At Midwest Roots, we don't just "cut trees." We understand the biology of {neighborhoodName}'s urban forest
+                  and the specific challenges of <strong className="text-white">{data.vibe.toLowerCase()}</strong> areas.
+                </p>
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-slate-700">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="flex items-start gap-4">
+                    <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h4 className="font-bold text-white mb-1">ISA-Certified Methods</h4>
+                      <p className="text-sm text-slate-400">Proper pruning for {neighborhoodName}'s species</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h4 className="font-bold text-white mb-1">Local Knowledge</h4>
+                      <p className="text-sm text-slate-400">We know your neighborhood's tree history</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
