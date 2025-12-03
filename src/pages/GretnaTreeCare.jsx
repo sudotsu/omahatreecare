@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { Phone, MapPin, CheckCircle, ArrowLeft, TreeDeciduous } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
 
@@ -8,9 +9,6 @@ import ContactForm from '../components/ContactForm'
  */
 export default function GretnaTreeCare() {
   useEffect(() => {
-    // Update page title for SEO
-    document.title = 'Tree Care Gretna NE - Local Tree Service & Free Risk Assessment | Midwest Roots'
-
     // Track page view
     if (window.gtag) {
       gtag('event', 'page_view', {
@@ -33,6 +31,12 @@ export default function GretnaTreeCare() {
 
   return (
     <div className="min-h-screen bg-slate-900">
+      <Helmet>
+        <title>Tree Care Gretna NE - Local Tree Service & Free Risk Assessment | Midwest Roots</title>
+        <meta name="description" content="Expert tree service in Gretna, Nebraska. Free diagnostic tool, storm cleanup, pruning, removal. Clay soil experts. Call Andrew (402) 812-3294" />
+        <link rel="canonical" href="https://omahatreecare.com/locations/gretna" />
+      </Helmet>
+
       {/* Back to home link */}
       <div className="bg-slate-800 border-b border-slate-700">
         <div className="container mx-auto px-6 py-4">
