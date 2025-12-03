@@ -5,6 +5,8 @@ import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
 import Navigation from '../components/Navigation';
 import SocialProof from '../components/SocialProof';
+import WinterTriage from '../components/WinterTriage';
+import WhyDifferent from '../components/WhyDifferent';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
 const HomePage = () => {
@@ -28,6 +30,8 @@ const HomePage = () => {
     >
       <Navigation scrolled={scrolled} />
       <Hero />
+      <WinterTriage />
+      <WhyDifferent />
       <Credibility />
       <HowItWorks />
       <SocialProof />

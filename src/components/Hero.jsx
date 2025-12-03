@@ -13,13 +13,13 @@ const Hero = () => {
           {/* Main Headline */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight" style={{ color: '#3d3027' }}>
             Know Your Tree Risk<br />
-            <span style={{ color: '#52796f' }}>Before You Spend a Dime</span>
+            <span style={{ color: '#52796f' }}>Before Winter Storms Hit</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto" style={{ color: '#6b5d54' }}>
-            Free diagnostic tool based on arborist science.<br />
-            Omaha-specific. Honest assessment. 10 minutes.
+            Free winter prep diagnostic tool. Assess ice storm damage risk,<br />
+            get honest recommendations. Omaha-specific. 10 minutes.
           </p>
 
           {/* Primary CTA */}

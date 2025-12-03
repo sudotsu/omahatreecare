@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import ToolsPage from './pages/ToolsPage';
 import EmergencyTreeService from './pages/EmergencyTreeService';
 import TreeConsultation from './pages/TreeConsultation';
+import GretnaTreeCare from './pages/GretnaTreeCare';
 
 // Route configuration for vite-react-ssg
 // Using React Router data API instead of JSX-based routing
@@ -26,5 +27,10 @@ export const routes = [
     path: '/tree-consultation-omaha',
     element: <TreeConsultation />,
     entry: 'src/pages/TreeConsultation.jsx',
+  },
+  {
+    path: '/tree-care-gretna-nebraska',
+    element: <GretnaTreeCare />,
+    entry: 'src/pages/GretnaTreeCare.jsx',
   },
 ];
