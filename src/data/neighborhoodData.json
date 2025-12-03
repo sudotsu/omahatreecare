@@ -1,0 +1,44 @@
+{
+  "dundee": {
+    "vibe": "Historic Preservation",
+    "dominant_trees": "100+ year-old Bur Oaks, Sycamores, and Silver Maples",
+    "common_issues": "crown stabilization for aging giants and clearance pruning for overhead power lines",
+    "local_risk": "Many large limbs overhang historic slate roofs and narrow driveways, requiring rigging experts, not just 'guys with ropes'.",
+    "meta_snippet": "Specializing in historic Bur Oak preservation and tight-quarter rigging."
+  },
+  "benson": {
+    "vibe": "Urban Density",
+    "dominant_trees": "Silver Maples, Hackberries, and aging Elms",
+    "common_issues": "storm damage cleanup from brittle Silver Maples and alleyway clearance for utilities",
+    "local_risk": "Most tree removals here require navigating tight alleys and detached garages.",
+    "meta_snippet": "Expert alleyway removals and storm cleanup for brittle Silver Maples."
+  },
+  "millard": {
+    "vibe": "Mature Suburbia",
+    "dominant_trees": "Pin Oaks, Green Ash, and Linden trees",
+    "common_issues": "Iron Chlorosis (yellowing leaves) in Pin Oaks and Emerald Ash Borer treatments",
+    "local_risk": "Sidewalk heaving from surface roots is a major code violation issue in these subdivisions.",
+    "meta_snippet": "Treating Pin Oak chlorosis and hazardous Ash tree removals."
+  },
+  "westside": {
+    "vibe": "Established Canopy",
+    "dominant_trees": "Massive Cottonwoods and established Maples",
+    "common_issues": "deadwooding to prevent limb drop on manicured lawns",
+    "local_risk": "These large lots often have 'widow maker' limbs high in the canopy that go unnoticed.",
+    "meta_snippet": "High-canopy deadwooding and aesthetic pruning for estate properties."
+  },
+  "tiburon": {
+    "vibe": "New Growth & Golf Course",
+    "dominant_trees": "Callery Pears (Bradford/Cleveland), Autumn Blaze Maples",
+    "common_issues": "structural splitting of ornamental Pear trees during high winds",
+    "local_risk": "Heavy clay soil compaction often suffocates young maples, requiring air-spading or deep root fertilization.",
+    "meta_snippet": "Preventing Pear tree splitting and correcting clay soil compaction."
+  },
+  "the-ridges": {
+    "vibe": "Privacy & Conifers",
+    "dominant_trees": "Blue Spruce, White Pine, and ornamental screens",
+    "common_issues": "needle cast disease in Spruce trees and shaping privacy hedges",
+    "local_risk": "Bagworms can decimate a privacy screen in weeks if not caught early.",
+    "meta_snippet": "Disease management for Blue Spruce and privacy screen maintenance."
+  }
+}
