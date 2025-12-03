@@ -1,14 +1,18 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AlertTriangle, CheckCircle, XCircle, Info } from 'lucide-react'
+import EmailCaptureModal from '../../EmailCaptureModal'
 
 
 export function HazardAssessment() {
+  const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [assessment, setAssessment] = useState({
     likelihood: 0,
     consequence: 0,
     issues: []
   })
+  const [showEmailModal, setShowEmailModal] = useState(false)
 
   const calculateRisk = () => assessment.likelihood * assessment.consequence
 
@@ -192,29 +196,60 @@ export function HazardAssessment() {
 
             {/* Next Steps - Contextual based on risk */}
             {(riskScore >= 6) ? (
-              // High/Extreme Risk - Priority contact options
+              // High/Extreme Risk → Emergency Page
               <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-300 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-red-900 dark:text-red-200 mb-4 text-center">
-                  ⚠️ Your Next Step: Get Professional Help
+                  ⚠️ Immediate Action Recommended
                 </h3>
                 <div className="space-y-3">
-                  <a
-                    href="tel:+14028123294"
-                    className="block w-full px-6 py-4 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-bold text-lg hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center shadow-lg"
+                  <button
+                    onClick={() => {
+                      // Track conversion
+                      if (window.gtag) {
+                        gtag('event', 'high_risk_conversion', {
+                          event_category: 'tool_completion',
+                          event_label: 'emergency_page_click',
+                          risk_score: riskScore
+                        })
+                      }
+                      navigate(`/emergency-tree-service-omaha?risk=high&score=${riskScore}`)
+                    }}
+                    className="block w-full px-6 py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-lg transition-colors text-center shadow-lg"
                   >
-                    📞 Call or Text Andrew: (402) 812-3294
-                    <div className="text-sm font-normal text-green-100 mt-1">Available 24/7 - Even at 1am</div>
-                  </a>
-                  
-                  <a
-                    href="https://www.google.com/search?q=tree+removal+omaha"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full px-6 py-4 bg-blue-600 dark:bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors text-center"
+                    ⚡ Get Emergency Help Now →
+                  </button>
+
+                  <button
+                    onClick={reset}
+                    className="block w-full px-6 py-3 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-colors text-center"
                   >
-                    🔍 Compare Tree Service Pros in Your Area
-                    <div className="text-sm font-normal text-blue-100 mt-1">Do your research - we're confident in our work</div>
-                  </a>
+                    Assess Another Tree
+                  </button>
+                </div>
+              </div>
+            ) : (riskScore >= 3) ? (
+              // Moderate Risk → Consultation Page
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-300 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-yellow-900 dark:text-yellow-200 mb-4 text-center">
+                  Professional Consultation Recommended
+                </h3>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => {
+                      // Track conversion
+                      if (window.gtag) {
+                        gtag('event', 'moderate_risk_conversion', {
+                          event_category: 'tool_completion',
+                          event_label: 'consultation_page_click',
+                          risk_score: riskScore
+                        })
+                      }
+                      navigate(`/tree-consultation-omaha?risk=medium&score=${riskScore}`)
+                    }}
+                    className="block w-full px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-lg transition-colors text-center shadow-lg"
+                  >
+                    📞 Get Free Consultation →
+                  </button>
 
                   <button
                     onClick={reset}
@@ -225,33 +260,28 @@ export function HazardAssessment() {
                 </div>
               </div>
             ) : (
-              // Moderate/Low Risk - Softer email capture
-              <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-300 rounded-xl p-6">
-                <h3 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-4 text-center">
-                  What's Your Next Step?
+              // Low Risk → Email Capture
+              <div className="bg-green-50 dark:bg-green-900/20 border-2 border-green-300 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-green-900 dark:text-green-200 mb-4 text-center">
+                  ✓ Your Tree Looks Healthy!
                 </h3>
                 <div className="space-y-3">
-                  <a
-                    href="mailto:andrew@midwestroots.info?subject=Tree%20Care%20Question%20from%20Diagnostic%20Tool"
-                    className="block w-full px-6 py-4 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-semibold hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center"
+                  <button
+                    onClick={() => {
+                      // Track email modal open
+                      if (window.gtag) {
+                        gtag('event', 'low_risk_email_modal', {
+                          event_category: 'tool_completion',
+                          event_label: 'email_capture_open',
+                          risk_score: riskScore
+                        })
+                      }
+                      setShowEmailModal(true)
+                    }}
+                    className="block w-full px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-lg transition-colors text-center shadow-lg"
                   >
-                    📧 Get Free Expert Advice via Email
-                  </a>
-                  
-                  <a
-                    href="tel:+14028123294"
-                    className="block w-full px-6 py-4 bg-blue-600 dark:bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors text-center"
-                  >
-                    📞 Call for Free Phone Consultation
-                    <div className="text-sm font-normal text-blue-100 mt-1">(402) 812-3294</div>
-                  </a>
-
-                  <a
-                    href="mailto:andrew@midwestroots.info?subject=Send%20Me%20Seasonal%20Tree%20Care%20Tips"
-                    className="block w-full px-6 py-3 bg-amber-600 dark:bg-slate-600 text-white rounded-xl font-semibold hover:bg-amber-700 dark:hover:bg-slate-700 transition-colors text-center"
-                  >
-                    🌳 Send Me Seasonal Tree Care Tips
-                  </a>
+                    🌳 Get Seasonal Care Tips →
+                  </button>
 
                   <button
                     onClick={reset}
@@ -262,6 +292,12 @@ export function HazardAssessment() {
                 </div>
               </div>
             )}
+
+            {/* Email Capture Modal */}
+            <EmailCaptureModal
+              isOpen={showEmailModal}
+              onClose={() => setShowEmailModal(false)}
+            />
           </div>
         </div>
       </div>
