@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { Send, CheckCircle, AlertCircle } from 'lucide-react'
 import emailjs from '@emailjs/browser'
+import { AlertCircle, CheckCircle, Send } from 'lucide-react'
+import { useState } from 'react'
 
 export default function ContactForm({ urgency = 'medium', pageSource = 'unknown' }) {
   const [formData, setFormData] = useState({
@@ -38,9 +38,9 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
 
       // EmailJS configuration
       // TODO: Replace these with your actual EmailJS credentials
-      const SERVICE_ID = 'YOUR_SERVICE_ID'
-      const TEMPLATE_ID = 'YOUR_TEMPLATE_ID'
-      const PUBLIC_KEY = 'YOUR_PUBLIC_KEY'
+      const SERVICE_ID = 'service_76afgoi'
+      const TEMPLATE_ID = 'template_8mkbzl7'
+      const PUBLIC_KEY = 'awhJXJQLTLlTyG8WZ'
 
       // Send email via EmailJS
       const templateParams = {
