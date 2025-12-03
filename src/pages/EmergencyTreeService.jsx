@@ -72,57 +72,55 @@ export default function EmergencyTreeService() {
             <span className="text-emerald-400">Omaha Metro</span>
           </h1>
 
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl">
+          <p className="text-xl text-slate-300 mb-8">
             Your hazard assessment indicated immediate action needed.
             I'm standing by to help protect your property.
           </p>
 
-          {/* Primary CTA - Phone */}
-          <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8 mb-8 max-w-2xl">
-            <div className="flex items-start gap-4 mb-6">
-              <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
-              <div>
-                <h2 className="text-2xl font-bold text-white mb-2">
-                  Call or Text Andrew Now
-                </h2>
-                <p className="text-slate-300 text-lg">
-                  Available 24/7 for urgent tree emergencies
+          {/* Two-column layout: Phone CTA + Contact Form */}
+          <div className="grid lg:grid-cols-2 gap-6 max-w-6xl">
+            {/* Primary CTA - Phone */}
+            <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8">
+              <div className="flex items-start gap-4 mb-6">
+                <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    Call or Text Andrew Now
+                  </h2>
+                  <p className="text-slate-300 text-lg">
+                    Available 24/7 for urgent tree emergencies
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="tel:4028123294"
+                onClick={handlePhoneClick}
+                className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
+              >
+                (402) 812-3294
+              </a>
+
+              <div className="flex items-start gap-3 text-sm text-slate-400">
+                <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <p>
+                  <strong className="text-slate-300">Response time:</strong> If voicemail,
+                  expect callback within 2 hours during business hours (8am-6pm),
+                  or first thing next morning after hours. Your safety is my priority.
                 </p>
               </div>
             </div>
 
-            <a
-              href="tel:4028123294"
-              onClick={handlePhoneClick}
-              className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
-            >
-              (402) 812-3294
-            </a>
-
-            <div className="flex items-start gap-3 text-sm text-slate-400">
-              <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
-              <p>
-                <strong className="text-slate-300">Response time:</strong> If voicemail,
-                expect callback within 2 hours during business hours (8am-6pm),
-                or first thing next morning after hours. Your safety is my priority.
+            {/* Contact Form - Visible Immediately */}
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-white mb-2">
+                Or Request a Callback
+              </h3>
+              <p className="text-slate-400 mb-6">
+                I'll call you back within 2 hours (business hours) to discuss your tree emergency.
               </p>
+              <ContactForm urgency="high" pageSource="emergency_tree_service" />
             </div>
-          </div>
-
-          {/* Secondary CTA - Form */}
-          <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 max-w-2xl">
-            <h3 className="text-lg font-semibold text-white mb-2">
-              Prefer a callback? Leave your details:
-            </h3>
-            <p className="text-slate-400 mb-4">
-              I'll call you back within 2 hours (business hours) to discuss your tree emergency.
-            </p>
-            <Link
-              to="#contact-form"
-              className="inline-block bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-lg transition"
-            >
-              Fill Out Quick Form →
-            </Link>
           </div>
         </div>
       </section>
@@ -218,23 +216,6 @@ export default function EmergencyTreeService() {
                 Dead or dying ash trees near structures require urgent removal.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section id="contact-form" className="bg-slate-800 py-16">
-        <div className="container mx-auto px-6 max-w-2xl">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8">
-            <h2 className="text-3xl font-bold text-white mb-6">
-              Request Emergency Callback
-            </h2>
-            <p className="text-slate-300 mb-8">
-              Fill out this quick form and I'll call you back within 2 hours during business hours
-              (8am-6pm Mon-Sat) to discuss your tree emergency.
-            </p>
-
-            <ContactForm urgency="high" pageSource="emergency_tree_service" />
           </div>
         </div>
       </section>
