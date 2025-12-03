@@ -70,53 +70,51 @@ export default function TreeConsultation() {
             <span className="text-emerald-400">Before You DIY</span>
           </h1>
 
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl">
+          <p className="text-xl text-slate-300 mb-8">
             Your assessment shows some concerns that warrant a closer look.
             Let me give you an honest opinion before you invest time or money.
           </p>
 
-          {/* Primary CTA - Phone */}
-          <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8 mb-8 max-w-2xl">
-            <div className="flex items-start gap-4 mb-6">
-              <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
-              <div>
-                <h2 className="text-2xl font-bold text-white mb-2">
-                  Talk to Andrew - Free Consultation
-                </h2>
-                <p className="text-slate-300 text-lg">
-                  Quick phone call to discuss your tree situation
-                </p>
+          {/* Two-column layout: Phone CTA + Contact Form */}
+          <div className="grid lg:grid-cols-2 gap-6 max-w-6xl">
+            {/* Primary CTA - Phone */}
+            <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8">
+              <div className="flex items-start gap-4 mb-6">
+                <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    Talk to Andrew - Free Consultation
+                  </h2>
+                  <p className="text-slate-300 text-lg">
+                    Quick phone call to discuss your tree situation
+                  </p>
+                </div>
               </div>
+
+              <a
+                href="tel:4028123294"
+                onClick={handlePhoneClick}
+                className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
+              >
+                (402) 812-3294
+              </a>
+
+              <p className="text-sm text-slate-400">
+                <strong className="text-slate-300">Best times to call:</strong> Mon-Sat 8am-6pm.
+                I'll walk you through what to look for and whether you need professional help.
+              </p>
             </div>
 
-            <a
-              href="tel:4028123294"
-              onClick={handlePhoneClick}
-              className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
-            >
-              (402) 812-3294
-            </a>
-
-            <p className="text-sm text-slate-400">
-              <strong className="text-slate-300">Best times to call:</strong> Mon-Sat 8am-6pm.
-              I'll walk you through what to look for and whether you need professional help.
-            </p>
-          </div>
-
-          {/* Secondary CTA - Form */}
-          <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 max-w-2xl">
-            <h3 className="text-lg font-semibold text-white mb-2">
-              Prefer I call you back?
-            </h3>
-            <p className="text-slate-400 mb-4">
-              Leave your details and I'll reach out within 24 hours to schedule a time that works for you.
-            </p>
-            <Link
-              to="#contact-form"
-              className="inline-block bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-lg transition"
-            >
-              Request Callback →
-            </Link>
+            {/* Contact Form - Visible Immediately */}
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-white mb-2">
+                Or Request a Callback
+              </h3>
+              <p className="text-slate-400 mb-6">
+                Leave your details and I'll reach out within 24 hours to schedule a time that works for you.
+              </p>
+              <ContactForm urgency="medium" pageSource="tree_consultation" />
+            </div>
           </div>
         </div>
       </section>
@@ -245,23 +243,6 @@ export default function TreeConsultation() {
               why a quick call can save you from injury, property damage, or expensive mistakes.
               Most homeowner tree accidents happen when people underestimate the complexity.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section id="contact-form" className="bg-slate-800 py-16">
-        <div className="container mx-auto px-6 max-w-2xl">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8">
-            <h2 className="text-3xl font-bold text-white mb-6">
-              Request Free Consultation Callback
-            </h2>
-            <p className="text-slate-300 mb-8">
-              Fill out this quick form and I'll call you back within 24 hours to discuss
-              your tree situation and answer any questions you have.
-            </p>
-
-            <ContactForm urgency="medium" pageSource="tree_consultation" />
           </div>
         </div>
       </section>
