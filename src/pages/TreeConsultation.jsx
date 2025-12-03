@@ -75,37 +75,107 @@ export default function TreeConsultation() {
             Let me give you an honest opinion before you invest time or money.
           </p>
 
-          {/* Two-column layout: Phone CTA + Contact Form */}
+          {/* Two-column layout: Phone CTA + DIY Guide | Contact Form */}
           <div className="grid lg:grid-cols-2 gap-6 max-w-6xl">
-            {/* Primary CTA - Phone */}
-            <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8">
-              <div className="flex items-start gap-4 mb-6">
-                <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
-                <div>
-                  <h2 className="text-2xl font-bold text-white mb-2">
-                    Talk to Andrew - Free Consultation
-                  </h2>
-                  <p className="text-slate-300 text-lg">
-                    Quick phone call to discuss your tree situation
+            {/* Left column: Call CTA + DIY vs Pro Guide */}
+            <div className="space-y-6">
+              {/* Primary CTA - Phone */}
+              <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8">
+                <div className="flex items-start gap-4 mb-6">
+                  <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
+                  <div>
+                    <h2 className="text-2xl font-bold text-white mb-2">
+                      Talk to Andrew - Free Consultation
+                    </h2>
+                    <p className="text-slate-300 text-lg">
+                      Quick phone call to discuss your tree situation
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href="tel:4028123294"
+                  onClick={handlePhoneClick}
+                  className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
+                >
+                  (402) 812-3294
+                </a>
+
+                <p className="text-sm text-slate-400">
+                  <strong className="text-slate-300">Best times to call:</strong> Mon-Sat 8am-6pm.
+                  I'll walk you through what to look for and whether you need professional help.
+                </p>
+              </div>
+
+              {/* DIY vs Pro Guide - Moved here */}
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-6">
+                  DIY-Friendly vs Call a Professional
+                </h3>
+
+                {/* DIY Friendly */}
+                <div className="bg-slate-800 border border-green-600/50 rounded-xl p-6 mb-4">
+                  <h4 className="text-xl font-bold text-green-400 mb-4">
+                    Often DIY-Friendly:
+                  </h4>
+                  <ul className="space-y-2 text-slate-300 text-sm">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-1" />
+                      <span>Small branches (under 3 inches diameter)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-1" />
+                      <span>Work that doesn't require ladders or climbing</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-1" />
+                      <span>Clear of power lines, structures, and obstacles</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-1" />
+                      <span>Routine pruning on young, healthy trees</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Call a Pro */}
+                <div className="bg-slate-800 border border-red-600/50 rounded-xl p-6 mb-4">
+                  <h4 className="text-xl font-bold text-red-400 mb-4">
+                    Call a Professional:
+                  </h4>
+                  <ul className="space-y-2 text-slate-300 text-sm">
+                    <li className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-1" />
+                      <span>Any work near power lines</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-1" />
+                      <span>Trees/branches leaning toward structures</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-1" />
+                      <span>Large branches (over 6 inches diameter)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-1" />
+                      <span>Any tree removal or stump grinding</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-1" />
+                      <span>Dead, diseased, or compromised trees</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-yellow-600/10 border border-yellow-600/30 rounded-xl p-4">
+                  <p className="text-yellow-200 text-sm">
+                    <strong>Not sure which category fits?</strong> A quick call can save you from injury or expensive mistakes.
                   </p>
                 </div>
               </div>
-
-              <a
-                href="tel:4028123294"
-                onClick={handlePhoneClick}
-                className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
-              >
-                (402) 812-3294
-              </a>
-
-              <p className="text-sm text-slate-400">
-                <strong className="text-slate-300">Best times to call:</strong> Mon-Sat 8am-6pm.
-                I'll walk you through what to look for and whether you need professional help.
-              </p>
             </div>
 
-            {/* Contact Form - Visible Immediately */}
+            {/* Right column: Contact Form */}
             <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-white mb-2">
                 Or Request a Callback
@@ -170,79 +240,6 @@ export default function TreeConsultation() {
                 My goal is to help you make the right decision, not sell you services you don't need.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* When to DIY vs When to Call a Pro */}
-      <section className="bg-slate-900 py-16">
-        <div className="container mx-auto px-6 max-w-4xl">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            DIY-Friendly vs Professional Situations
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* DIY Friendly */}
-            <div className="bg-slate-800 border border-green-600/50 rounded-xl p-6">
-              <h3 className="text-2xl font-bold text-green-400 mb-4">
-                Often DIY-Friendly:
-              </h3>
-              <ul className="space-y-3 text-slate-300">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                  <span>Small branches (under 3 inches diameter)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                  <span>Work that doesn't require ladders or climbing</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                  <span>Clear of power lines, structures, and obstacles</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-1" />
-                  <span>Routine pruning on young, healthy trees</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Call a Pro */}
-            <div className="bg-slate-800 border border-red-600/50 rounded-xl p-6">
-              <h3 className="text-2xl font-bold text-red-400 mb-4">
-                Call a Professional:
-              </h3>
-              <ul className="space-y-3 text-slate-300">
-                <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-1" />
-                  <span>Any work near power lines (call utility company first)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-1" />
-                  <span>Trees or branches leaning toward structures</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-1" />
-                  <span>Large branches (over 6 inches diameter)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-1" />
-                  <span>Any tree removal or stump grinding</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-1" />
-                  <span>Dead, diseased, or structurally compromised trees</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-8 bg-yellow-600/10 border border-yellow-600/30 rounded-xl p-6">
-            <p className="text-yellow-200 text-lg">
-              <strong>Not sure which category your tree falls into?</strong> That's exactly
-              why a quick call can save you from injury, property damage, or expensive mistakes.
-              Most homeowner tree accidents happen when people underestimate the complexity.
-            </p>
           </div>
         </div>
       </section>
