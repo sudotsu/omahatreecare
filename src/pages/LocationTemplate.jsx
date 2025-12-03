@@ -42,7 +42,7 @@ export default function LocationTemplate() {
   useEffect(() => {
     // Track page view
     if (window.gtag) {
-      gtag('event', 'page_view', {
+      window.gtag('event', 'page_view', {
         page_title: `${neighborhoodName} ${cityName} Tree Care`,
         page_location: window.location.href,
         city: cityName,
@@ -53,7 +53,7 @@ export default function LocationTemplate() {
 
   const handlePhoneClick = () => {
     if (window.gtag) {
-      gtag('event', 'phone_click', {
+      window.gtag('event', 'phone_click', {
         event_category: 'engagement',
         event_label: 'neighborhood_page',
         city: cityName,
