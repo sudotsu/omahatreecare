@@ -6,14 +6,14 @@ import { injectSpeedInsights } from '@vercel/speed-insights'
 // SSG setup for static site generation
 export const createRoot = ViteReactSSG(
   { routes },
-  ({ router, isClient }) => {
-    // Custom setup can go here
-    // router: the react-router instance
-    // isClient: whether running in browser or during SSG
-    
-    // Inject Vercel Speed Insights on client side only
-    if (isClient) {
+  ({ router, isClient, initialState }) => {
+    // No wrapper needed - using vite-react-ssg's built-in Head component
+    return ({ children }) => children
+  },
+  () => {
+    // Client-side only setup
+    if (typeof window !== 'undefined') {
       injectSpeedInsights()
     }
-  },
+  }
 )

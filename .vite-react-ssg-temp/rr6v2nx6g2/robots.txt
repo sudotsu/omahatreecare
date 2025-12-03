@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /tools
+
+Sitemap: https://omahatreecare.com/sitemap.xml

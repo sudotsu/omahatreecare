@@ -1,4 +1,5 @@
 import React from 'react';
+import { Head } from 'vite-react-ssg';
 import Credibility from '../components/Credibility';
 import Footer from '../components/Footer';
 import Hero from '../components/Hero';
@@ -28,6 +29,21 @@ const HomePage = () => {
         color: colors.text
       }}
     >
+      <Head prioritizeSeoTags>
+        <title>Omaha Tree Care - Free Diagnostic Tools & Resources</title>
+        <meta name="description" content="Free tree diagnostic tools for Omaha homeowners. Assess tree risk, get cost estimates, and access expert tree care resources. Omaha-specific, science-based, honest assessments." />
+        <meta name="keywords" content="Omaha tree care, tree diagnostic tool, tree risk assessment, Omaha tree service, tree health assessment, EAB treatment, tree removal cost, Bellevue tree service, Papillion tree care, La Vista trees, Gretna tree service, Elkhorn tree care" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://omahatreecare.com/" />
+        <meta property="og:title" content="Omaha Tree Care - Free Diagnostic Tools & Resources" />
+        <meta property="og:description" content="Free tree risk assessment tool for Omaha homeowners. Get instant cost estimates and expert recommendations based on arborist science." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://omahatreecare.com/" />
+        <meta property="og:image" content="https://omahatreecare.com/images/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Professional tree care services and free diagnostic tools for Omaha homeowners" />
+      </Head>
       <Navigation scrolled={scrolled} />
       <Hero />
       <WinterTriage />

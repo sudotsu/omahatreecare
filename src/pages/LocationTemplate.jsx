@@ -1,30 +1,60 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import { Phone, MapPin, CheckCircle, ArrowLeft, TreeDeciduous } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
 
+// Neighborhood-specific data to avoid "doorway page" penalty
+const neighborhoodData = {
+  dundee: { specificRisk: 'Historic tree preservation and mature oak care' },
+  millard: { specificRisk: 'Emerald Ash Borer mitigation' },
+  tiburon: { specificRisk: 'New construction tree damage and soil compaction' },
+  // Add more as needed
+}
+
 /**
- * Gretna, Nebraska location page - local SEO optimized
+ * Universal template for all neighborhood pages
+ * Generates unique SEO metadata and content based on URL params
  */
-export default function GretnaTreeCare() {
+export default function LocationTemplate() {
+  const { city, neighborhood } = useParams()
+
+  // Format names for display (capitalize, remove hyphens)
+  const formatName = (str) => {
+    if (!str) return ''
+    return str.split('-').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ')
+  }
+
+  const cityName = formatName(city)
+  const neighborhoodName = formatName(neighborhood)
+
+  // Get neighborhood-specific data if available
+  const specificData = neighborhoodData[neighborhood] || { specificRisk: 'Tree health and storm damage assessment' }
+
+  const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Care`
+  const metaDescription = `Expert tree service in ${neighborhoodName}, ${cityName}. ${specificData.specificRisk}. Free diagnostic tool. Call (402) 812-3294`
+
   useEffect(() => {
     // Track page view
     if (window.gtag) {
       gtag('event', 'page_view', {
-        page_title: 'Gretna Tree Care',
+        page_title: `${neighborhoodName} ${cityName} Tree Care`,
         page_location: window.location.href,
-        city: 'Gretna'
+        city: cityName,
+        neighborhood: neighborhoodName
       })
     }
-  }, [])
+  }, [city, neighborhood, cityName, neighborhoodName])
 
   const handlePhoneClick = () => {
     if (window.gtag) {
       gtag('event', 'phone_click', {
         event_category: 'engagement',
-        event_label: 'gretna_page',
-        city: 'Gretna'
+        event_label: 'neighborhood_page',
+        city: cityName,
+        neighborhood: neighborhoodName
       })
     }
   }
@@ -32,20 +62,21 @@ export default function GretnaTreeCare() {
   return (
     <div className="min-h-screen bg-slate-900">
       <Head prioritizeSeoTags>
-        <title>Tree Care Gretna NE - Local Tree Service & Free Risk Assessment | Midwest Roots</title>
-        <meta name="description" content="Expert tree service in Gretna, Nebraska. Free diagnostic tool, storm cleanup, pruning, removal. Clay soil experts. Call Andrew (402) 812-3294" />
-        <link rel="canonical" href="https://omahatreecare.com/locations/gretna" />
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="robots" content="noindex, nofollow" />
+        <link rel="canonical" href={`https://omahatreecare.com/locations/${city}/${neighborhood}`} />
       </Head>
 
-      {/* Back to home link */}
+      {/* Back to city link */}
       <div className="bg-slate-800 border-b border-slate-700">
         <div className="container mx-auto px-6 py-4">
           <Link
-            to="/"
+            to={`/locations/${city}`}
             className="inline-flex items-center text-slate-300 hover:text-white transition"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
+            Back to {cityName}
           </Link>
         </div>
       </div>
@@ -58,24 +89,23 @@ export default function GretnaTreeCare() {
           {/* Location Badge */}
           <div className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full mb-6 font-semibold">
             <MapPin className="w-5 h-5" />
-            Serving Gretna, Nebraska
+            Serving {neighborhoodName}, {cityName}
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Tree Care in Gretna<br />
-            <span className="text-emerald-400">Free Risk Assessment Tool</span>
+            Tree Care in {neighborhoodName}<br />
+            <span className="text-emerald-400">{cityName}, Nebraska</span>
           </h1>
 
           <p className="text-xl text-slate-300 mb-8 max-w-2xl">
-            Local tree service for Gretna homeowners. Use our free diagnostic tool to assess your trees,
-            or call Andrew for honest recommendations.
+            Local tree service for {neighborhoodName} homeowners. {specificData.specificRisk}.
+            Use our free diagnostic tool or call Andrew for honest recommendations.
           </p>
 
-          {/* Two-column layout: Phone CTA + Free Tool | Contact Form */}
+          {/* Two-column layout */}
           <div className="grid lg:grid-cols-2 gap-6 max-w-6xl">
-            {/* Left column: Call CTA + Free Tool */}
+            {/* Left: Call CTA + Free Tool */}
             <div className="space-y-6">
-              {/* Primary CTA - Phone */}
               <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8">
                 <div className="flex items-start gap-4 mb-6">
                   <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
@@ -84,7 +114,7 @@ export default function GretnaTreeCare() {
                       Call or Text Andrew
                     </h2>
                     <p className="text-slate-300 text-lg">
-                      Local Gretna tree service - honest assessments
+                      Local {neighborhoodName} tree service
                     </p>
                   </div>
                 </div>
@@ -98,8 +128,7 @@ export default function GretnaTreeCare() {
                 </a>
 
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300">Serving Gretna since 2024.</strong> Mon-Sat 8am-6pm.
-                  Emergency tree service available 24/7.
+                  <strong className="text-slate-300">Serving {neighborhoodName} since 2024.</strong> Mon-Sat 8am-6pm.
                 </p>
               </div>
 
@@ -109,11 +138,10 @@ export default function GretnaTreeCare() {
                   <TreeDeciduous className="w-8 h-8 text-emerald-400 flex-shrink-0" />
                   <div>
                     <h3 className="text-xl font-bold text-white mb-2">
-                      Or Use Our Free Diagnostic Tool
+                      Free Diagnostic Tool
                     </h3>
                     <p className="text-slate-300 text-sm">
-                      10-minute assessment based on ISA arborist standards. Get instant recommendations
-                      specific to Gretna's soil and weather conditions.
+                      10-minute assessment based on ISA arborist standards.
                     </p>
                   </div>
                 </div>
@@ -127,105 +155,55 @@ export default function GretnaTreeCare() {
               </div>
             </div>
 
-            {/* Right column: Contact Form */}
+            {/* Right: Contact Form */}
             <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-white mb-2">
                 Request a Callback
               </h3>
               <p className="text-slate-400 mb-6">
-                Leave your details and I'll call you back within 24 hours to discuss your tree needs.
+                Leave your details and I'll call you back within 24 hours.
               </p>
-              <ContactForm urgency="medium" pageSource="gretna_tree_care" />
+              <ContactForm urgency="medium" pageSource={`${city}_${neighborhood}`} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Gretna-Specific Tree Concerns */}
+      {/* Common Issues in this Neighborhood */}
       <section className="bg-slate-800 py-16">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-white mb-8 text-center">
-            Common Tree Issues in Gretna
+            Common Tree Issues in {neighborhoodName}
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
               <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-3">
-                Clay Soil Challenges
+                {specificData.specificRisk}
               </h3>
               <p className="text-slate-300">
-                Gretna's heavy clay soil can cause root stress and poor drainage. We help identify trees
-                struggling with soil compaction and waterlogging issues.
+                We understand the unique challenges facing {neighborhoodName} trees.
               </p>
             </div>
 
             <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
               <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-3">
-                Wind Damage & Ice Storms
+                Storm Damage Assessment
               </h3>
               <p className="text-slate-300">
-                Open prairie winds and winter ice storms take a toll on Gretna trees. Get ahead of storm
-                damage with preventive pruning and risk assessment.
+                Nebraska ice storms and wind can damage trees. We help assess and prevent failures.
               </p>
             </div>
 
             <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
               <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-3">
-                Emerald Ash Borer (EAB)
-              </h3>
-              <p className="text-slate-300">
-                EAB continues to threaten Gretna ash trees. Early detection and treatment planning
-                can save your trees—or prevent dangerous failures.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Available in Gretna */}
-      <section className="bg-slate-900 py-16">
-        <div className="container mx-auto px-6 max-w-4xl">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
-            Tree Services Available in Gretna
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-slate-800 border-l-4 border-emerald-500 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">
-                Emergency Tree Removal
-              </h3>
-              <p className="text-slate-300 text-sm">
-                Storm-damaged, leaning, or hazardous trees removed safely. Available 24/7 for emergencies.
-              </p>
-            </div>
-
-            <div className="bg-slate-800 border-l-4 border-emerald-500 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">
-                Tree Risk Assessment
-              </h3>
-              <p className="text-slate-300 text-sm">
-                ISA-standard inspections to identify hazards before they become expensive problems.
-              </p>
-            </div>
-
-            <div className="bg-slate-800 border-l-4 border-emerald-500 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">
-                Pruning & Maintenance
-              </h3>
-              <p className="text-slate-300 text-sm">
-                Proper pruning improves tree health, reduces storm damage risk, and keeps your property safe.
-              </p>
-            </div>
-
-            <div className="bg-slate-800 border-l-4 border-emerald-500 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-2">
                 Free Diagnostic Tool
               </h3>
-              <p className="text-slate-300 text-sm">
-                Not sure if you need service? Our free tool helps you assess your trees yourself—honestly.
+              <p className="text-slate-300">
+                Not sure if you need service? Our free tool gives honest, arborist-grade assessments.
               </p>
             </div>
           </div>
@@ -237,33 +215,29 @@ export default function GretnaTreeCare() {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          "name": "Midwest Roots Tree Care - Gretna",
+          "name": `Midwest Roots Tree Care - ${neighborhoodName}`,
           "image": "https://omahatreecare.com/images/og-image.jpg",
           "telephone": "(402) 812-3294",
           "email": "andrew@omahatreecare.com",
           "address": {
             "@type": "PostalAddress",
-            "addressLocality": "Gretna",
+            "addressLocality": neighborhoodName,
             "addressRegion": "NE",
             "addressCountry": "US"
           },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "41.1411",
-            "longitude": "-96.2397"
-          },
           "areaServed": {
-            "@type": "City",
-            "name": "Gretna",
+            "@type": "Place",
+            "name": neighborhoodName,
             "address": {
               "@type": "PostalAddress",
+              "addressLocality": cityName,
               "addressRegion": "NE",
               "addressCountry": "US"
             }
           },
           "priceRange": "$$",
           "openingHours": "Mo-Sa 08:00-18:00",
-          "url": "https://omahatreecare.com/locations/gretna"
+          "url": `https://omahatreecare.com/locations/${city}/${neighborhood}`
         })}
       </script>
     </div>
