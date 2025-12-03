@@ -259,7 +259,7 @@ export default function GretnaTreeCare() {
           },
           "priceRange": "$$",
           "openingHours": "Mo-Sa 08:00-18:00",
-          "url": "https://omahatreecare.com/tree-care-gretna-nebraska"
+          "url": "https://omahatreecare.com/locations/gretna"
         })}
       </script>
     </div>

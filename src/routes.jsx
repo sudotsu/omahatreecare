@@ -29,7 +29,7 @@ export const routes = [
     entry: 'src/pages/TreeConsultation.jsx',
   },
   {
-    path: '/tree-care-gretna-nebraska',
+    path: '/locations/gretna',
     element: <GretnaTreeCare />,
     entry: 'src/pages/GretnaTreeCare.jsx',
   },
