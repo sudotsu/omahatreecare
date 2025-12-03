@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import HomePage from './pages/HomePage';
 import ToolsPage from './pages/ToolsPage';
 
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/tools" element={<ToolsPage />} />
       </Routes>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 };
