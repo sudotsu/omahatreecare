@@ -1,7 +1,19 @@
-import { Phone, Mail } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import locationsData from '../data/locations.json';
 
 const Footer = () => {
+  // Format city names for display
+  const formatCityName = (city) => {
+    return city.split('-').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  };
+
+  // Get first 8 cities for footer
+  const cities = Object.keys(locationsData).slice(0, 8);
+
   return (
     <footer style={{ backgroundColor: '#3d3027' }} className="pt-12 pb-8">
       <div className="container mx-auto px-4 md:px-6">
@@ -28,18 +40,23 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Service Areas */}
+          {/* Service Areas - Dynamic */}
           <div>
             <h4 className="font-bold mb-4 text-sm tracking-wider uppercase" style={{ color: '#f8f6f1' }}>
               Service Areas
             </h4>
             <ul className="space-y-2 text-sm" style={{ color: '#c4bbb0' }}>
-              <li>Omaha, NE</li>
-              <li>Bellevue, NE</li>
-              <li>Papillion, NE</li>
-              <li>La Vista, NE</li>
-              <li>Gretna, NE</li>
-              <li>Elkhorn, NE</li>
+              {cities.map(city => (
+                <li key={city}>
+                  <Link
+                    to={`/locations/${city}`}
+                    className="hover:opacity-70 transition-opacity inline-flex items-center gap-2"
+                  >
+                    <MapPin size={14} className="text-emerald-400" />
+                    {formatCityName(city)}, NE
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

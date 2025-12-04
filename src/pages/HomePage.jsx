@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
 import Navigation from '../components/Navigation';
+import ServiceAreas from '../components/ServiceAreas';
 import SocialProof from '../components/SocialProof';
 import WinterTriage from '../components/WinterTriage';
 import WhyDifferent from '../components/WhyDifferent';
@@ -51,6 +52,7 @@ const HomePage = () => {
       <Credibility />
       <HowItWorks />
       <SocialProof />
+      <ServiceAreas />
       <Footer />
     </div>
   );
