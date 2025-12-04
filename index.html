@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-LV6TT5KJZV"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LV6TT5KJZV"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -9,27 +10,15 @@
 
       gtag('config', 'G-LV6TT5KJZV');
     </script>
-
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Midwest Roots Tree Services | Omaha, NE</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- SEO meta tags are set per-page via Head component from vite-react-ssg -->
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    </noscript>
-
+    <!-- Structured Data for AI Overview & SEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -54,12 +43,60 @@
         "longitude": "-95.9345"
       },
       "areaServed": [
-        { "@type": "City", "name": "Omaha", "address": { "@type": "PostalAddress", "addressRegion": "NE", "addressCountry": "US" } },
-        { "@type": "City", "name": "Bellevue", "address": { "@type": "PostalAddress", "addressRegion": "NE", "addressCountry": "US" } },
-        { "@type": "City", "name": "Papillion", "address": { "@type": "PostalAddress", "addressRegion": "NE", "addressCountry": "US" } },
-        { "@type": "City", "name": "La Vista", "address": { "@type": "PostalAddress", "addressRegion": "NE", "addressCountry": "US" } },
-        { "@type": "City", "name": "Gretna", "address": { "@type": "PostalAddress", "addressRegion": "NE", "addressCountry": "US" } },
-        { "@type": "City", "name": "Elkhorn", "address": { "@type": "PostalAddress", "addressRegion": "NE", "addressCountry": "US" } }
+        {
+          "@type": "City",
+          "name": "Omaha",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NE",
+            "addressCountry": "US"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "Bellevue",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NE",
+            "addressCountry": "US"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "Papillion",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NE",
+            "addressCountry": "US"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "La Vista",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NE",
+            "addressCountry": "US"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "Gretna",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NE",
+            "addressCountry": "US"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "Elkhorn",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NE",
+            "addressCountry": "US"
+          }
+        }
       ],
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
@@ -84,32 +121,50 @@
         {
           "@type": "Question",
           "name": "How do I know if my tree is dangerous?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Use our free tree diagnostic tool to assess risk factors including: visible decay or cavities, dead branches larger than 2 inches, trunk cracks, leaning more than 15 degrees, fungal growth at the base, or proximity to structures within falling distance. The tool provides an instant risk assessment based on ISA arborist standards." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use our free tree diagnostic tool to assess risk factors including: visible decay or cavities, dead branches larger than 2 inches, trunk cracks, leaning more than 15 degrees, fungal growth at the base, or proximity to structures within falling distance. The tool provides an instant risk assessment based on ISA arborist standards."
+          }
         },
         {
           "@type": "Question",
           "name": "How much does tree removal cost in Omaha?",
-          "acceptedAnswer": { "@type": "Answer", "text": "In Omaha, tree removal costs typically range from $500-$1,500 for small trees (under 30ft), $1,500-$3,500 for medium trees (30-60ft), and $3,500-$7,000+ for large trees (over 60ft). Hazardous trees near structures or requiring crane access cost more. Use our diagnostic tool for a personalized estimate based on your tree's specific conditions." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In Omaha, tree removal costs typically range from $500-$1,500 for small trees (under 30ft), $1,500-$3,500 for medium trees (30-60ft), and $3,500-$7,000+ for large trees (over 60ft). Hazardous trees near structures or requiring crane access cost more. Use our diagnostic tool for a personalized estimate based on your tree's specific conditions."
+          }
         },
         {
           "@type": "Question",
           "name": "What is Emerald Ash Borer (EAB) and should I treat my ash tree in Omaha?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Emerald Ash Borer is an invasive insect that has killed millions of ash trees across Nebraska, including Omaha. If your ash tree is healthy and valuable (large, well-positioned), treatment costs $150-$400 every 2-3 years and is 95% effective. If the tree shows more than 30% canopy decline, removal is more cost-effective than treatment. Our diagnostic tool helps you decide." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Emerald Ash Borer is an invasive insect that has killed millions of ash trees across Nebraska, including Omaha. If your ash tree is healthy and valuable (large, well-positioned), treatment costs $150-$400 every 2-3 years and is 95% effective. If the tree shows more than 30% canopy decline, removal is more cost-effective than treatment. Our diagnostic tool helps you decide."
+          }
         },
         {
           "@type": "Question",
           "name": "When is the best time to remove a tree in Omaha?",
-          "acceptedAnswer": { "@type": "Answer", "text": "In Omaha, late fall through early spring (November-March) is ideal for tree removal when trees are dormant, ground is often frozen for equipment access, and there's less landscape damage. However, hazardous trees should be removed immediately regardless of season. Prices may be lower in winter due to reduced demand." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In Omaha, late fall through early spring (November-March) is ideal for tree removal when trees are dormant, ground is often frozen for equipment access, and there's less landscape damage. However, hazardous trees should be removed immediately regardless of season. Prices may be lower in winter due to reduced demand."
+          }
         },
         {
           "@type": "Question",
           "name": "Can I remove a tree myself or do I need a professional?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Only attempt DIY removal for small trees (under 15ft) with no nearby structures, power lines, or other obstacles. Hire a professional for: trees over 15ft tall, trees near buildings or power lines, trees leaning toward structures, dead or diseased trees (unpredictable falls), or if you lack proper equipment and insurance. Most homeowner injuries occur during DIY tree work." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only attempt DIY removal for small trees (under 15ft) with no nearby structures, power lines, or other obstacles. Hire a professional for: trees over 15ft tall, trees near buildings or power lines, trees leaning toward structures, dead or diseased trees (unpredictable falls), or if you lack proper equipment and insurance. Most homeowner injuries occur during DIY tree work."
+          }
         },
         {
           "@type": "Question",
           "name": "How accurate is the free tree diagnostic tool?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The diagnostic tool is based on ISA (International Society of Arboriculture) arborist standards and considers Omaha-specific factors like EAB prevalence, soil conditions, and climate. It provides reliable risk assessment and cost estimates for 80-90% of common scenarios. For complex situations, the tool recommends a professional on-site inspection." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The diagnostic tool is based on ISA (International Society of Arboriculture) arborist standards and considers Omaha-specific factors like EAB prevalence, soil conditions, and climate. It provides reliable risk assessment and cost estimates for 80-90% of common scenarios. For complex situations, the tool recommends a professional on-site inspection."
+          }
         }
       ]
     }
@@ -122,9 +177,24 @@
       "name": "How to Assess Your Tree's Risk Level",
       "description": "Step-by-step guide to assessing tree risk and determining next steps for your Omaha trees",
       "step": [
-        { "@type": "HowToStep", "name": "Describe Your Tree", "text": "Answer questions about tree species, size, health indicators, and location relative to structures", "url": "https://omahatreecare.com/tools" },
-        { "@type": "HowToStep", "name": "Get Instant Risk Assessment", "text": "Receive a risk level classification (low, moderate, high, or extreme) based on ISA arborist standards", "url": "https://omahatreecare.com/tools" },
-        { "@type": "HowToStep", "name": "Review Recommendations and Cost Estimates", "text": "Get clear next steps with realistic cost ranges specific to Omaha tree service market", "url": "https://omahatreecare.com/tools" }
+        {
+          "@type": "HowToStep",
+          "name": "Describe Your Tree",
+          "text": "Answer questions about tree species, size, health indicators, and location relative to structures",
+          "url": "https://omahatreecare.com/tools"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Get Instant Risk Assessment",
+          "text": "Receive a risk level classification (low, moderate, high, or extreme) based on ISA arborist standards",
+          "url": "https://omahatreecare.com/tools"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Review Recommendations and Cost Estimates",
+          "text": "Get clear next steps with realistic cost ranges specific to Omaha tree service market",
+          "url": "https://omahatreecare.com/tools"
+        }
       ],
       "totalTime": "PT10M"
     }
