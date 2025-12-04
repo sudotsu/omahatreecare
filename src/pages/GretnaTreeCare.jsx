@@ -17,7 +17,7 @@ export default function GretnaTreeCare() {
   useEffect(() => {
     // Track page view
     if (window.gtag) {
-      gtag('event', 'page_view', {
+      window.gtag('event', 'page_view', {
         page_title: 'Gretna Tree Care',
         page_location: window.location.href,
         city: 'Gretna'
@@ -27,7 +27,7 @@ export default function GretnaTreeCare() {
 
   const handlePhoneClick = () => {
     if (window.gtag) {
-      gtag('event', 'phone_click', {
+      window.gtag('event', 'phone_click', {
         event_category: 'engagement',
         event_label: 'gretna_page',
         city: 'Gretna'

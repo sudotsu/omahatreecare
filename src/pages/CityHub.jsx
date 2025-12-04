@@ -30,7 +30,7 @@ export default function CityHub() {
 
   useEffect(() => {
     if (window.gtag) {
-      gtag('event', 'page_view', {
+      window.gtag('event', 'page_view', {
         page_title: `${cityName} Tree Care Hub`,
         page_location: window.location.href,
         city: cityName
