@@ -1,8 +1,9 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 import locationsData from './src/data/locations.json'
+import servicesData from './src/data/services.json'; // <-- NEW: Import services data
 
-// Generate all location routes programmatically
+// Generate all location routes programmatically (existing logic)
 const generateLocationRoutes = () => {
   const routes = []
 
@@ -19,6 +20,20 @@ const generateLocationRoutes = () => {
   return routes
 }
 
+// NEW FUNCTION: Generate all service routes programmatically
+const generateServiceRoutes = () => {
+  const routes = []
+
+  // Loops through 'tree-removal', 'tree-trimming', etc.
+  Object.keys(servicesData).forEach(serviceId => {
+    // Generates static paths like /services/tree-removal
+    routes.push(`/services/${serviceId}`)
+  })
+
+  return routes
+}
+
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -26,8 +41,10 @@ export default defineConfig({
     script: 'async',
     formatting: 'minify',
     includedRoutes(paths) {
-      // Generate all location pages + existing routes
-      return [...paths, ...generateLocationRoutes()]
+      // 1. Existing paths (home, tools)
+      // 2. All location pages
+      // 3. All NEW service pages <--- This is the fix
+      return [...paths, ...generateLocationRoutes(), ...generateServiceRoutes()]
     }
   }
 })
