@@ -1,13 +1,12 @@
 import React from 'react';
-import HomePage from './pages/HomePage';
-import ToolsPage from './pages/ToolsPage';
-import EmergencyTreeService from './pages/EmergencyTreeService';
-import TreeConsultation from './pages/TreeConsultation';
 import CityHub from './pages/CityHub';
+import EmergencyTreeService from './pages/EmergencyTreeService';
+import HomePage from './pages/HomePage';
 import LocationTemplate from './pages/LocationTemplate';
+import ServiceTemplate from './pages/ServiceTemplate';
+import ToolsPage from './pages/ToolsPage';
+import TreeConsultation from './pages/TreeConsultation';
 
-// Route configuration for vite-react-ssg
-// Using React Router data API instead of JSX-based routing
 export const routes = [
   {
     path: '/',
@@ -29,7 +28,7 @@ export const routes = [
     element: <TreeConsultation />,
     entry: 'src/pages/TreeConsultation.jsx',
   },
-  // Dynamic location routes
+  // Locations
   {
     path: '/locations/:city',
     element: <CityHub />,
@@ -39,5 +38,11 @@ export const routes = [
     path: '/locations/:city/:neighborhood',
     element: <LocationTemplate />,
     entry: 'src/pages/LocationTemplate.jsx',
+  },
+  // Services (Clean URLs)
+  {
+    path: '/services/:serviceId',
+    element: <ServiceTemplate />,
+    entry: 'src/pages/ServiceTemplate.jsx',
   },
 ];

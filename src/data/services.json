@@ -1,0 +1,50 @@
+{
+  "tree-removal": {
+    "title": "Hazardous & Large Tree Removal",
+    "slug": "tree-removal",
+    "meta_desc": "Specialized removal for large, dangerous, or hard-to-access trees. We use rigging techniques to protect your home and fences. Zero property damage guarantee.",
+    "hero_headline": "Large & Hazardous Tree Removal",
+    "hero_sub": "We handle the trees other companies are scared to touch.",
+    "pain_point": "Do you have a massive tree looming over your roof, or squeezed between your fence and garage? You can't trust that to a rookie.",
+    "solution": "Midwest Roots specializes in 'surgical removal.' We use advanced rigging to dismantle trees piece-by-piece, lowering heavy wood safely without it ever touching your house or lawn.",
+    "benefit_1": "Tight-Quarter Specialists",
+    "benefit_2": "Crane-Assisted Removal Available",
+    "benefit_3": "Zero Property Damage Guarantee"
+  },
+  "tree-trimming": {
+    "title": "Corrective Pruning & Deadwooding",
+    "slug": "tree-trimming",
+    "meta_desc": "Don't top your trees. We provide structural pruning and deadwood removal to extend tree life and prevent storm damage.",
+    "hero_headline": "Structural Pruning & Deadwood Removal",
+    "hero_sub": "Stop 'chopping' your trees. Start preserving them.",
+    "pain_point": "Most cheap trimmers just spike your tree and hack off limbs, killing it slowly. Overgrown branches are snapping hazards waiting for the next wind storm.",
+    "solution": "We follow ANSI A300 standards to remove only the dead, dying, and crossing limbs. This improves wind resistance and heals the tree, rather than shocking it.",
+    "benefit_1": "Remove Storm Hazards",
+    "benefit_2": "Improve Sunlight & Airflow",
+    "benefit_3": "No Spikes on Live Trees"
+  },
+  "tree-health-assessment": {
+    "title": "No-Pressure Tree Health Assessment",
+    "slug": "tree-health-assessment",
+    "meta_desc": "Not a sales pitch. A free, honest safety assessment of your trees from a certified expert. Know your risk before you spend money.",
+    "hero_headline": "Expert Eyes on Your Trees. Zero Pressure.",
+    "hero_sub": "A genuine safety check from a local expert. No sales tactics, just science.",
+    "pain_point": "Worrying about a leaning tree keeps you up at night, but calling for a 'quote' feels like inviting a salesman to pressure you.",
+    "solution": "We offer a complimentary 15-minute diagnostic walk-through. We invest this time to build long-term neighborhood relationships. If your tree is healthy, we'll tell you. If not, you'll know exactly why.",
+    "benefit_1": "Identification of Decay/Fungus",
+    "benefit_2": "Structural Stability Check",
+    "benefit_3": "Peace of Mind (Truly Free)"
+  },
+  "winter-tree-prep": {
+    "title": "Winter Storm Structural Support",
+    "slug": "winter-tree-prep",
+    "meta_desc": "Prevent ice storm damage. Weight reduction pruning and cabling for trees to prevent limb failure during winter.",
+    "hero_headline": "Winter Defense: Weight Reduction",
+    "hero_sub": "Don't let ice weight snap your heavy limbs.",
+    "pain_point": "Ice storms add thousands of pounds to branches. Long, heavy limbs acting as levers will snap and crush whatever is underneath.",
+    "solution": "We perform specific 'weight reduction' pruning to shorten the lever arm of your branches, making them 40-50% more resistant to snapping under snow and ice loads.",
+    "benefit_1": "Reduce End-Weight Leverage",
+    "benefit_2": "Cable Bracing Installation",
+    "benefit_3": "Prevent Roof Impact"
+  }
+}
