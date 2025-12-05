@@ -6,6 +6,7 @@ import { CostEstimator } from './screens/CostEstimator';
 import { DIYvsProGuide } from './screens/DIYvsProGuide';
 import { CommonAilments } from './screens/CommonAilments';
 import { ArrowLeft, Moon, Sun } from 'lucide-react';
+import { CONTACT } from '../../constants';
 
 export function TreeDiagnostic() {
   const [currentScreen, setCurrentScreen] = useState('home');
@@ -98,20 +99,20 @@ export function TreeDiagnostic() {
               Need Professional Tree Care?
             </p>
             <p className="text-amber-200 dark:text-slate-300 mb-4">
-              Midwest Roots Tree Services - Serving Omaha & Surrounding Areas
+              {CONTACT.businessName} - Serving Omaha & Surrounding Areas
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
               <a
-                href="tel:+14028123294"
+                href={`tel:${CONTACT.phoneRaw}`}
                 className="px-6 py-3 bg-yellow-500 dark:bg-emerald-500 text-amber-900 dark:text-white rounded-lg font-bold hover:bg-yellow-400 dark:hover:bg-emerald-400 transition-colors text-lg"
               >
-                📞 Call or Text: (402) 812-3294
+                📞 Call or Text: {CONTACT.phone}
               </a>
               <a
-                href="mailto:andrew@midwestroots.info"
+                href={`mailto:${CONTACT.email}`}
                 className="px-6 py-3 bg-amber-800 dark:bg-slate-700 text-white rounded-lg font-semibold hover:bg-amber-700 dark:hover:bg-slate-600 transition-colors"
               >
-                📧 andrew@midwestroots.info
+                📧 {CONTACT.email}
               </a>
             </div>
             <div className="border-t border-amber-700 dark:border-slate-700 pt-4 mt-4">

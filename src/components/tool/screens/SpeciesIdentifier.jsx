@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Search, AlertCircle, CheckCircle, Info } from 'lucide-react'
+import { Search, AlertCircle, CheckCircle, Info, Upload, X, Camera } from 'lucide-react'
+import { CONTACT } from '../../../constants'
 
 
 const treeDatabase = [
@@ -141,6 +142,31 @@ const treeDatabase = [
 export function SpeciesIdentifier() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTree, setSelectedTree] = useState(null)
+  const [uploadedPhotos, setUploadedPhotos] = useState([])
+  const [allowCommunityUse, setAllowCommunityUse] = useState(true)
+  const [showUploadSection, setShowUploadSection] = useState(false)
+
+  const handlePhotoUpload = (e) => {
+    const files = Array.from(e.target.files)
+    const validFiles = files.filter(file => {
+      const isImage = file.type.startsWith('image/')
+      const isUnder5MB = file.size <= 5 * 1024 * 1024
+      return isImage && isUnder5MB
+    })
+    setUploadedPhotos(prev => [...prev, ...validFiles].slice(0, 3))
+  }
+
+  const removePhoto = (index) => {
+    setUploadedPhotos(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const submitCommunityPhoto = () => {
+    // TODO: Implement backend submission
+    // This would send photos + species ID + consent to backend
+    alert(`Thanks for contributing! Your ${uploadedPhotos.length} photo(s) of ${selectedTree.name} will help other homeowners identify their trees.`)
+    setUploadedPhotos([])
+    setShowUploadSection(false)
+  }
 
   const filteredTrees = treeDatabase.filter(tree =>
     tree.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -174,6 +200,91 @@ export function SpeciesIdentifier() {
         </p>
       </div>
 
+      {/* Photo Upload Section */}
+      <div className="mb-6 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-xl p-6 border-2 border-emerald-200 dark:border-emerald-700">
+        <div className="flex items-start gap-4 mb-4">
+          <div className="bg-emerald-100 dark:bg-emerald-800 rounded-full p-3">
+            <Camera className="w-6 h-6 text-emerald-700 dark:text-emerald-300" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-emerald-900 dark:text-emerald-200 mb-1">
+              Can't Find Your Tree? Upload a Photo!
+            </h3>
+            <p className="text-sm text-emerald-800 dark:text-emerald-300">
+              Upload photos of leaves, bark, or full tree. Help build our community database while getting expert identification help.
+            </p>
+          </div>
+        </div>
+
+        {uploadedPhotos.length > 0 && (
+          <div className="mb-4">
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {uploadedPhotos.map((photo, index) => (
+                <div key={index} className="relative group">
+                  <img
+                    src={URL.createObjectURL(photo)}
+                    alt={`Tree photo ${index + 1}`}
+                    className="w-full h-24 object-cover rounded-lg"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(index)}
+                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Community Consent */}
+            <label className="flex items-start gap-3 mb-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={allowCommunityUse}
+                onChange={(e) => setAllowCommunityUse(e.target.checked)}
+                className="mt-1 w-4 h-4 text-emerald-600 rounded"
+              />
+              <span className="text-sm text-emerald-900 dark:text-emerald-200">
+                <strong>Help the community!</strong> Allow us to add your photos to our species database (anonymous) to help other Omaha homeowners identify their trees.
+              </span>
+            </label>
+
+            <button
+              onClick={submitCommunityPhoto}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <Upload className="w-5 h-5" />
+              Submit for Expert Identification
+            </button>
+            <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-2 text-center">
+              We'll email you within 24 hours with species ID and care recommendations
+            </p>
+          </div>
+        )}
+
+        {uploadedPhotos.length < 3 && (
+          <label className="block cursor-pointer">
+            <div className="border-2 border-dashed border-emerald-300 dark:border-emerald-600 hover:border-emerald-500 bg-white dark:bg-slate-800 rounded-lg p-6 text-center transition">
+              <Upload className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mx-auto mb-2" />
+              <p className="text-sm text-emerald-800 dark:text-emerald-300 font-medium mb-1">
+                {uploadedPhotos.length === 0 ? 'Upload tree photos' : `Add ${3 - uploadedPhotos.length} more photo${3 - uploadedPhotos.length === 1 ? '' : 's'}`}
+              </p>
+              <p className="text-xs text-emerald-600 dark:text-emerald-400">
+                JPG, PNG up to 5MB • Max 3 photos • Get expert ID within 24hrs
+              </p>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handlePhotoUpload}
+              className="hidden"
+            />
+          </label>
+        )}
+      </div>
+
       {/* Search */}
       <div className="mb-6">
         <div className="relative">
@@ -183,7 +294,7 @@ export function SpeciesIdentifier() {
             placeholder="Search by common or scientific name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 rounded-xl border-2 dark:border-slate-600 border-amber- dark:border-slate-200 dark:border-slate-600 focus:border-amber-500 focus:outline-none text-lg"
+            className="w-full pl-12 pr-4 py-4 rounded-xl border-2 dark:border-slate-600 border-amber-200 focus:border-amber-500 dark:focus:border-emerald-500 focus:outline-none text-lg bg-white dark:bg-slate-800 text-amber-900 dark:text-slate-100"
           />
         </div>
       </div>
@@ -311,34 +422,40 @@ export function SpeciesIdentifier() {
                 <h3 className="text-lg font-bold text-red-900 dark:text-red-200 mb-3 text-center">⚠️ High-Risk Species - Get Expert Help</h3>
                 <div className="space-y-3">
                   <a
-                    href="tel:+14028123294"
+                    href={`tel:${CONTACT.phoneRaw}`}
                     className="block w-full px-6 py-3 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-semibold hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center"
                   >
-                    📞 Call Andrew: (402) 812-3294
+                    📞 Call Andrew: {CONTACT.phone}
                   </a>
                   <a
-                    href="mailto:andrew@midwestroots.info?subject=Question%20About%20My%20Tree%20-%20From%20Species%20Guide"
+                    href={`mailto:${CONTACT.email}?subject=Question%20About%20My%20${encodeURIComponent(selectedTree.name)}%20-%20From%20Species%20Guide`}
                     className="block w-full px-6 py-3 bg-blue-600 dark:bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors text-center"
                   >
                     📧 Email for Free Advice
+                  </a>
+                  <a
+                    href="/services/tree-health-assessment"
+                    className="block w-full px-6 py-3 bg-amber-600 dark:bg-amber-600 text-white rounded-xl font-semibold hover:bg-amber-700 dark:hover:bg-amber-700 transition-colors text-center"
+                  >
+                    🔍 Learn About Health Assessments
                   </a>
                 </div>
               </div>
             ) : (
               <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 rounded-xl p-5">
-                <h3 className="text-lg font-bold text-blue-900 dark:text-blue-200 mb-3 text-center">Questions About Your Tree?</h3>
+                <h3 className="text-lg font-bold text-blue-900 dark:text-blue-200 mb-3 text-center">Questions About Your {selectedTree.name}?</h3>
                 <div className="space-y-2">
                   <a
-                    href="mailto:andrew@midwestroots.info?subject=Question%20About%20My%20Tree%20-%20From%20Species%20Guide"
+                    href={`mailto:${CONTACT.email}?subject=Question%20About%20My%20${encodeURIComponent(selectedTree.name)}%20-%20From%20Species%20Guide`}
                     className="block w-full px-6 py-3 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-semibold hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center"
                   >
                     📧 Ask an Expert
                   </a>
                   <a
-                    href="tel:+14028123294"
+                    href={`tel:${CONTACT.phoneRaw}`}
                     className="block w-full px-6 py-3 bg-blue-600 dark:bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors text-center text-sm"
                   >
-                    📞 (402) 812-3294
+                    📞 {CONTACT.phone}
                   </a>
                 </div>
               </div>
