@@ -86,11 +86,11 @@ export default function LocationTemplate() {
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-24 overflow-hidden">
-        {/* Background image with overlay */}
+        {/* Background image with overlay - Location-specific geo-tagged image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(/images/og-image.jpg)',
+            backgroundImage: `url(/images/${cityName}-Nebraska.webp), url(/images/og-image.jpg)`,
             backgroundPosition: 'center 40%'
           }}
         />
