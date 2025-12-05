@@ -1,8 +1,9 @@
-import { CheckCircle, ShieldAlert, Wrench } from 'lucide-react'
+import { CheckCircle, ShieldAlert, Wrench, Clock } from 'lucide-react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import servicesData from '../data/services.json'
 import ContactForm from '../components/ContactForm'
+import { CONTACT } from '../constants'
 
 export default function ServiceTemplate() {
   const { serviceId } = useParams()
@@ -23,13 +24,32 @@ export default function ServiceTemplate() {
       </Head>
 
       {/* Hero Section */}
-      <header className="bg-slate-900 text-white pt-32 pb-20">
-        <div className="container mx-auto px-6">
+      <header className="relative bg-slate-900 text-white pt-32 pb-20 overflow-hidden">
+        {/* Background image with overlay */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(/images/og-image.jpg)',
+            backgroundPosition: 'center 40%'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-slate-900/92 to-slate-900/95"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-2 rounded-full font-bold mb-6 border border-emerald-500/30">
+            {/* Service Type Badge */}
+            <div className="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-2 rounded-full font-bold mb-4 border border-emerald-500/30">
               <Wrench className="w-4 h-4" />
               Professional Tree Service
             </div>
+
+            {/* Quick Info Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm ml-3"
+                 style={{ backgroundColor: '#52796f', color: '#ffffff' }}>
+              <Clock size={16} aria-hidden="true" />
+              <span>Free Quote • Fast Response</span>
+            </div>
+
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               {data.hero_headline}
             </h1>
@@ -37,8 +57,8 @@ export default function ServiceTemplate() {
               {data.hero_sub}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:4028123294" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-8 rounded-lg text-center transition">
-                Call for Quote: (402) 812-3294
+              <a href={`tel:${CONTACT.phoneRaw}`} className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-8 rounded-lg text-center transition">
+                Call for Quote: {CONTACT.phone}
               </a>
               <Link to="/tools" className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-lg text-center transition backdrop-blur-sm">
                 Use Free Diagnostic Tool
@@ -103,6 +123,31 @@ export default function ServiceTemplate() {
           </div>
         </div>
       </section>
+
+      {/* Schema.org structured data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "serviceType": data.title,
+          "provider": {
+            "@type": "LocalBusiness",
+            "name": CONTACT.businessName,
+            "telephone": CONTACT.phone,
+            "email": CONTACT.email,
+            "url": CONTACT.siteUrl,
+            "priceRange": "$$",
+            "areaServed": {
+              "@type": "City",
+              "name": "Omaha",
+              "addressRegion": "NE",
+              "addressCountry": "US"
+            }
+          },
+          "description": data.meta_desc,
+          "url": `${CONTACT.siteUrl}/services/${data.slug}`
+        })}
+      </script>
     </div>
   )
 }

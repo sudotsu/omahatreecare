@@ -1,9 +1,19 @@
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CONTACT, COLORS } from '../constants';
 
 const Navigation = ({ scrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const services = [
+    { name: 'Tree Removal', slug: 'tree-removal' },
+    { name: 'Tree Trimming', slug: 'tree-trimming' },
+    { name: 'Health Assessment', slug: 'tree-health-assessment' },
+    { name: 'Winter Tree Prep', slug: 'winter-tree-prep' }
+  ];
 
   return (
     <nav
@@ -27,22 +37,54 @@ const Navigation = ({ scrolled }) => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
+          {/* Services Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setIsServicesOpen(true)}
+            onMouseLeave={() => setIsServicesOpen(false)}
+          >
+            <button
+              className="font-medium text-sm transition-colors hover:opacity-70 flex items-center gap-1"
+              style={{ color: COLORS.primary }}
+            >
+              Services
+              <ChevronDown size={16} className={`transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {isServicesOpen && (
+              <div
+                className="absolute top-full left-0 mt-2 w-56 rounded-lg shadow-lg py-2"
+                style={{ backgroundColor: '#f8f6f1', border: `1px solid ${COLORS.primary}` }}
+              >
+                {services.map(service => (
+                  <Link
+                    key={service.slug}
+                    to={`/services/${service.slug}`}
+                    className="block px-4 py-2 text-sm transition-colors hover:opacity-70"
+                    style={{ color: COLORS.text }}
+                  >
+                    {service.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
           <a
             href="/tools"
             className="font-medium text-sm transition-colors hover:opacity-70"
-            style={{ color: '#52796f' }}
+            style={{ color: COLORS.primary }}
           >
             Free Tool
           </a>
           <a
-            href="tel:+14028123294"
+            href={`tel:${CONTACT.phoneRaw}`}
             className="font-semibold px-5 py-2 rounded-lg transition-all transform hover:-translate-y-0.5"
             style={{
-              backgroundColor: '#52796f',
+              backgroundColor: COLORS.primary,
               color: '#ffffff'
             }}
           >
-            (402) 812-3294
+            {CONTACT.phone}
           </a>
         </div>
 
@@ -64,24 +106,42 @@ const Navigation = ({ scrolled }) => {
           className="md:hidden absolute top-full left-0 w-full shadow-lg p-6 flex flex-col space-y-4"
           style={{ backgroundColor: '#f8f6f1' }}
         >
+          {/* Services in Mobile */}
+          <div>
+            <div className="font-bold text-sm mb-2" style={{ color: COLORS.text }}>Services</div>
+            <div className="flex flex-col space-y-2 pl-4">
+              {services.map(service => (
+                <Link
+                  key={service.slug}
+                  to={`/services/${service.slug}`}
+                  className="text-sm font-medium"
+                  onClick={toggleMenu}
+                  style={{ color: COLORS.primary }}
+                >
+                  {service.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           <a
             href="/tools"
             className="text-lg font-medium"
             onClick={toggleMenu}
-            style={{ color: '#52796f' }}
+            style={{ color: COLORS.primary }}
           >
             Free Tool
           </a>
           <a
-            href="tel:+14028123294"
+            href={`tel:${CONTACT.phoneRaw}`}
             className="font-semibold py-3 rounded-lg text-center"
             onClick={toggleMenu}
             style={{
-              backgroundColor: '#52796f',
+              backgroundColor: COLORS.primary,
               color: '#ffffff'
             }}
           >
-            (402) 812-3294
+            {CONTACT.phone}
           </a>
         </div>
       )}

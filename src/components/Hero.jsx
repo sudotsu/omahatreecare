@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle, Clock } from 'lucide-react';
 import React from 'react';
+import { COLORS, TRUST_SIGNALS } from '../constants';
 
 const Hero = () => {
   return (
@@ -19,19 +20,19 @@ const Hero = () => {
 
           {/* Time Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm"
-               style={{ backgroundColor: '#52796f', color: '#ffffff' }}>
+               style={{ backgroundColor: COLORS.primary, color: '#ffffff' }}>
             <Clock size={16} aria-hidden="true" />
             <span>Free Assessment • Takes 10 Minutes</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight" style={{ color: '#3d3027' }}>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight" style={{ color: COLORS.text }}>
             Know Your Tree Risk<br />
-            <span style={{ color: '#52796f' }}>Before Winter Storms Hit</span>
+            <span style={{ color: COLORS.primary }}>Before Winter Storms Hit</span>
           </h1>
 
           {/* Subheadline - removed hard-coded line breaks */}
-          <p className="text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto" style={{ color: '#6b5d54' }}>
+          <p className="text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto" style={{ color: COLORS.textLight }}>
             Free winter prep diagnostic tool. Assess ice storm damage risk, get honest recommendations. Omaha-specific.
           </p>
 
@@ -40,7 +41,7 @@ const Hero = () => {
             href="/tools"
             className="group inline-flex items-center justify-center text-lg font-semibold px-10 py-4 rounded-lg shadow-md transition-all transform hover:-translate-y-0.5 hover:shadow-lg"
             style={{
-              backgroundColor: '#52796f',
+              backgroundColor: COLORS.primary,
               color: '#ffffff'
             }}
           >
@@ -49,18 +50,18 @@ const Hero = () => {
           </a>
 
           {/* Trust Indicators */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm font-medium" style={{ color: '#8b8175' }}>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm font-medium" style={{ color: COLORS.textLighter }}>
             <div className="flex items-center">
-              <CheckCircle size={16} className="mr-2" style={{ color: '#52796f' }} aria-hidden="true" />
+              <CheckCircle size={16} className="mr-2" style={{ color: COLORS.primary }} aria-hidden="true" />
               No email required
             </div>
             <div className="flex items-center">
-              <CheckCircle size={16} className="mr-2" style={{ color: '#52796f' }} aria-hidden="true" />
+              <CheckCircle size={16} className="mr-2" style={{ color: COLORS.primary }} aria-hidden="true" />
               Instant results
             </div>
             <div className="flex items-center">
-              <CheckCircle size={16} className="mr-2" style={{ color: '#52796f' }} aria-hidden="true" />
-              Certified Arborist Standards
+              <CheckCircle size={16} className="mr-2" style={{ color: COLORS.primary }} aria-hidden="true" />
+              {TRUST_SIGNALS.certification}
             </div>
           </div>
         </div>

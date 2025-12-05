@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser'
-import { AlertCircle, CheckCircle, Send } from 'lucide-react'
+import { AlertCircle, CheckCircle, Send, Upload, X } from 'lucide-react'
 import { useState } from 'react'
 
 /**
@@ -18,6 +18,7 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
     message: '',
     bestTime: 'morning'
   })
+  const [photos, setPhotos] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null) // 'success' | 'error' | null
 
@@ -26,6 +27,21 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
       ...formData,
       [e.target.name]: e.target.value
     })
+  }
+
+  const handlePhotoChange = (e) => {
+    const files = Array.from(e.target.files)
+    const validFiles = files.filter(file => {
+      const isImage = file.type.startsWith('image/')
+      const isUnder5MB = file.size <= 5 * 1024 * 1024
+      return isImage && isUnder5MB
+    })
+
+    setPhotos(prevPhotos => [...prevPhotos, ...validFiles].slice(0, 3))
+  }
+
+  const removePhoto = (index) => {
+    setPhotos(prevPhotos => prevPhotos.filter((_, i) => i !== index))
   }
 
   const handleSubmit = async (e) => {
@@ -59,6 +75,8 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
         best_time: formData.bestTime,
         urgency: urgency,
         page_source: pageSource,
+        photo_count: photos.length,
+        has_photos: photos.length > 0 ? 'Yes' : 'No',
         submission_date: new Date().toLocaleDateString(),
         submission_time: new Date().toLocaleTimeString()
       }
@@ -93,6 +111,7 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
           message: '',
           bestTime: 'morning'
         })
+        setPhotos([])
       }, 3000)
 
     } catch (error) {
@@ -260,6 +279,62 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
           className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition resize-none"
           placeholder="Describe your tree concern, location of tree relative to structures, any visible damage, etc."
         ></textarea>
+      </div>
+
+      {/* Photo Upload */}
+      <div>
+        <label className="block text-sm font-semibold text-slate-300 mb-2">
+          Upload Tree Photos (Optional)
+        </label>
+        <div className="space-y-3">
+          {/* Photo previews */}
+          {photos.length > 0 && (
+            <div className="grid grid-cols-3 gap-2">
+              {photos.map((photo, index) => (
+                <div key={index} className="relative group">
+                  <img
+                    src={URL.createObjectURL(photo)}
+                    alt={`Tree photo ${index + 1}`}
+                    className="w-full h-24 object-cover rounded-lg"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(index)}
+                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Upload button */}
+          {photos.length < 3 && (
+            <label className="block w-full cursor-pointer">
+              <div className="border-2 border-dashed border-slate-600 hover:border-emerald-500 bg-slate-700 rounded-lg p-6 text-center transition">
+                <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                <p className="text-sm text-slate-300 font-medium mb-1">
+                  {photos.length === 0 ? 'Upload tree photos' : `Add ${3 - photos.length} more photo${3 - photos.length === 1 ? '' : 's'}`}
+                </p>
+                <p className="text-xs text-slate-400">
+                  JPG, PNG up to 5MB each • Max 3 photos
+                </p>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handlePhotoChange}
+                className="hidden"
+              />
+            </label>
+          )}
+
+          <p className="text-xs text-slate-400">
+            Photos help provide accurate estimates. Include tree location, visible damage, and proximity to structures.
+          </p>
+        </div>
       </div>
 
       {/* Submit Button */}

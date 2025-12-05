@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import ContactForm from '../components/ContactForm'
 import neighborhoodData from '../data/neighborhoodData.json'
+import { CONTACT, TRUST_SIGNALS, BUSINESS_HOURS } from '../constants'
 
 /**
  * Render a neighborhood-specific location page with SEO metadata, structured data, CTAs, and a contact form.
@@ -84,8 +85,16 @@ export default function LocationTemplate() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-24">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/20 to-transparent"></div>
+      <section className="relative pt-16 pb-24 overflow-hidden">
+        {/* Background image with overlay */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(/images/og-image.jpg)',
+            backgroundPosition: 'center 40%'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-emerald-900/30 to-slate-900/95"></div>
 
         <div className="container mx-auto px-6 relative z-10">
           {/* Location Badge */}
@@ -121,15 +130,15 @@ export default function LocationTemplate() {
                 </div>
 
                 <a
-                  href="tel:4028123294"
+                  href={`tel:${CONTACT.phoneRaw}`}
                   onClick={handlePhoneClick}
                   className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
                 >
-                  (402) 812-3294
+                  {CONTACT.phone}
                 </a>
 
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300">Serving {neighborhoodName} since 2024.</strong> Mon-Sat 8am-6pm.
+                  <strong className="text-slate-300">Serving {neighborhoodName} since 2024.</strong> {BUSINESS_HOURS.display}.
                 </p>
               </div>
 
@@ -142,7 +151,7 @@ export default function LocationTemplate() {
                       Free Diagnostic Tool
                     </h3>
                     <p className="text-slate-300 text-sm">
-                      10-minute assessment based on ISA arborist standards.
+                      10-minute assessment based on {TRUST_SIGNALS.certification}.
                     </p>
                   </div>
                 </div>
@@ -207,7 +216,7 @@ export default function LocationTemplate() {
                   <div className="flex items-start gap-4">
                     <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-bold text-white mb-1">ISA-Certified Methods</h4>
+                      <h4 className="font-bold text-white mb-1">{TRUST_SIGNALS.certificationShort} Methods</h4>
                       <p className="text-sm text-slate-400">Proper pruning for {neighborhoodName}'s species</p>
                     </div>
                   </div>
@@ -230,10 +239,10 @@ export default function LocationTemplate() {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          "name": `Midwest Roots Tree Care - ${neighborhoodName}`,
-          "image": "https://omahatreecare.com/images/og-image.jpg",
-          "telephone": "(402) 812-3294",
-          "email": "andrew@omahatreecare.com",
+          "name": `${CONTACT.businessName} - ${neighborhoodName}`,
+          "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
+          "telephone": CONTACT.phone,
+          "email": CONTACT.email,
           "address": {
             "@type": "PostalAddress",
             "addressLocality": neighborhoodName,
@@ -251,8 +260,8 @@ export default function LocationTemplate() {
             }
           },
           "priceRange": "$$",
-          "openingHours": "Mo-Sa 08:00-18:00",
-          "url": `https://omahatreecare.com/locations/${city}/${neighborhood}`
+          "openingHours": BUSINESS_HOURS.schedule,
+          "url": `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
         })}
       </script>
     </div>
