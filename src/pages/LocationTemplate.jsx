@@ -94,7 +94,7 @@ export default function LocationTemplate() {
             backgroundPosition: 'center 40%'
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-emerald-900/30 to-slate-900/95"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/75 via-emerald-900/20 to-slate-900/75"></div>
 
         <div className="container mx-auto px-6 relative z-10">
           {/* Location Badge */}
