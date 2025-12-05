@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AlertTriangle, CheckCircle, XCircle, Info } from 'lucide-react'
+import { AlertTriangle, CheckCircle, XCircle, Info, Mail, Share2, MessageSquare } from 'lucide-react'
 import EmailCaptureModal from '../../EmailCaptureModal'
+import { CONTACT } from '../../../constants'
 
 
 /**
@@ -19,6 +20,33 @@ export function HazardAssessment() {
     issues: []
   })
   const [showEmailModal, setShowEmailModal] = useState(false)
+  const [shareMenuOpen, setShareMenuOpen] = useState(false)
+
+  const shareResults = (method) => {
+    const risk = getRiskLevel()
+    const riskScore = calculateRisk()
+    const issuesList = assessment.issues.length > 0 ? assessment.issues.join(', ') : 'No major issues identified'
+    const message = `Tree Risk Assessment Results:\n\nRisk Level: ${risk.level}\nRisk Score: ${riskScore}/16\nIssues: ${issuesList}\nRecommended Action: ${risk.action}\n\nGet your free assessment at ${CONTACT.siteUrl}/tools`
+
+    if (method === 'email') {
+      window.location.href = `mailto:?subject=My%20Tree%20Risk%20Assessment%20Results&body=${encodeURIComponent(message)}`
+    } else if (method === 'sms') {
+      window.location.href = `sms:?body=${encodeURIComponent(message)}`
+    } else if (method === 'copy') {
+      navigator.clipboard.writeText(message)
+      alert('Results copied to clipboard!')
+    }
+    setShareMenuOpen(false)
+  }
+
+  const emailMeResults = () => {
+    const risk = getRiskLevel()
+    const riskScore = calculateRisk()
+    const issuesList = assessment.issues.length > 0 ? assessment.issues.join(', ') : 'No major issues identified'
+    const subject = `Send me my tree risk assessment results (${risk.level} Risk)`
+    const body = `Hi, I just completed your tree risk assessment tool and got a ${risk.level} risk score (${riskScore}/16).\n\nIssues identified: ${issuesList}\n\nRecommended action: ${risk.action}\n\nCould you send me a copy of these results and provide any additional recommendations?`
+    window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
 
   const calculateRisk = () => assessment.likelihood * assessment.consequence
 
@@ -198,6 +226,59 @@ export function HazardAssessment() {
                   <span>Keep records of assessments and work performed</span>
                 </li>
               </ul>
+            </div>
+
+            {/* Share & Email Results */}
+            <div className="bg-slate-50 dark:bg-slate-700/30 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-3 text-center">Save or Share Your Results</h3>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={emailMeResults}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+                >
+                  <Mail className="w-5 h-5" />
+                  Email Me Results
+                </button>
+
+                <div className="flex-1 relative">
+                  <button
+                    onClick={() => setShareMenuOpen(!shareMenuOpen)}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition-colors"
+                  >
+                    <Share2 className="w-5 h-5" />
+                    Share Results
+                  </button>
+
+                  {shareMenuOpen && (
+                    <div className="absolute top-full mt-2 left-0 right-0 bg-white dark:bg-slate-800 rounded-lg shadow-xl border-2 border-emerald-200 dark:border-emerald-700 overflow-hidden z-10">
+                      <button
+                        onClick={() => shareResults('email')}
+                        className="w-full px-4 py-3 text-left hover:bg-emerald-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 text-slate-900 dark:text-slate-100"
+                      >
+                        <Mail className="w-4 h-4" />
+                        Share via Email
+                      </button>
+                      <button
+                        onClick={() => shareResults('sms')}
+                        className="w-full px-4 py-3 text-left hover:bg-emerald-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 text-slate-900 dark:text-slate-100"
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        Share via Text
+                      </button>
+                      <button
+                        onClick={() => shareResults('copy')}
+                        className="w-full px-4 py-3 text-left hover:bg-emerald-50 dark:hover:bg-slate-700 transition-colors flex items-center gap-2 text-slate-900 dark:text-slate-100"
+                      >
+                        <Share2 className="w-4 h-4" />
+                        Copy to Clipboard
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 text-center">
+                Save your assessment or share with family/contractors
+              </p>
             </div>
 
             {/* Next Steps - Contextual based on risk */}
