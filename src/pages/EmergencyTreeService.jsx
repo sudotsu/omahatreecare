@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import { Phone, Clock, AlertTriangle, CheckCircle, ArrowLeft } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
+import { CONTACT } from '../constants' // <--- Added Import
 
 /**
  * Render the Emergency Tree Service page with CTAs, risk indicator, and a contact form.
@@ -39,11 +40,11 @@ export default function EmergencyTreeService() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      {/* SEO HEAD: This ensures Google indexes the title correctly */}
       <Head>
         <title>Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots</title>
         <meta name="description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Call (402) 812-3294 for priority removal." />
-        <link rel="canonical" href="https://omahatreecare.com/emergency-tree-service-omaha" />
+        {/* Fixed hardcoded URL */}
+        <link rel="canonical" href={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
       </Head>
 
       {/* Back to results link */}
