@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite-react-ssg dev",
     "build": "vite-react-ssg build",
-    "build:old": "vite build && node scripts/prerender.js",
     "preview": "vite preview"
   },
   "dependencies": {
