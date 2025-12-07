@@ -1,9 +1,9 @@
-import { CheckCircle, ShieldAlert, Wrench, Clock } from 'lucide-react'
-import { useParams, Link, Navigate } from 'react-router-dom'
+import { ArrowLeft, CheckCircle, Clock, ShieldAlert, Wrench } from 'lucide-react'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
-import servicesData from '../data/services.json'
 import ContactForm from '../components/ContactForm'
 import { CONTACT } from '../constants'
+import servicesData from '../data/services.json'
 
 export default function ServiceTemplate() {
   const { serviceId } = useParams()
@@ -14,17 +14,48 @@ export default function ServiceTemplate() {
     return <Navigate to="/" replace />
   }
 
+  const pageTitle = `${data.title} | Midwest Roots Tree Services`
+  const canonicalUrl = `${CONTACT.siteUrl}/services/${data.slug}`
+  const socialImage = `${CONTACT.siteUrl}/images/og-image.jpg`
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <Head>
-        <title>{data.title} | Midwest Roots Tree Services</title>
+      <Head prioritizeSeoTags>
+        {/* Standard SEO */}
+        <title>{pageTitle}</title>
         <meta name="description" content={data.meta_desc} />
-        {/* Canonical link points to the clean /services/ URL */}
-        <link rel="canonical" href={`https://omahatreecare.com/services/${data.slug}`} />
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* OpenGraph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={data.meta_desc} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={socialImage} />
+        <meta property="og:site_name" content={CONTACT.businessName} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={data.meta_desc} />
+        <meta name="twitter:image" content={socialImage} />
       </Head>
 
+      {/* Navigation */}
+      <div className="bg-slate-900 border-b border-slate-800">
+        <div className="container mx-auto px-6 py-4">
+          <Link
+            to="/"
+            className="inline-flex items-center text-slate-400 hover:text-emerald-400 transition"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Link>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <header className="relative bg-slate-900 text-white pt-32 pb-20 overflow-hidden">
+      <header className="relative bg-slate-900 text-white pt-20 pb-20 overflow-hidden">
         {/* Background image with overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -33,7 +64,7 @@ export default function ServiceTemplate() {
             backgroundPosition: 'center 40%'
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/70 to-slate-900/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-900/90"></div>
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl">
@@ -44,8 +75,7 @@ export default function ServiceTemplate() {
             </div>
 
             {/* Quick Info Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm ml-3"
-                 style={{ backgroundColor: '#52796f', color: '#ffffff' }}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm ml-3 bg-[#52796f] text-white">
               <Clock size={16} aria-hidden="true" />
               <span>Free Quote • Fast Response</span>
             </div>
@@ -126,27 +156,54 @@ export default function ServiceTemplate() {
 
       {/* Schema.org structured data */}
       <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Service",
-          "serviceType": data.title,
-          "provider": {
-            "@type": "LocalBusiness",
-            "name": CONTACT.businessName,
-            "telephone": CONTACT.phone,
-            "email": CONTACT.email,
-            "url": CONTACT.siteUrl,
-            "priceRange": "$$",
-            "areaServed": {
-              "@type": "City",
-              "name": "Omaha",
-              "addressRegion": "NE",
-              "addressCountry": "US"
-            }
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": CONTACT.siteUrl
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Services",
+                "item": `${CONTACT.siteUrl}/#services`
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": data.title,
+                "item": canonicalUrl
+              }
+            ]
           },
-          "description": data.meta_desc,
-          "url": `${CONTACT.siteUrl}/services/${data.slug}`
-        })}
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "serviceType": data.title,
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": CONTACT.businessName,
+              "telephone": CONTACT.phone,
+              "email": CONTACT.email,
+              "url": CONTACT.siteUrl,
+              "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
+              "priceRange": "$$",
+              "areaServed": {
+                "@type": "City",
+                "name": "Omaha",
+                "addressRegion": "NE",
+                "addressCountry": "US"
+              }
+            },
+            "description": data.meta_desc,
+            "url": canonicalUrl
+          }
+        ])}
       </script>
     </div>
   )
