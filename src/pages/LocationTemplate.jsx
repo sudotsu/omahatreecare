@@ -28,17 +28,19 @@ export default function LocationTemplate() {
   const cityName = formatName(city)
   const neighborhoodName = formatName(neighborhood)
 
-  // Get neighborhood-specific data with rich fallback
+  // Get neighborhood-specific data with rich fallback and Geo-Coordinates
   const data = neighborhoodData[neighborhood] || {
     vibe: "Professional Tree Care",
     dominant_trees: "mature shade trees and ornamental species",
     common_issues: "storm safety assessment and seasonal pruning",
     local_risk: "Weather patterns and tree health require regular monitoring by certified arborists.",
-    meta_snippet: "Professional tree service and arborist consultations."
+    meta_snippet: "Professional tree service and arborist consultations.",
+    geo: { lat: 41.2565, lng: -95.9345 } // Fallback to Omaha center
   }
 
-  const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Care`
+  const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Services`
   const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
+  const canonicalUrl = `https://omahatreecare.com/locations/${city}/${neighborhood}`
 
   useEffect(() => {
     // Track page view
@@ -68,7 +70,7 @@ export default function LocationTemplate() {
       <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
-        <link rel="canonical" href={`https://omahatreecare.com/locations/${city}/${neighborhood}`} />
+        <link rel="canonical" href={canonicalUrl} />
       </Head>
 
       {/* Back to city link */}
@@ -236,33 +238,64 @@ export default function LocationTemplate() {
 
       {/* Schema.org structured data */}
       <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          "name": `${CONTACT.businessName} - ${neighborhoodName}`,
-          "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
-          "telephone": CONTACT.phone,
-          "email": CONTACT.email,
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": neighborhoodName,
-            "addressRegion": "NE",
-            "addressCountry": "US"
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": CONTACT.siteUrl
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Locations",
+                "item": `${CONTACT.siteUrl}/locations/${city}`
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": neighborhoodName,
+                "item": canonicalUrl
+              }
+            ]
           },
-          "areaServed": {
-            "@type": "Place",
-            "name": neighborhoodName,
+          {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": `Midwest Roots Tree Services - ${neighborhoodName}`,
+            "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
+            "telephone": CONTACT.phone,
+            "email": CONTACT.email,
             "address": {
               "@type": "PostalAddress",
-              "addressLocality": cityName,
+              "addressLocality": neighborhoodName,
               "addressRegion": "NE",
               "addressCountry": "US"
-            }
-          },
-          "priceRange": "$$",
-          "openingHours": BUSINESS_HOURS.schedule,
-          "url": `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
-        })}
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": data.geo?.lat,
+              "longitude": data.geo?.lng
+            },
+            "areaServed": {
+              "@type": "Place",
+              "name": neighborhoodName,
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": data.geo?.lat,
+                "longitude": data.geo?.lng
+              }
+            },
+            "priceRange": "$$",
+            "openingHours": BUSINESS_HOURS.schedule,
+            "url": canonicalUrl,
+            "hasMap": `https://www.google.com/maps?q=${data.geo?.lat},${data.geo?.lng}`
+          }
+        ])}
       </script>
     </div>
   )
