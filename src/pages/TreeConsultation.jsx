@@ -38,10 +38,10 @@ export default function TreeConsultation() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      {/* SEO HEAD: This ensures Google indexes the title correctly */}
+      {/* SEO HEAD: Ensures Google indexes this title instead of 'Vite App' */}
       <Head>
         <title>Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots</title>
-        <meta name="description" content="Free tree consultation in Omaha. Get professional advice before DIY work. Honest assessment of safety risks and cost-effective solutions. Call (402) 812-3294." />
+        <meta name="description" content="Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Save money and stay safe." />
         <link rel="canonical" href="https://omahatreecare.com/tree-consultation-omaha" />
       </Head>
 
@@ -227,11 +227,12 @@ export default function TreeConsultation() {
             <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
               <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-3">
-                Local Expertise
+                Omaha-Specific Knowledge
               </h3>
               <p className="text-slate-300">
-                Omaha trees face unique challenges: ice storms, EAB, alkaline soil, wind shear.
-                I know what to look for and how to handle it safely.
+                Every consultation considers Nebraska's unique tree conditions:
+                clay soil impacts, ice load risks, EAB treatment decisions, and
+                native species behavior. Regional expertise saves you costly mistakes.
               </p>
             </div>
 
