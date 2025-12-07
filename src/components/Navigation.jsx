@@ -1,7 +1,7 @@
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CONTACT, COLORS } from '../constants';
+import { COLORS, CONTACT } from '../constants';
 
 const Navigation = ({ scrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,35 +36,41 @@ const Navigation = ({ scrolled }) => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-6 h-full">
           {/* Services Dropdown */}
           <div
-            className="relative"
+            className="relative h-full flex items-center"
             onMouseEnter={() => setIsServicesOpen(true)}
             onMouseLeave={() => setIsServicesOpen(false)}
           >
             <button
-              className="font-medium text-sm transition-colors hover:opacity-70 flex items-center gap-1"
+              className="font-medium text-sm transition-colors hover:opacity-70 flex items-center gap-1 h-full"
               style={{ color: COLORS.primary }}
             >
               Services
               <ChevronDown size={16} className={`transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
             </button>
+
             {isServicesOpen && (
-              <div
-                className="absolute top-full left-0 mt-2 w-56 rounded-lg shadow-lg py-2"
-                style={{ backgroundColor: '#f8f6f1', border: `1px solid ${COLORS.primary}` }}
-              >
-                {services.map(service => (
-                  <Link
-                    key={service.slug}
-                    to={`/services/${service.slug}`}
-                    className="block px-4 py-2 text-sm transition-colors hover:opacity-70"
-                    style={{ color: COLORS.text }}
-                  >
-                    {service.name}
-                  </Link>
-                ))}
+              /* THE FIX: Outer div uses pt-2 (Padding) to create an invisible bridge */
+              /* This fills the "gap" so the mouse never leaves the hover area */
+              <div className="absolute top-full left-0 pt-2 w-56">
+                {/* Inner div handles the actual Visuals (Border, Background, Shadow) */}
+                <div
+                  className="rounded-lg shadow-lg py-2"
+                  style={{ backgroundColor: '#f8f6f1', border: `1px solid ${COLORS.primary}` }}
+                >
+                  {services.map(service => (
+                    <Link
+                      key={service.slug}
+                      to={`/services/${service.slug}`}
+                      className="block px-4 py-2 text-sm transition-colors hover:opacity-70"
+                      style={{ color: COLORS.text }}
+                    >
+                      {service.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
