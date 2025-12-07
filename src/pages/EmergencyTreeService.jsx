@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
+import { Head } from 'vite-react-ssg'
 import { Phone, Clock, AlertTriangle, CheckCircle, ArrowLeft } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
 
@@ -7,8 +8,7 @@ import ContactForm from '../components/ContactForm'
  * Render the Emergency Tree Service page with CTAs, risk indicator, and a contact form.
  *
  * Reads the `risk` query parameter to conditionally display a high-risk badge, sets the
- * document title for SEO, and emits `page_view` and `phone_click` analytics events via
- * `gtag` when available.
+ * document title via Head for SEO, and emits analytics events via gtag.
  *
  * @returns {JSX.Element} The rendered Emergency Tree Service page component.
  */
@@ -17,10 +17,7 @@ export default function EmergencyTreeService() {
   const riskLevel = searchParams.get('risk')
 
   useEffect(() => {
-    // Update page title for SEO
-    document.title = 'Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots'
-
-    // Track page view
+    // Track page view (Title is now handled statically by <Head>)
     if (window.gtag) {
       gtag('event', 'page_view', {
         page_title: 'Emergency Tree Service',
@@ -42,6 +39,13 @@ export default function EmergencyTreeService() {
 
   return (
     <div className="min-h-screen bg-slate-900">
+      {/* SEO HEAD: This ensures Google indexes the title correctly */}
+      <Head>
+        <title>Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots</title>
+        <meta name="description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Call (402) 812-3294 for priority removal." />
+        <link rel="canonical" href="https://omahatreecare.com/emergency-tree-service-omaha" />
+      </Head>
+
       {/* Back to results link */}
       <div className="bg-slate-800 border-b border-slate-700">
         <div className="container mx-auto px-6 py-4">
@@ -228,7 +232,7 @@ export default function EmergencyTreeService() {
           "serviceType": "Emergency Tree Removal",
           "provider": {
             "@type": "LocalBusiness",
-            "name": "Midwest Roots Tree Care",
+            "name": "Midwest Roots Tree Services",
             "telephone": "(402) 812-3294",
             "areaServed": {
               "@type": "City",
