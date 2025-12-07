@@ -7,7 +7,7 @@ import neighborhoodData from '../data/neighborhoodData.json'
 import { CONTACT, TRUST_SIGNALS, BUSINESS_HOURS } from '../constants'
 
 /**
- * Render a neighborhood-specific location page with SEO metadata, structured data, CTAs, and a contact form.
+ * Render a neighborhood-specific location page with SEO metadata, Social Cards, CTAs, and a contact form.
  *
  * Uses URL parameters (city, neighborhood) to derive display names and select neighborhood-specific content;
  * tracks page views and phone click events with `gtag` when available.
@@ -40,7 +40,9 @@ export default function LocationTemplate() {
 
   const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Services`
   const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
-  const canonicalUrl = `https://omahatreecare.com/locations/${city}/${neighborhood}`
+  const canonicalUrl = `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
+  // Dynamic Social Image: Uses the city image (e.g., /images/Omaha-Nebraska.webp)
+  const socialImage = `${CONTACT.siteUrl}/images/${cityName}-Nebraska.webp`
 
   useEffect(() => {
     // Track page view
@@ -68,9 +70,24 @@ export default function LocationTemplate() {
   return (
     <div className="min-h-screen bg-slate-900">
       <Head prioritizeSeoTags>
+        {/* Standard SEO */}
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+
+        {/* OpenGraph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={socialImage} />
+        <meta property="og:site_name" content={CONTACT.businessName} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={socialImage} />
       </Head>
 
       {/* Back to city link */}
@@ -293,7 +310,7 @@ export default function LocationTemplate() {
             "priceRange": "$$",
             "openingHours": BUSINESS_HOURS.schedule,
             "url": canonicalUrl,
-            "hasMap": `https://www.google.com/maps?q=${data.geo?.lat},${data.geo?.lng}`
+            "hasMap": `https://maps.google.com/maps?q=${data.geo?.lat},${data.geo?.lng}`
           }
         ])}
       </script>
