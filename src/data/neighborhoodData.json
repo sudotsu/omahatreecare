@@ -4,174 +4,199 @@
     "dominant_trees": "100+ year-old Bur Oaks, Sycamores, and Silver Maples",
     "common_issues": "crown stabilization for aging giants and clearance pruning for overhead power lines",
     "local_risk": "Many large limbs overhang historic slate roofs and narrow driveways, requiring rigging experts, not just 'guys with ropes'.",
-    "meta_snippet": "Specializing in historic Bur Oak preservation and tight-quarter rigging."
+    "meta_snippet": "Specializing in historic Bur Oak preservation and tight-quarter rigging.",
+    "geo": { "lat": 41.2623, "lng": -95.9903 }
   },
   "benson": {
     "vibe": "Urban Density",
     "dominant_trees": "Silver Maples, Hackberries, and aging Elms",
     "common_issues": "storm damage cleanup from brittle Silver Maples and alleyway clearance for utilities",
     "local_risk": "Most tree removals here require navigating tight alleys and detached garages.",
-    "meta_snippet": "Expert alleyway removals and storm cleanup for brittle Silver Maples."
+    "meta_snippet": "Expert alleyway removals and storm cleanup for brittle Silver Maples.",
+    "geo": { "lat": 41.2850, "lng": -96.0072 }
   },
   "millard": {
     "vibe": "Mature Suburbia",
     "dominant_trees": "Pin Oaks, Green Ash, and Linden trees",
     "common_issues": "Iron Chlorosis (yellowing leaves) in Pin Oaks and Emerald Ash Borer treatments",
     "local_risk": "Sidewalk heaving from surface roots is a major code violation issue in these subdivisions.",
-    "meta_snippet": "Treating Pin Oak chlorosis and hazardous Ash tree removals."
+    "meta_snippet": "Treating Pin Oak chlorosis and hazardous Ash tree removals.",
+    "geo": { "lat": 41.2100, "lng": -96.1600 }
   },
   "westside": {
     "vibe": "Established Canopy",
     "dominant_trees": "Massive Cottonwoods and established Maples",
     "common_issues": "deadwooding to prevent limb drop on manicured lawns",
     "local_risk": "These large lots often have 'widow maker' limbs high in the canopy that go unnoticed.",
-    "meta_snippet": "High-canopy deadwooding and aesthetic pruning for estate properties."
+    "meta_snippet": "High-canopy deadwooding and aesthetic pruning for estate properties.",
+    "geo": { "lat": 41.2400, "lng": -96.0500 }
   },
   "tiburon": {
     "vibe": "New Growth & Golf Course",
     "dominant_trees": "Callery Pears (Bradford/Cleveland), Autumn Blaze Maples",
     "common_issues": "structural splitting of ornamental Pear trees during high winds",
     "local_risk": "Heavy clay soil compaction often suffocates young maples, requiring air-spading or deep root fertilization.",
-    "meta_snippet": "Preventing Pear tree splitting and correcting clay soil compaction."
+    "meta_snippet": "Preventing Pear tree splitting and correcting clay soil compaction.",
+    "geo": { "lat": 41.1400, "lng": -96.1600 }
   },
   "the-ridges": {
     "vibe": "Privacy & Conifers",
     "dominant_trees": "Blue Spruce, White Pine, and ornamental screens",
     "common_issues": "needle cast disease in Spruce trees and shaping privacy hedges",
     "local_risk": "Bagworms can decimate a privacy screen in weeks if not caught early.",
-    "meta_snippet": "Disease management for Blue Spruce and privacy screen maintenance."
+    "meta_snippet": "Disease management for Blue Spruce and privacy screen maintenance.",
+    "geo": { "lat": 41.2400, "lng": -96.2100 }
   },
   "florence": {
     "vibe": "Pioneer History & Loess Hills",
     "dominant_trees": "Ancient Black Walnuts and massive Cottonwoods",
     "common_issues": "stabilizing trees on steep Loess soil slopes to prevent erosion",
     "local_risk": "The steep terrain here makes standard bucket truck access impossible; we rely on climbing gear and specialized rigging.",
-    "meta_snippet": "Steep-slope tree removal and Black Walnut care in historic Florence."
+    "meta_snippet": "Steep-slope tree removal and Black Walnut care in historic Florence.",
+    "geo": { "lat": 41.3300, "lng": -95.9600 }
   },
   "midtown": {
     "vibe": "Urban Revival",
     "dominant_trees": "Sycamores, Lindens, and Gingko street trees",
     "common_issues": "clearance pruning for street parking visibility and historic setbacks",
     "local_risk": "Root compaction from high foot traffic and street construction often stresses these urban trees.",
-    "meta_snippet": "Urban forestry and street clearance for Midtown's historic avenues."
+    "meta_snippet": "Urban forestry and street clearance for Midtown's historic avenues.",
+    "geo": { "lat": 41.2580, "lng": -95.9600 }
   },
   "aksarben": {
     "vibe": "Bustling Redevelopment",
     "dominant_trees": "Mature Elm hybrids and newly planted Red Maples",
     "common_issues": "correcting 'volcano mulching' on newer commercial plantings",
     "local_risk": "Storm damage here often blocks critical alleyway access for power crews.",
-    "meta_snippet": "Commercial tree care and storm prep for the Aksarben corridor."
+    "meta_snippet": "Commercial tree care and storm prep for the Aksarben corridor.",
+    "geo": { "lat": 41.2380, "lng": -96.0150 }
   },
   "north-omaha": {
     "vibe": "Historic Canopy",
     "dominant_trees": "Hackberries and Siberian Elms",
     "common_issues": "removing 'volunteer' Tree of Heaven (invasive) clusters along fencelines",
     "local_risk": "Many older Siberian Elms are nearing end-of-life and drop heavy limbs without warning.",
-    "meta_snippet": "Invasive species removal and hazardous Elm mitigation."
+    "meta_snippet": "Invasive species removal and hazardous Elm mitigation.",
+    "geo": { "lat": 41.3000, "lng": -95.9800 }
   },
   "south-omaha": {
     "vibe": "Industrial Density",
     "dominant_trees": "Silver Maples and Catalpas",
     "common_issues": "line-clearance pruning in tight residential grids",
     "local_risk": "Backyard access is the #1 challenge here; our narrow-access lifts are essential.",
-    "meta_snippet": "Tight-access tree removal for South Omaha's dense neighborhoods."
+    "meta_snippet": "Tight-access tree removal for South Omaha's dense neighborhoods.",
+    "geo": { "lat": 41.2100, "lng": -95.9600 }
   },
   "old-millard": {
     "vibe": "The Original Suburb",
     "dominant_trees": "large Silver Maples and River Birches",
     "common_issues": "surface root pruning where trees have overgrown sidewalks",
     "local_risk": "River Birches planted too close to foundations often cause basement moisture issues here.",
-    "meta_snippet": "Foundation clearance and surface root management in Old Millard."
+    "meta_snippet": "Foundation clearance and surface root management in Old Millard.",
+    "geo": { "lat": 41.2100, "lng": -96.1300 }
   },
   "harvey-oaks": {
     "vibe": "70s Canopy",
     "dominant_trees": "Pin Oaks and Sunburst Honey Locusts",
     "common_issues": "treating severe Iron Chlorosis (yellow leaves) in Pin Oaks",
     "local_risk": "Honey Locusts here are prone to Canker disease, which weakens major limbs silently.",
-    "meta_snippet": "Specialized Iron treatments for Harvey Oaks' suffering Pin Oaks."
+    "meta_snippet": "Specialized Iron treatments for Harvey Oaks' suffering Pin Oaks.",
+    "geo": { "lat": 41.2400, "lng": -96.1500 }
   },
   "oak-hills": {
     "vibe": "Golf Course Views",
     "dominant_trees": "Mature Oaks and ornamental crabs",
     "common_issues": "aesthetic pruning to maintain fairway views without killing the tree",
     "local_risk": "Golf ball damage to bark can actually introduce fungal pathogens in younger trees.",
-    "meta_snippet": "View-enhancing pruning for golf course properties."
+    "meta_snippet": "View-enhancing pruning for golf course properties.",
+    "geo": { "lat": 41.2000, "lng": -96.1100 }
   },
   "millard-highlands": {
     "vibe": "Starter Home Staples",
     "dominant_trees": "Green Ash and Silver Maples",
     "common_issues": "emergency storm cleanup for brittle softwood trees",
     "local_risk": "Many trees here were planted directly under power drops in the 1970s.",
-    "meta_snippet": "Power-line safety clearance and Ash tree removal."
+    "meta_snippet": "Power-line safety clearance and Ash tree removal.",
+    "geo": { "lat": 41.1900, "lng": -96.1300 }
   },
   "pacific-springs": {
     "vibe": "90s Estate",
     "dominant_trees": "Autumn Blaze Maples and ornamental Pears",
     "common_issues": "correcting poor structure from 'topped' trees in previous years",
     "local_risk": "Fast-growing maples here often have weak branch unions that split in ice storms.",
-    "meta_snippet": "Corrective pruning for fast-growing estate maples."
+    "meta_snippet": "Corrective pruning for fast-growing estate maples.",
+    "geo": { "lat": 41.2550, "lng": -96.1850 }
   },
   "skyline-ranches": {
     "vibe": "Acreage Living",
     "dominant_trees": "Austrian Pines and Windbreak Cedars",
     "common_issues": "Pine Wilt disease identification and removal",
     "local_risk": "Windbreaks that aren't thinned become fire hazards and lose their bottom branches.",
-    "meta_snippet": "Acreage windbreak management and Pine Wilt removal."
+    "meta_snippet": "Acreage windbreak management and Pine Wilt removal.",
+    "geo": { "lat": 41.2600, "lng": -96.2500 }
   },
   "indian-creek": {
     "vibe": "Manicured Lawns",
     "dominant_trees": "Linden trees and flowering ornamentals",
     "common_issues": "Japanese Beetle treatment for Lindens",
     "local_risk": "Beetles skeletonize leaves here in July; preventative treatment is mandatory.",
-    "meta_snippet": "Japanese Beetle defense for Indian Creek's Linden trees."
+    "meta_snippet": "Japanese Beetle defense for Indian Creek's Linden trees.",
+    "geo": { "lat": 41.3000, "lng": -96.2300 }
   },
   "aspen-creek": {
     "vibe": "New Construction",
     "dominant_trees": "Newly planted Red Oaks and Maples",
     "common_issues": "removing girdling roots caused by nursery containers",
     "local_risk": "Construction soil compaction is killing young trees here before they establish.",
-    "meta_snippet": "Post-construction soil aeration and young tree establishment."
+    "meta_snippet": "Post-construction soil aeration and young tree establishment.",
+    "geo": { "lat": 41.1300, "lng": -96.2200 }
   },
   "buffalo-creek": {
     "vibe": "Rural Transition",
     "dominant_trees": "Native Cottonwoods mixed with new plantings",
     "common_issues": "cleaning up 'wild' fence rows to define property lines",
     "local_risk": "Retaining native Cottonwoods near new houses requires safety cabling.",
-    "meta_snippet": "Acreage property line clearing and native tree safety."
+    "meta_snippet": "Acreage property line clearing and native tree safety.",
+    "geo": { "lat": 41.1200, "lng": -96.2000 }
   },
   "mockingbird-hills": {
     "vibe": "Rolling Hills",
     "dominant_trees": "Siberian Elms and Apples",
     "common_issues": "Fire blight treatment in fruit trees",
     "local_risk": "Siberian Elms drop branches constantly; we recommend proactive deadwooding here.",
-    "meta_snippet": "Fruit tree disease management and Elm maintenance."
+    "meta_snippet": "Fruit tree disease management and Elm maintenance.",
+    "geo": { "lat": 41.2100, "lng": -96.0600 }
   },
   "shadow-lake": {
     "vibe": "Lakeside Living",
     "dominant_trees": "Swamp White Oaks and Willows",
     "common_issues": "structural pruning for wind resistance near the open water",
     "local_risk": "High water tables can actually cause shallow rooting, making trees prone to tipping.",
-    "meta_snippet": "Wind-resistance pruning for lakeside properties."
+    "meta_snippet": "Wind-resistance pruning for lakeside properties.",
+    "geo": { "lat": 41.1300, "lng": -96.0300 }
   },
   "eagle-hills": {
     "vibe": "Suburban Heights",
     "dominant_trees": "Ash (many untreated) and Maples",
     "common_issues": "identifying late-stage EAB (Emerald Ash Borer) infestation",
     "local_risk": "Brittle, dead Ash trees near driveways are a liability crisis in this area.",
-    "meta_snippet": "Hazardous Ash tree removal specialist."
+    "meta_snippet": "Hazardous Ash tree removal specialist.",
+    "geo": { "lat": 41.1500, "lng": -96.0200 }
   },
   "fontenelle-hills": {
     "vibe": "The Forest City",
     "dominant_trees": "Old-growth Bur Oaks and Hickories",
     "common_issues": "Oak Wilt prevention and forest floor management",
     "local_risk": "These are forest trees living in yards; they resent grade changes and construction damage.",
-    "meta_snippet": "Old-growth Oak preservation in the Bellevue forest."
+    "meta_snippet": "Old-growth Oak preservation in the Bellevue forest.",
+    "geo": { "lat": 41.1600, "lng": -95.9100 }
   },
   "newport-landing": {
     "vibe": "Bennington Lake Life",
     "dominant_trees": "Weeping Willows and river bottom species",
     "common_issues": "cleaning up storm debris that blows off the lake",
     "local_risk": "Willows are messy and brittle; we position them away from boat docks/lifts.",
-    "meta_snippet": "Lakefront storm cleanup and Willow tree management."
+    "meta_snippet": "Lakefront storm cleanup and Willow tree management.",
+    "geo": { "lat": 41.3600, "lng": -96.1500 }
   }
 }
