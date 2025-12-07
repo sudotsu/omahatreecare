@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle, Leaf, MapPin, Phone, TreeDeciduous } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CheckCircle, Leaf, MapPin, Phone, TreeDeciduous, Wrench, ShieldAlert } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
@@ -7,10 +7,10 @@ import neighborhoodData from '../data/neighborhoodData.json'
 import { CONTACT, TRUST_SIGNALS, BUSINESS_HOURS } from '../constants'
 
 /**
- * Render a neighborhood-specific location page with SEO metadata, Social Cards, CTAs, and a contact form.
+ * Render a neighborhood-specific location page with SEO metadata, Social Cards, Service Links, and CTAs.
  *
  * Uses URL parameters (city, neighborhood) to derive display names and select neighborhood-specific content;
- * tracks page views and phone click events with `gtag` when available.
+ * tracks page views and phone click events with `gtag`.
  *
  * @returns {JSX.Element} The rendered React component for the location page.
  */
@@ -41,8 +41,37 @@ export default function LocationTemplate() {
   const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Services`
   const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
   const canonicalUrl = `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
-  // Dynamic Social Image: Uses the city image (e.g., /images/Omaha-Nebraska.webp)
+  // Dynamic Social Image: Uses the city image if available, else generic
+  // Note: Ensure /images/Omaha-Nebraska.webp exists, otherwise it falls back to og-image.jpg handled by meta tags if 404
   const socialImage = `${CONTACT.siteUrl}/images/${cityName}-Nebraska.webp`
+
+  // Core Services List for Internal Linking
+  const localServices = [
+    {
+      id: 'tree-removal',
+      name: `Tree Removal in ${neighborhoodName}`,
+      icon: Wrench,
+      desc: `Safe removal of ${data.dominant_trees.split(' ')[0]} trees and hazardous limbs.`
+    },
+    {
+      id: 'tree-trimming',
+      name: `Trimming & Pruning`,
+      icon: TreeDeciduous,
+      desc: `Structural pruning for ${cityName}'s specific urban canopy.`
+    },
+    {
+      id: 'tree-health-assessment',
+      name: `Health Assessment`,
+      icon: Leaf,
+      desc: `Diagnosis of ${data.common_issues.split(' ')[0]} and soil issues.`
+    },
+    {
+      id: 'winter-tree-prep',
+      name: `Winter Storm Prep`,
+      icon: ShieldAlert,
+      desc: `Preventative clearing to withstand Omaha ice storms.`
+    }
+  ]
 
   useEffect(() => {
     // Track page view
@@ -105,7 +134,7 @@ export default function LocationTemplate() {
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-24 overflow-hidden">
-        {/* Background image with overlay - Location-specific geo-tagged image */}
+        {/* Background image with overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -116,7 +145,6 @@ export default function LocationTemplate() {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/75 via-emerald-900/20 to-slate-900/75"></div>
 
         <div className="container mx-auto px-6 relative z-10">
-          {/* Location Badge */}
           <div className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full mb-6 font-semibold">
             <MapPin className="w-5 h-5" />
             Serving {neighborhoodName}, {cityName}
@@ -131,9 +159,7 @@ export default function LocationTemplate() {
             Specialized tree care for {neighborhoodName} homeowners. We handle {data.dominant_trees} and understand the unique challenges of {data.vibe.toLowerCase()} neighborhoods.
           </p>
 
-          {/* Two-column layout */}
           <div className="grid lg:grid-cols-2 gap-6 max-w-6xl">
-            {/* Left: Call CTA + Free Tool */}
             <div className="space-y-6">
               <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8">
                 <div className="flex items-start gap-4 mb-6">
@@ -161,7 +187,6 @@ export default function LocationTemplate() {
                 </p>
               </div>
 
-              {/* Free Tool CTA */}
               <div className="bg-slate-800 border border-emerald-500/50 rounded-2xl p-8">
                 <div className="flex items-start gap-4 mb-4">
                   <TreeDeciduous className="w-8 h-8 text-emerald-400 flex-shrink-0" />
@@ -184,7 +209,6 @@ export default function LocationTemplate() {
               </div>
             </div>
 
-            {/* Right: Contact Form */}
             <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-white mb-2">
                 Request a Callback
@@ -199,7 +223,7 @@ export default function LocationTemplate() {
       </section>
 
       {/* Local Insight - The "Mad Scientist" Content Block */}
-      <section className="bg-slate-800 py-16">
+      <section className="bg-slate-800 py-16 border-b border-slate-700">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-emerald-900/40 to-slate-900 border-2 border-emerald-500/30 rounded-2xl p-8 md:p-12">
@@ -229,26 +253,42 @@ export default function LocationTemplate() {
                   and the specific challenges of <strong className="text-white">{data.vibe.toLowerCase()}</strong> areas.
                 </p>
               </div>
-
-              <div className="mt-8 pt-8 border-t border-slate-700">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="flex items-start gap-4">
-                    <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="font-bold text-white mb-1">{TRUST_SIGNALS.certificationShort} Methods</h4>
-                      <p className="text-sm text-slate-400">Proper pruning for {neighborhoodName}'s species</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="font-bold text-white mb-1">Local Knowledge</h4>
-                      <p className="text-sm text-slate-400">We know your neighborhood's tree history</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services in Neighborhood - The New "Bridge" Section */}
+      <section className="bg-slate-900 py-16">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Complete Tree Care for {neighborhoodName}
+            </h2>
+            <p className="text-slate-400">
+              Professional arboriculture services tailored to {cityName}'s climate.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {localServices.map((service) => (
+              <Link
+                key={service.id}
+                to={`/services/${service.id}`}
+                className="bg-slate-800 border border-slate-700 p-6 rounded-xl hover:border-emerald-500/50 hover:bg-slate-800/80 transition group"
+              >
+                <service.icon className="w-10 h-10 text-emerald-500 mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-emerald-400">
+                  {service.name}
+                </h3>
+                <p className="text-sm text-slate-400">
+                  {service.desc}
+                </p>
+                <div className="mt-4 flex items-center text-emerald-500 text-sm font-semibold">
+                  View Service <ArrowRight className="w-4 h-4 ml-1" />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -310,6 +350,7 @@ export default function LocationTemplate() {
             "priceRange": "$$",
             "openingHours": BUSINESS_HOURS.schedule,
             "url": canonicalUrl,
+            // STANDARD MAP URL: No magic numbers.
             "hasMap": `https://maps.google.com/maps?q=${data.geo?.lat},${data.geo?.lng}`
           }
         ])}
