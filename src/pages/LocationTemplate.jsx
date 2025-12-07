@@ -1,23 +1,17 @@
-import { ArrowLeft, ArrowRight, CheckCircle, Leaf, MapPin, Phone, TreeDeciduous, Wrench, ShieldAlert } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Leaf, MapPin, Phone, ShieldAlert, TreeDeciduous, Wrench } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import ContactForm from '../components/ContactForm'
+import { BUSINESS_HOURS, CONTACT, TRUST_SIGNALS } from '../constants'
 import neighborhoodData from '../data/neighborhoodData.json'
-import { CONTACT, TRUST_SIGNALS, BUSINESS_HOURS } from '../constants'
 
 /**
  * Render a neighborhood-specific location page with SEO metadata, Social Cards, Service Links, and CTAs.
- *
- * Uses URL parameters (city, neighborhood) to derive display names and select neighborhood-specific content;
- * tracks page views and phone click events with `gtag`.
- *
- * @returns {JSX.Element} The rendered React component for the location page.
  */
 export default function LocationTemplate() {
   const { city, neighborhood } = useParams()
 
-  // Format names for display (capitalize, remove hyphens)
   const formatName = (str) => {
     if (!str) return ''
     return str.split('-').map(word =>
@@ -28,21 +22,19 @@ export default function LocationTemplate() {
   const cityName = formatName(city)
   const neighborhoodName = formatName(neighborhood)
 
-  // Get neighborhood-specific data with rich fallback and Geo-Coordinates
   const data = neighborhoodData[neighborhood] || {
     vibe: "Professional Tree Care",
     dominant_trees: "mature shade trees and ornamental species",
     common_issues: "storm safety assessment and seasonal pruning",
     local_risk: "Weather patterns and tree health require regular monitoring by certified arborists.",
     meta_snippet: "Professional tree service and arborist consultations.",
-    geo: { lat: 41.2565, lng: -95.9345 } // Fallback to Omaha center
+    geo: { lat: 41.2565, lng: -95.9345 }
   }
 
   const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Services`
   const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
   const canonicalUrl = `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
-  // Dynamic Social Image: Uses the city image if available, else generic
-  // Note: Ensure /images/Omaha-Nebraska.webp exists, otherwise it falls back to og-image.jpg handled by meta tags if 404
+  // Social Image: Uses the city-specific image
   const socialImage = `${CONTACT.siteUrl}/images/${cityName}-Nebraska.webp`
 
   // Core Services List for Internal Linking
@@ -51,7 +43,7 @@ export default function LocationTemplate() {
       id: 'tree-removal',
       name: `Tree Removal in ${neighborhoodName}`,
       icon: Wrench,
-      desc: `Safe removal of ${data.dominant_trees.split(' ')[0]} trees and hazardous limbs.`
+      desc: `Safe removal of hazardous trees and overhanging limbs in ${neighborhoodName}.`
     },
     {
       id: 'tree-trimming',
@@ -63,7 +55,7 @@ export default function LocationTemplate() {
       id: 'tree-health-assessment',
       name: `Health Assessment`,
       icon: Leaf,
-      desc: `Diagnosis of ${data.common_issues.split(' ')[0]} and soil issues.`
+      desc: `Diagnosis of local tree diseases and soil compaction issues.`
     },
     {
       id: 'winter-tree-prep',
@@ -74,7 +66,6 @@ export default function LocationTemplate() {
   ]
 
   useEffect(() => {
-    // Track page view
     if (window.gtag) {
       window.gtag('event', 'page_view', {
         page_title: `${neighborhoodName} ${cityName} Tree Care`,
@@ -99,12 +90,10 @@ export default function LocationTemplate() {
   return (
     <div className="min-h-screen bg-slate-900">
       <Head prioritizeSeoTags>
-        {/* Standard SEO */}
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
 
-        {/* OpenGraph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
@@ -112,14 +101,12 @@ export default function LocationTemplate() {
         <meta property="og:image" content={socialImage} />
         <meta property="og:site_name" content={CONTACT.businessName} />
 
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={socialImage} />
       </Head>
 
-      {/* Back to city link */}
       <div className="bg-slate-800 border-b border-slate-700">
         <div className="container mx-auto px-6 py-4">
           <Link
@@ -132,9 +119,7 @@ export default function LocationTemplate() {
         </div>
       </div>
 
-      {/* Hero Section */}
       <section className="relative pt-16 pb-24 overflow-hidden">
-        {/* Background image with overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -222,7 +207,6 @@ export default function LocationTemplate() {
         </div>
       </section>
 
-      {/* Local Insight - The "Mad Scientist" Content Block */}
       <section className="bg-slate-800 py-16 border-b border-slate-700">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
@@ -247,18 +231,12 @@ export default function LocationTemplate() {
                     {data.local_risk}
                   </p>
                 </div>
-
-                <p className="text-lg leading-relaxed">
-                  At Midwest Roots, we don't just "cut trees." We understand the biology of {neighborhoodName}'s urban forest
-                  and the specific challenges of <strong className="text-white">{data.vibe.toLowerCase()}</strong> areas.
-                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services in Neighborhood - The New "Bridge" Section */}
       <section className="bg-slate-900 py-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
@@ -293,7 +271,6 @@ export default function LocationTemplate() {
         </div>
       </section>
 
-      {/* Schema.org structured data */}
       <script type="application/ld+json">
         {JSON.stringify([
           {
@@ -350,8 +327,7 @@ export default function LocationTemplate() {
             "priceRange": "$$",
             "openingHours": BUSINESS_HOURS.schedule,
             "url": canonicalUrl,
-            // STANDARD MAP URL: No magic numbers.
-            "hasMap": `https://maps.google.com/maps?q=${data.geo?.lat},${data.geo?.lng}`
+            "hasMap": `https://www.google.com/maps?q=${data.geo?.lat},${data.geo?.lng}`
           }
         ])}
       </script>

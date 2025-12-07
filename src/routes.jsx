@@ -1,11 +1,12 @@
-import React from 'react';
-import CityHub from './pages/CityHub';
-import EmergencyTreeService from './pages/EmergencyTreeService';
-import HomePage from './pages/HomePage';
-import LocationTemplate from './pages/LocationTemplate';
-import ServiceTemplate from './pages/ServiceTemplate';
-import ToolsPage from './pages/ToolsPage';
-import TreeConsultation from './pages/TreeConsultation';
+import React from 'react'
+import CityHub from './pages/CityHub'
+import EmergencyTreeService from './pages/EmergencyTreeService'
+import HomePage from './pages/HomePage'
+import LocationTemplate from './pages/LocationTemplate'
+import Locations from './pages/Locations'; // <--- 1. ADD THIS IMPORT
+import ServiceTemplate from './pages/ServiceTemplate'
+import ToolsPage from './pages/ToolsPage'
+import TreeConsultation from './pages/TreeConsultation'
 
 export const routes = [
   {
@@ -28,21 +29,31 @@ export const routes = [
     element: <TreeConsultation />,
     entry: 'src/pages/TreeConsultation.jsx',
   },
-  // Locations
+
+  // --- NEW: The Master Locations Directory ---
+  {
+    path: '/locations',
+    element: <Locations />,
+    entry: 'src/pages/Locations.jsx', // <--- 2. MATCH THE PATTERN
+  },
+  // -------------------------------------------
+
+  // Locations (City Hubs)
   {
     path: '/locations/:city',
     element: <CityHub />,
     entry: 'src/pages/CityHub.jsx',
   },
+  // Neighborhood Pages
   {
     path: '/locations/:city/:neighborhood',
     element: <LocationTemplate />,
     entry: 'src/pages/LocationTemplate.jsx',
   },
-  // Services (Clean URLs)
+  // Service Pages
   {
     path: '/services/:serviceId',
     element: <ServiceTemplate />,
     entry: 'src/pages/ServiceTemplate.jsx',
   },
-];
+]
