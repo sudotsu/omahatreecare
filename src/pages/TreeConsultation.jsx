@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import { Phone, AlertTriangle, CheckCircle, ArrowLeft, Shield } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
+import { CONTACT } from '../constants' // <--- Added Import
 
 /**
  * Render the Tree Consultation landing page with risk-aware messaging, phone and callback CTAs, educational sections, a contact form, and embedded JSON-LD structured data.
@@ -38,11 +39,11 @@ export default function TreeConsultation() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      {/* SEO HEAD: Ensures Google indexes this title instead of 'Vite App' */}
       <Head>
         <title>Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots</title>
         <meta name="description" content="Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Save money and stay safe." />
-        <link rel="canonical" href="https://omahatreecare.com/tree-consultation-omaha" />
+        {/* Fixed hardcoded URL */}
+        <link rel="canonical" href={`${CONTACT.siteUrl}/tree-consultation-omaha`} />
       </Head>
 
       {/* Back to results link */}
