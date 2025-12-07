@@ -1,17 +1,20 @@
-import { ViteReactSSG } from 'vite-react-ssg'
-import { routes } from './routes'
-import './index.css'
+import { Analytics } from '@vercel/analytics/react'; // <--- Restored
 import { injectSpeedInsights } from '@vercel/speed-insights'
+import { ViteReactSSG } from 'vite-react-ssg'
+import './index.css'
+import { routes } from './routes'
 
-// SSG setup for static site generation
 export const createRoot = ViteReactSSG(
   { routes },
   ({ router, isClient, initialState }) => {
-    // No wrapper needed - using vite-react-ssg's built-in Head component
-    return ({ children }) => children
+    return ({ children }) => (
+      <>
+        {children}
+        <Analytics /> {/* <--- Tracks speed/visitors for Vercel dashboard */}
+      </>
+    )
   },
   () => {
-    // Client-side only setup
     if (typeof window !== 'undefined') {
       injectSpeedInsights()
     }
