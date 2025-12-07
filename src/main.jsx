@@ -1,4 +1,5 @@
-import { Analytics } from '@vercel/analytics/react'; // <--- Restored
+import { Analytics } from '@vercel/analytics/react'
+import { inject } from '@vercel/analytics'
 import { injectSpeedInsights } from '@vercel/speed-insights'
 import { ViteReactSSG } from 'vite-react-ssg'
 import './index.css'
@@ -10,12 +11,13 @@ export const createRoot = ViteReactSSG(
     return ({ children }) => (
       <>
         {children}
-        <Analytics /> {/* <--- Tracks speed/visitors for Vercel dashboard */}
+        <Analytics />
       </>
     )
   },
   () => {
     if (typeof window !== 'undefined') {
+      inject()
       injectSpeedInsights()
     }
   }
