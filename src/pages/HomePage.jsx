@@ -9,7 +9,7 @@ import ServiceAreas from '../components/ServiceAreas';
 import SocialProof from '../components/SocialProof';
 import WhyDifferent from '../components/WhyDifferent';
 import WinterTriage from '../components/WinterTriage';
-import { CONTACT } from '../constants'; // <-- NEW REQUIRED IMPORT
+import { CONTACT, SERVICE_AREAS } from '../constants';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
 const HomePage = () => {
@@ -71,48 +71,16 @@ const HomePage = () => {
               "latitude": CONTACT.latitude,
               "longitude": CONTACT.longitude
             },
-            "areaServed": [
-              {
-                "@type": "City",
-                "name": "Omaha",
-                "sameAs": "https://en.wikipedia.org/wiki/Omaha,_Nebraska"
-              },
-              {
-                "@type": "City",
-                "name": "Gretna",
-                "sameAs": "https://en.wikipedia.org/wiki/Gretna,_Nebraska"
-              },
-              {
-                "@type": "Place",
-                "name": "Millard",
-                "sameAs": "https://en.wikipedia.org/wiki/Millard,_Omaha"
-              },
-              {
-                "@type": "Place",
-                "name": "Elkhorn",
-                "sameAs": "https://en.wikipedia.org/wiki/Elkhorn,_Omaha"
-              },
-              {
-                "@type": "City",
-                "name": "Papillion",
-                "sameAs": "https://en.wikipedia.org/wiki/Papillion,_Nebraska"
-              },
-              {
-                "@type": "City",
-                "name": "Bellevue",
-                "sameAs": "https://en.wikipedia.org/wiki/Bellevue,_Nebraska"
-              },
-              {
-                "@type": "City",
-                "name": "Bennington",
-                "sameAs": "https://en.wikipedia.org/wiki/Bennington,_Nebraska"
-              },
-              {
-                "@type": "City",
-                "name": "Ralston",
-                "sameAs": "https://en.wikipedia.org/wiki/Ralston,_Nebraska"
+            "areaServed": SERVICE_AREAS.map(area => ({
+              "@type": area.type,
+              "name": area.name,
+              "sameAs": area.sameAs,
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": area.latitude,
+                "longitude": area.longitude
               }
-            ],
+            })),
             "openingHoursSpecification": {
               "@type": "OpeningHoursSpecification",
               "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
