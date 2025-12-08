@@ -45,37 +45,42 @@ const HomePage = () => {
         <meta property="og:url" content={CONTACT.siteUrl} />
         <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
 
-        {/* THE FINAL SCHEMA FIX (LocalBusiness) */}
+        {/* Complete LocalBusiness Schema - Dynamic & Comprehensive */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
+            "@id": `${CONTACT.siteUrl}/#organization`,
             "name": CONTACT.businessName,
-            "image": [
-              `${CONTACT.siteUrl}/images/og-image.jpg`
-            ],
+            "description": "Professional tree care services and free diagnostic tools for Omaha homeowners",
+            "image": [`${CONTACT.siteUrl}/images/og-image.jpg`],
             "url": CONTACT.siteUrl,
             "telephone": CONTACT.phone,
             "email": CONTACT.email,
             "priceRange": "$$",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "Serving the Omaha Metro Area",
+              "streetAddress": "5634 Corby St # 1",
               "addressLocality": "Omaha",
               "addressRegion": "NE",
-              "postalCode": "68104",
+              "postalCode": "68104-4128",
               "addressCountry": "US"
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": 41.2565,
-              "longitude": -95.9345
+              "latitude": "41.28431",
+              "longitude": "-96.00133"
             },
             "areaServed": [
               {
-                "@type": "Place",
-                "name": "Dundee",
-                "sameAs": "https://en.wikipedia.org/wiki/Dundee%E2%80%93Happy_Hollow_Historic_District"
+                "@type": "City",
+                "name": "Omaha",
+                "sameAs": "https://en.wikipedia.org/wiki/Omaha,_Nebraska"
+              },
+              {
+                "@type": "City",
+                "name": "Gretna",
+                "sameAs": "https://en.wikipedia.org/wiki/Gretna,_Nebraska"
               },
               {
                 "@type": "Place",
@@ -86,18 +91,85 @@ const HomePage = () => {
                 "@type": "Place",
                 "name": "Elkhorn",
                 "sameAs": "https://en.wikipedia.org/wiki/Elkhorn,_Omaha"
-              }
-            ],
-            "openingHoursSpecification": [
+              },
               {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "opens": "08:00",
-                "closes": "18:00"
+                "@type": "City",
+                "name": "Papillion",
+                "sameAs": "https://en.wikipedia.org/wiki/Papillion,_Nebraska"
+              },
+              {
+                "@type": "City",
+                "name": "Bellevue",
+                "sameAs": "https://en.wikipedia.org/wiki/Bellevue,_Nebraska"
+              },
+              {
+                "@type": "City",
+                "name": "Bennington",
+                "sameAs": "https://en.wikipedia.org/wiki/Bennington,_Nebraska"
+              },
+              {
+                "@type": "City",
+                "name": "Ralston",
+                "sameAs": "https://en.wikipedia.org/wiki/Ralston,_Nebraska"
               }
             ],
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+              "opens": "08:00",
+              "closes": "18:00"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Tree Care Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Tree Removal",
+                    "description": "Safe removal of hazardous and unwanted trees"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Tree Trimming & Pruning",
+                    "description": "Structural pruning and canopy management"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Tree Health Assessment",
+                    "description": "Professional arborist evaluation and diagnosis"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Winter Tree Preparation",
+                    "description": "Storm damage prevention and ice load management"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Free Tree Diagnostic Tools",
+                    "description": "Online risk assessment and cost estimation tools"
+                  }
+                }
+              ]
+            },
             "sameAs": [
-              "https://www.facebook.com/profile.php?id=61565568559288"
+              "https://midwestroots.info",
+              "https://facebook.com/midwestrootsomaha",
+              "https://www.linkedin.com/company/midwestrootsomaha/",
+              "https://maps.google.com/?cid=2577349893469380478"
             ]
           })}
         </script>
