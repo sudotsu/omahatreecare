@@ -60,16 +60,16 @@ const HomePage = () => {
             "priceRange": "$$",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "5634 Corby St # 1",
-              "addressLocality": "Omaha",
-              "addressRegion": "NE",
-              "postalCode": "68104-4128",
-              "addressCountry": "US"
+              "streetAddress": CONTACT.streetAddress,
+              "addressLocality": CONTACT.addressLocality,
+              "addressRegion": CONTACT.addressRegion,
+              "postalCode": CONTACT.postalCode,
+              "addressCountry": CONTACT.addressCountry
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": "41.28431",
-              "longitude": "-96.00133"
+              "latitude": CONTACT.latitude,
+              "longitude": CONTACT.longitude
             },
             "areaServed": [
               {
@@ -165,12 +165,7 @@ const HomePage = () => {
                 }
               ]
             },
-            "sameAs": [
-              "https://midwestroots.info",
-              "https://facebook.com/midwestrootsomaha",
-              "https://www.linkedin.com/company/midwestrootsomaha/",
-              "https://maps.google.com/?cid=2577349893469380478"
-            ]
+            "sameAs": CONTACT.socialProfiles
           })}
         </script>
       </Head>

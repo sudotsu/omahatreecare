@@ -8,7 +8,26 @@ export const CONTACT = {
   phoneRaw: '+14028123294',
   email: 'andrew@midwestroots.info',
   businessName: 'Midwest Roots Tree Services',
-  siteUrl: 'https://omahatreecare.com'
+  siteUrl: 'https://omahatreecare.com',
+
+  // Physical address (for Schema.org and NAP consistency)
+  streetAddress: '5634 Corby St # 1',
+  addressLocality: 'Omaha',
+  addressRegion: 'NE',
+  postalCode: '68104-4128',
+  addressCountry: 'US',
+
+  // Geo coordinates (for maps and local SEO)
+  latitude: '41.28431',
+  longitude: '-96.00133',
+
+  // Social profiles (for Schema.org sameAs)
+  socialProfiles: [
+    'https://midwestroots.info',
+    'https://facebook.com/midwestrootsomaha',
+    'https://www.linkedin.com/company/midwestrootsomaha/',
+    'https://maps.google.com/?cid=2577349893469380478'
+  ]
 }
 
 export const COLORS = {
