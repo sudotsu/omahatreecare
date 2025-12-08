@@ -17,9 +17,9 @@ export const CONTACT = {
   postalCode: '68104-4128',
   addressCountry: 'US',
 
-  // Geo coordinates (for maps and local SEO)
-  latitude: '41.28431',
-  longitude: '-96.00133',
+  // Geo coordinates (for maps and local SEO) - MUST BE NUMBERS
+  latitude: 41.28431,
+  longitude: -96.00133,
 
   // Social profiles (for Schema.org sameAs)
   socialProfiles: [
@@ -29,6 +29,66 @@ export const CONTACT = {
     'https://maps.google.com/?cid=2577349893469380478'
   ]
 }
+
+// Service area cities with geo coordinates (for Schema.org areaServed)
+export const SERVICE_AREAS = [
+  {
+    type: 'City',
+    name: 'Omaha',
+    latitude: 41.2565,
+    longitude: -95.9345,
+    wiki: 'https://en.wikipedia.org/wiki/Omaha,_Nebraska'
+  },
+  {
+    type: 'City',
+    name: 'Gretna',
+    latitude: 41.1400,
+    longitude: -96.2397,
+    wiki: 'https://en.wikipedia.org/wiki/Gretna,_Nebraska'
+  },
+  {
+    type: 'Place',
+    name: 'Millard',
+    latitude: 41.2034,
+    longitude: -96.1264,
+    wiki: 'https://en.wikipedia.org/wiki/Millard,_Omaha'
+  },
+  {
+    type: 'Place',
+    name: 'Elkhorn',
+    latitude: 41.2861,
+    longitude: -96.2364,
+    wiki: 'https://en.wikipedia.org/wiki/Elkhorn,_Omaha'
+  },
+  {
+    type: 'City',
+    name: 'Papillion',
+    latitude: 41.1547,
+    longitude: -96.0422,
+    wiki: 'https://en.wikipedia.org/wiki/Papillion,_Nebraska'
+  },
+  {
+    type: 'City',
+    name: 'Bellevue',
+    latitude: 41.1364,
+    longitude: -95.8908,
+    wiki: 'https://en.wikipedia.org/wiki/Bellevue,_Nebraska'
+  },
+  {
+    type: 'City',
+    name: 'Bennington',
+    latitude: 41.3647,
+    longitude: -96.1578,
+    wiki: 'https://en.wikipedia.org/wiki/Bennington,_Nebraska'
+  },
+  {
+    type: 'City',
+    name: 'Ralston',
+    latitude: 41.2064,
+    longitude: -96.0447,
+    wiki: 'https://en.wikipedia.org/wiki/Ralston,_Nebraska'
+  }
+]
 
 export const COLORS = {
   primary: '#52796f',      // Muted green
