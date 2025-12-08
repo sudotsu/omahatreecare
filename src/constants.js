@@ -17,7 +17,7 @@ export const CONTACT = {
   postalCode: '68104-4128',
   addressCountry: 'US',
 
-  // Geo coordinates (for maps and local SEO) - MUST BE NUMBERS
+  // Geo coordinates (for maps and local SEO)
   latitude: 41.28431,
   longitude: -96.00133,
 
