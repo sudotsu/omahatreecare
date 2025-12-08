@@ -74,7 +74,7 @@ const HomePage = () => {
             "areaServed": SERVICE_AREAS.map(area => ({
               "@type": area.type,
               "name": area.name,
-              "sameAs": area.wiki,
+              "sameAs": area.sameAs,
               "geo": {
                 "@type": "GeoCoordinates",
                 "latitude": area.latitude,

@@ -37,56 +37,56 @@ export const SERVICE_AREAS = [
     name: 'Omaha',
     latitude: 41.2565,
     longitude: -95.9345,
-    wiki: 'https://en.wikipedia.org/wiki/Omaha,_Nebraska'
+    sameAs: 'https://en.wikipedia.org/wiki/Omaha,_Nebraska'
   },
   {
     type: 'City',
     name: 'Gretna',
     latitude: 41.1400,
     longitude: -96.2397,
-    wiki: 'https://en.wikipedia.org/wiki/Gretna,_Nebraska'
+    sameAs: 'https://en.wikipedia.org/wiki/Gretna,_Nebraska'
   },
   {
     type: 'Place',
     name: 'Millard',
     latitude: 41.2034,
     longitude: -96.1264,
-    wiki: 'https://en.wikipedia.org/wiki/Millard,_Omaha'
+    sameAs: 'https://en.wikipedia.org/wiki/Millard,_Omaha'
   },
   {
     type: 'Place',
     name: 'Elkhorn',
     latitude: 41.2861,
     longitude: -96.2364,
-    wiki: 'https://en.wikipedia.org/wiki/Elkhorn,_Omaha'
+    sameAs: 'https://en.wikipedia.org/wiki/Elkhorn,_Omaha'
   },
   {
     type: 'City',
     name: 'Papillion',
     latitude: 41.1547,
     longitude: -96.0422,
-    wiki: 'https://en.wikipedia.org/wiki/Papillion,_Nebraska'
+    sameAs: 'https://en.wikipedia.org/wiki/Papillion,_Nebraska'
   },
   {
     type: 'City',
     name: 'Bellevue',
     latitude: 41.1364,
     longitude: -95.8908,
-    wiki: 'https://en.wikipedia.org/wiki/Bellevue,_Nebraska'
+    sameAs: 'https://en.wikipedia.org/wiki/Bellevue,_Nebraska'
   },
   {
     type: 'City',
     name: 'Bennington',
     latitude: 41.3647,
     longitude: -96.1578,
-    wiki: 'https://en.wikipedia.org/wiki/Bennington,_Nebraska'
+    sameAs: 'https://en.wikipedia.org/wiki/Bennington,_Nebraska'
   },
   {
     type: 'City',
     name: 'Ralston',
     latitude: 41.2064,
     longitude: -96.0447,
-    wiki: 'https://en.wikipedia.org/wiki/Ralston,_Nebraska'
+    sameAs: 'https://en.wikipedia.org/wiki/Ralston,_Nebraska'
   }
 ]
 
