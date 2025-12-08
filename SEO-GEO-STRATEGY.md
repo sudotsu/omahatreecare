@@ -450,9 +450,9 @@ export const CONTACT = {
   postalCode: '68104-4128',
   addressCountry: 'US',
 
-  // Geo
-  latitude: '41.28431',
-  longitude: '-96.00133',
+  // Geo (MUST BE NUMBERS, not strings)
+  latitude: 41.28431,
+  longitude: -96.00133,
 
   // Social
   socialProfiles: [
