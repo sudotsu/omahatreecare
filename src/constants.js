@@ -18,8 +18,8 @@ export const CONTACT = {
   addressCountry: 'US',
 
   // Geo coordinates (for maps and local SEO)
-  latitude: '41.28431',
-  longitude: '-96.00133',
+  latitude: 41.28431,
+  longitude: -96.00133,
 
   // Social profiles (for Schema.org sameAs)
   socialProfiles: [
