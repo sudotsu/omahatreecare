@@ -101,11 +101,11 @@ export default function EmergencyTreeService() {
                 </div>
 
                 <a
-                  href="tel:4028123294"
+                  href={`tel:${CONTACT.phoneRaw}`}
                   onClick={handlePhoneClick}
                   className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
                 >
-                  (402) 812-3294
+                  {CONTACT.phone}
                 </a>
 
                 <div className="flex items-start gap-3 text-sm text-slate-400">
@@ -255,8 +255,8 @@ export default function EmergencyTreeService() {
           "serviceType": "Emergency Tree Removal",
           "provider": {
             "@type": "LocalBusiness",
-            "name": "Midwest Roots Tree Services",
-            "telephone": "(402) 812-3294",
+            "name": CONTACT.businessName,
+            "telephone": CONTACT.phone,
             "areaServed": {
               "@type": "City",
               "name": "Omaha",
