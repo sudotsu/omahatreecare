@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser';
 import { AlertTriangle, Camera, Loader2, MessageSquare, Scissors, Send, TreeDeciduous } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CONTACT } from '../constants';
 
 export default function FastQuote() {
@@ -8,6 +8,7 @@ export default function FastQuote() {
   const [issue, setIssue] = useState('');
   const [phone, setPhone] = useState('');
   const [sending, setSending] = useState(false);
+  const resetTimeoutRef = useRef(null);
 
   // HYDRATION SAFE MOBILE DETECTION
   const [isMobile, setIsMobile] = useState(false);
@@ -19,6 +20,15 @@ export default function FastQuote() {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
+    };
   }, []);
 
   // USE ENV VARS
@@ -52,10 +62,16 @@ export default function FastQuote() {
         await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
         alert("Got it! I'll text you shortly to ask for that photo.");
 
+        // Clear any existing timeout before setting a new one
+        if (resetTimeoutRef.current) {
+          clearTimeout(resetTimeoutRef.current);
+        }
+
         // Reset after 4 seconds to match code behavior
-        setTimeout(() => {
+        resetTimeoutRef.current = setTimeout(() => {
             setStep(1);
             setPhone('');
+            resetTimeoutRef.current = null;
         }, 4000);
 
     } catch (err) {
