@@ -2,6 +2,7 @@ import { ArrowLeft, MapPin, TreeDeciduous } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
+import { CONTACT } from '../constants'
 import locationsData from '../data/locations.json'
 
 /**
@@ -43,7 +44,7 @@ export default function CityHub() {
       <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
-        <link rel="canonical" href={`https://omahatreecare.com/locations/${city}`} />
+        <link rel="canonical" href={`${CONTACT.siteUrl}/locations/${city}`} />
       </Head>
 
       {/* Back to home */}
@@ -127,15 +128,43 @@ export default function CityHub() {
             Call Andrew for a free consultation.
           </p>
           <a
-            href="tel:4028123294"
+            href={`tel:${CONTACT.phoneRaw}`}
             className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-10 rounded-xl text-2xl transition transform hover:scale-105"
           >
-            (402) 812-3294
+            {CONTACT.phone}
           </a>
         </div>
       </section>
 
-      {/* Schema */}
+      {/* BreadcrumbList Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": CONTACT.siteUrl
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Locations",
+              "item": `${CONTACT.siteUrl}/locations`
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": cityName,
+              "item": `${CONTACT.siteUrl}/locations/${city}`
+            }
+          ]
+        })}
+      </script>
+
+      {/* Service Schema */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
@@ -143,9 +172,9 @@ export default function CityHub() {
           "serviceType": "Tree Care",
           "provider": {
             "@type": "LocalBusiness",
-            "name": "Midwest Roots Tree Care",
-            "telephone": "(402) 812-3294",
-            "email": "andrew@omahatreecare.com"
+            "name": CONTACT.businessName,
+            "telephone": CONTACT.phone,
+            "email": CONTACT.email
           },
           "areaServed": neighborhoods.map(n => ({
             "@type": "Place",
@@ -156,7 +185,7 @@ export default function CityHub() {
               "addressRegion": "NE"
             }
           })),
-          "url": `https://omahatreecare.com/locations/${city}`
+          "url": `${CONTACT.siteUrl}/locations/${city}`
         })}
       </script>
     </div>
