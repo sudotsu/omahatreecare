@@ -25,12 +25,21 @@ const ToolLoader = () => (
 export function TreeDiagnostic() {
   const [currentScreen, setCurrentScreen] = useState('home');
 
-  // Initialize state from localStorage immediately to match index.html script
+// Initialize state: Check LocalStorage first, then fall back to OS Preference
   const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('darkMode') === 'true';
+    if (typeof window === 'undefined') return false;
+
+    try {
+      const saved = localStorage.getItem('darkMode');
+      // 1. If user explicitly saved a preference, respect it.
+      if (saved === 'true') return true;
+      if (saved === 'false') return false;
+
+      // 2. If no saved preference, fall back to OS setting.
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch {
+      return false;
     }
-    return false;
   });
 
   // Sync state changes to DOM and LocalStorage
