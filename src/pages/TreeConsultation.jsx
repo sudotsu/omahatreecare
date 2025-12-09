@@ -6,9 +6,10 @@ import ContactForm from '../components/ContactForm'
 import { CONTACT } from '../constants' // <--- Added Import
 
 /**
- * Render the Tree Consultation landing page with risk-aware messaging, phone and callback CTAs, educational sections, a contact form, and embedded JSON-LD structured data.
+ * Render the Tree Consultation landing page with risk-aware messaging, CTAs, educational content, and JSON-LD structured data.
  *
- * Reads the `risk` query parameter to adjust the UI (badge and analytics metadata) and emits analytics events for page views and phone clicks when an analytics function is available.
+ * Reads the `risk` query parameter to adjust the UI (badge and messaging) and emits analytics events for page views and phone clicks when a global `gtag` function is present.
+ * The page includes a phone call CTA, a callback contact form, guidance on DIY vs professional work, and SEO/OpenGraph/Twitter metadata.
  *
  * @returns {JSX.Element} The Tree Consultation page UI.
  */

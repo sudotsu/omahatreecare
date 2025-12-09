@@ -6,12 +6,11 @@ import ContactForm from '../components/ContactForm'
 import { CONTACT } from '../constants' // <--- Added Import
 
 /**
- * Render the Emergency Tree Service page with CTAs, risk indicator, and a contact form.
+ * Render the Emergency Tree Service page with CTAs, a conditional high-risk badge, SEO metadata, analytics hooks, and a contact form.
  *
- * Reads the `risk` query parameter to conditionally display a high-risk badge, sets the
- * document title via Head for SEO, and emits analytics events via gtag.
+ * The component reads the `risk` query parameter to show a priority badge when present and emits page view and phone-click events (including risk level) to the global analytics `gtag` if available. It also sets OpenGraph/Twitter metadata and structured data for SEO.
  *
- * @returns {JSX.Element} The rendered Emergency Tree Service page component.
+ * @returns {JSX.Element} The Emergency Tree Service page component.
  */
 export default function EmergencyTreeService() {
   const [searchParams] = useSearchParams()
