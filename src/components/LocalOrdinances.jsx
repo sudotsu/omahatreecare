@@ -1,5 +1,5 @@
+import { AlertCircle, CheckCircle, ExternalLink, Scale, ScrollText } from 'lucide-react';
 import React from 'react';
-import { ScrollText, AlertCircle, CheckCircle, Scale } from 'lucide-react';
 
 export default function LocalOrdinances() {
   return (
@@ -67,12 +67,12 @@ export default function LocalOrdinances() {
 
       <div className="mt-6 text-center">
         <a
-          href="https://planning.cityofomaha.org/images/forms/Park/Tree_Permit_Application.pdf"
+          href="https://parks.cityofomaha.org/parks/forestry"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm inline-flex items-center gap-1 hover:underline"
+          className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm inline-flex items-center gap-1 hover:underline transition-colors"
         >
-          View Official Permit Application (PDF) →
+          Visit City Forestry Page for Permits <ExternalLink className="w-4 h-4" />
         </a>
       </div>
     </div>

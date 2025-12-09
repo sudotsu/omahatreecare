@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser';
 import { AlertTriangle, Camera, Loader2, MessageSquare, Scissors, Send, TreeDeciduous } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CONTACT } from '../constants';
 
 export default function FastQuote() {
@@ -8,23 +8,27 @@ export default function FastQuote() {
   const [issue, setIssue] = useState('');
   const [phone, setPhone] = useState('');
   const [sending, setSending] = useState(false);
+  const resetTimeoutRef = useRef(null);
 
   // HYDRATION SAFE MOBILE DETECTION
-  // 1. Default to false (Desktop) so it matches the Server's HTML
   const [isMobile, setIsMobile] = useState(false);
 
-  // 2. Check window size only AFTER the component mounts (Client-side only)
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
-    // Run once on mount
     checkMobile();
-
-    // Optional: Update on resize (e.g. rotating phone)
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
+    };
   }, []);
 
   // USE ENV VARS
@@ -57,8 +61,19 @@ export default function FastQuote() {
     try {
         await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
         alert("Got it! I'll text you shortly to ask for that photo.");
-        setStep(1);
-        setPhone('');
+
+        // Clear any existing timeout before setting a new one
+        if (resetTimeoutRef.current) {
+          clearTimeout(resetTimeoutRef.current);
+        }
+
+        // Reset after 4 seconds to match code behavior
+        resetTimeoutRef.current = setTimeout(() => {
+            setStep(1);
+            setPhone('');
+            resetTimeoutRef.current = null;
+        }, 4000);
+
     } catch (err) {
         console.error("EmailJS Error:", err);
         alert("Error sending. Please call me directly.");
@@ -107,7 +122,6 @@ export default function FastQuote() {
               <h4 className="text-xl font-bold text-slate-900 dark:text-white">Where should I send the quote?</h4>
             </div>
 
-            {/* CONDITIONAL RENDER: Safe now because isMobile is updated post-hydration */}
             {isMobile ? (
               <div className="space-y-3">
                 <button onClick={handleSMS} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-emerald-900/20 animate-pulse-slow">
