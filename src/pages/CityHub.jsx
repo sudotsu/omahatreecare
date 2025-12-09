@@ -52,7 +52,7 @@ export default function CityHub() {
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${CONTACT.siteUrl}/locations/${city}`} />
         <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-        <meta property="og:site_name" content="Omaha Tree Care" />
+        <meta property="og:site_name" content={CONTACT.businessName} />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />

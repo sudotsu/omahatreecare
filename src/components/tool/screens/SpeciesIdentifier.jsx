@@ -162,6 +162,10 @@ export function SpeciesIdentifier() {
   }
 
   const submitCommunityPhoto = () => {
+    if (!selectedTree) {
+      alert('Please select your tree species before submitting photos so we can label them correctly.');
+      return;
+    }
     // TODO: Implement backend submission
     // This would send photos + species ID + consent to backend
     alert(`Thanks for contributing! Your ${uploadedPhotos.length} photo(s) of ${selectedTree.name} will help other homeowners identify their trees.`)
@@ -412,7 +416,7 @@ export function SpeciesIdentifier() {
             </div>
 
             {/* Maintenance */}
-            <div className="bg-amber-50 dark:bg-slate-700/50 rounded-xl p-5 border-2 border-amber- dark:border-slate-200 dark:border-slate-600">
+            <div className="bg-amber-50 dark:bg-slate-700/50 rounded-xl p-5 border-2 border-amber-200 dark:border-slate-600">
               <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-3">Maintenance Recommendations</h3>
               <p className="text-amber-800 dark:text-slate-300 leading-relaxed">{selectedTree.maintenanceNotes}</p>
             </div>

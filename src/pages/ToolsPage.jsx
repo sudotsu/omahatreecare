@@ -4,25 +4,28 @@ import { TreeDiagnostic } from '../components/tool/TreeDiagnostic';
 import { CONTACT, SERVICE_AREAS } from '../constants';
 
 const ToolsPage = () => {
+  const pageTitle = 'Tree Health Diagnostic Tool | Midwest Roots';
+  const metaDescription = 'Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees.';
+
   return (
     <div className="min-h-screen">
       <Head>
-        <title>Tree Health Diagnostic Tool | Midwest Roots</title>
-        <meta name="description" content="Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees." />
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
         <link rel="canonical" href={`${CONTACT.siteUrl}/tools`} />
 
         {/* OpenGraph */}
-        <meta property="og:title" content="Tree Health Diagnostic Tool | Midwest Roots" />
-        <meta property="og:description" content="Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees." />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${CONTACT.siteUrl}/tools`} />
         <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-        <meta property="og:site_name" content="Omaha Tree Care" />
+        <meta property="og:site_name" content={CONTACT.businessName} />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Tree Health Diagnostic Tool | Midwest Roots" />
-        <meta name="twitter:description" content="Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees." />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
 
         {/* LocalBusiness Schema */}

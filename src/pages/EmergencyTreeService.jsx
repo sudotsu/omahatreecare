@@ -17,6 +17,9 @@ export default function EmergencyTreeService() {
   const [searchParams] = useSearchParams()
   const riskLevel = searchParams.get('risk')
 
+  const pageTitle = 'Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots';
+  const metaDescription = '24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Priority removal service available.';
+
   useEffect(() => {
     // Track page view (Title is now handled statically by <Head>)
     if (window.gtag) {
@@ -41,22 +44,22 @@ export default function EmergencyTreeService() {
   return (
     <div className="min-h-screen bg-slate-900">
       <Head>
-        <title>Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots</title>
-        <meta name="description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Call (402) 812-3294 for priority removal." />
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
         <link rel="canonical" href={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
 
         {/* OpenGraph */}
-        <meta property="og:title" content="Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots" />
-        <meta property="og:description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Priority removal service available." />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
         <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-        <meta property="og:site_name" content="Omaha Tree Care" />
+        <meta property="og:site_name" content={CONTACT.businessName} />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Emergency Tree Service Omaha - Immediate Risk Response" />
-        <meta name="twitter:description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs." />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
       </Head>
 
@@ -284,7 +287,7 @@ export default function EmergencyTreeService() {
             "@type": "ServiceChannel",
             "servicePhone": {
               "@type": "ContactPoint",
-              "telephone": "+1-402-812-3294",
+              "telephone": CONTACT.phoneRaw,
               "contactType": "Emergency Service",
               "availableLanguage": "English",
               "hoursAvailable": "24/7 phone availability"
