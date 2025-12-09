@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head } from 'vite-react-ssg';
 import Credibility from '../components/Credibility';
+import FAQAccordion from '../components/FAQAccordion'; // Added
 import Footer from '../components/Footer';
 import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
@@ -145,6 +146,10 @@ const HomePage = () => {
       <Credibility />
       <HowItWorks />
       <SocialProof />
+
+      {/* FAQ Section - Aligns with Schema */}
+      <FAQAccordion />
+
       <ServiceAreas />
       <Footer />
     </div>
