@@ -42,7 +42,7 @@ export default function TreeConsultation() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <Head>
+      <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <meta name="robots" content="index, follow" />

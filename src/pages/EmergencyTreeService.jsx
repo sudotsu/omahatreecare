@@ -1,9 +1,9 @@
+import { AlertTriangle, ArrowLeft, CheckCircle, Clock, Phone } from 'lucide-react'
 import { useEffect } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
-import { Phone, Clock, AlertTriangle, CheckCircle, ArrowLeft } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
-import { CONTACT } from '../constants' // <--- Added Import
+import { CONTACT } from '../constants'; // <--- Added Import
 
 /**
  * Render the Emergency Tree Service page with CTAs, risk indicator, and a contact form.
@@ -43,7 +43,7 @@ export default function EmergencyTreeService() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <Head>
+      <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <meta name="robots" content="index, follow" />
