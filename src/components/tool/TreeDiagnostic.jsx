@@ -1,29 +1,49 @@
-import { useState, useEffect } from 'react';
-import { Home } from './screens/Home';
-import { SpeciesIdentifier } from './screens/SpeciesIdentifier';
-import { HazardAssessment } from './screens/HazardAssessment';
-import { CostEstimator } from './screens/CostEstimator';
-import { DIYvsProGuide } from './screens/DIYvsProGuide';
-import { CommonAilments } from './screens/CommonAilments';
-import { ArrowLeft, Moon, Sun } from 'lucide-react';
+import { ArrowLeft, Loader2, Moon, Sun } from 'lucide-react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { CONTACT } from '../../constants';
+
+// -----------------------------------------------------------------------------
+// LAZY LOAD IMPORTS (Performance Optimization)
+// We use this pattern to keep your named exports (export function Home) working
+// without rewriting all your sub-files.
+// -----------------------------------------------------------------------------
+const Home = lazy(() => import('./screens/Home').then(m => ({ default: m.Home })));
+const SpeciesIdentifier = lazy(() => import('./screens/SpeciesIdentifier').then(m => ({ default: m.SpeciesIdentifier })));
+const HazardAssessment = lazy(() => import('./screens/HazardAssessment').then(m => ({ default: m.HazardAssessment })));
+const CostEstimator = lazy(() => import('./screens/CostEstimator').then(m => ({ default: m.CostEstimator })));
+const DIYvsProGuide = lazy(() => import('./screens/DIYvsProGuide').then(m => ({ default: m.DIYvsProGuide })));
+const CommonAilments = lazy(() => import('./screens/CommonAilments').then(m => ({ default: m.CommonAilments })));
+
+// Simple Loading Spinner Component
+const ToolLoader = () => (
+  <div className="flex flex-col items-center justify-center min-h-[400px] text-emerald-600">
+    <Loader2 className="w-12 h-12 animate-spin mb-4" />
+    <p className="text-sm font-medium text-slate-500">Loading Tool...</p>
+  </div>
+);
 
 export function TreeDiagnostic() {
   const [currentScreen, setCurrentScreen] = useState('home');
-  const [darkMode, setDarkMode] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  // Initialize from localStorage on mount (client-side only)
-  useEffect(() => {
-    setMounted(true);
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode !== null) {
-      setDarkMode(savedMode === 'true');
+// Initialize state: Check LocalStorage first, then fall back to OS Preference
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === 'undefined') return false;
+
+    try {
+      const saved = localStorage.getItem('darkMode');
+      // 1. If user explicitly saved a preference, respect it.
+      if (saved === 'true') return true;
+      if (saved === 'false') return false;
+
+      // 2. If no saved preference, fall back to OS setting.
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch {
+      return false;
     }
-  }, []);
+  });
 
+  // Sync state changes to DOM and LocalStorage
   useEffect(() => {
-    // Apply dark mode class to html element
     if (darkMode) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('darkMode', 'true');
@@ -37,6 +57,7 @@ export function TreeDiagnostic() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-colors duration-300">
+
       {/* Header */}
       <header className="bg-gradient-to-r from-amber-900 to-yellow-700 dark:from-slate-800 dark:to-slate-900 text-white shadow-lg sticky top-0 z-50 transition-colors duration-300">
         <div className="container mx-auto px-4 py-4">
@@ -50,6 +71,7 @@ export function TreeDiagnostic() {
                 <span className="font-medium">Back</span>
               </button>
             )}
+
             <div className={currentScreen === 'home' ? 'mx-auto text-center' : 'flex-1 text-center'}>
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
                 Omaha Tree Care Guide
@@ -58,17 +80,8 @@ export function TreeDiagnostic() {
                 Expert tree care knowledge, free for homeowners
               </p>
             </div>
-            {currentScreen !== 'home' ? (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setDarkMode(!darkMode)}
-                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
-                  aria-label="Toggle dark mode"
-                >
-                  {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                </button>
-              </div>
-            ) : (
+
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setDarkMode(!darkMode)}
                 className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
@@ -76,19 +89,21 @@ export function TreeDiagnostic() {
               >
                 {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
-            )}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main Content with Suspense Wrapper */}
       <main className="container mx-auto px-4 py-6 md:py-8">
-        {currentScreen === 'home' && <Home setScreen={setCurrentScreen} />}
-        {currentScreen === 'species' && <SpeciesIdentifier />}
-        {currentScreen === 'hazard' && <HazardAssessment />}
-        {currentScreen === 'cost' && <CostEstimator />}
-        {currentScreen === 'diy' && <DIYvsProGuide />}
-        {currentScreen === 'ailments' && <CommonAilments />}
+        <Suspense fallback={<ToolLoader />}>
+          {currentScreen === 'home' && <Home setScreen={setCurrentScreen} />}
+          {currentScreen === 'species' && <SpeciesIdentifier />}
+          {currentScreen === 'hazard' && <HazardAssessment />}
+          {currentScreen === 'cost' && <CostEstimator />}
+          {currentScreen === 'diy' && <DIYvsProGuide />}
+          {currentScreen === 'ailments' && <CommonAilments />}
+        </Suspense>
       </main>
 
       {/* Footer */}

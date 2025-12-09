@@ -52,6 +52,7 @@ export default defineConfig({
     Sitemap({
       hostname: 'https://omahatreecare.com',
       dynamicRoutes: allRoutes,
+      exclude: ['/404'], // Explicitly exclude 404 from sitemap
       readable: true,
       robots: [{
         userAgent: '*',

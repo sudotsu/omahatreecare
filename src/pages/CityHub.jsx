@@ -2,16 +2,13 @@ import { ArrowLeft, MapPin, TreeDeciduous } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
+import LocalOrdinances from '../components/LocalOrdinances'
 import { CONTACT } from '../constants'
 import locationsData from '../data/locations.json'
 
 /**
  * Render a city-specific hub page that lists all neighborhoods served for the current route.
- *
- * Reads the `city` route parameter, formats city and neighborhood names, and renders
- * SEO tags, a hero section, a neighborhoods grid with links, a contact CTA, and JSON-LD
- * service area schema.
- * @returns {JSX.Element} The CityHub page component for the active `city` route.
+ * Includes SEO tags, hero section, neighborhood grid, local ordinances, and contact CTA.
  */
 export default function CityHub() {
   const { city } = useParams()
@@ -128,6 +125,15 @@ export default function CityHub() {
                 </p>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Local Ordinances & Rules (Authority Booster) */}
+      <section className="bg-slate-800 pb-16">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl">
+            <LocalOrdinances />
           </div>
         </div>
       </section>
