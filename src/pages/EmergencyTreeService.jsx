@@ -225,7 +225,29 @@ export default function EmergencyTreeService() {
         </div>
       </section>
 
-      {/* Schema.org structured data */}
+      {/* BreadcrumbList Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": CONTACT.siteUrl
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Emergency Tree Service",
+              "item": `${CONTACT.siteUrl}/emergency-tree-service-omaha`
+            }
+          ]
+        })}
+      </script>
+
+      {/* Service Schema */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
