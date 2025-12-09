@@ -140,6 +140,17 @@ const treeDatabase = [
   }
 ]
 
+/**
+ * Interactive Species Identifier component for browsing and inspecting tree species.
+ *
+ * Renders a searchable list of tree species, detailed views with care recommendations and contextual next steps,
+ * and a photo upload flow that allows users to submit up to three images for community/expert identification.
+ *
+ * The component manages local UI state for search, selection, uploaded photos, consent, and upload section visibility.
+ * Submitting photos displays a confirmation alert, clears the selected photos, and hides the upload UI; backend submission is not implemented.
+ *
+ * @returns {JSX.Element} The Species Identifier user interface.
+ */
 export function SpeciesIdentifier() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTree, setSelectedTree] = useState(null)
