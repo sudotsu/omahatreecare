@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Search, AlertCircle, CheckCircle, Info, Upload, X, Camera } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { CONTACT } from '../../../constants'
 
 
@@ -161,6 +162,10 @@ export function SpeciesIdentifier() {
   }
 
   const submitCommunityPhoto = () => {
+    if (!selectedTree) {
+      alert('Please select your tree species before submitting photos so we can label them correctly.');
+      return;
+    }
     // TODO: Implement backend submission
     // This would send photos + species ID + consent to backend
     alert(`Thanks for contributing! Your ${uploadedPhotos.length} photo(s) of ${selectedTree.name} will help other homeowners identify their trees.`)
@@ -411,7 +416,7 @@ export function SpeciesIdentifier() {
             </div>
 
             {/* Maintenance */}
-            <div className="bg-amber-50 dark:bg-slate-700/50 rounded-xl p-5 border-2 border-amber- dark:border-slate-200 dark:border-slate-600">
+            <div className="bg-amber-50 dark:bg-slate-700/50 rounded-xl p-5 border-2 border-amber-200 dark:border-slate-600">
               <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-3">Maintenance Recommendations</h3>
               <p className="text-amber-800 dark:text-slate-300 leading-relaxed">{selectedTree.maintenanceNotes}</p>
             </div>
@@ -433,12 +438,12 @@ export function SpeciesIdentifier() {
                   >
                     📧 Email for Free Advice
                   </a>
-                  <a
-                    href="/services/tree-health-assessment"
+                  <Link
+                    to="/services/tree-health-assessment"
                     className="block w-full px-6 py-3 bg-amber-600 dark:bg-amber-600 text-white rounded-xl font-semibold hover:bg-amber-700 dark:hover:bg-amber-700 transition-colors text-center"
                   >
                     🔍 Learn About Health Assessments
-                  </a>
+                  </Link>
                 </div>
               </div>
             ) : (

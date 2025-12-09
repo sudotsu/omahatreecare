@@ -16,6 +16,9 @@ export default function TreeConsultation() {
   const [searchParams] = useSearchParams()
   const riskLevel = searchParams.get('risk')
 
+  const pageTitle = 'Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots';
+  const metaDescription = 'Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Save money and stay safe.';
+
   useEffect(() => {
     // Track page view (Title is now handled statically by <Head>)
     if (window.gtag) {
@@ -40,10 +43,23 @@ export default function TreeConsultation() {
   return (
     <div className="min-h-screen bg-slate-900">
       <Head>
-        <title>Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots</title>
-        <meta name="description" content="Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Save money and stay safe." />
-        {/* Fixed hardcoded URL */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
         <link rel="canonical" href={`${CONTACT.siteUrl}/tree-consultation-omaha`} />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${CONTACT.siteUrl}/tree-consultation-omaha`} />
+        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+        <meta property="og:site_name" content={CONTACT.businessName} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
       </Head>
 
       {/* Back to results link */}
@@ -100,11 +116,11 @@ export default function TreeConsultation() {
                 </div>
 
                 <a
-                  href="tel:4028123294"
+                  href={`tel:${CONTACT.phoneRaw}`}
                   onClick={handlePhoneClick}
                   className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
                 >
-                  (402) 812-3294
+                  {CONTACT.phone}
                 </a>
 
                 <p className="text-sm text-slate-400">
@@ -281,8 +297,8 @@ export default function TreeConsultation() {
           "serviceType": "Tree Consultation",
           "provider": {
             "@type": "LocalBusiness",
-            "name": "Midwest Roots Tree Services",
-            "telephone": "(402) 812-3294",
+            "name": CONTACT.businessName,
+            "telephone": CONTACT.phone,
             "areaServed": {
               "@type": "City",
               "name": "Omaha",
