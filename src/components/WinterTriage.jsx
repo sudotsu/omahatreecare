@@ -1,4 +1,5 @@
 import { Snowflake, Wind, Search, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const WinterTriage = () => {
   return (
@@ -32,14 +33,14 @@ const WinterTriage = () => {
               weak unions, and trees at risk of failure during Omaha's brutal ice storms.
             </p>
 
-            <a
-              href="/tools"
+            <Link
+              to="/tools"
               className="group inline-flex items-center justify-center w-full text-center font-semibold px-6 py-3 rounded-lg transition-all"
               style={{ backgroundColor: '#52796f', color: '#ffffff' }}
             >
               Prep Your Trees
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-            </a>
+            </Link>
           </div>
 
           {/* After Storms */}
@@ -57,14 +58,14 @@ const WinterTriage = () => {
               Use our tool to assess the damage and know if it's DIY-safe or time to call a pro.
             </p>
 
-            <a
-              href="/tools"
+            <Link
+              to="/tools"
               className="group inline-flex items-center justify-center w-full text-center font-semibold px-6 py-3 rounded-lg transition-all"
               style={{ backgroundColor: '#c1666b', color: '#ffffff' }}
             >
               Assess Damage
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-            </a>
+            </Link>
           </div>
 
           {/* Not Sure? */}
@@ -82,14 +83,14 @@ const WinterTriage = () => {
               cuts through the confusion and gives you a clear answer in 10 minutes.
             </p>
 
-            <a
-              href="/tools"
+            <Link
+              to="/tools"
               className="group inline-flex items-center justify-center w-full text-center font-semibold px-6 py-3 rounded-lg transition-all"
               style={{ backgroundColor: '#52796f', color: '#ffffff' }}
             >
               Get Answers
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-            </a>
+            </Link>
           </div>
 
         </div>

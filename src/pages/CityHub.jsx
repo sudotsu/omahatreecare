@@ -45,6 +45,20 @@ export default function CityHub() {
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={`${CONTACT.siteUrl}/locations/${city}`} />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${CONTACT.siteUrl}/locations/${city}`} />
+        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+        <meta property="og:site_name" content="Omaha Tree Care" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
       </Head>
 
       {/* Back to home */}

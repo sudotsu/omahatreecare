@@ -43,8 +43,21 @@ export default function EmergencyTreeService() {
       <Head>
         <title>Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots</title>
         <meta name="description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Call (402) 812-3294 for priority removal." />
-        {/* Fixed hardcoded URL */}
         <link rel="canonical" href={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content="Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots" />
+        <meta property="og:description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Priority removal service available." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
+        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+        <meta property="og:site_name" content="Omaha Tree Care" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Emergency Tree Service Omaha - Immediate Risk Response" />
+        <meta name="twitter:description" content="24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs." />
+        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
       </Head>
 
       {/* Back to results link */}

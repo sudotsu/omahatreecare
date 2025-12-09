@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle, Clock } from 'lucide-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { COLORS, TRUST_SIGNALS } from '../constants';
 
 const Hero = () => {
@@ -37,8 +38,8 @@ const Hero = () => {
           </p>
 
           {/* Primary CTA */}
-          <a
-            href="/tools"
+          <Link
+            to="/tools"
             className="group inline-flex items-center justify-center text-lg font-semibold px-10 py-4 rounded-lg shadow-md transition-all transform hover:-translate-y-0.5 hover:shadow-lg"
             style={{
               backgroundColor: COLORS.primary,
@@ -47,7 +48,7 @@ const Hero = () => {
           >
             Start Free Assessment
             <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} aria-hidden="true" />
-          </a>
+          </Link>
 
           {/* Trust Indicators */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm font-medium" style={{ color: COLORS.textLighter }}>

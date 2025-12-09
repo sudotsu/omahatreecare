@@ -11,6 +11,20 @@ const ToolsPage = () => {
         <meta name="description" content="Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees." />
         <link rel="canonical" href={`${CONTACT.siteUrl}/tools`} />
 
+        {/* OpenGraph */}
+        <meta property="og:title" content="Tree Health Diagnostic Tool | Midwest Roots" />
+        <meta property="og:description" content="Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${CONTACT.siteUrl}/tools`} />
+        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+        <meta property="og:site_name" content="Omaha Tree Care" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tree Health Diagnostic Tool | Midwest Roots" />
+        <meta name="twitter:description" content="Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees." />
+        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+
         {/* LocalBusiness Schema */}
         <script type="application/ld+json">
           {JSON.stringify({

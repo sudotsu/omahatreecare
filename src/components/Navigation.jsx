@@ -75,13 +75,13 @@ const Navigation = ({ scrolled }) => {
             )}
           </div>
 
-          <a
-            href="/tools"
+          <Link
+            to="/tools"
             className="font-medium text-sm transition-colors hover:opacity-70"
             style={{ color: COLORS.primary }}
           >
             Free Tool
-          </a>
+          </Link>
           <a
             href={`tel:${CONTACT.phoneRaw}`}
             className="font-semibold px-5 py-2 rounded-lg transition-all transform hover:-translate-y-0.5"
@@ -130,14 +130,14 @@ const Navigation = ({ scrolled }) => {
             </div>
           </div>
 
-          <a
-            href="/tools"
+          <Link
+            to="/tools"
             className="text-lg font-medium"
             onClick={toggleMenu}
             style={{ color: COLORS.primary }}
           >
             Free Tool
-          </a>
+          </Link>
           <a
             href={`tel:${CONTACT.phoneRaw}`}
             className="font-semibold py-3 rounded-lg text-center"

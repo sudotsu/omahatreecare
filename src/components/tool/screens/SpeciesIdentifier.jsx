@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Search, AlertCircle, CheckCircle, Info, Upload, X, Camera } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { CONTACT } from '../../../constants'
 
 
@@ -433,12 +434,12 @@ export function SpeciesIdentifier() {
                   >
                     📧 Email for Free Advice
                   </a>
-                  <a
-                    href="/services/tree-health-assessment"
+                  <Link
+                    to="/services/tree-health-assessment"
                     className="block w-full px-6 py-3 bg-amber-600 dark:bg-amber-600 text-white rounded-xl font-semibold hover:bg-amber-700 dark:hover:bg-amber-700 transition-colors text-center"
                   >
                     🔍 Learn About Health Assessments
-                  </a>
+                  </Link>
                 </div>
               </div>
             ) : (

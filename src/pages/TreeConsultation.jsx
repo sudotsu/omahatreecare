@@ -42,8 +42,21 @@ export default function TreeConsultation() {
       <Head>
         <title>Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots</title>
         <meta name="description" content="Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Save money and stay safe." />
-        {/* Fixed hardcoded URL */}
         <link rel="canonical" href={`${CONTACT.siteUrl}/tree-consultation-omaha`} />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content="Tree Consultation Omaha - Professional Assessment Before DIY" />
+        <meta property="og:description" content="Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${CONTACT.siteUrl}/tree-consultation-omaha`} />
+        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+        <meta property="og:site_name" content="Omaha Tree Care" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tree Consultation Omaha - Professional Assessment Before DIY" />
+        <meta name="twitter:description" content="Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks." />
+        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
       </Head>
 
       {/* Back to results link */}
