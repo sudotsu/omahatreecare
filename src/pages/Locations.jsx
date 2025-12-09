@@ -23,6 +23,7 @@ export default function Locations() {
       <Head>
         <title>Tree Service Areas Omaha & Surrounding Metro | Midwest Roots</title>
         <meta name="description" content="Midwest Roots Tree Services serves the entire Omaha metro area including Millard, Elkhorn, Gretna, Papillion, and Bellevue. Find your neighborhood arborist here." />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href={`${CONTACT.siteUrl}/locations`} />
 
         {/* OpenGraph */}

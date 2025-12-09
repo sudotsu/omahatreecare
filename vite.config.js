@@ -35,11 +35,14 @@ const staticRoutes = [
 ]
 
 // 4. MASTER LIST: Combine everything into one source of truth
+// Filter out 404 and deduplicate routes
 const allRoutes = [
   ...staticRoutes,
   ...generateLocationRoutes(),
   ...generateServiceRoutes()
 ]
+  .filter(route => route !== '/404') // Exclude 404 page from sitemap
+  .filter((route, index, self) => self.indexOf(route) === index) // Remove duplicates
 
 // https://vitejs.dev/config/
 export default defineConfig({

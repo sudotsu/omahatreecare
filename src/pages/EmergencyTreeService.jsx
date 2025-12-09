@@ -46,6 +46,7 @@ export default function EmergencyTreeService() {
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
 
         {/* OpenGraph */}

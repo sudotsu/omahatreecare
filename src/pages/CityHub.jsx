@@ -44,6 +44,7 @@ export default function CityHub() {
       <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href={`${CONTACT.siteUrl}/locations/${city}`} />
 
         {/* OpenGraph */}

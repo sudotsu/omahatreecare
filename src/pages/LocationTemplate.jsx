@@ -92,6 +92,7 @@ export default function LocationTemplate() {
       <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href={canonicalUrl} />
 
         <meta property="og:type" content="website" />

@@ -45,6 +45,7 @@ export default function TreeConsultation() {
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href={`${CONTACT.siteUrl}/tree-consultation-omaha`} />
 
         {/* OpenGraph */}

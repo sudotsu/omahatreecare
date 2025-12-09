@@ -24,6 +24,7 @@ export default function ServiceTemplate() {
         {/* Standard SEO */}
         <title>{pageTitle}</title>
         <meta name="description" content={data.meta_desc} />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href={canonicalUrl} />
 
         {/* OpenGraph / Facebook */}
