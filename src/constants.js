@@ -6,11 +6,14 @@
 export const CONTACT = {
   phone: '(402) 812-3294',
   phoneRaw: '+14028123294',
-  email: 'andrew@midwestroots.info',
+  email: 'andrew@omahatreecare.com', // UPDATED
   businessName: 'Midwest Roots Tree Services',
   siteUrl: 'https://omahatreecare.com',
 
-  // Physical address (for Schema.org and NAP consistency)
+  // Helper string for internal use (Safe to keep)
+  address: '5634 Corby St # 1, Omaha, NE 68104-4128',
+
+  // Physical address (Keep these specific fields for Schema.org and SEO)
   streetAddress: '5634 Corby St # 1',
   addressLocality: 'Omaha',
   addressRegion: 'NE',
@@ -23,6 +26,7 @@ export const CONTACT = {
 
   // Social profiles (for Schema.org sameAs)
   socialProfiles: [
+    'https://x.com/omahatree', // ADDED
     'https://midwestroots.info',
     'https://facebook.com/midwestrootsomaha',
     'https://www.linkedin.com/company/midwestrootsomaha/',
@@ -40,11 +44,11 @@ export const SERVICE_AREAS = [
     sameAs: 'https://en.wikipedia.org/wiki/Omaha,_Nebraska'
   },
   {
-    type: 'City',
-    name: 'Gretna',
-    latitude: 41.1400,
-    longitude: -96.2397,
-    sameAs: 'https://en.wikipedia.org/wiki/Gretna,_Nebraska'
+    type: 'Place',
+    name: 'Dundee',
+    latitude: 41.2623,
+    longitude: -95.9903,
+    sameAs: 'https://en.wikipedia.org/wiki/Dundee–Happy_Hollow_Historic_District'
   },
   {
     type: 'Place',
@@ -59,6 +63,13 @@ export const SERVICE_AREAS = [
     latitude: 41.2861,
     longitude: -96.2364,
     sameAs: 'https://en.wikipedia.org/wiki/Elkhorn,_Omaha'
+  },
+  {
+    type: 'City',
+    name: 'Gretna',
+    latitude: 41.1400,
+    longitude: -96.2397,
+    sameAs: 'https://en.wikipedia.org/wiki/Gretna,_Nebraska'
   },
   {
     type: 'City',
@@ -105,6 +116,6 @@ export const TRUST_SIGNALS = {
 }
 
 export const BUSINESS_HOURS = {
-  schedule: 'Mo-Sa 08:00-18:00',
-  display: 'Mon-Sat 8am-6pm'
+  schedule: 'Mo-Su 07:00-21:00', // Updated for Schema
+  display: 'Daily 7am - 9pm'     // Updated for Humans
 }

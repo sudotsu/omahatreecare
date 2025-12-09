@@ -10,19 +10,13 @@ export default function FastQuote() {
   const [sending, setSending] = useState(false);
 
   // HYDRATION SAFE MOBILE DETECTION
-  // 1. Default to false (Desktop) so it matches the Server's HTML
   const [isMobile, setIsMobile] = useState(false);
 
-  // 2. Check window size only AFTER the component mounts (Client-side only)
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
-    // Run once on mount
     checkMobile();
-
-    // Optional: Update on resize (e.g. rotating phone)
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -57,8 +51,13 @@ export default function FastQuote() {
     try {
         await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
         alert("Got it! I'll text you shortly to ask for that photo.");
-        setStep(1);
-        setPhone('');
+
+        // Reset after 4 seconds to match code behavior
+        setTimeout(() => {
+            setStep(1);
+            setPhone('');
+        }, 4000);
+
     } catch (err) {
         console.error("EmailJS Error:", err);
         alert("Error sending. Please call me directly.");
@@ -107,7 +106,6 @@ export default function FastQuote() {
               <h4 className="text-xl font-bold text-slate-900 dark:text-white">Where should I send the quote?</h4>
             </div>
 
-            {/* CONDITIONAL RENDER: Safe now because isMobile is updated post-hydration */}
             {isMobile ? (
               <div className="space-y-3">
                 <button onClick={handleSMS} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-emerald-900/20 animate-pulse-slow">
