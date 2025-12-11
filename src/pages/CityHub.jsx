@@ -1,214 +1,165 @@
-import { ArrowLeft, MapPin, TreeDeciduous } from 'lucide-react'
-import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Head } from 'vite-react-ssg'
-import LocalOrdinances from '../components/LocalOrdinances'
-import { CONTACT } from '../constants'
-import locationsData from '../data/locations.json'
+import { AlertTriangle, CheckCircle2, MapPin, Phone, Shield } from 'lucide-react';
+import React from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { Head } from 'vite-react-ssg';
+import FastQuote from '../components/FastQuote';
+import LocalOrdinances from '../components/LocalOrdinances';
+import ServiceAreaMap from '../components/ServiceAreaMap';
+import { CONTACT } from '../constants';
 
-/**
- * Render a city-specific hub page that lists all neighborhoods served for the current route.
- * Includes SEO tags, hero section, neighborhood grid, local ordinances, and contact CTA.
- */
 export default function CityHub() {
-  const { city } = useParams()
+  const { city } = useParams();
+  const location = useLocation();
 
-  const formatName = (str) => {
-    if (!str) return ''
-    return str.split('-').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ')
-  }
+  const cityName = city ? city.charAt(0).toUpperCase() + city.slice(1) : "Omaha";
 
-  const cityName = formatName(city)
-  const neighborhoods = locationsData[city] || []
+  const pageTitle = `Tree Service in ${cityName}, NE | ${CONTACT.businessName}`;
+  const metaDesc = `Expert tree removal, trimming, and risk assessment in ${cityName}. We follow ${cityName} municipal codes for physics-based, safe tree care.`;
+  const canonicalUrl = `https://omahatreecare.com${location.pathname}`;
 
-  const pageTitle = `Tree Service ${cityName} NE - All Neighborhoods | Midwest Roots Tree Care`
-  const metaDescription = `Expert tree service in ${cityName}, Nebraska. Serving ${neighborhoods.length} neighborhoods. Free diagnostic tool. Call (402) 812-3294`
+  const neighborhoodData = {
+    omaha: { areas: ["Dundee", "Benson", "Florence", "Millard", "Westside", "Aksarben", "Midtown", "North Omaha"] },
+    millard: { areas: ["Oak Hills", "Walnut Grove", "Stony Brook", "Harvey Oaks"] },
+    elkhorn: { areas: ["The Ridges", "Skyline Ranches", "Indian Creek", "Fire Ridge"] },
+    gretna: { areas: ["Tiburon", "Sarpy Heights", "Aspen Creek"] },
+    papillion: { areas: ["Shadow Lake", "Eagle Hills"] },
+    bellevue: { areas: ["Fontenelle Hills"] },
+    bennington: { areas: ["New Newport", "Ridgemont"] },
+    ralston: { areas: ["Mockingbird Hills"] }
+  };
 
-  useEffect(() => {
-    if (window.gtag) {
-      window.gtag('event', 'page_view', {
-        page_title: `${cityName} Tree Care Hub`,
-        page_location: window.location.href,
-        city: cityName
-      })
-    }
-  }, [city, cityName])
+  const currentNeighborhoods = neighborhoodData[city?.toLowerCase()]?.areas || [];
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <Head prioritizeSeoTags>
+    <div className="bg-slate-50 min-h-screen">
+      <Head>
         <title>{pageTitle}</title>
-        <meta name="description" content={metaDescription} />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={`${CONTACT.siteUrl}/locations/${city}`} />
-
-        {/* OpenGraph */}
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={canonicalUrl} />
         <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={metaDescription} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${CONTACT.siteUrl}/locations/${city}`} />
-        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-        <meta property="og:site_name" content={CONTACT.businessName} />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
       </Head>
 
-      {/* Back to home */}
-      <div className="bg-slate-800 border-b border-slate-700">
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center text-slate-300 hover:text-white transition"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
-      {/* Hero */}
-      <section className="relative pt-16 pb-12">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/20 to-transparent"></div>
+      <section className="relative bg-slate-900 text-white pt-24 pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-900/90"></div>
 
         <div className="container mx-auto px-6 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full mb-6 font-semibold">
-            <MapPin className="w-5 h-5" />
-            Serving {cityName}, Nebraska
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 px-4 py-1 rounded-full text-sm font-semibold mb-6 border border-emerald-500/30">
+              <MapPin size={14} /> Serving {cityName} & Surrounding Areas
+            </div>
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+              Physics-Based Tree Care in <span className="text-emerald-400">{cityName}, NE</span>
+            </h1>
+            <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+              We don't just "cut trees." We provide structural risk assessments and hazardous removals specifically for {cityName}'s mature canopy.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a href={`tel:${CONTACT.phoneRaw}`} className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/20">
+                <Phone size={20} /> Call {CONTACT.phone}
+              </a>
+              <span className="text-slate-400 text-sm">or</span>
+              <a href="#assessment" className="text-white hover:text-emerald-300 font-semibold underline underline-offset-4 decoration-emerald-500/50 hover:decoration-emerald-500 transition-all">
+                Get a Fast Quote Online
+              </a>
+            </div>
           </div>
-
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Tree Care in {cityName}<br />
-            <span className="text-emerald-400">All Neighborhoods</span>
-          </h1>
-
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl">
-            Professional tree service for all {cityName} neighborhoods. Select your area below for
-            neighborhood-specific information, or use our free diagnostic tool.
-          </p>
-
-          <Link
-            to="/tools"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-8 rounded-xl transition transform hover:scale-105"
-          >
-            <TreeDeciduous className="w-5 h-5" />
-            Start Free Tree Assessment
-          </Link>
         </div>
       </section>
 
-      {/* Neighborhoods Grid */}
-      <section className="bg-slate-800 py-16">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            {cityName} Neighborhoods We Serve
-          </h2>
+      <section className="py-16 container mx-auto px-6">
+        <div className="grid lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 space-y-12">
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                <Shield className="text-emerald-600" />
+                Why {cityName} Homeowners Choose Us
+              </h2>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="mt-1 bg-emerald-100 p-2 rounded-lg h-fit text-emerald-700"><CheckCircle2 size={20} /></div>
+                  <div>
+                    <h3 className="font-bold text-slate-900">No Sales Pressure</h3>
+                    <p className="text-slate-600 leading-relaxed">We are arborists, not door-to-door salesmen. We assess your trees based on biology and physics, not quotas.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="mt-1 bg-emerald-100 p-2 rounded-lg h-fit text-emerald-700"><CheckCircle2 size={20} /></div>
+                  <div>
+                    <h3 className="font-bold text-slate-900">Zero-Impact Rigging</h3>
+                    <p className="text-slate-600 leading-relaxed">We use modern rigging techniques to dismantle hazardous trees over roofs and fences without touching your property.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="mt-1 bg-emerald-100 p-2 rounded-lg h-fit text-emerald-700"><CheckCircle2 size={20} /></div>
+                  <div>
+                    <h3 className="font-bold text-slate-900">100% Cleanup Guarantee</h3>
+                    <p className="text-slate-600 leading-relaxed">We leave your yard cleaner than we found it. No sawdust piles, no ruts, no debris left behind.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl">
-            {neighborhoods.map((neighborhood) => (
-              <Link
-                key={neighborhood}
-                to={`/locations/${city}/${neighborhood}`}
-                className="bg-slate-900 border border-slate-700 hover:border-emerald-500 rounded-lg p-6 transition group"
-              >
-                <MapPin className="w-6 h-6 text-emerald-400 mb-3 group-hover:scale-110 transition" />
-                <h3 className="text-lg font-bold text-white group-hover:text-emerald-400 transition">
-                  {formatName(neighborhood)}
+            {currentNeighborhoods.length > 0 && (
+              <div className="bg-slate-100 rounded-2xl p-8 border border-slate-200">
+                <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                  <MapPin size={18} className="text-slate-500" />
+                  Active Crews in {cityName} Neighborhoods:
                 </h3>
-                <p className="text-slate-400 text-sm mt-2">
-                  Tree service in {formatName(neighborhood)} →
+                <div className="flex flex-wrap gap-2">
+                  {currentNeighborhoods.map((hood) => (
+                    <span key={hood} className="bg-white px-3 py-1 rounded-full text-sm text-slate-600 border border-slate-200 shadow-sm">
+                      {hood}
+                    </span>
+                  ))}
+                  <span className="bg-emerald-100 px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200 font-medium">
+                    + All Surrounding Areas
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div id="ordinances">
+              <LocalOrdinances cityName={cityName} />
+            </div>
+          </div>
+
+          <div className="lg:col-span-1">
+            <div className="sticky top-8 space-y-6">
+              <div id="assessment">
+                <FastQuote />
+              </div>
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <MapPin className="text-emerald-600" size={20} />
+                  Service Area Map
+                </h3>
+                <div className="h-48 rounded-xl overflow-hidden mb-4 border border-slate-100">
+                  <ServiceAreaMap />
+                </div>
+                <p className="text-xs text-slate-500 text-center">
+                  Dispatching from our HQ near 56th & Corby
                 </p>
-              </Link>
-            ))}
+              </div>
+              <div className="bg-amber-50 p-6 rounded-2xl border border-amber-100">
+                <h4 className="font-bold text-amber-800 flex items-center gap-2 mb-2">
+                  <AlertTriangle size={18} /> Storm Damage?
+                </h4>
+                <p className="text-sm text-amber-900/80 mb-4">
+                  We prioritize hazardous trees leaning on structures in {cityName}.
+                </p>
+                <a href={`tel:${CONTACT.phoneRaw}`} className="block w-full text-center bg-white border-2 border-amber-200 text-amber-800 font-bold py-2 rounded-lg hover:bg-amber-100 transition-colors">
+                  Call for Emergency Assessment
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
-      {/* Local Ordinances & Rules (Authority Booster) */}
-      <section className="bg-slate-800 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl">
-            <LocalOrdinances />
-          </div>
-        </div>
-      </section>
-
-      {/* Contact CTA */}
-      <section className="bg-slate-900 py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Serving All of {cityName}
-          </h2>
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Not seeing your neighborhood? We serve the entire {cityName} area.
-            Call Andrew for a free consultation.
-          </p>
-          <a
-            href={`tel:${CONTACT.phoneRaw}`}
-            className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-10 rounded-xl text-2xl transition transform hover:scale-105"
-          >
-            {CONTACT.phone}
-          </a>
-        </div>
-      </section>
-
-      {/* BreadcrumbList Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": CONTACT.siteUrl
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Locations",
-              "item": `${CONTACT.siteUrl}/locations`
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": cityName,
-              "item": `${CONTACT.siteUrl}/locations/${city}`
-            }
-          ]
-        })}
-      </script>
-
-      {/* Service Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Service",
-          "serviceType": "Tree Care",
-          "provider": {
-            "@type": "LocalBusiness",
-            "name": CONTACT.businessName,
-            "telephone": CONTACT.phone,
-            "email": CONTACT.email
-          },
-          "areaServed": neighborhoods.map(n => ({
-            "@type": "Place",
-            "name": formatName(n),
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": cityName,
-              "addressRegion": "NE"
-            }
-          })),
-          "url": `${CONTACT.siteUrl}/locations/${city}`
-        })}
-      </script>
     </div>
-  )
+  );
 }

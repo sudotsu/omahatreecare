@@ -1,24 +1,27 @@
 import { CheckCircle, ExternalLink, Eye, Keyboard, ShieldCheck } from 'lucide-react';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import { CONTACT } from '../constants';
 
 export default function Accessibility() {
+  const location = useLocation();
+  const canonicalUrl = `https://omahatreecare.com${location.pathname}`;
+
   return (
     <div className="bg-slate-50 min-h-screen text-slate-800">
       <Head>
         <title>Accessibility Statement | {CONTACT.businessName}</title>
         <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href={canonicalUrl} />
       </Head>
 
       <main className="max-w-4xl mx-auto px-6 py-16">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Accessibility Statement</h1>
         <p className="text-slate-600 mb-8">omahatreecare.com</p>
 
-        {/* --- TRUST BADGE (LINKS TO VERIFICATION) --- */}
         <a
-          // PASTE YOUR EXACT REPORT URL HERE:
-          href="https://seojuice.io/accessibility-compliance/303f6beb-ea60-4a57-913c-409669387e39"
+          href="https://seojuice.io/accessibility-statement/omahatreecare.com"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-4 bg-slate-900 text-white p-4 rounded-xl mb-8 hover:bg-slate-800 transition-colors shadow-md group w-full sm:w-auto"
@@ -33,7 +36,6 @@ export default function Accessibility() {
             </p>
           </div>
         </a>
-        {/* ------------------------------------------- */}
 
         <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
           <p className="mb-4">
@@ -44,7 +46,6 @@ export default function Accessibility() {
           </p>
         </div>
 
-        {/* Compliance Status */}
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Compliance Status</h2>
           <div className="bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-lg">
@@ -60,7 +61,6 @@ export default function Accessibility() {
           </div>
         </section>
 
-        {/* Features Grid */}
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Accessibility Features</h2>
           <div className="grid md:grid-cols-3 gap-6">
@@ -82,7 +82,6 @@ export default function Accessibility() {
           </div>
         </section>
 
-        {/* Exclusions */}
         <section className="space-y-6">
           <div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">Inaccessible Content</h3>
@@ -100,7 +99,6 @@ export default function Accessibility() {
           </div>
         </section>
 
-        {/* Feedback */}
         <div className="mt-12 pt-8 border-t border-slate-200 text-center">
           <p className="text-slate-600">
             Did you find an accessibility issue? Please tell us.<br />

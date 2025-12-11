@@ -1,211 +1,121 @@
-import { ArrowLeft, CheckCircle, Clock, ShieldAlert, Wrench } from 'lucide-react'
-import { Link, Navigate, useParams } from 'react-router-dom'
-import { Head } from 'vite-react-ssg'
-import ContactForm from '../components/ContactForm'
-import { CONTACT } from '../constants'
-import servicesData from '../data/services.json'
+import { CheckCircle2, Leaf } from 'lucide-react';
+import React from 'react';
+import { useLocation, useParams } from 'react-router-dom'; // IMPORT useLocation
+import { Head } from 'vite-react-ssg';
+import FastQuote from '../components/FastQuote';
+import { CONTACT } from '../constants';
+
+// ... (Keep your servicesData object exactly as it is) ...
+const servicesData = {
+    "tree-removal": {
+        title: "Hazardous Tree Removal",
+        // ... rest of data
+    },
+    "tree-trimming": {
+        title: "Structural Trimming",
+        // ... rest of data
+    },
+    "storm-damage": {
+        title: "Emergency Storm Response",
+        // ... rest of data
+    },
+    "plant-health-care": {
+        title: "Plant Health Care (PHC)",
+        // ... rest of data
+    }
+};
 
 export default function ServiceTemplate() {
-  const { serviceId } = useParams()
-  const data = servicesData[serviceId]
+    const { serviceId } = useParams();
+    const location = useLocation(); // GET LOCATION
+    const service = servicesData[serviceId];
 
-  // Redirect garbage URLs to home
-  if (!data) {
-    return <Navigate to="/" replace />
-  }
+    if (!service) {
+        return <div className="p-12 text-center">Service not found</div>;
+    }
 
-  const pageTitle = `${data.title} | Midwest Roots Tree Services`
-  const canonicalUrl = `${CONTACT.siteUrl}/services/${data.slug}`
-  const socialImage = `${CONTACT.siteUrl}/images/og-image.jpg`
+    const canonicalUrl = `https://omahatreecare.com${location.pathname}`; // BUILD URL
 
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <Head prioritizeSeoTags>
-        {/* Standard SEO */}
-        <title>{pageTitle}</title>
-        <meta name="description" content={data.meta_desc} />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={canonicalUrl} />
+    return (
+        <div className="bg-slate-50 min-h-screen">
+            <Head>
+                <title>{service.title} in Omaha | {CONTACT.businessName}</title>
+                <meta name="description" content={`Professional ${service.title.toLowerCase()} services in Omaha. Physics-based assessment and safe execution. Get a free estimate.`} />
 
-        {/* OpenGraph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={data.meta_desc} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={socialImage} />
-        <meta property="og:site_name" content={CONTACT.businessName} />
+                {/* ADD CANONICAL LINK */}
+                <link rel="canonical" href={canonicalUrl} />
+            </Head>
 
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={data.meta_desc} />
-        <meta name="twitter:image" content={socialImage} />
-      </Head>
-
-      {/* Navigation */}
-      <div className="bg-slate-900 border-b border-slate-800">
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center text-slate-400 hover:text-emerald-400 transition"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <header className="relative bg-slate-900 text-white pt-20 pb-20 overflow-hidden">
-        {/* Background image with overlay */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(/images/og-image.jpg)',
-            backgroundPosition: 'center 40%'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-900/90"></div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl">
-            {/* Service Type Badge */}
-            <div className="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-2 rounded-full font-bold mb-4 border border-emerald-500/30">
-              <Wrench className="w-4 h-4" />
-              Professional Tree Service
-            </div>
-
-            {/* Quick Info Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm ml-3 bg-[#52796f] text-white">
-              <Clock size={16} aria-hidden="true" />
-              <span>Free Quote • Fast Response</span>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              {data.hero_headline}
-            </h1>
-            <p className="text-xl text-slate-300 max-w-2xl mb-8">
-              {data.hero_sub}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a href={`tel:${CONTACT.phoneRaw}`} className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-8 rounded-lg text-center transition">
-                Call for Quote: {CONTACT.phone}
-              </a>
-              <Link to="/tools" className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-lg text-center transition backdrop-blur-sm">
-                Use Free Diagnostic Tool
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Pain & Solution Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* The Problem */}
-            <div className="bg-orange-50 border-l-4 border-orange-500 p-8 rounded-r-lg">
-              <div className="flex items-start gap-4">
-                <ShieldAlert className="w-8 h-8 text-orange-600 flex-shrink-0" />
-                <div>
-                  <h2 className="text-2xl font-bold text-slate-900 mb-2">The Problem</h2>
-                  <p className="text-slate-700 text-lg leading-relaxed">
-                    {data.pain_point}
-                  </p>
+            {/* ... rest of your component (Hero, Content, etc.) ... */}
+            {/* (Keep the rest of the file content exactly as you uploaded it) */}
+             <div className="bg-slate-900 text-white pt-32 pb-16">
+                <div className="container mx-auto px-6">
+                    <div className="max-w-4xl">
+                        <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-300 px-4 py-1 rounded-full text-sm font-semibold mb-6 border border-emerald-500/30">
+                            <Leaf size={14} /> Omaha Tree Services
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-extrabold mb-6">{service.title}</h1>
+                        <p className="text-xl text-slate-300 max-w-2xl">{service.description}</p>
+                    </div>
                 </div>
-              </div>
             </div>
-            {/* The Solution */}
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Our Solution</h2>
-              <p className="text-slate-600 text-lg mb-6">
-                {data.solution}
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-600" />
-                  <span className="font-semibold text-slate-800">{data.benefit_1}</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-600" />
-                  <span className="font-semibold text-slate-800">{data.benefit_2}</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-600" />
-                  <span className="font-semibold text-slate-800">{data.benefit_3}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Lead Capture */}
-      <section className="bg-slate-900 py-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Get a Free Estimate</h2>
-            <p className="text-slate-400">
-              Send us a photo or describe the issue. We'll get back to you fast.
-            </p>
-          </div>
-          <div className="max-w-xl mx-auto bg-slate-800 p-8 rounded-2xl border border-slate-700">
-            <ContactForm urgency="high" pageSource={serviceId} />
-          </div>
-        </div>
-      </section>
+            <section className="py-16 container mx-auto px-6">
+                <div className="grid lg:grid-cols-3 gap-12">
+                    <div className="lg:col-span-2 space-y-12">
+                        {/* Service Content */}
+                        <div className="prose prose-lg max-w-none text-slate-600">
+                           <p className="text-xl leading-relaxed text-slate-700 font-medium">
+                                {service.fullDescription}
+                           </p>
+                        </div>
 
-      {/* Schema.org structured data */}
-      <script type="application/ld+json">
-        {JSON.stringify([
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": CONTACT.siteUrl
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Services",
-                "item": `${CONTACT.siteUrl}/#services`
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": data.title,
-                "item": canonicalUrl
-              }
-            ]
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "serviceType": data.title,
-            "provider": {
-              "@type": "LocalBusiness",
-              "name": CONTACT.businessName,
-              "telephone": CONTACT.phone,
-              "email": CONTACT.email,
-              "url": CONTACT.siteUrl,
-              "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
-              "priceRange": "$$",
-              "areaServed": {
-                "@type": "City",
-                "name": "Omaha",
-                "addressRegion": "NE",
-                "addressCountry": "US"
-              }
-            },
-            "description": data.meta_desc,
-            "url": canonicalUrl
-          }
-        ])}
-      </script>
-    </div>
-  )
+                         {/* Benefits Grid */}
+                        <div className="grid md:grid-cols-2 gap-6">
+                            {service.benefits.map((benefit, index) => (
+                                <div key={index} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                                    <div className="bg-emerald-100 w-fit p-2 rounded-lg text-emerald-700 mb-4">
+                                        <CheckCircle2 size={24} />
+                                    </div>
+                                    <h3 className="font-bold text-slate-900 text-lg mb-2">{benefit.title}</h3>
+                                    <p className="text-slate-600">{benefit.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Process Section */}
+                         <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+                            <h2 className="text-2xl font-bold text-slate-900 mb-8">Our Process</h2>
+                            <div className="space-y-8">
+                                {service.process.map((step, index) => (
+                                    <div key={index} className="flex gap-4">
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold">
+                                            {index + 1}
+                                        </div>
+                                        <div>
+                                            <h3 className="font-bold text-slate-900 text-lg mb-2">{step.title}</h3>
+                                            <p className="text-slate-600">{step.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="lg:col-span-1">
+                        <div className="sticky top-8">
+                           <FastQuote />
+                            <div className="mt-8 bg-slate-200 rounded-xl p-6 text-center">
+                                <h3 className="font-bold text-slate-900 mb-2">Have questions?</h3>
+                                <p className="text-slate-600 mb-4 text-sm">Speak directly with an arborist, not a call center.</p>
+                                <a href={`tel:${CONTACT.phoneRaw}`} className="text-emerald-700 font-bold hover:underline">
+                                    {CONTACT.phone}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
 }
