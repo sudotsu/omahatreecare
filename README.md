@@ -103,6 +103,20 @@ npm run preview
 | `npm run build` | Build for production with SSG |
 | `npm run preview` | Preview production build locally |
 
+## GitHub Remote
+
+The local repository is now configured with a GitHub remote named `origin`:
+
+```
+https://github.com/omahatreecare/omahatreecare.git
+```
+
+If you need to point to a different GitHub repo, update it with:
+
+```bash
+git remote set-url origin <your-remote-url>
+```
+
 ## Available Tools
 
 ### 1. Species Identifier
