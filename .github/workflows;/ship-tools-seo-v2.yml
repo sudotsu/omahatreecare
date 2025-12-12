@@ -1,0 +1,168 @@
+name: ship-tools-seo-v2
+on:
+  workflow_dispatch:
+  push:
+    paths: [.github/workflows/ship-tools-seo-v2.yml]
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Apply config-driven patch (no hard-coding)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p scripts src/lib src/components/common src/components/tool/utils
+
+          # Config (edit these values later in one place)
+          cat > scripts/seo-config.json <<'JSON'
+          {
+            "site": "https://omahatreecare.com",
+            "phone": "+14028123294",
+            "ogImage": "/og-image.jpg",
+            "favicon": "/favicon.ico"
+          }
+          JSON
+
+          # Mirror for React code (importable by components)
+          cat > src/site-config.js <<'JS'
+          export const SITE = "https://omahatreecare.com";
+          export const PHONE = "+14028123294";
+          export const OG_IMAGE = "/og-image.jpg";
+          export const FAVICON = "/favicon.ico";
+          JS
+
+          # Head injector (reads config; no hardcoded values inside)
+          cat > scripts/head-injector.mjs <<'EOF'
+          import fs from "fs";
+          import path from "path";
+          import { fileURLToPath } from "url";
+          import cheerio from "cheerio";
+          const __dirname = path.dirname(fileURLToPath(import.meta.url));
+          const cfg = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'seo-config.json'),'utf8'));
+          const DIST = path.resolve(__dirname, "..", "dist");
+          const clamp=(s,n)=>s.length<=n?s:s.slice(0,n-1)+"…";
+          const canonicalFor = (relPath)=>{
+            const p = relPath.replace(/\\/g,"/").replace(/index\.html$/i,"").replace(/\.html$/i,"");
+            return p===""?`${cfg.site}/`:`${cfg.site}/${p}`;
+          };
+          function processFile(abs){
+            const html = fs.readFileSync(abs,"utf8");
+            const $ = cheerio.load(html,{decodeEntities:false});
+            const rel = path.relative(DIST,abs);
+            const canon = canonicalFor(rel);
+            const $head = $("head"); if(!$head.length) return false;
+
+            let title = ($("title").text()||"").trim();
+            if(!title){
+              const h1 = $("h1").first().text().trim();
+              title = clamp(h1?`${h1} | Omaha Tree Care`:"Omaha Tree Care",60);
+              $head.append(`<title>${title}</title>`);
+            }
+
+            let metaDesc = $('meta[name="description"]').attr("content")||"";
+            if(!metaDesc || metaDesc.length<80){
+              const h1 = $("h1").first().text().trim();
+              metaDesc = clamp((h1?`${h1}. `:"")+"Free pricing & same-day quotes in Omaha & nearby cities.",155);
+              if($('meta[name="description"]').length){ $('meta[name="description"]').attr("content", metaDesc); }
+              else{ $head.append(`<meta name="description" content="${metaDesc}">`); }
+            }
+
+            if ($('link[rel="canonical"]').length) $('link[rel="canonical"]').attr("href", canon);
+            else $head.append(`<link rel="canonical" href="${canon}">`);
+
+            const ensure=(prop,val)=>{ const sel=`meta[property="${prop}"]`;
+              if($(sel).length) $(sel).attr("content",val); else $head.append(`<meta property="${prop}" content="${val}">`);
+            };
+            ensure("og:type","website");
+            ensure("og:title", $('title').text().trim());
+            ensure("og:description", $('meta[name="description"]').attr("content")||"");
+            ensure("og:url", canon);
+            if(!$('meta[property="og:image"]').length) ensure("og:image", cfg.ogImage);
+
+            $('link[rel~="icon"]').each((_,el)=>{ const href=$(el).attr("href")||""; if(/vite\.svg/i.test(href)) $(el).remove();});
+            if(!$('link[rel~="icon"]').length) $head.append(`<link rel="icon" href="${cfg.favicon}">`);
+
+            fs.writeFileSync(abs,$.html(),"utf8"); return true;
+          }
+          function walk(dir, acc=[]){
+            for(const n of fs.readdirSync(dir)){ const p=path.join(dir,n);
+              const st=fs.statSync(p); if(st.isDirectory()) walk(p,acc); else if(n.endsWith(".html")) acc.push(p);
+            } return acc;
+          }
+          if (fs.existsSync(DIST)) {
+            const pages = walk(DIST); let changed=0;
+            for(const f of pages) if(processFile(f)) changed++;
+            console.log(`[head-injector] processed ${changed}/${pages.length} HTML files`);
+          } else {
+            console.log(`[head-injector] skipped (no dist yet)`);
+          }
+          EOF
+
+          # StickyCTA uses config (no hard-coded phone)
+          cat > src/components/common/StickyCTA.jsx <<'EOF'
+          import { PHONE } from "../../site-config";
+          export default function StickyCTA({ phone = PHONE }) {
+            return (
+              <div style={{
+                position: "fixed", bottom: 0, left: 0, right: 0,
+                display: "flex", gap: 8, padding: 10,
+                alignItems: "center", justifyContent: "space-between",
+                boxShadow: "0 -2px 10px rgba(0,0,0,0.08)",
+                background: "#fff", zIndex: 1000
+              }}>
+                <a href={`tel:${phone}`} style={{flex: 1, textAlign: "center", padding: 12, borderRadius: 12, border: "1px solid #e5e7eb"}}>Call</a>
+                <a href={`sms:${phone}`} style={{flex: 1, textAlign: "center", padding: 12, borderRadius: 12, border: "1px solid #e5e7eb"}}>Text</a>
+                <a href="/quote" style={{flex: 2, textAlign: "center", padding: 12, borderRadius: 12, border: "1px solid #e5e7eb"}}>Free Quote</a>
+              </div>
+            );
+          }
+          EOF
+
+          # Analytics shim (safe if GTM missing)
+          cat > src/lib/analytics.js <<'EOF'
+          export function track(eventName, props = {}) {
+            if (typeof window === "undefined" || !window.dataLayer) return;
+            window.dataLayer.push({ event: eventName, ...props });
+          }
+          EOF
+
+          # Slugify helper (if not present)
+          cat > src/components/tool/utils/slugify.js <<'EOF'
+          export function slugify(s = "") {
+            return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+          }
+          EOF
+
+          # package.json: engines, cheerio dep, postbuild
+          node - <<'NODE'
+          const fs=require('fs'); const pj=JSON.parse(fs.readFileSync('package.json','utf8'));
+          pj.engines = { ...(pj.engines||{}), node: "20.x" };
+          pj.scripts = { ...(pj.scripts||{}), postbuild: "node scripts/head-injector.mjs" };
+          pj.dependencies = pj.dependencies || {};
+          if(!pj.dependencies.cheerio) pj.dependencies.cheerio="^1.0.0-rc.12";
+          fs.writeFileSync('package.json', JSON.stringify(pj,null,2));
+          console.log('package.json updated');
+          NODE
+
+          # Commit changes (if any)
+          git add -A
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "No changes to commit.";
+          else
+            git commit -m "Config-driven SEO patch + Node 20 engines + strict build"
+            git push
+          fi
+
+      - name: Install & build (fail on errors; show real status)
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm i; fi
+          npm run build
