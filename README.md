@@ -89,11 +89,58 @@ npm run build
 
 This creates an optimized production build with pre-rendered HTML in the `dist/` folder.
 
+After the build finishes, a **head injector** script automatically runs to normalize SEO tags across every generated HTML file:
+- Rewrites/creates canonical URLs for each page
+- Synthesizes meta descriptions (min 80 chars, max 155) when missing or too short
+- Enforces Open Graph tags (title/description/url/image) using the final canonical
+- Cleans up any `vite.svg` favicon references and ensures `/favicon.ico` is present
+- Leaves existing JSON-LD `<script type="application/ld+json">` blocks untouched
+
 ### 4. Preview Production Build
 
 ```bash
 npm run preview
 ```
+
+### 5. Postbuild Head Injector (manual run)
+
+The head injector can be invoked independently when you need to re-process built HTML without rebuilding assets:
+
+```bash
+node scripts/head-injector.mjs
+```
+
+**Inputs & assumptions:**
+- Processes all `*.html` under `./dist`
+- Uses `https://omahatreecare.com` as the site base for canonical URLs
+- Idempotent: running multiple times will not duplicate tags
+
+### Head Injector Details & Smoke Tests
+
+The injector is designed to be safe to rerun and to clean up any pre-existing head issues. Every `npm run build` automatically triggers the script and logs a short summary to the console:
+
+- Total HTML pages processed
+- Pages missing descriptions after processing (expected: 0)
+- Remaining references to `vite.svg` (expected: 0)
+
+**What the injector enforces:**
+- Canonical URLs per page (root `/`, `/tools`, and nested paths)
+- Meta descriptions (synthesized from the first `<h1>` when missing/short and clamped to 155 chars)
+- Open Graph tags (`og:type`, `og:title`, `og:description`, `og:url`, `og:image`)
+- Favicon hygiene (removes `vite.svg`, guarantees `/favicon.ico` exists)
+- Leaves existing `<script type="application/ld+json">` blocks untouched
+
+**Smoke test after a build:**
+1. Run `npm run build` (injector runs automatically).
+2. Inspect a few HTML outputs in `dist/` (e.g., `dist/index.html`, `dist/tools.html`, `dist/services/<slug>.html`). Confirm:
+   - A single canonical link exists with the expected URL.
+   - There is exactly one meta description with a meaningful 80–155 character summary.
+   - OG tags exist for title/description/url/image and match the canonical/description values.
+   - Favicon link points to `/favicon.ico` and no `vite.svg` reference appears in network logs.
+   - JSON-LD blocks (e.g., on `/tools`) remain unchanged.
+3. If you spot duplicate meta tags in older HTML outputs, rerun the injector manually (`node scripts/head-injector.mjs`); it replaces existing canonical/description/OG entries rather than adding new ones.
+
+**Tip:** When adding new static pages, no extra configuration is required—the injector derives canonicals and OG metadata from filenames and titles. For unusual routes or custom OG images, adjust the script selectors in `scripts/head-injector.mjs`.
 
 ## npm Scripts
 
@@ -103,19 +150,29 @@ npm run preview
 | `npm run build` | Build for production with SSG |
 | `npm run preview` | Preview production build locally |
 
-## GitHub Remote
+## Contributing
 
-The local repository is now configured with a GitHub remote named `origin`:
+- Before opening a pull request, run `npm run build` to ensure the postbuild head injector completes successfully and produces clean SEO tags in `dist/`.
+- Include a brief summary of pages checked (root, tools, and at least one nested page) so reviewers know the injector output was spot-checked.
+- Commit your changes and create a PR using the provided workflow so the automated head normalization runs in CI contexts too.
 
-```
-https://github.com/omahatreecare/omahatreecare.git
-```
+### Pull request checklist
 
-If you need to point to a different GitHub repo, update it with:
+- Confirm your branch is up to date with `work` (or the target release branch) and that `git status` is clean before pushing.
+- Write a concise summary that mentions any pages you spot-checked after the head injector ran so reviewers understand coverage.
+- Include the command log for the build (showing the injector summary) in the PR description under a **Testing** section.
+- If the GitHub UI is unavailable, you can still open a PR from the CLI with your preferred tool; the repo assumes feature work branches off `work` and targets `work` unless otherwise noted.
 
-```bash
-git remote set-url origin <your-remote-url>
-```
+### Creating a PR from the CLI (when the UI is unavailable)
+
+When the GitHub UI is down or inaccessible, you can still publish your branch and open a PR via the CLI:
+
+1. Push your branch: `git push origin <branch-name>`
+2. Use your preferred tool to open the PR (examples):
+   - GitHub CLI: `gh pr create --base work --head <branch-name> --fill`
+   - Hub: `hub pull-request -b work -h <branch-name>`
+3. Include the build log (showing the postbuild head injector summary) and note which pages you spot-checked in the PR description.
+4. Share the PR link in your update so reviewers can access it even if the UI was unstable when you created it.
 
 ## Available Tools
 
@@ -142,79 +199,7 @@ Diagnoses tree ailments including:
 Helps homeowners decide what they can safely do themselves vs. when to call a professional arborist.
 
 ### 5. Cost Estimator
-Provides realistic price ranges for:
-- Tree removal
-- Pruning/trimming
-- Stump grinding
-- Emergency services
-- Treatment programs
-
-## Features
-
-### Dark Mode
-- Toggle between light and dark themes
-- Preference saved to localStorage
-- Synced across all tool screens
-- SSR-safe (hydration mismatch protection)
-
-### SEO Optimization
-- Pre-rendered static HTML for both routes
-- Comprehensive meta tags and OpenGraph data
-- Structured data (LocalBusiness, FAQPage, HowTo schemas)
-- Omaha-specific keywords and content
-- Google Fonts preloaded
-
-### Performance
-- Lazy-loaded components
-- Optimized Tailwind CSS (purged in production)
-- Minimal JavaScript bundle
-- Static HTML for instant page loads
-
-**Expected Lighthouse Scores:**
-- Performance: 95+
-- Accessibility: 95+
-- Best Practices: 100
-- SEO: 100
-
-## Deployment
-
-### Deploying to Vercel (Recommended)
-
-**Option 1: Vercel CLI**
-```bash
-npm install -g vercel
-vercel login
-vercel
-```
-
-**Option 2: GitHub Integration**
-1. Push code to GitHub
-2. Import project in Vercel dashboard
-3. Vercel auto-detects Vite configuration
-4. Click "Deploy"
-
-### Custom Domain Setup
-
-In Vercel dashboard:
-1. Go to Project Settings > Domains
-2. Add `omahatreecare.com` and `www.omahatreecare.com`
-3. Update DNS records at your domain registrar:
-   - Add CNAME record: `@` → `cname.vercel-dns.com`
-   - Add CNAME record: `www` → `cname.vercel-dns.com`
-
-DNS propagation takes 1-24 hours.
-
-## Configuration
-
-### Vite Config (`vite.config.js`)
-
-```javascript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  plugins: [react()],
-})
+@@ -204,50 +275,55 @@ export default defineConfig({
 ```
 
 **Note:** ViteReactSSG is invoked via CLI (`vite-react-ssg dev/build`), not as a plugin.
@@ -240,6 +225,11 @@ To add more pre-rendered routes, add them to this array.
 
 ## Development Notes
 
+### Pushing branches to GitHub via CLI
+- Add the remote without the trailing `.git` suffix: `git remote add work https://github.com/sudotsu/OmahaTreeCare`
+- Push the current branch (example: `work`) to the shared branch name: `git push work HEAD:codex/locate-pr-link-or-commit-sha`
+- If credentials are requested, ensure your GitHub token/SSH key is available in the environment before retrying.
+
 ### React Router Version
 This project uses **React Router v6** (not v7) for compatibility with vite-react-ssg. Do not upgrade to v7 without migrating away from vite-react-ssg.
 
@@ -257,7 +247,7 @@ Dark mode uses Tailwind's `dark:` prefix with class-based switching:
 
 ## Recent Changes
 
-### December 2024 - SSG Implementation
+### December 2025 - SSG Implementation
 - ✅ Migrated from custom HTML injection to proper SSG
 - ✅ Implemented vite-react-ssg for pre-rendering
 - ✅ Converted to React Router v6 data API
