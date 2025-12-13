@@ -1,120 +1,129 @@
-import { ArrowRight, Calculator, Leaf, ShieldAlert } from 'lucide-react';
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import { Head } from 'vite-react-ssg';
-import TreeDiagnostic from '../components/tool/TreeDiagnostic'; // Ensure this path matches your file structure
-import { CONTACT } from '../constants';
+import { TreeDiagnostic } from '../components/tool/TreeDiagnostic';
+import { CONTACT, SERVICE_AREAS } from '../constants';
 
-export default function ToolsPage() {
-  const [activeTool, setActiveTool] = useState(null); // 'diagnostic', 'calculator', etc.
-  const location = useLocation();
-  const canonicalUrl = `https://omahatreecare.com${location.pathname}`;
-
-  // --- SUB-COMPONENT: The Tool Cards Dashboard ---
-  const ToolsDashboard = () => (
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">
-          Free Tree Care Tools
-        </h1>
-        <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-          Professional-grade assessments you can use at home. Select a tool below to get started.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {/* Card 1: Tree Risk Diagnostic (The Working Tool) */}
-        <button
-          onClick={() => setActiveTool('diagnostic')}
-          className="group text-left bg-white rounded-2xl p-8 shadow-sm border-2 border-slate-100 hover:border-emerald-500 hover:shadow-xl transition-all duration-300"
-        >
-          <div className="bg-emerald-100 w-14 h-14 rounded-xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform">
-            <ShieldAlert size={32} />
-          </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-emerald-700">
-            Risk Diagnostic
-          </h3>
-          <p className="text-slate-600 mb-6 leading-relaxed">
-            Worried about a leaning tree or storm damage? Answer 4 quick questions to assess the safety risk.
-          </p>
-          <div className="flex items-center font-bold text-emerald-600 group-hover:gap-2 transition-all">
-            Start Assessment <ArrowRight size={20} className="ml-2" />
-          </div>
-        </button>
-
-        {/* Card 2: Placeholder (Coming Soon) */}
-        <div className="bg-slate-50 rounded-2xl p-8 border-2 border-dashed border-slate-200 opacity-75">
-          <div className="bg-slate-200 w-14 h-14 rounded-xl flex items-center justify-center text-slate-400 mb-6">
-            <Calculator size={32} />
-          </div>
-          <h3 className="text-xl font-bold text-slate-400 mb-3">
-            Removal Cost Calc
-          </h3>
-          <p className="text-slate-500 mb-4 text-sm">
-            Estimate the cost of tree removal based on height, diameter, and location.
-          </p>
-          <span className="inline-block bg-slate-200 text-slate-500 text-xs font-bold px-3 py-1 rounded-full">
-            COMING SOON
-          </span>
-        </div>
-
-        {/* Card 3: Placeholder (Coming Soon) */}
-        <div className="bg-slate-50 rounded-2xl p-8 border-2 border-dashed border-slate-200 opacity-75">
-          <div className="bg-slate-200 w-14 h-14 rounded-xl flex items-center justify-center text-slate-400 mb-6">
-            <Leaf size={32} />
-          </div>
-          <h3 className="text-xl font-bold text-slate-400 mb-3">
-            Species Identifier
-          </h3>
-          <p className="text-slate-500 mb-4 text-sm">
-            Upload a photo of a leaf to identify the tree species and common local diseases.
-          </p>
-          <span className="inline-block bg-slate-200 text-slate-500 text-xs font-bold px-3 py-1 rounded-full">
-            COMING SOON
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+const ToolsPage = () => {
+  const pageTitle = 'Tree Health Diagnostic Tool | Midwest Roots';
+  const metaDescription = 'Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees.';
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-24 pb-20">
+    <div className="min-h-screen">
       <Head>
-        <title>Free Tree Care Tools | {CONTACT.businessName}</title>
-        <meta name="description" content="Use our free tree risk diagnostic and cost estimation tools. Expert advice for Omaha homeowners." />
-        <link rel="canonical" href={canonicalUrl} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={`${CONTACT.siteUrl}/tools`} />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${CONTACT.siteUrl}/tools`} />
+        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+        <meta property="og:site_name" content={CONTACT.businessName} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+
+        {/* LocalBusiness Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "@id": `${CONTACT.siteUrl}/#organization`,
+            "name": CONTACT.businessName,
+            "description": "Professional tree care services and free diagnostic tools for Omaha homeowners",
+            "image": [`${CONTACT.siteUrl}/images/og-image.jpg`],
+            "url": CONTACT.siteUrl,
+            "telephone": CONTACT.phone,
+            "email": CONTACT.email,
+            "priceRange": "$$",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": CONTACT.streetAddress,
+              "addressLocality": CONTACT.addressLocality,
+              "addressRegion": CONTACT.addressRegion,
+              "postalCode": CONTACT.postalCode,
+              "addressCountry": CONTACT.addressCountry
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": CONTACT.latitude,
+              "longitude": CONTACT.longitude
+            },
+            "areaServed": SERVICE_AREAS.map(area => ({
+              "@type": area.type,
+              "name": area.name,
+              "sameAs": area.sameAs,
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": area.latitude,
+                "longitude": area.longitude
+              }
+            })),
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+              "opens": "08:00",
+              "closes": "18:00"
+            },
+            "sameAs": CONTACT.socialProfiles
+          })}
+        </script>
+
+        {/* BreadcrumbList Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": CONTACT.siteUrl
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Tools",
+                "item": `${CONTACT.siteUrl}/tools`
+              }
+            ]
+          })}
+        </script>
+
+        {/* SoftwareApplication Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Midwest Roots Diagnostic Tool",
+            "operatingSystem": "Web Browser",
+            "applicationCategory": "UtilitiesApplication",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "description": "A web-based diagnostic tool for Omaha homeowners to assess tree health, storm risk, and potential removal costs.",
+            "featureList": "Risk Score Calculation, Lean Angle Assessment, Cost Estimator",
+            "author": {
+              "@type": "LocalBusiness",
+              "name": CONTACT.businessName
+            }
+          })}
+        </script>
       </Head>
 
-      <main className="container mx-auto px-4">
-        {/* LOGIC:
-            If activeTool is 'diagnostic', show the TreeDiagnostic component.
-            Otherwise, show the ToolsDashboard.
-        */}
-        {activeTool === 'diagnostic' ? (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <button
-              onClick={() => setActiveTool(null)}
-              className="mb-8 flex items-center text-slate-500 hover:text-emerald-600 font-medium transition-colors"
-            >
-              <ArrowRight className="rotate-180 mr-2" size={20} />
-              Back to Tools Dashboard
-            </button>
-
-            <div className="max-w-4xl mx-auto text-center mb-10">
-               <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-                   Tree Risk Assessment
-               </h1>
-               <p className="text-lg text-slate-600">
-                   A 60-second check based on ISA safety standards.
-               </p>
-            </div>
-
-            <TreeDiagnostic />
-          </div>
-        ) : (
-          <ToolsDashboard />
-        )}
-      </main>
+      {/* This renders your actual interactive tool */}
+      <TreeDiagnostic />
     </div>
   );
-}
+};
+
+export default ToolsPage;
