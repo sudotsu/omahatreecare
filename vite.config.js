@@ -15,7 +15,6 @@ const services = [
   'tree-removal',
   'tree-trimming',
   'stump-grinding',
-  'emergency-tree-service', // Matches the fixed CostEstimator key
   'commercial-tree-services',
   'plant-health-care'
 ];
