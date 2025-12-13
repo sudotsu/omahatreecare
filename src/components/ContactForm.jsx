@@ -10,10 +10,10 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
   });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
 
-  // Pull credentials from env vars or use placeholders (so build doesn't crash)
-  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_placeholder';
-  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_placeholder';
-  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'key_placeholder';
+  // These automatically pull from your .env file if it exists
+  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,12 +30,13 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'unknown'
     };
 
     try {
-      // Only try to send if we have real keys, otherwise simulate success for dev/build
-      if (PUBLIC_KEY !== 'key_placeholder') {
+      // SAFE CHECK: Only attempt to send if keys are present
+      if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
         await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
       } else {
-        console.log('Simulating EmailJS send (no keys configured):', templateParams);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Fallback for build/dev mode so it doesn't crash
+        console.warn('⚠️ EmailJS keys missing. Form submission simulated:', templateParams);
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Fake delay
       }
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', message: '' });

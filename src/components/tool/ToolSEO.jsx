@@ -1,4 +1,3 @@
-
 // src/components/tool/ToolSEO.jsx
 // Drop-in SEO + JSON-LD for omahatreecare.com/tools
 import React from "react";
@@ -78,7 +77,8 @@ function buildLocalBusinessLD(offerCatalog) {
     },
     // Area served – mapped from SERVICE_AREAS
     areaServed: SERVICE_AREAS.map(p => ({
-      "@type": p.type === "City" ? "City" ? "City" : "Place",
+      // FIXED LINE BELOW: Removed the extra ' ? "City"' stutter
+      "@type": p.type === "City" ? "City" : "Place",
       name: p.name,
       geo: { "@type": "GeoCoordinates", latitude: p.latitude, longitude: p.longitude },
       sameAs: p.sameAs
