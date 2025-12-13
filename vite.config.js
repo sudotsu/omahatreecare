@@ -49,17 +49,19 @@ export default defineConfig({
   plugins: [
     react(),
     // NEW: Generates sitemap.xml using the Master List
-    Sitemap({
-      hostname: 'https://omahatreecare.com',
-      dynamicRoutes: allRoutes,
-      exclude: ['/404'], // Explicitly exclude 404 from sitemap
-      readable: true,
-      robots: [{
-        userAgent: '*',
-        allow: '/',
-        disallow: ['/404']
-      }]
-    })
+Sitemap({
+  hostname: 'https://omahatreecare.com',
+  dynamicRoutes: allRoutes,
+  exclude: ['/404'],
+  readable: true,
+
+  // You already have a robots.txt file, so don't let the plugin generate one:
+  generateRobotsTxt: false,
+
+  // (Optional but explicit)
+  outDir: 'dist'
+})
+
   ],
   // EXISTING: Generates HTML files using the Master List
   ssgOptions: {
