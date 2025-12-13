@@ -1,15 +1,28 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom'; // IMPORT THIS
+import { useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
-import FAQAccordion from '../components/FAQAccordion';
-import Features from '../components/Features';
-import Hero from '../components/Hero';
-import SocialProof from '../components/SocialProof';
+
+// --- LAYOUT & UTILS ---
+import Footer from '../components/Footer';
+import Navigation from '../components/Navigation';
 import { CONTACT } from '../constants';
+import { useScrollPosition } from '../hooks/useScrollPosition';
+
+// --- PAGE SECTIONS ---
+import Credibility from '../components/Credibility'; // <-- ADDED (Was missing)
+import FAQAccordion from '../components/FAQAccordion';
+import Hero from '../components/Hero';
+import HowItWorks from '../components/HowItWorks';
+import LocalOrdinances from '../components/LocalOrdinances';
+import ServiceAreas from '../components/ServiceAreas';
+import SocialProof from '../components/SocialProof';
+import WhyDifferent from '../components/WhyDifferent';
+import WinterTriage from '../components/WinterTriage';
 
 export default function HomePage() {
-  const location = useLocation(); // GET LOCATION
-  const canonicalUrl = `https://omahatreecare.com${location.pathname}`; // BUILD URL
+  const location = useLocation();
+  const canonicalUrl = `https://omahatreecare.com${location.pathname}`;
+  const scrolled = useScrollPosition();
 
   return (
     <div className="bg-slate-50">
@@ -17,7 +30,6 @@ export default function HomePage() {
         <title>Omaha Tree Service | Winter Defense & Tree Removal | {CONTACT.businessName}</title>
         <meta name="description" content={`Expert tree risk assessment and removal in Omaha. We help homeowners make data-backed decisions about their trees. Call ${CONTACT.phone}.`} />
 
-        {/* ADD CANONICAL LINK */}
         <link rel="canonical" href={canonicalUrl} />
 
         {/* Schema for Home Page ONLY */}
@@ -48,12 +60,29 @@ export default function HomePage() {
         </script>
       </Head>
 
+      {/* --- NAVIGATION --- */}
+      <Navigation scrolled={scrolled} />
+
       <main>
         <Hero />
         <SocialProof />
-        <Features />
+        <Credibility /> {/* <-- ADDED: Fits perfectly after social proof */}
+
+        <WinterTriage />
+        <HowItWorks />
+        <WhyDifferent />
+
+        {/* Omaha Specific Rules */}
+        <section className="container mx-auto px-4 py-12">
+           <LocalOrdinances />
+        </section>
+
+        <ServiceAreas />
         <FAQAccordion />
       </main>
+
+      {/* --- FOOTER --- */}
+      <Footer />
     </div>
   );
 }

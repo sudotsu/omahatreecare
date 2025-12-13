@@ -1,20 +1,19 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
-import { useLocation } from 'react-router-dom'; // IMPORT
-import TreeDiagnostic from '../components/tools/TreeDiagnostic';
+// --- FIXED IMPORT PATH (tool vs tools) ---
+import TreeDiagnostic from '../components/tool/TreeDiagnostic';
 import { CONTACT } from '../constants';
 
 export default function ToolsPage() {
-  const location = useLocation(); // GET LOCATION
-  const canonicalUrl = `https://omahatreecare.com${location.pathname}`; // BUILD URL
+  const location = useLocation();
+  const canonicalUrl = `https://omahatreecare.com${location.pathname}`;
 
   return (
     <div className="bg-slate-50 min-h-screen pt-20">
       <Head>
         <title>Free Tree Risk Diagnostic Tool | {CONTACT.businessName}</title>
         <meta name="description" content="Assess your tree's storm risk in 60 seconds. Free diagnostic tool for Omaha homeowners based on ISA risk assessment standards." />
-
-        {/* ADD CANONICAL */}
         <link rel="canonical" href={canonicalUrl} />
       </Head>
 
