@@ -26,14 +26,14 @@ const Navigation = ({ scrolled }) => {
     >
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
         {/* Logo/Brand */}
-        <div className="flex flex-col">
+        <Link to="/" className="flex flex-col">
           <span className="font-bold text-xl leading-tight" style={{ color: '#3d3027' }}>
             Omaha Tree Care
           </span>
           <span className="text-xs font-medium tracking-wide" style={{ color: '#8b8175' }}>
-            Tools & Resources
+            Midwest Roots Tree Services
           </span>
-        </div>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6 h-full">
@@ -52,10 +52,7 @@ const Navigation = ({ scrolled }) => {
             </button>
 
             {isServicesOpen && (
-              /* THE FIX: Outer div uses pt-2 (Padding) to create an invisible bridge */
-              /* This fills the "gap" so the mouse never leaves the hover area */
               <div className="absolute top-full left-0 pt-2 w-56">
-                {/* Inner div handles the actual Visuals (Border, Background, Shadow) */}
                 <div
                   className="rounded-lg shadow-lg py-2"
                   style={{ backgroundColor: '#f8f6f1', border: `1px solid ${COLORS.primary}` }}
@@ -82,13 +79,23 @@ const Navigation = ({ scrolled }) => {
           >
             Free Tool
           </Link>
-          <a
-            href={`tel:${CONTACT.phoneRaw}`}
-            className="font-semibold px-5 py-2 rounded-lg transition-all transform hover:-translate-y-0.5"
+
+          {/* FIXED: Uses your exact phrasing */}
+          <Link
+            to="/contact"
+            className="font-bold text-sm px-5 py-2 rounded-lg transition-all hover:-translate-y-0.5"
             style={{
               backgroundColor: COLORS.primary,
               color: '#ffffff'
             }}
+          >
+            Get a Quote in 24 Hours
+          </Link>
+
+          <a
+            href={`tel:${CONTACT.phoneRaw}`}
+            className="font-medium text-sm transition-colors hover:opacity-70"
+            style={{ color: COLORS.primary }}
           >
             {CONTACT.phone}
           </a>
@@ -112,7 +119,6 @@ const Navigation = ({ scrolled }) => {
           className="md:hidden absolute top-full left-0 w-full shadow-lg p-6 flex flex-col space-y-4"
           style={{ backgroundColor: '#f8f6f1' }}
         >
-          {/* Services in Mobile */}
           <div>
             <div className="font-bold text-sm mb-2" style={{ color: COLORS.text }}>Services</div>
             <div className="flex flex-col space-y-2 pl-4">
@@ -138,6 +144,17 @@ const Navigation = ({ scrolled }) => {
           >
             Free Tool
           </Link>
+
+          {/* FIXED Mobile Link */}
+          <Link
+             to="/contact"
+             className="font-bold text-lg py-2"
+             onClick={toggleMenu}
+             style={{ color: COLORS.primary }}
+          >
+             Get a Quote in 24 Hours
+          </Link>
+
           <a
             href={`tel:${CONTACT.phoneRaw}`}
             className="font-semibold py-3 rounded-lg text-center"

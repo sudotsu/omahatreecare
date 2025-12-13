@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import ContactForm from '../components/ContactForm'
+import FAQAccordion from '../components/FAQAccordion'; // <-- ADDED
+import Footer from '../components/Footer'; // <-- ADDED
 import { BUSINESS_HOURS, CONTACT, TRUST_SIGNALS } from '../constants'
 import neighborhoodData from '../data/neighborhoodData.json'
 
@@ -21,6 +23,7 @@ export default function LocationTemplate() {
 
   const cityName = formatName(city)
   const neighborhoodName = formatName(neighborhood)
+  const locationDisplayName = neighborhoodName || cityName;
 
   const data = neighborhoodData[neighborhood] || {
     vibe: "Professional Tree Care",
@@ -31,19 +34,21 @@ export default function LocationTemplate() {
     geo: { lat: 41.2565, lng: -95.9345 }
   }
 
-  const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Services`
-  const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
-  const canonicalUrl = `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
-  // Social Image: Uses the city-specific image
+  // FIXED: Removed "Physics-Based"
+  const pageTitle = `Tree Service ${locationDisplayName} NE | Midwest Roots`
+  const metaDescription = `Expert tree service in ${locationDisplayName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
+  const canonicalUrl = neighborhood
+    ? `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
+    : `${CONTACT.siteUrl}/locations/${city}`
+
   const socialImage = `${CONTACT.siteUrl}/images/${cityName}-Nebraska.webp`
 
-  // Core Services List for Internal Linking
   const localServices = [
     {
       id: 'tree-removal',
-      name: `Tree Removal in ${neighborhoodName}`,
+      name: `Tree Removal`,
       icon: Wrench,
-      desc: `Safe removal of hazardous trees and overhanging limbs in ${neighborhoodName}.`
+      desc: `Safe removal of hazardous trees and overhanging limbs in ${locationDisplayName}.`
     },
     {
       id: 'tree-trimming',
@@ -68,13 +73,13 @@ export default function LocationTemplate() {
   useEffect(() => {
     if (window.gtag) {
       window.gtag('event', 'page_view', {
-        page_title: `${neighborhoodName} ${cityName} Tree Care`,
+        page_title: `${locationDisplayName} Tree Care`,
         page_location: window.location.href,
         city: cityName,
         neighborhood: neighborhoodName
       })
     }
-  }, [city, neighborhood, cityName, neighborhoodName])
+  }, [city, neighborhood, cityName, neighborhoodName, locationDisplayName])
 
   const handlePhoneClick = () => {
     if (window.gtag) {
@@ -111,11 +116,11 @@ export default function LocationTemplate() {
       <div className="bg-slate-800 border-b border-slate-700">
         <div className="container mx-auto px-6 py-4">
           <Link
-            to={`/locations/${city}`}
+            to={neighborhood ? `/locations/${city}` : '/'}
             className="inline-flex items-center text-slate-300 hover:text-white transition"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to {cityName}
+            Back to {neighborhood ? cityName : 'Home'}
           </Link>
         </div>
       </div>
@@ -133,16 +138,17 @@ export default function LocationTemplate() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full mb-6 font-semibold">
             <MapPin className="w-5 h-5" />
-            Serving {neighborhoodName}, {cityName}
+            Serving {locationDisplayName}, {cityName}
           </div>
 
+          {/* FIXED: Replaced "Physics-Based" with "Specialized" */}
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Tree Care in {neighborhoodName}<br />
-            <span className="text-emerald-400">{cityName}, Nebraska</span>
+            Specialized Tree Care in <br />
+            <span className="text-emerald-400">{locationDisplayName}, NE</span>
           </h1>
 
           <p className="text-xl text-slate-300 mb-8 max-w-2xl">
-            Specialized tree care for {neighborhoodName} homeowners. We handle {data.dominant_trees} and understand the unique challenges of {data.vibe.toLowerCase()} neighborhoods.
+            We don't just "cut trees." We provide structural risk assessments and hazardous removals specifically for {locationDisplayName}'s mature canopy.
           </p>
 
           <div className="grid lg:grid-cols-2 gap-6 max-w-6xl">
@@ -155,7 +161,7 @@ export default function LocationTemplate() {
                       Call or Text Andrew
                     </h2>
                     <p className="text-slate-300 text-lg">
-                      Local {neighborhoodName} tree service
+                      Local {locationDisplayName} tree service
                     </p>
                   </div>
                 </div>
@@ -169,7 +175,7 @@ export default function LocationTemplate() {
                 </a>
 
                 <p className="text-sm text-slate-400">
-                  <strong className="text-slate-300">Serving {neighborhoodName} since 2024.</strong> {BUSINESS_HOURS.display}.
+                  <strong className="text-slate-300">Serving {locationDisplayName} since 2024.</strong> {BUSINESS_HOURS.display}.
                 </p>
               </div>
 
@@ -215,13 +221,13 @@ export default function LocationTemplate() {
               <div className="flex items-center gap-3 mb-6">
                 <Leaf className="w-8 h-8 text-emerald-400" />
                 <h2 className="text-3xl font-bold text-white">
-                  Why {neighborhoodName} is Unique
+                  Why {locationDisplayName} is Unique
                 </h2>
               </div>
 
               <div className="space-y-6 text-slate-200">
                 <p className="text-lg leading-relaxed">
-                  Homeowners in <strong className="text-white">{neighborhoodName}</strong> face unique challenges.
+                  Homeowners in <strong className="text-white">{locationDisplayName}</strong> face unique challenges.
                   The area is dominated by <strong className="text-emerald-300">{data.dominant_trees}</strong>, which means we
                   frequently handle <strong className="text-white">{data.common_issues}</strong>.
                 </p>
@@ -242,7 +248,7 @@ export default function LocationTemplate() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">
-              Complete Tree Care for {neighborhoodName}
+              Complete Tree Care for {locationDisplayName}
             </h2>
             <p className="text-slate-400">
               Professional arboriculture services tailored to {cityName}'s climate.
@@ -272,66 +278,13 @@ export default function LocationTemplate() {
         </div>
       </section>
 
-      <script type="application/ld+json">
-        {JSON.stringify([
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": CONTACT.siteUrl
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Locations",
-                "item": `${CONTACT.siteUrl}/locations/${city}`
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": neighborhoodName,
-                "item": canonicalUrl
-              }
-            ]
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": `Midwest Roots Tree Services - ${neighborhoodName}`,
-            "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
-            "telephone": CONTACT.phone,
-            "email": CONTACT.email,
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": neighborhoodName,
-              "addressRegion": "NE",
-              "addressCountry": "US"
-            },
-            "geo": {
-              "@type": "GeoCoordinates",
-              "latitude": data.geo?.lat,
-              "longitude": data.geo?.lng
-            },
-            "areaServed": {
-              "@type": "Place",
-              "name": neighborhoodName,
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": data.geo?.lat,
-                "longitude": data.geo?.lng
-              }
-            },
-            "priceRange": "$$",
-            "openingHours": BUSINESS_HOURS.schedule,
-            "url": canonicalUrl,
-            "hasMap": `https://www.google.com/maps?q=${data.geo?.lat},${data.geo?.lng}`
-          }
-        ])}
-      </script>
+      {/* FIXED: Localized FAQs */}
+      <div className="bg-slate-900 pb-16">
+         <FAQAccordion locationName={locationDisplayName} />
+      </div>
+
+      {/* FIXED: Added Footer here */}
+      <Footer />
     </div>
   )
 }

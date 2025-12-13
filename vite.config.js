@@ -1,28 +1,27 @@
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
-import Pages from 'vite-plugin-pages';
-import generateSitemap from 'vite-ssg-sitemap';
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import Pages from 'vite-plugin-pages'
+import generateSitemap from 'vite-ssg-sitemap'
 
-// 1. DATA LISTS
+// City list used for SSG expansion
 const cities = [
   'omaha', 'millard', 'elkhorn', 'gretna', 'papillion',
   'bellevue', 'ralston', 'bennington', 'lavista',
   'chalco', 'valley', 'waterloo'
-];
+]
 
-// NOTE: These slugs must EXACTLY match the keys in CostEstimator.jsx
+// THESE MUST MATCH keys in CostEstimator.jsx
 const services = [
   'tree-removal',
   'tree-trimming',
   'stump-grinding',
-  'commercial-tree-services',
-  'plant-health-care'
-];
+  'emergency-tree-service'
+]
 
 export default defineConfig({
   plugins: [
     react(),
-    Pages(),
+    Pages()
   ],
   ssgOptions: {
     script: 'async',
@@ -31,11 +30,11 @@ export default defineConfig({
       generateSitemap({
         hostname: 'https://omahatreecare.com',
         readable: true,
-        outDir: 'dist',        // Explicit output directory
-        generateRobotsTxt: false // STOP it from overwriting your existing robots.txt
+        outDir: 'dist',
+        generateRobotsTxt: false
       })
     },
-    includedRoutes(paths, routes) {
+    includedRoutes() {
       const allRoutes = [
         '/',
         '/contact',
@@ -44,18 +43,13 @@ export default defineConfig({
         '/accessibility',
         ...cities,
         ...services
-      ];
+      ]
 
-      return allRoutes.flatMap(route => {
-        // A. Handle City Pages
-        if (cities.includes(route)) return `/locations/${route}`;
-
-        // B. Handle Service Pages (Critical Fix)
-        if (services.includes(route)) return `/services/${route}`;
-
-        // C. Standard Pages
-        return route;
-      });
+      return allRoutes.flatMap((route) => {
+        if (cities.includes(route)) return `/locations/${route}`
+        if (services.includes(route)) return `/services/${route}`
+        return route
+      })
     }
   }
 })
