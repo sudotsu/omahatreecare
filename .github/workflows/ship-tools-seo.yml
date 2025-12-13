@@ -120,9 +120,9 @@ function processFile(abs){
           const path = 'src/components/tool/screens/CostEstimator.jsx';
           if (fs.existsSync(path)) {
             let s = fs.readFileSync(path,'utf8');
-            if (!/export const services/.test(s)) s = s.replace(/const\s+services\s*=/, 'export const services =');
+            if (!s.includes('export const services')) s = s.replace(/const\s+services\s*=/, 'export const services =');
             if (!/from '\.\.\/utils\/slugify'/.test(s)) s = "import { slugify } from '../utils/slugify';\n" + s;
-            if (!/function getServiceBySlug/.test(s) && !/export function getServiceBySlug/.test(s)) {
+            if (!s.includes('export function getServiceBySlug') && !s.includes('function getServiceBySlug(slug)')) {
               s += "\nexport function getServiceBySlug(slug){ if(!slug) return null; return services.find(x => slugify(x.name) === String(slug).toLowerCase()) || null; }\n";
             }
             fs.writeFileSync(path,s);
