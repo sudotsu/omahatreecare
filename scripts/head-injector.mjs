@@ -173,4 +173,5 @@ async function main() {
 
 main().catch((err) => {
   console.error("[head-injector] Error:", err);
+  process.exit(1);
 });

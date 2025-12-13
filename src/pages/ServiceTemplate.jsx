@@ -141,7 +141,7 @@ export default function ServiceTemplate() {
         <div className="bg-slate-50 min-h-screen">
             <Head>
                 <title>{service.title} in Omaha | {CONTACT.businessName}</title>
-                <meta name="description" content={`Professional ${service.title.toLowerCase()} services in Omaha. Physics-based assessment and safe execution. Get a free estimate.`} />
+                <meta name="description" content={`Professional ${service.title.toLowerCase()} services in Omaha. Expert assessment and safe execution. Get a free estimate.`} />
                 <link rel="canonical" href={canonicalUrl} />
             </Head>
 

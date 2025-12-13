@@ -1,8 +1,7 @@
 import { AlertTriangle, ArrowRight, CheckCircle2, ShieldAlert, TreeDeciduous } from 'lucide-react';
 import React, { useState } from 'react';
 import { Head } from 'vite-react-ssg';
-// --- FIXED: Import ToolSEO manually (no CI injection) ---
-import ToolSEO from './ToolSEO';
+// REMOVED: import ToolSEO from './ToolSEO';
 
 const DiagnosticStep = ({ step, onAnswer, onBack, totalSteps, currentStepIndex }) => {
   return (
@@ -212,12 +211,37 @@ export default function TreeDiagnostic() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* --- FIXED: Added ToolSEO Component here --- */}
-      <ToolSEO toolName="diagnostic" />
+      {/* REMOVED: <ToolSEO /> */}
 
       <Head>
         <title>Free Tree Risk Diagnostic Tool | Omaha Tree Care</title>
-        <meta name="description" content="Assess your tree's storm risk in 60 seconds. Free diagnostic tool for Omaha homeowners based on ISA risk assessment standards." />
+
+        <meta
+          name="description"
+          content="Free tree risk diagnostic for Omaha-area homeowners. Answer a few questions and get an instant risk assessment plus next-step recommendations."
+        />
+
+        <link rel="canonical" href="https://omahatreecare.com/tools" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Free Tree Risk Diagnostic Tool | Omaha Tree Care" />
+        <meta
+          property="og:description"
+          content="Answer a few questions and get an instant tree-risk assessment plus next-step recommendations."
+        />
+        <meta property="og:url" content="https://omahatreecare.com/tools" />
+        <meta property="og:image" content="https://omahatreecare.com/og-image.jpg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Tree Risk Diagnostic Tool",
+            url: "https://omahatreecare.com/tools",
+            description:
+              "Free tree risk diagnostic for Omaha-area homeowners. Instant risk assessment plus recommendations."
+          })}
+        </script>
       </Head>
 
       <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 min-h-[600px] flex flex-col">
