@@ -22,68 +22,49 @@ jobs:
 
           mkdir -p scripts src/components/tool/utils src/components/common src/lib
 
-          # A) Postbuild head injector
-          cat > scripts/head-injector.mjs <<'EOF'
-          import fs from "fs";
-          import path from "path";
-          import { fileURLToPath } from "url";
-          import cheerio from "cheerio";
-          const __dirname = path.dirname(fileURLToPath(import.meta.url));
-          const DIST = path.resolve(__dirname, "..", "dist");
-          const SITE = "https://omahatreecare.com";
-          const clamp=(s,n)=>s.length<=n?s:s.slice(0,n-1)+"…";
-          const canonicalFor = (relPath)=>{
-            const p = relPath.replace(/\\/g,"/").replace(/index\.html$/i,"").replace(/\.html$/i,"");
-            return p===""?`${SITE}/`:`${SITE}/${p}`;
-          };
-          function processFile(abs){
-            const html = fs.readFileSync(abs,"utf8");
-            const $ = cheerio.load(html,{decodeEntities:false});
-            const rel = path.relative(DIST,abs);
-            const canon = canonicalFor(rel);
-            const $head = $("head"); if(!$head.length) return false;
-            // title
-            let title = ($("title").text()||"").trim();
-            if(!title){
-              const h1 = $("h1").first().text().trim();
-              title = clamp(h1?`${h1} | Omaha Tree Care`:"Omaha Tree Care",60);
-              $head.append(`<title>${title}</title>`);
-            }
-            // description
-            let metaDesc = $('meta[name="description"]').attr("content")||"";
-            if(!metaDesc || metaDesc.length<80){
-              const h1 = $("h1").first().text().trim();
-              metaDesc = clamp((h1?`${h1}. `:"")+"Free pricing & same-day quotes in Omaha & nearby cities.",155);
-              if($('meta[name="description"]').length){ $('meta[name="description"]').attr("content", metaDesc); }
-              else{ $head.append(`<meta name="description" content="${metaDesc}">`); }
-            }
-            // canonical
-            if ($('link[rel="canonical"]').length) $('link[rel="canonical"]').attr("href", canon);
-            else $head.append(`<link rel="canonical" href="${canon}">`);
-            // OG
-            const ensure=(prop,val)=>{ const sel=`meta[property="${prop}"]`;
-              if($(sel).length) $(sel).attr("content",val); else $head.append(`<meta property="${prop}" content="${val}">`);
-            };
-            ensure("og:type","website");
-            ensure("og:title", $('title').text().trim());
-            ensure("og:description", $('meta[name="description"]').attr("content")||"");
-            ensure("og:url", canon);
-            if(!$('meta[property="og:image"]').length) ensure("og:image","/og-image.jpg");
-            // favicon
-            $('link[rel~="icon"]').each((_,el)=>{ const href=$(el).attr("href")||""; if(/vite\.svg/i.test(href)) $(el).remove();});
-            if(!$('link[rel~="icon"]').length) $head.append('<link rel="icon" href="/favicon.ico">');
-            fs.writeFileSync(abs,$.html(),"utf8"); return true;
-          }
-          function walk(dir, acc=[]){ for(const n of fs.readdirSync(dir)){ const p=path.join(dir,n); const st=fs.statSync(p);
-            if(st.isDirectory()) walk(p,acc); else if(n.endsWith(".html")) acc.push(p);} return acc; }
-          if (fs.existsSync(DIST)) {
-            const pages = walk(DIST); let changed=0;
-            for(const f of pages) if(processFile(f)) changed++;
-            console.log(`[head-injector] processed ${changed}/${pages.length} HTML files`);
-          } else {
-            console.log(`[head-injector] skipped (no dist yet)`);
-          }
-          EOF
+function processFile(abs){
+  try {
+    const html = fs.readFileSync(abs,"utf8");
+    const $ = cheerio.load(html,{decodeEntities:false});
+    const rel = path.relative(DIST,abs);
+    const canon = canonicalFor(rel);
+    const $head = $("head"); if(!$head.length) return false;
+    // title
+    let title = ($("title").text()||"").trim();
+    if(!title){
+      const h1 = $("h1").first().text().trim();
+      title = clamp(h1?`${h1} | Omaha Tree Care`:"Omaha Tree Care",60);
+      $head.append(`<title>${title}</title>`);
+    }
+    // description
+    let metaDesc = $('meta[name="description"]').attr("content")||"";
+    if(!metaDesc || metaDesc.length<80){
+      const h1 = $("h1").first().text().trim();
+      metaDesc = clamp((h1?`${h1}. `:"")+"Free pricing & same-day quotes in Omaha & nearby cities.",155);
+      if($('meta[name="description"]').length){ $('meta[name="description"]').attr("content", metaDesc); }
+      else{ $head.append(`<meta name="description" content="${metaDesc}">`); }
+    }
+    // canonical
+    if ($('link[rel="canonical"]').length) $('link[rel="canonical"]').attr("href", canon);
+    else $head.append(`<link rel="canonical" href="${canon}">`);
+    // OG
+    const ensure=(prop,val)=>{ const sel=`meta[property="${prop}"]`;
+      if($(sel).length) $(sel).attr("content",val); else $head.append(`<meta property="${prop}" content="${val}">`);
+    };
+    ensure("og:type","website");
+    ensure("og:title", $('title').text().trim());
+    ensure("og:description", $('meta[name="description"]').attr("content")||"");
+    ensure("og:url", canon);
+    if(!$('meta[property="og:image"]').length) ensure("og:image","/og-image.jpg");
+    // favicon
+    $('link[rel~="icon"]').each((_,el)=>{ const href=$(el).attr("href")||""; if(/vite\.svg/i.test(href)) $(el).remove();});
+    if(!$('link[rel~="icon"]').length) $head.append('<link rel="icon" href="/favicon.ico">');
+    fs.writeFileSync(abs,$.html(),"utf8"); return true;
+  } catch (err) {
+    console.error(`[head-injector] Error processing ${abs}: ${err.message}`);
+    return false;
+  }
+}
 
           # B) Small libs/components
           cat > src/lib/analytics.js <<'EOF'
