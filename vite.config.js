@@ -1,76 +1,62 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import Sitemap from 'vite-plugin-sitemap'; // <--- The new plugin
-import locationsData from './src/data/locations.json';
-import servicesData from './src/data/services.json';
+import Pages from 'vite-plugin-pages';
+import generateSitemap from 'vite-ssg-sitemap';
 
-// 1. Generate Location Routes (Existing Logic)
-const generateLocationRoutes = () => {
-  const routes = []
-  Object.keys(locationsData).forEach(city => {
-    routes.push(`/locations/${city}`)
-    locationsData[city].forEach(neighborhood => {
-      routes.push(`/locations/${city}/${neighborhood}`)
-    })
-  })
-  return routes
-}
+// 1. DATA LISTS
+const cities = [
+  'omaha', 'millard', 'elkhorn', 'gretna', 'papillion',
+  'bellevue', 'ralston', 'bennington', 'lavista',
+  'chalco', 'valley', 'waterloo'
+];
 
-// 2. Generate Service Routes (Existing Logic)
-const generateServiceRoutes = () => {
-  const routes = []
-  Object.keys(servicesData).forEach(serviceId => {
-    routes.push(`/services/${serviceId}`)
-  })
-  return routes
-}
+// NOTE: These slugs must EXACTLY match the keys in CostEstimator.jsx
+const services = [
+  'tree-removal',
+  'tree-trimming',
+  'stump-grinding',
+  'emergency-tree-service', // Matches the fixed CostEstimator key
+  'commercial-tree-services',
+  'plant-health-care'
+];
 
-// 3. Define Static Routes (Manual pages)
-const staticRoutes = [
-  '/',
-  '/tools',
-  '/locations',
-  '/emergency-tree-service-omaha',
-  '/tree-consultation-omaha'
-]
-
-// 4. MASTER LIST: Combine everything into one source of truth
-// Filter out 404 and deduplicate routes
-const allRoutes = [
-  ...staticRoutes,
-  ...generateLocationRoutes(),
-  ...generateServiceRoutes()
-]
-  .filter(route => route !== '/404') // Exclude 404 page from sitemap
-  .filter((route, index, self) => self.indexOf(route) === index) // Remove duplicates
-
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    // NEW: Generates sitemap.xml using the Master List
-Sitemap({
-  hostname: 'https://omahatreecare.com',
-  dynamicRoutes: allRoutes,
-  exclude: ['/404'],
-  readable: true,
-
-  // You already have a robots.txt file, so don't let the plugin generate one:
-  generateRobotsTxt: false,
-
-  // (Optional but explicit)
-  outDir: 'dist'
-})
-
+    Pages(),
   ],
-  // EXISTING: Generates HTML files using the Master List
   ssgOptions: {
     script: 'async',
     formatting: 'minify',
-    includedRoutes(paths) {
-      // We ignore the default 'paths' guess and force our Master List
-      // This ensures HTML and XML always match perfectly.
-      return allRoutes
+    onFinished() {
+      generateSitemap({
+        hostname: 'https://omahatreecare.com',
+        readable: true,
+        outDir: 'dist',        // Explicit output directory
+        generateRobotsTxt: false // STOP it from overwriting your existing robots.txt
+      })
+    },
+    includedRoutes(paths, routes) {
+      const allRoutes = [
+        '/',
+        '/contact',
+        '/about',
+        '/tools',
+        '/accessibility',
+        ...cities,
+        ...services
+      ];
+
+      return allRoutes.flatMap(route => {
+        // A. Handle City Pages
+        if (cities.includes(route)) return `/locations/${route}`;
+
+        // B. Handle Service Pages (Critical Fix)
+        if (services.includes(route)) return `/services/${route}`;
+
+        // C. Standard Pages
+        return route;
+      });
     }
   }
 })
