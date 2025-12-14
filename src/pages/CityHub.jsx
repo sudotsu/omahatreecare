@@ -1,8 +1,9 @@
 import { AlertTriangle, CheckCircle2, MapPin, Phone, Shield } from 'lucide-react';
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import FastQuote from '../components/FastQuote';
+import Footer from '../components/Footer';
 import LocalOrdinances from '../components/LocalOrdinances';
 import ServiceAreaMap from '../components/ServiceAreaMap';
 import { CONTACT } from '../constants';
@@ -14,7 +15,7 @@ export default function CityHub() {
   const cityName = city ? city.charAt(0).toUpperCase() + city.slice(1) : "Omaha";
 
   const pageTitle = `Tree Service in ${cityName}, NE | ${CONTACT.businessName}`;
-  const metaDesc = `Expert tree removal, trimming, and risk assessment in ${cityName}. We follow ${cityName} municipal codes for physics-based, safe tree care.`;
+  const metaDesc = `Expert tree removal, trimming, and risk assessment in ${cityName}. We follow ${cityName} municipal codes for specialized, safe tree care.`;
   const canonicalUrl = `https://omahatreecare.com${location.pathname}`;
 
   const neighborhoodData = {
@@ -31,7 +32,7 @@ export default function CityHub() {
   const currentNeighborhoods = neighborhoodData[city?.toLowerCase()]?.areas || [];
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="min-h-screen">
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDesc} />
@@ -52,7 +53,7 @@ export default function CityHub() {
               <MapPin size={14} /> Serving {cityName} & Surrounding Areas
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-              Physics-Based Tree Care in <span className="text-emerald-400">{cityName}, NE</span>
+              Specialized Tree Care in <span className="text-emerald-400">{cityName}, NE</span>
             </h1>
             <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
               We don't just "cut trees." We provide structural risk assessments and hazardous removals specifically for {cityName}'s mature canopy.
@@ -63,9 +64,9 @@ export default function CityHub() {
                 <Phone size={20} /> Call {CONTACT.phone}
               </a>
               <span className="text-slate-400 text-sm">or</span>
-              <a href="#assessment" className="text-white hover:text-emerald-300 font-semibold underline underline-offset-4 decoration-emerald-500/50 hover:decoration-emerald-500 transition-all">
-                Get a Fast Quote Online
-              </a>
+              <Link to="/tools" className="text-white hover:text-emerald-300 font-semibold underline underline-offset-4 decoration-emerald-500/50 hover:decoration-emerald-500 transition-all">
+                Free Tree Diagnostic
+              </Link>
             </div>
           </div>
         </div>
@@ -74,7 +75,7 @@ export default function CityHub() {
       <section className="py-16 container mx-auto px-6">
         <div className="grid lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-12">
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-200">
               <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
                 <Shield className="text-emerald-600" />
                 Why {cityName} Homeowners Choose Us
@@ -105,14 +106,14 @@ export default function CityHub() {
             </div>
 
             {currentNeighborhoods.length > 0 && (
-              <div className="bg-slate-100 rounded-2xl p-8 border border-slate-200">
+              <div className="bg-stone-100 rounded-2xl p-8 border border-stone-200">
                 <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
                   <MapPin size={18} className="text-slate-500" />
                   Active Crews in {cityName} Neighborhoods:
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {currentNeighborhoods.map((hood) => (
-                    <span key={hood} className="bg-white px-3 py-1 rounded-full text-sm text-slate-600 border border-slate-200 shadow-sm">
+                    <span key={hood} className="bg-white px-3 py-1 rounded-full text-sm text-slate-600 border border-stone-200 shadow-sm">
                       {hood}
                     </span>
                   ))}
@@ -133,12 +134,12 @@ export default function CityHub() {
               <div id="assessment">
                 <FastQuote />
               </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
                 <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                   <MapPin className="text-emerald-600" size={20} />
                   Service Area Map
                 </h3>
-                <div className="h-48 rounded-xl overflow-hidden mb-4 border border-slate-100">
+                <div className="h-48 rounded-xl overflow-hidden mb-4 border border-stone-100">
                   <ServiceAreaMap />
                 </div>
                 <p className="text-xs text-slate-500 text-center">
@@ -160,6 +161,7 @@ export default function CityHub() {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

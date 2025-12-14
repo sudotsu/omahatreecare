@@ -1,5 +1,6 @@
 import React from 'react';
 import { Head } from 'vite-react-ssg';
+import Footer from '../components/Footer';
 import { TreeDiagnostic } from '../components/tool/TreeDiagnostic';
 import { CONTACT, SERVICE_AREAS } from '../constants';
 
@@ -8,7 +9,7 @@ const ToolsPage = () => {
   const metaDescription = 'Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees.';
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
@@ -121,7 +122,11 @@ const ToolsPage = () => {
       </Head>
 
       {/* This renders your actual interactive tool */}
-      <TreeDiagnostic />
+      <div className="flex-grow">
+        <TreeDiagnostic />
+      </div>
+
+      <Footer />
     </div>
   );
 };

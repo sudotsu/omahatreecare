@@ -2,6 +2,7 @@ import { CheckCircle, ExternalLink, Eye, Keyboard, ShieldCheck } from 'lucide-re
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
+import Footer from '../components/Footer';
 import { CONTACT } from '../constants';
 
 export default function Accessibility() {
@@ -9,14 +10,14 @@ export default function Accessibility() {
   const canonicalUrl = `https://omahatreecare.com${location.pathname}`;
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800">
+    <div className="min-h-screen text-slate-800 flex flex-col">
       <Head>
         <title>Accessibility Statement | {CONTACT.businessName}</title>
         <meta name="robots" content="noindex, follow" />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
 
-      <main className="max-w-4xl mx-auto px-6 py-16">
+      <main className="max-w-4xl mx-auto px-6 py-16 flex-grow w-full">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Accessibility Statement</h1>
         <p className="text-slate-600 mb-8">omahatreecare.com</p>
 
@@ -108,6 +109,8 @@ export default function Accessibility() {
           </p>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

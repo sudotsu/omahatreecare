@@ -6,7 +6,12 @@ export default {
   ],
   darkMode: 'class', // Enable class-based dark mode
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // Global "Soft White" (Stone-50). Change this one hex to update the whole site.
+        site: '#fafaf9',
+      },
+    },
   },
   plugins: [],
 }

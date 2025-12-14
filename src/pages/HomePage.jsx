@@ -25,7 +25,7 @@ export default function HomePage() {
   const scrolled = useScrollPosition();
 
   return (
-    <div className="bg-slate-50">
+    <div className="min-h-screen">
       <Head>
         <title>Omaha Tree Service | Winter Defense & Tree Removal | {CONTACT.businessName}</title>
         <meta name="description" content={`Expert tree risk assessment and removal in Omaha. We help homeowners make data-backed decisions about their trees. Call ${CONTACT.phone}.`} />

@@ -3,6 +3,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Head } from 'vite-react-ssg';
 import ContactForm from '../components/ContactForm';
+import Footer from '../components/Footer';
 import { CONTACT, SERVICE_AREAS } from '../constants';
 
 export default function Contact() {
@@ -12,7 +13,7 @@ export default function Contact() {
   const displayAddress = `${CONTACT.addressLocality}, ${CONTACT.addressRegion} ${CONTACT.postalCode}`;
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800">
+    <div className="min-h-screen flex flex-col text-slate-800">
       <Head>
         <title>Contact Midwest Roots | Omaha Tree Assessments</title>
         <meta name="description" content={`Request a structural tree assessment in Omaha, Dundee, and Millard. Call ${CONTACT.phone} or use our form.`} />
@@ -33,7 +34,7 @@ export default function Contact() {
         </script>
       </Head>
 
-      <main className="max-w-6xl mx-auto px-4 py-16">
+      <main className="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-slate-900 mb-4">Let's Talk Physics & Pruning</h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
@@ -86,6 +87,8 @@ export default function Contact() {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

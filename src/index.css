@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    /* Sets the global background to the soft white defined in tailwind.config.js */
+    @apply bg-site text-slate-900;
+  }
+}
+
 /* Font family */
 body, p, li, a, button {
   font-family: 'Inter', sans-serif;
