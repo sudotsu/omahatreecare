@@ -187,7 +187,7 @@ export default function LocationTemplate() {
                       Free Diagnostic Tool
                     </h3>
                     <p className="text-slate-300 text-sm">
-                      10-minute assessment based on {TRUST_SIGNALS.certification}.
+                      5-minute assessment based on {TRUST_SIGNALS.certification}.
                     </p>
                   </div>
                 </div>

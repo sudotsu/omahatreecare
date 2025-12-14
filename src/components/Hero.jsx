@@ -27,7 +27,7 @@ const Hero = () => {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm mx-auto lg:mx-0"
                  style={{ backgroundColor: COLORS.primary, color: '#ffffff' }}>
               <Clock size={16} aria-hidden="true" />
-              <span>Free Assessment • Takes 10 Minutes</span>
+              <span>Free Assessment • Takes 5 Minutes</span>
             </div>
 
             {/* Main Headline */}
