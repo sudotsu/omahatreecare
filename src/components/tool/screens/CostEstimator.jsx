@@ -148,7 +148,8 @@ export function CostEstimator() {
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 group-hover:text-amber-700 dark:text-slate-400 transition-colors mb-2">
+                  {/* FIXED: Removed conflicting dark:text-slate-400 */}
+                  <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 group-hover:text-amber-700 transition-colors mb-2">
                     {service.name}
                   </h3>
                   <p className="text-sm text-amber-700 dark:text-slate-400 mb-3">{service.description}</p>
@@ -281,7 +282,7 @@ export function CostEstimator() {
 
       {/* General Pricing Info */}
       {!selectedService && (
-        <div className="mt-8 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-2xl p-8 border-2 border-amber- dark:border-slate-200 dark:border-slate-600">
+        <div className="mt-8 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-2xl p-8 border-2 border-amber-200 dark:border-slate-600">
           <h3 className="text-2xl font-bold text-amber-900 dark:text-slate-100 mb-4">Understanding Tree Service Pricing</h3>
           <div className="space-y-4 text-amber-900 dark:text-slate-100">
             <p>

@@ -27,7 +27,15 @@ export default function EmergencyTreeService() {
               "name": CONTACT.businessName,
               "telephone": CONTACT.phone,
               "email": CONTACT.email,
-              "address": CONTACT.address,
+              "address": {
+                // CONFIRMED: Correctly structured PostalAddress object using SSOT fields
+                "@type": "PostalAddress",
+                "streetAddress": CONTACT.streetAddress,
+                "addressLocality": CONTACT.addressLocality,
+                "addressRegion": CONTACT.addressRegion,
+                "postalCode": CONTACT.postalCode,
+                "addressCountry": CONTACT.addressCountry
+              },
               "priceRange": "$$$"
             },
             "areaServed": {
@@ -38,7 +46,7 @@ export default function EmergencyTreeService() {
               "@type": "ServiceChannel",
               "serviceUrl": `${CONTACT.siteUrl}/contact`,
               "servicePhone": CONTACT.phone,
-              "serviceSmsNumber": CONTACT.phone
+              "serviceSmsNumber": CONTACT.phoneRaw
             },
             "openingHours": "Mo-Su 00:00-24:00"
           })}

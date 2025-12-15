@@ -137,7 +137,7 @@ export function TreeDiagnostic() {
                 rel="noopener noreferrer"
                 className="text-amber-200 dark:text-slate-300 hover:text-white transition-colors text-sm"
               >
-                Visit {CONTACT.siteUrl.replace('https://', '')} for more about our services
+                Visit {new URL(CONTACT.siteUrl).host} for more about our services
               </a>
               <p className="text-amber-300 dark:text-slate-400 text-xs mt-2">
                 Free diagnostic tool provided as a community service

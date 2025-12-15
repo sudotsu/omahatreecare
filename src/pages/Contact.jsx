@@ -1,8 +1,8 @@
-import { CheckCircle, Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { CheckCircle, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react'; // ADDED: Fix JSX scope
-import { Head } from 'vite-react-ssg'
-import ContactForm from '../components/ContactForm'
-import { CONTACT } from '../constants'
+import { Head } from 'vite-react-ssg';
+import ContactForm from '../components/ContactForm';
+import { CONTACT } from '../constants';
 
 export default function Contact() {
   const pageTitle = "Contact Us | Midwest Roots Tree Services Omaha"
@@ -27,12 +27,13 @@ export default function Contact() {
               "email": CONTACT.email,
               "url": CONTACT.siteUrl,
               "address": {
+                // FIXED: Replaced hardcoded address fields with CONTACT constants for consistency and SSOT
                 "@type": "PostalAddress",
-                "streetAddress": CONTACT.streetAddress, // Ensure these exist in constants or use raw string if needed
-                "addressLocality": "Omaha",
-                "addressRegion": "NE",
-                "postalCode": "68104",
-                "addressCountry": "US"
+                "streetAddress": CONTACT.streetAddress,
+                "addressLocality": CONTACT.addressLocality,
+                "addressRegion": CONTACT.addressRegion,
+                "postalCode": CONTACT.postalCode,
+                "addressCountry": CONTACT.addressCountry
               }
             }
           })}
@@ -129,7 +130,7 @@ export default function Contact() {
               <p className="text-slate-600 mb-8">
                 Tell us about your tree project. Photos help us give faster estimates.
               </p>
-              <ContactForm urgency="normal" pageSource="contact_page" />
+              <ContactForm urgency="medium" pageSource="contact_page" />
             </div>
           </div>
         </div>

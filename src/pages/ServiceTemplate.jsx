@@ -6,6 +6,7 @@ import ContactForm from '../components/ContactForm';
 import { CONTACT } from '../constants';
 import locationsData from '../data/locations.json';
 import servicesData from '../data/services.json';
+import { formatCityName } from '../utils/formatters'; // IMPORTED UTILITY
 
 export default function ServiceTemplate() {
   const { serviceId } = useParams()
@@ -20,12 +21,7 @@ export default function ServiceTemplate() {
   const canonicalUrl = `${CONTACT.siteUrl}/services/${data.slug}`
   const socialImage = `${CONTACT.siteUrl}/images/og-image.jpg`
 
-  // Helper for city names
-  const formatCityName = (city) => {
-    return city.split('-').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ')
-  }
+  // FOREMAN FIX: Inline helper removed. Using imported utility.
 
   return (
     // FOREMAN FIX: Removed 'bg-slate-50'. Now uses global body color.
@@ -45,6 +41,60 @@ export default function ServiceTemplate() {
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={data.meta_desc} />
         <meta name="twitter:image" content={socialImage} />
+
+        {/* Schema - MOVED INSIDE <Head> */}
+        <script type="application/ld+json">
+          {JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": CONTACT.siteUrl
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Services",
+                  "item": `${CONTACT.siteUrl}/#services`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": data.title,
+                  "item": canonicalUrl
+                }
+              ]
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Service",
+              "serviceType": data.title,
+              "provider": {
+                "@type": "LocalBusiness",
+                "name": CONTACT.businessName,
+                "telephone": CONTACT.phone,
+                "email": CONTACT.email,
+                "url": CONTACT.siteUrl,
+                "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
+                "priceRange": "$$",
+                "areaServed": {
+                  "@type": "City",
+                  "name": "Omaha",
+                  "addressRegion": "NE",
+                  "addressCountry": "US"
+                }
+              },
+              "description": data.meta_desc,
+              "url": canonicalUrl
+            }
+          ])}
+        </script>
+        {/* End Schema */}
+
       </Head>
 
       {/* Navigation */}
@@ -178,58 +228,6 @@ export default function ServiceTemplate() {
           </div>
         </div>
       </section>
-
-      {/* Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify([
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": CONTACT.siteUrl
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Services",
-                "item": `${CONTACT.siteUrl}/#services`
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": data.title,
-                "item": canonicalUrl
-              }
-            ]
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "serviceType": data.title,
-            "provider": {
-              "@type": "LocalBusiness",
-              "name": CONTACT.businessName,
-              "telephone": CONTACT.phone,
-              "email": CONTACT.email,
-              "url": CONTACT.siteUrl,
-              "image": `${CONTACT.siteUrl}/images/og-image.jpg`,
-              "priceRange": "$$",
-              "areaServed": {
-                "@type": "City",
-                "name": "Omaha",
-                "addressRegion": "NE",
-                "addressCountry": "US"
-              }
-            },
-            "description": data.meta_desc,
-            "url": canonicalUrl
-          }
-        ])}
-      </script>
     </div>
   )
 }

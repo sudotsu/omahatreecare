@@ -1,4 +1,4 @@
-import { ArrowLeft, Mail, Phone, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react'; // Added MapPin
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
@@ -62,7 +62,7 @@ export default function Accessibility() {
                   <a href={`mailto:${CONTACT.email}`} className="text-emerald-700 hover:underline">{CONTACT.email}</a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                  <MapPin className="w-5 h-5 text-emerald-600" />
                   <span className="font-semibold">Postal Address:</span>
                   <span>{CONTACT.address}</span>
                 </li>

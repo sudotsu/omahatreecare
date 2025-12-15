@@ -48,17 +48,19 @@ const HomePage = () => {
             "email": CONTACT.email,
             "priceRange": "$$",
             "address": {
+              // FIXED: Using CONTACT structured fields for SSOT (reverting hardcoded split and values)
               "@type": "PostalAddress",
-              "streetAddress": CONTACT.address.split(',')[0], // Extract street
-              "addressLocality": "Omaha",
-              "addressRegion": "NE",
-              "postalCode": "68104",
-              "addressCountry": "US"
+              "streetAddress": CONTACT.streetAddress,
+              "addressLocality": CONTACT.addressLocality,
+              "addressRegion": CONTACT.addressRegion,
+              "postalCode": CONTACT.postalCode,
+              "addressCountry": CONTACT.addressCountry
             },
             "geo": {
+              // FIXED: Using CONTACT structured geo fields for SSOT (reverting hardcoded Omaha coordinates)
               "@type": "GeoCoordinates",
-              "latitude": 41.2565, // Omaha Lat
-              "longitude": -95.9345 // Omaha Lng
+              "latitude": CONTACT.latitude,
+              "longitude": CONTACT.longitude
             },
             "areaServed": SERVICE_AREAS.map(area => ({
               "@type": area.type,
@@ -122,11 +124,7 @@ const HomePage = () => {
                 }
               ]
             },
-            "sameAs": [
-              CONTACT.facebookUrl,
-              CONTACT.linkedinUrl,
-              CONTACT.googleMapsUrl
-            ].filter(Boolean)
+            "sameAs": CONTACT.socialProfiles // FIXED: Using the socialProfiles array
           })}
         </script>
       </Head>

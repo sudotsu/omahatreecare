@@ -1,9 +1,9 @@
-import { ArrowRight, MapPin, TreeDeciduous } from 'lucide-react'
+import { ArrowRight, MapPin, TreeDeciduous } from 'lucide-react';
 import React from 'react'; // ADDED: Fix JSX scope
-import { Link } from 'react-router-dom'
-import { Head } from 'vite-react-ssg'
-import { CONTACT } from '../constants'
-import locationsData from '../data/locations.json'
+import { Link } from 'react-router-dom';
+import { Head } from 'vite-react-ssg';
+import { CONTACT } from '../constants';
+import locationsData from '../data/locations.json';
 
 /**
  * Renders the master "Service Areas" directory.
@@ -59,9 +59,14 @@ export default function Locations() {
               "name": "Service Areas Directory",
               "description": "Directory of tree service locations in the Omaha Metro area.",
               "hasPart": cities.map(city => ({
-                "@type": "City",
+                // FIXED: Changed "@type": "City" to "@type": "WebPage" for Schema validation
+                "@type": "WebPage",
                 "name": formatName(city),
-                "url": `${CONTACT.siteUrl}/locations/${city}`
+                "url": `${CONTACT.siteUrl}/locations/${city}`,
+                "about": {
+                  "@type": "City",
+                  "name": formatName(city)
+                }
               }))
             }
           ])}

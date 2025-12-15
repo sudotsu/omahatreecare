@@ -2,7 +2,6 @@ import { AlertCircle, Bug, ThermometerSun } from 'lucide-react'
 import React, { useState } from 'react'
 import { CONTACT } from '../../../constants'
 
-
 const ailments = [
   {
     name: 'Emerald Ash Borer (EAB)',
@@ -78,7 +77,7 @@ const ailments = [
     severity: 'serious',
     symptoms: [
       'Sudden browning of shoots and branches',
-      'Branches curve into "shepherd’s crook" shape', // FIXED: Replaced parser-sensitive \' with safer Unicode ’
+      'Branches curve into "shepherd’s crook" shape',
       'Bark appears water-soaked then darkens',
       'Oozing bacterial exudate (looks sticky)',
       'Leaves remain attached but dead',
@@ -248,7 +247,7 @@ export function CommonAilments() {
             className={`px-6 py-2 rounded-lg font-semibold transition-all ${
               filterType === 'all'
                 ? 'bg-amber-600 dark:bg-slate-600 text-white'
-                : 'bg-white dark:bg-slate-800 text-amber-800 dark:text-slate-300 border-2 border-amber- dark:border-slate-200 dark:border-slate-600 hover:border-amber-400'
+                : 'bg-white dark:bg-slate-800 text-amber-800 dark:text-slate-300 border-2 border-amber-200 dark:border-slate-600 hover:border-amber-400'
             }`}
           >
             All Problems
@@ -303,7 +302,7 @@ export function CommonAilments() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2 flex-wrap">
-                      <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 group-hover:text-amber-700 dark:text-slate-400 transition-colors">
+                      <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 group-hover:text-amber-700 transition-colors">
                         {ailment.name}
                       </h3>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(ailment.type)}`}>
@@ -395,7 +394,7 @@ export function CommonAilments() {
             </div>
 
             {/* Timing */}
-            <div className="bg-amber-50 dark:bg-slate-700/50 border-2 border-amber- dark:border-slate-200 dark:border-slate-600 rounded-xl p-5">
+            <div className="bg-amber-50 dark:bg-slate-700/50 border-2 border-amber-200 dark:border-slate-600 rounded-xl p-5">
               <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-3">Timing is Critical</h3>
               <p className="text-amber-900 dark:text-slate-100 leading-relaxed">{selectedAilment.timing}</p>
             </div>

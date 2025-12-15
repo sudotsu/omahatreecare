@@ -1,13 +1,17 @@
 import { CheckCircle, MapPin, Phone } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'; // ADDED: useState for image fallback
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import ContactForm from '../components/ContactForm'
 import { CONTACT } from '../constants'
 import locationsData from '../data/locations.json'
+import { formatCityName } from '../utils/formatters'; // IMPORTED UTILITY
 
 export default function CityHub() {
   const { city } = useParams()
+
+  // ADDED: State to handle image fallback for the hero
+  const [useFallbackImage, setUseFallbackImage] = useState(false)
 
   // Normalize input
   const cityKey = city?.toLowerCase()
@@ -18,8 +22,16 @@ export default function CityHub() {
     return <Navigate to="/" replace />
   }
 
-  // Formatting helpers
-  const cityName = cityKey.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+  // Formatting helpers - REFACTORED
+  const cityName = formatCityName(cityKey)
+  const cityImageSlug = cityName.replace(/\s+/g, '-')
+
+  // Choose image source based on state
+  const primaryImageSrc = `/images/${cityImageSlug}-Nebraska.webp`
+  const finalImageSrc = useFallbackImage
+    ? '/images/og-image.jpg'
+    : primaryImageSrc
+
   const pageTitle = `Tree Service in ${cityName}, NE | Midwest Roots`
   const metaDesc = `Top-rated tree removal and trimming in ${cityName}, Nebraska. Serving all neighborhoods including ${neighborhoods.slice(0,3).join(', ')}. Free estimates: ${CONTACT.phone}.`
 
@@ -38,12 +50,8 @@ export default function CityHub() {
             "provider": {
               "@type": "LocalBusiness",
               "name": CONTACT.businessName,
-              "telephone": CONTACT.phone,
-              "areaServed": {
-                "@type": "City",
-                "name": cityName,
-                "addressRegion": "NE"
-              }
+              "telephone": CONTACT.phone
+              // REMOVED: Redundant areaServed here. We define it below with more detail.
             },
             "areaServed": neighborhoods.map(n => ({
               "@type": "Place",
@@ -55,9 +63,13 @@ export default function CityHub() {
 
       {/* Hero Section */}
       <section className="relative pt-24 pb-20 bg-slate-900 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-40"
-          style={{ backgroundImage: `url(/images/${cityName.replace(/\s+/g, '-')}-Nebraska.webp), url(/images/og-image.jpg)` }}
+        {/* FIXED: Replaced brittle CSS background with <img> and onError fallback */}
+        <img
+          src={finalImageSrc}
+          alt={`Tree canopy in ${cityName}`}
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-40"
+          onError={() => setUseFallbackImage(true)}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 to-slate-900/80" />
 
@@ -103,7 +115,7 @@ export default function CityHub() {
               className="group bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-md transition text-center"
             >
               <h3 className="font-bold text-slate-800 group-hover:text-emerald-700 transition mb-2">
-                {hood.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                {formatCityName(hood)}
               </h3>
               <span className="text-xs font-medium text-slate-500 group-hover:text-emerald-600 uppercase tracking-wide">
                 View Local Services
@@ -162,6 +174,7 @@ export default function CityHub() {
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             {Object.keys(locationsData)
               .filter(k => k !== cityKey)
+              .sort() // ADDED: Stable sorting
               .slice(0, 6)
               .map(otherCity => (
                 <Link
