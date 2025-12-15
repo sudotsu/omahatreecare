@@ -1,154 +1,197 @@
-import emailjs from '@emailjs/browser';
-import { AlertTriangle, Camera, Loader2, MessageSquare, Scissors, Send, TreeDeciduous } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
-import { CONTACT } from '../constants';
+import emailjs from '@emailjs/browser'
+import { ArrowRight, CheckCircle, Zap } from 'lucide-react'
+import React, { useState } from 'react'
+import { CONTACT } from '../constants'
 
 export default function FastQuote() {
-  const [step, setStep] = useState(1);
-  const [issue, setIssue] = useState('');
-  const [phone, setPhone] = useState('');
-  const [sending, setSending] = useState(false);
-  const resetTimeoutRef = useRef(null);
+  const [step, setStep] = useState(1)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formData, setFormData] = useState({
+    zip: '',
+    service: '',
+    urgency: 'normal',
+    phone: ''
+  })
 
-  // HYDRATION SAFE MOBILE DETECTION
-  const [isMobile, setIsMobile] = useState(false);
+  // Environment Variables
+  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (resetTimeoutRef.current) {
-        clearTimeout(resetTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  // USE ENV VARS
-  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-  const handleIssueSelect = (selected) => {
-    setIssue(selected);
-    setStep(2);
-  };
-
-  const handleSMS = () => {
-    const body = `Hi Andrew, I have a tree issue: ${issue}. I'm sending a photo next.`;
-    window.location.href = `sms:${CONTACT.phoneRaw}?body=${encodeURIComponent(body)}`;
-  };
-
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    setSending(true);
-
-    const templateParams = {
-        from_name: "Fast Quote User",
-        phone: phone,
-        message: `FAST QUOTE REQUEST: User selected issue "${issue}". Please text them back at ${phone} to request photos.`,
-        urgency: 'high',
-        page_source: 'hero_fast_quote'
-    };
-
-    try {
-        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
-        alert("Got it! I'll text you shortly to ask for that photo.");
-
-        // Clear any existing timeout before setting a new one
-        if (resetTimeoutRef.current) {
-          clearTimeout(resetTimeoutRef.current);
-        }
-
-        // Reset after 4 seconds to match code behavior
-        resetTimeoutRef.current = setTimeout(() => {
-            setStep(1);
-            setPhone('');
-            resetTimeoutRef.current = null;
-        }, 4000);
-
-    } catch (err) {
-        console.error("EmailJS Error:", err);
-        alert("Error sending. Please call me directly.");
-    } finally {
-        setSending(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    // Analytics & Email Logic (kept same)
+    if (window.gtag) {
+      window.gtag('event', 'lead_submission', {
+        event_category: 'fast_quote',
+        event_label: formData.service
+      })
     }
-  };
+    const templateParams = {
+      from_name: "Fast Quote Widget",
+      user_phone: formData.phone,
+      user_address: `Zip: ${formData.zip}`,
+      message: `Service: ${formData.service}\nUrgency: ${formData.urgency}`,
+      urgency: formData.urgency,
+      page_source: 'fast_quote_widget',
+      from_email: 'no-reply@fastquote.com'
+    }
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+      setStep(3)
+      setIsSubmitting(false)
+      setTimeout(() => {
+        setStep(1)
+        setFormData({ zip: '', service: '', urgency: 'normal', phone: '' })
+      }, 5000)
+    } catch (error) {
+      console.error('FastQuote Error:', error)
+      alert('Sorry, there was an issue sending your request. Please call us directly.')
+      setIsSubmitting(false)
+    }
+  }
 
-  return (
-    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden border-2 border-emerald-500/50 max-w-md mx-auto transform transition-all hover:scale-[1.01]">
-      <div className="bg-slate-900 p-4 text-center">
-        <h3 className="text-white font-bold text-lg flex items-center justify-center gap-2">
-          <Camera className="text-emerald-400 w-5 h-5" />
-          Fast-Track Estimate
-        </h3>
-        <p className="text-slate-400 text-xs mt-1">Skip the scheduling. Get an answer in minutes.</p>
-      </div>
-
-      <div className="p-6">
-        {step === 1 && (
-          <div className="space-y-3">
-            <p className="text-slate-700 dark:text-slate-200 font-medium mb-3 text-center">
-              What's the main issue?
-            </p>
-            <button onClick={() => handleIssueSelect('Storm Damage / Hazard')} className="w-full flex items-center gap-3 p-3 rounded-lg border-2 border-slate-100 hover:border-red-500 hover:bg-red-50 dark:border-slate-700 dark:hover:bg-red-900/20 transition-all group text-left">
-              <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full text-red-600"><AlertTriangle className="w-5 h-5" /></div>
-              <div><span className="block font-bold text-slate-900 dark:text-white">Emergency / Hazard</span></div>
-            </button>
-            <button onClick={() => handleIssueSelect('Trimming / Pruning')} className="w-full flex items-center gap-3 p-3 rounded-lg border-2 border-slate-100 hover:border-emerald-500 hover:bg-emerald-50 dark:border-slate-700 dark:hover:bg-emerald-900/20 transition-all group text-left">
-              <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-full text-emerald-600"><Scissors className="w-5 h-5" /></div>
-              <div><span className="block font-bold text-slate-900 dark:text-white">Trimming / Pruning</span></div>
-            </button>
-            <button onClick={() => handleIssueSelect('Removal')} className="w-full flex items-center gap-3 p-3 rounded-lg border-2 border-slate-100 hover:border-amber-500 hover:bg-amber-50 dark:border-slate-700 dark:hover:bg-amber-900/20 transition-all group text-left">
-              <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-full text-amber-600"><TreeDeciduous className="w-5 h-5" /></div>
-              <div><span className="block font-bold text-slate-900 dark:text-white">Full Removal</span></div>
-            </button>
+  // Step 1: Zip & Service
+  if (step === 1) {
+    return (
+      // FOREMAN FIX: bg-white on bg-stone-200. Added border-primary to define edges.
+      <div className="bg-white rounded-xl shadow-xl p-6 border-2 border-primary/30">
+        <div className="flex items-center gap-2 mb-4 text-primary font-bold border-b border-slate-100 pb-2">
+          <Zap className="w-5 h-5 fill-current" />
+          <h3 className="text-lg">Fast Quote Request</h3>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-slate-500 mb-1">ZIP CODE</label>
+            <input
+              type="text"
+              name="zip"
+              value={formData.zip}
+              onChange={handleChange}
+              placeholder="e.g. 68104"
+              className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-300 focus:ring-2 focus:ring-primary outline-none text-slate-900 font-medium placeholder:text-slate-400"
+            />
           </div>
-        )}
+          <div>
+            <label className="block text-xs font-semibold text-slate-500 mb-1">SERVICE NEEDED</label>
+            <select
+              name="service"
+              value={formData.service}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-300 focus:ring-2 focus:ring-primary outline-none text-slate-900 font-medium"
+            >
+              <option value="">Select Service...</option>
+              <option value="removal">Tree Removal</option>
+              <option value="trimming">Trimming/Pruning</option>
+              <option value="stump">Stump Grinding</option>
+              <option value="emergency">Emergency/Storm</option>
+              <option value="health">Health Check/EAB</option>
+            </select>
+          </div>
+          <button
+            onClick={() => {
+              if (formData.zip && formData.service) setStep(2)
+            }}
+            disabled={!formData.zip || !formData.service}
+            className="w-full bg-primary hover:bg-primary-dark disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 mt-2 shadow-md"
+          >
+            Next <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    )
+  }
 
-        {step === 2 && (
-          <div className="animate-fade-in">
-            <div className="text-center mb-6">
-              <span className="inline-block px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 mb-2">
-                Regarding: {issue}
-              </span>
-              <h4 className="text-xl font-bold text-slate-900 dark:text-white">Where should I send the quote?</h4>
-            </div>
+  // Step 2: Phone & Urgency
+  if (step === 2) {
+    return (
+      <div className="bg-white rounded-xl shadow-xl p-6 border-2 border-primary/30">
+        <button
+          onClick={() => setStep(1)}
+          className="text-xs text-slate-500 hover:text-primary mb-4 flex items-center font-medium"
+        >
+          ← Back to Service
+        </button>
+        <h3 className="font-bold text-slate-900 mb-4 text-lg">Where should we send the quote?</h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-slate-500 mb-1">PHONE NUMBER</label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="(402) 555-0123"
+              required
+              className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-300 focus:ring-2 focus:ring-primary outline-none text-slate-900 font-medium placeholder:text-slate-400"
+            />
+          </div>
 
-            {isMobile ? (
-              <div className="space-y-3">
-                <button onClick={handleSMS} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-emerald-900/20 animate-pulse-slow">
-                  <MessageSquare className="w-6 h-6" /> Text Andrew a Photo
-                </button>
-                <p className="text-xs text-center text-slate-400">Opens messaging app. Attach photo after clicking.</p>
-                <button onClick={() => setStep(1)} className="w-full py-2 text-sm text-slate-400 hover:text-slate-600">Back</button>
-              </div>
-            ) : (
-              <form onSubmit={handleEmailSubmit} className="space-y-4">
+          <div>
+             <label className="block text-xs font-semibold text-slate-500 mb-1">URGENCY</label>
+            <div className="flex gap-2 text-sm">
+              <label className={`flex-1 p-3 rounded-lg border-2 cursor-pointer text-center transition-all font-medium ${formData.urgency === 'normal' ? 'bg-emerald-50 border-emerald-500 text-emerald-800' : 'border-slate-200 hover:border-slate-300 text-slate-600'}`}>
                 <input
-                  type="tel"
-                  placeholder="Your Phone Number"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white transition-all"
+                  type="radio"
+                  name="urgency"
+                  value="normal"
+                  checked={formData.urgency === 'normal'}
+                  onChange={handleChange}
+                  className="hidden"
                 />
-                <button type="submit" disabled={sending} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2">
-                  {sending ? <><Loader2 className="animate-spin w-4 h-4" /> Sending...</> : <><Send className="w-4 h-4" /> Get My Quote</>}
-                </button>
-                <button type="button" onClick={() => setStep(1)} className="w-full py-1 text-xs text-slate-400 hover:text-slate-600">Back</button>
-              </form>
-            )}
+                Standard
+              </label>
+              <label className={`flex-1 p-3 rounded-lg border-2 cursor-pointer text-center transition-all font-medium ${formData.urgency === 'high' ? 'bg-red-50 border-red-500 text-red-800' : 'border-slate-200 hover:border-slate-300 text-slate-600'}`}>
+                <input
+                  type="radio"
+                  name="urgency"
+                  value="high"
+                  checked={formData.urgency === 'high'}
+                  onChange={handleChange}
+                  className="hidden"
+                />
+                Urgent
+              </label>
+            </div>
           </div>
-        )}
+
+          <button
+            type="submit"
+            disabled={isSubmitting || !formData.phone}
+            className="w-full bg-primary hover:bg-primary-dark disabled:bg-slate-300 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md mt-2"
+          >
+            {isSubmitting ? 'Sending...' : (
+              <>
+                Get My Quote <Zap className="w-4 h-4" />
+              </>
+            )}
+          </button>
+        </form>
       </div>
+    )
+  }
+
+  // Step 3: Success
+  return (
+    <div className="bg-emerald-50 rounded-xl shadow-xl p-8 border-2 border-emerald-500 flex flex-col items-center text-center">
+      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm">
+        <CheckCircle className="w-8 h-8 text-emerald-600" />
+      </div>
+      <h3 className="font-bold text-emerald-900 text-xl mb-2">Request Received!</h3>
+      <p className="text-emerald-800 mb-6">
+        Andrew will review your info and call you shortly at <span className="font-bold">{formData.phone}</span>.
+      </p>
+      <a
+        href={`tel:${CONTACT.phoneRaw}`}
+        className="text-sm font-bold text-white bg-emerald-600 px-6 py-2 rounded-lg hover:bg-emerald-700 transition"
+      >
+        Call Now: {CONTACT.phone}
+      </a>
     </div>
-  );
+  )
 }

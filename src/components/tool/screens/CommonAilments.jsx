@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { Bug, AlertCircle, Droplet, Wind, ThermometerSun } from 'lucide-react'
+import { AlertCircle, Bug, ThermometerSun } from 'lucide-react'
+import React, { useState } from 'react'
+import { CONTACT } from '../../../constants'
 
 
 const ailments = [
@@ -77,7 +78,7 @@ const ailments = [
     severity: 'serious',
     symptoms: [
       'Sudden browning of shoots and branches',
-      'Branches curve into "shepherd\'s crook" shape',
+      'Branches curve into "shepherd’s crook" shape', // FIXED: Replaced parser-sensitive \' with safer Unicode ’
       'Bark appears water-soaked then darkens',
       'Oozing bacterial exudate (looks sticky)',
       'Leaves remain attached but dead',
@@ -198,8 +199,8 @@ export function CommonAilments() {
   const [selectedAilment, setSelectedAilment] = useState(null)
   const [filterType, setFilterType] = useState('all')
 
-  const filteredAilments = filterType === 'all' 
-    ? ailments 
+  const filteredAilments = filterType === 'all'
+    ? ailments
     : ailments.filter(a => a.type === filterType)
 
   const getTypeIcon = (type) => {
@@ -234,7 +235,7 @@ export function CommonAilments() {
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-amber-900 dark:text-slate-100 mb-3">Common Tree Problems</h2>
         <p className="text-amber-800 dark:text-slate-300 leading-relaxed">
-          Identify common diseases, pests, and environmental issues affecting trees in the Omaha area. 
+          Identify common diseases, pests, and environmental issues affecting trees in the Omaha area.
           Early detection is key to successful treatment.
         </p>
       </div>
@@ -407,15 +408,15 @@ export function CommonAilments() {
                 </h3>
                 <div className="space-y-3">
                   <a
-                    href="tel:+14028123294"
+                    href={`tel:${CONTACT.phoneRaw}`}
                     className="block w-full px-6 py-4 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-bold hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center"
                   >
                     📞 Call for Urgent Consultation
-                    <div className="text-sm font-normal text-green-100 mt-1">(402) 812-3294 - Available 24/7</div>
+                    <div className="text-sm font-normal text-green-100 mt-1">{CONTACT.phone} - Available 24/7</div>
                   </a>
-                  
+
                   <a
-                    href="mailto:andrew@midwestroots.info?subject=Urgent%20-%20Tree%20Disease/Pest%20from%20Diagnostic%20Tool&body=I%20think%20my%20tree%20has:%20[AILMENT]%0A%0ASymptoms%20I'm%20seeing:%20%0A%0AMy%20address:%20%0ABest%20phone%20to%20reach%20me:%20"
+                    href={`mailto:${CONTACT.email}?subject=Urgent%20-%20Tree%20Disease/Pest%20from%20Diagnostic%20Tool&body=I%20think%20my%20tree%20has:%20[AILMENT]%0A%0ASymptoms%20I'm%20seeing:%20%0A%0AMy%20address:%20%0ABest%20phone%20to%20reach%20me:%20`}
                     className="block w-full px-6 py-4 bg-blue-600 dark:bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors text-center"
                   >
                     📧 Email with Photos of Your Tree
@@ -436,16 +437,16 @@ export function CommonAilments() {
                 <h3 className="text-lg font-bold text-blue-900 dark:text-blue-200 mb-3 text-center">Questions About Treatment?</h3>
                 <div className="space-y-2">
                   <a
-                    href="mailto:andrew@midwestroots.info?subject=Question%20About%20Tree%20Health%20from%20Diagnostic%20Tool"
+                    href={`mailto:${CONTACT.email}?subject=Question%20About%20Tree%20Health%20from%20Diagnostic%20Tool`}
                     className="block w-full px-6 py-3 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-semibold hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center"
                   >
                     📧 Get Expert Advice
                   </a>
                   <a
-                    href="tel:+14028123294"
+                    href={`tel:${CONTACT.phoneRaw}`}
                     className="block w-full px-6 py-3 bg-blue-600 dark:bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors text-center text-sm"
                   >
-                    📞 (402) 812-3294
+                    📞 {CONTACT.phone}
                   </a>
                 </div>
               </div>
@@ -462,8 +463,8 @@ export function CommonAilments() {
             <div className="text-blue-900 dark:text-blue-200">
               <h3 className="font-bold mb-2">When in Doubt, Get Expert Help</h3>
               <p className="text-sm leading-relaxed">
-                Accurate diagnosis is critical for effective treatment. Misidentifying a problem can waste money 
-                and time while the real issue gets worse. Professional arborists have the training and experience 
+                Accurate diagnosis is critical for effective treatment. Misidentifying a problem can waste money
+                and time while the real issue gets worse. Professional arborists have the training and experience
                 to correctly identify problems and recommend the most effective solutions.
               </p>
             </div>

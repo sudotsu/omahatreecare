@@ -1,15 +1,21 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
-import React from 'react';
-import { Head } from 'vite-react-ssg';
-import ContactForm from '../components/ContactForm'; // <--- IMPORT THE NEW COMPONENT
-import { CONTACT, SERVICE_AREAS } from '../constants';
+import { CheckCircle, Clock, Mail, MapPin, Phone } from 'lucide-react'
+import React from 'react'; // ADDED: Fix JSX scope
+import { Head } from 'vite-react-ssg'
+import ContactForm from '../components/ContactForm'
+import { CONTACT } from '../constants'
 
 export default function Contact() {
+  const pageTitle = "Contact Us | Midwest Roots Tree Services Omaha"
+  const metaDescription = `Contact Midwest Roots Tree Services for a free estimate. Call ${CONTACT.phone} or email us. Serving Omaha, Dundee, Millard, and Elkhorn.`
+
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800">
-      <Head>
-        <title>Contact Midwest Roots | Omaha Tree Assessments</title>
-        <meta name="description" content={`Request a structural tree assessment in Omaha, Dundee, and Millard. Call ${CONTACT.phone} or use our form.`} />
+    <div className="min-h-screen bg-slate-50 pt-20">
+      <Head prioritizeSeoTags>
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+        <link rel="canonical" href={`${CONTACT.siteUrl}/contact`} />
+
+        {/* LocalBusiness Schema specifically for Contact Page */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -17,80 +23,117 @@ export default function Contact() {
             "mainEntity": {
               "@type": "LocalBusiness",
               "name": CONTACT.businessName,
-              "telephone": CONTACT.phoneRaw,
+              "telephone": CONTACT.phone,
               "email": CONTACT.email,
-              "areaServed": SERVICE_AREAS.map(area => area.name)
+              "url": CONTACT.siteUrl,
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": CONTACT.streetAddress, // Ensure these exist in constants or use raw string if needed
+                "addressLocality": "Omaha",
+                "addressRegion": "NE",
+                "postalCode": "68104",
+                "addressCountry": "US"
+              }
             }
           })}
         </script>
       </Head>
 
-      <main className="max-w-6xl mx-auto px-4 py-16">
-
-        {/* HEADER */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-slate-900 mb-4">Let's Talk Physics & Pruning</h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            We don't have a call center. You are reaching Andrew and the local crew directly.
-            If we don't answer, we are likely running a chainsaw. Leave a note here.
+      <div className="container mx-auto px-6 py-12">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+            Get in Touch
+          </h1>
+          <p className="text-xl text-slate-600">
+            We're currently scheduling estimates for the upcoming week.
+            Fill out the form below or call us directly.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 bg-white rounded-2xl shadow-xl overflow-hidden">
-
-          {/* LEFT COLUMN: DIRECT CONTACT INFO */}
-          <div className="bg-slate-900 text-white p-10 flex flex-col justify-between">
-            <div>
-              <h2 className="text-2xl font-bold mb-6 text-green-400">Direct Line</h2>
+        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          {/* Contact Info Column */}
+          <div className="space-y-8">
+            {/* Main Contact Card */}
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6">Contact Information</h2>
 
               <div className="space-y-6">
-                <a href={`tel:${CONTACT.phoneRaw}`} className="flex items-start gap-4 hover:text-green-300 transition group">
-                  <Phone className="w-6 h-6 mt-1 flex-shrink-0 group-hover:scale-110 transition" />
+                <a
+                  href={`tel:${CONTACT.phoneRaw}`}
+                  className="flex items-start gap-4 group"
+                >
+                  <div className="bg-emerald-100 p-3 rounded-lg group-hover:bg-emerald-200 transition">
+                    <Phone className="w-6 h-6 text-emerald-700" />
+                  </div>
                   <div>
-                    <span className="block font-semibold text-lg">Call or Text</span>
-                    <span className="block opacity-90">{CONTACT.phone}</span>
+                    <p className="font-bold text-slate-900">Phone</p>
+                    <p className="text-slate-600 group-hover:text-emerald-700 transition">{CONTACT.phone}</p>
+                    <p className="text-sm text-slate-400 mt-1">Mon-Sat, 8am - 6pm</p>
+                  </div>
+                </a>
+
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  className="flex items-start gap-4 group"
+                >
+                  <div className="bg-blue-100 p-3 rounded-lg group-hover:bg-blue-200 transition">
+                    <Mail className="w-6 h-6 text-blue-700" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900">Email</p>
+                    <p className="text-slate-600 group-hover:text-blue-700 transition">{CONTACT.email}</p>
+                    <p className="text-sm text-slate-400 mt-1">We reply within 24 hours</p>
                   </div>
                 </a>
 
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 mt-1 flex-shrink-0 text-green-400" />
+                  <div className="bg-amber-100 p-3 rounded-lg">
+                    <MapPin className="w-6 h-6 text-amber-700" />
+                  </div>
                   <div>
-                    <span className="block font-semibold text-lg">HQ / Yard</span>
-                    <span className="block opacity-80">{CONTACT.address}</span>
+                    <p className="font-bold text-slate-900">Service Area</p>
+                    <p className="text-slate-600">Omaha Metro Area</p>
+                    <p className="text-sm text-slate-400 mt-1">Dundee, Millard, Elkhorn, Papillion, Bellevue</p>
                   </div>
                 </div>
-
-                <a href={`mailto:${CONTACT.email}`} className="flex items-start gap-4 hover:text-green-300 transition group">
-                  <Mail className="w-6 h-6 mt-1 flex-shrink-0 group-hover:scale-110 transition" />
-                  <div>
-                    <span className="block font-semibold text-lg">Email</span>
-                    <span className="block opacity-90 break-all">{CONTACT.email}</span>
-                  </div>
-                </a>
               </div>
             </div>
 
-            {/* SERVICE AREA LIST */}
-            <div className="mt-12">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 border-b border-slate-700 pb-2">
-                Currently Serving
+            {/* Why Choose Us Card */}
+            <div className="bg-slate-900 rounded-2xl shadow-lg p-8 text-white">
+              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-emerald-400" />
+                Why We're Different
               </h3>
-              <ul className="grid grid-cols-2 gap-2 text-sm text-slate-300">
-                {SERVICE_AREAS.map((area) => (
-                  <li key={area.name}>• {area.name}</li>
-                ))}
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-300">We actually answer the phone.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-300">Detailed, written estimates (no surprises).</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-300">Certified Arborist on staff.</span>
+                </li>
               </ul>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: THE FORM COMPONENT */}
-          <div className="p-0 md:p-6">
-             {/* This is where the magic happens */}
-             <ContactForm urgency="medium" pageSource="contact_page" />
+          {/* Form Column */}
+          <div>
+            <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
+              <h2 className="text-2xl font-bold text-slate-900 mb-2">Send a Message</h2>
+              <p className="text-slate-600 mb-8">
+                Tell us about your tree project. Photos help us give faster estimates.
+              </p>
+              <ContactForm urgency="normal" pageSource="contact_page" />
+            </div>
           </div>
-
         </div>
-      </main>
+      </div>
     </div>
-  );
+  )
 }

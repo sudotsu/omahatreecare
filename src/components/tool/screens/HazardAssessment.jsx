@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { AlertTriangle, CheckCircle, Info, Mail, MessageSquare, Share2, XCircle } from 'lucide-react'
+import React, { useState } from 'react'; // ADDED: React import
 import { useNavigate } from 'react-router-dom'
-import { AlertTriangle, CheckCircle, XCircle, Info, Mail, Share2, MessageSquare } from 'lucide-react'
-import EmailCaptureModal from '../../EmailCaptureModal'
 import { CONTACT } from '../../../constants'
+import EmailCaptureModal from '../../EmailCaptureModal'
 
 
 /**
@@ -178,28 +178,28 @@ export function HazardAssessment() {
               <div className="space-y-3 text-blue-900 dark:text-blue-200">
                 {riskScore >= 9 && (
                   <p>
-                    <strong>Extreme Risk:</strong> This tree poses an immediate safety hazard. 
-                    We strongly recommend contacting a professional arborist within 2 weeks. 
+                    <strong>Extreme Risk:</strong> This tree poses an immediate safety hazard.
+                    We strongly recommend contacting a professional arborist within 2 weeks.
                     Consider restricting access to the area until the tree is assessed.
                   </p>
                 )}
                 {riskScore >= 6 && riskScore < 9 && (
                   <p>
-                    <strong>High Risk:</strong> This tree has significant structural issues that should be 
-                    addressed soon. Professional evaluation and corrective action (pruning, cabling, or removal) 
+                    <strong>High Risk:</strong> This tree has significant structural issues that should be
+                    addressed soon. Professional evaluation and corrective action (pruning, cabling, or removal)
                     should be scheduled within 30-60 days.
                   </p>
                 )}
                 {riskScore >= 3 && riskScore < 6 && (
                   <p>
-                    <strong>Moderate Risk:</strong> The tree has some issues that warrant attention but aren't 
-                    immediately urgent. Schedule a professional inspection and maintenance within the next 90 days. 
+                    <strong>Moderate Risk:</strong> The tree has some issues that warrant attention but aren't
+                    immediately urgent. Schedule a professional inspection and maintenance within the next 90 days.
                     Regular monitoring is recommended.
                   </p>
                 )}
                 {riskScore < 3 && (
                   <p>
-                    <strong>Low Risk:</strong> Your tree appears to be in good condition! Continue regular 
+                    <strong>Low Risk:</strong> Your tree appears to be in good condition! Continue regular
                     monitoring and consider annual inspections. Standard maintenance practices should be sufficient.
                   </p>
                 )}
@@ -396,7 +396,7 @@ export function HazardAssessment() {
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-amber-900 dark:text-slate-100 mb-3">Tree Hazard Assessment</h2>
         <p className="text-amber-800 dark:text-slate-300 leading-relaxed">
-          Answer a few questions to evaluate potential risks. This assessment uses professional 
+          Answer a few questions to evaluate potential risks. This assessment uses professional
           arborist standards to calculate a risk score for your tree.
         </p>
       </div>
@@ -447,7 +447,7 @@ export function HazardAssessment() {
           <div className="text-sm text-blue-900 dark:text-blue-200">
             <p className="font-semibold mb-1">Assessment Method</p>
             <p>
-              This tool uses the ISA (International Society of Arboriculture) Tree Risk Assessment framework, 
+              This tool uses the ISA (International Society of Arboriculture) Tree Risk Assessment framework,
               calculating risk of Failure × Consequence of Failure.
             </p>
           </div>

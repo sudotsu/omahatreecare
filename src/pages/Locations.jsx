@@ -1,4 +1,5 @@
-import { MapPin, ArrowRight, TreeDeciduous } from 'lucide-react'
+import { ArrowRight, MapPin, TreeDeciduous } from 'lucide-react'
+import React from 'react'; // ADDED: Fix JSX scope
 import { Link } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import { CONTACT } from '../constants'
@@ -30,6 +31,41 @@ export default function Locations() {
         <meta property="og:title" content="Our Service Areas | Midwest Roots Tree Services" />
         <meta property="og:description" content="Professional tree care across Omaha, Millard, Elkhorn, Gretna, and Bellevue." />
         <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+
+        {/* Directory Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": CONTACT.siteUrl
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Service Areas",
+                  "item": `${CONTACT.siteUrl}/locations`
+                }
+              ]
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "name": "Service Areas Directory",
+              "description": "Directory of tree service locations in the Omaha Metro area.",
+              "hasPart": cities.map(city => ({
+                "@type": "City",
+                "name": formatName(city),
+                "url": `${CONTACT.siteUrl}/locations/${city}`
+              }))
+            }
+          ])}
+        </script>
       </Head>
 
       {/* Hero Section */}

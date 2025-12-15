@@ -74,7 +74,7 @@ export function TreeDiagnostic() {
 
             <div className={currentScreen === 'home' ? 'mx-auto text-center' : 'flex-1 text-center'}>
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-                Omaha Tree Care Guide
+                {CONTACT.businessName} Tools
               </h1>
               <p className="text-sm text-amber-100 dark:text-slate-300 mt-1">
                 Expert tree care knowledge, free for homeowners
@@ -132,12 +132,12 @@ export function TreeDiagnostic() {
             </div>
             <div className="border-t border-amber-700 dark:border-slate-700 pt-4 mt-4">
               <a
-                href="https://midwestroots.info"
+                href={CONTACT.siteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-amber-200 dark:text-slate-300 hover:text-white transition-colors text-sm"
               >
-                Visit MidwestRoots.info for more about our services
+                Visit {CONTACT.siteUrl.replace('https://', '')} for more about our services
               </a>
               <p className="text-amber-300 dark:text-slate-400 text-xs mt-2">
                 Free diagnostic tool provided as a community service

@@ -1,10 +1,13 @@
-import { useState } from 'react'
-import { X, CheckCircle, Mail } from 'lucide-react'
+import emailjs from '@emailjs/browser';
+import { CheckCircle, Mail, X } from 'lucide-react';
+import PropTypes from 'prop-types'; // ADDED: Import PropTypes for prop validation
+import React, { useState } from 'react';
+
 
 /**
  * Renders an email capture modal that collects an email address, emits a tracking event when available, and shows a brief success state before closing.
  *
- * The component manages its own input, loading, and success states. On submit it will call `gtag('event', 'email_capture', ...)` if `window.gtag` exists, transition to a success view, and invoke `onClose` after the success timeout.
+ * This version integrates with EmailJS to actually send the lead, replacing the non-functional setTimeout simulation.
  * @param {boolean} isOpen - Whether the modal is visible.
  * @param {() => void} onClose - Callback invoked to close the modal.
  * @returns {JSX.Element|null} The modal markup when open, or `null` when closed.
@@ -16,32 +19,62 @@ export default function EmailCaptureModal({ isOpen, onClose }) {
 
   if (!isOpen) return null
 
+  // Use the same environment variables as ContactForm.jsx
+  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID; // Assuming one template is used for all leads
+  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Track email capture
+    // 1. ANALYTICS: Track the attempt
     if (window.gtag) {
-      gtag('event', 'email_capture', {
+      window.gtag('event', 'email_capture', {
         event_category: 'lead_generation',
         event_label: 'low_risk_email',
-        value: 1
+        value: 1,
+        email: email
       })
     }
 
-    // TODO: Integrate with EmailJS
-    // For now, just simulate success
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSuccess(true)
+    const templateParams = {
+        from_name: "Low Risk Lead (Email Capture)",
+        user_phone: "N/A (Email Opt-in)",
+        user_address: "N/A",
+        message: `User signed up for seasonal tips via the Low Risk Modal. Email: ${email}`,
+        urgency: 'low',
+        page_source: 'low_risk_email_modal',
+        from_email: email // Send the captured email in a field the template can use
+    };
 
-      // Close modal after 2 seconds
-      setTimeout(() => {
-        onClose()
-        setIsSuccess(false)
-        setEmail('')
-      }, 2000)
-    }, 1000)
+    try {
+        // 2. SEND: Use EmailJS to send the lead
+        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+
+        // 3. SUCCESS STATE
+        setIsSubmitting(false)
+        setIsSuccess(true)
+
+        // Analytics: Track Success
+        if (window.gtag) {
+            window.gtag('event', 'generate_lead', {
+                currency: "USD",
+                value: 1.00 // Low arbitrary value for email lead
+            });
+        }
+
+        // Close modal after 2 seconds
+        setTimeout(() => {
+          onClose()
+          setIsSuccess(false)
+          setEmail('')
+        }, 2000)
+    } catch (error) {
+        console.error('EmailJS Error:', error.text);
+        setIsSubmitting(false)
+        alert('Subscription failed. Please check your network or try again later.');
+    }
   }
 
   return (
@@ -142,4 +175,9 @@ export default function EmailCaptureModal({ isOpen, onClose }) {
       </div>
     </div>
   )
+}
+
+EmailCaptureModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 }

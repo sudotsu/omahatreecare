@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
-import { AlertCircle, CheckCircle, Send, Loader2 } from 'lucide-react';
+import { AlertCircle, CheckCircle, Loader2, Send } from 'lucide-react';
+import PropTypes from 'prop-types'; // ADDED: Import PropTypes
+import React, { useRef, useState } from 'react';
+import { CONTACT } from '../constants';
 
 export default function ContactForm({ urgency = 'medium', pageSource = 'contact_page' }) {
   const form = useRef();
@@ -77,7 +79,10 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'contact_
           <div>
             <p className="font-bold text-red-900">Transmission Failed</p>
             <p className="text-sm text-red-800">
-              Technology is great when it works. Please just call/text us: <strong>(402) 812-3294</strong>.
+              Technology is great when it works. Please just call/text us:
+              <a href={`tel:${CONTACT.phoneRaw}`} className="font-bold hover:underline ml-1">
+                {CONTACT.phone}
+              </a>.
             </p>
           </div>
         </div>
@@ -170,3 +175,9 @@ export default function ContactForm({ urgency = 'medium', pageSource = 'contact_
     </form>
   );
 }
+
+// ADDED: PropTypes Validation
+ContactForm.propTypes = {
+  urgency: PropTypes.string,
+  pageSource: PropTypes.string,
+};
