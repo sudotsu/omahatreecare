@@ -1,9 +1,11 @@
-import { ArrowLeft, CheckCircle, Clock, ShieldAlert, Wrench } from 'lucide-react'
-import { Link, Navigate, useParams } from 'react-router-dom'
-import { Head } from 'vite-react-ssg'
-import ContactForm from '../components/ContactForm'
-import { CONTACT } from '../constants'
-import servicesData from '../data/services.json'
+import { ArrowLeft, ArrowRight, CheckCircle, Clock, MapPin, ShieldAlert, Wrench } from 'lucide-react';
+import React from 'react';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { Head } from 'vite-react-ssg';
+import ContactForm from '../components/ContactForm';
+import { CONTACT } from '../constants';
+import locationsData from '../data/locations.json';
+import servicesData from '../data/services.json';
 
 export default function ServiceTemplate() {
   const { serviceId } = useParams()
@@ -18,24 +20,27 @@ export default function ServiceTemplate() {
   const canonicalUrl = `${CONTACT.siteUrl}/services/${data.slug}`
   const socialImage = `${CONTACT.siteUrl}/images/og-image.jpg`
 
+  // Helper for city names
+  const formatCityName = (city) => {
+    return city.split('-').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ')
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    // FOREMAN FIX: Removed 'bg-slate-50'. Now uses global body color.
+    <div className="min-h-screen">
       <Head prioritizeSeoTags>
-        {/* Standard SEO */}
         <title>{pageTitle}</title>
         <meta name="description" content={data.meta_desc} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={canonicalUrl} />
-
-        {/* OpenGraph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={data.meta_desc} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={socialImage} />
         <meta property="og:site_name" content={CONTACT.businessName} />
-
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={data.meta_desc} />
@@ -57,7 +62,6 @@ export default function ServiceTemplate() {
 
       {/* Hero Section */}
       <header className="relative bg-slate-900 text-white pt-20 pb-20 overflow-hidden">
-        {/* Background image with overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -69,13 +73,11 @@ export default function ServiceTemplate() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl">
-            {/* Service Type Badge */}
             <div className="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 px-4 py-2 rounded-full font-bold mb-4 border border-emerald-500/30">
               <Wrench className="w-4 h-4" />
               Professional Tree Service
             </div>
 
-            {/* Quick Info Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm ml-3 bg-[#52796f] text-white">
               <Clock size={16} aria-hidden="true" />
               <span>Free Quote • Fast Response</span>
@@ -103,7 +105,6 @@ export default function ServiceTemplate() {
       <section className="py-16">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* The Problem */}
             <div className="bg-orange-50 border-l-4 border-orange-500 p-8 rounded-r-lg">
               <div className="flex items-start gap-4">
                 <ShieldAlert className="w-8 h-8 text-orange-600 flex-shrink-0" />
@@ -115,7 +116,6 @@ export default function ServiceTemplate() {
                 </div>
               </div>
             </div>
-            {/* The Solution */}
             <div>
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Our Solution</h2>
               <p className="text-slate-600 text-lg mb-6">
@@ -155,7 +155,31 @@ export default function ServiceTemplate() {
         </div>
       </section>
 
-      {/* Schema.org structured data */}
+      {/* Service Area Links */}
+      <section className="py-16 bg-white border-t border-slate-200">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">Available Across the Metro</h3>
+            <p className="text-slate-600">We provide {data.title.toLowerCase()} in all major Omaha communities.</p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            {Object.keys(locationsData).slice(0, 8).map((city) => (
+              <Link
+                key={city}
+                to={`/locations/${city}`}
+                className="inline-flex items-center gap-2 px-5 py-3 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-200 rounded-lg text-slate-700 hover:text-emerald-700 transition-all group"
+              >
+                <MapPin className="w-4 h-4 text-emerald-500 group-hover:scale-110 transition-transform" />
+                <span className="font-semibold">{formatCityName(city)}</span>
+                <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity transform -translate-x-2 group-hover:translate-x-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Schema */}
       <script type="application/ld+json">
         {JSON.stringify([
           {

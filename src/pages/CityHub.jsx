@@ -1,214 +1,180 @@
-import { ArrowLeft, MapPin, TreeDeciduous } from 'lucide-react'
-import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { CheckCircle, MapPin, Phone } from 'lucide-react'
+import React from 'react'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
-import LocalOrdinances from '../components/LocalOrdinances'
+import ContactForm from '../components/ContactForm'
 import { CONTACT } from '../constants'
 import locationsData from '../data/locations.json'
 
-/**
- * Render a city-specific hub page that lists all neighborhoods served for the current route.
- * Includes SEO tags, hero section, neighborhood grid, local ordinances, and contact CTA.
- */
 export default function CityHub() {
   const { city } = useParams()
 
-  const formatName = (str) => {
-    if (!str) return ''
-    return str.split('-').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ')
+  // Normalize input
+  const cityKey = city?.toLowerCase()
+  const neighborhoods = locationsData[cityKey]
+
+  // 404 Protection: If city doesn't exist in our data, go home
+  if (!neighborhoods) {
+    return <Navigate to="/" replace />
   }
 
-  const cityName = formatName(city)
-  const neighborhoods = locationsData[city] || []
-
-  const pageTitle = `Tree Service ${cityName} NE - All Neighborhoods | Midwest Roots Tree Care`
-  const metaDescription = `Expert tree service in ${cityName}, Nebraska. Serving ${neighborhoods.length} neighborhoods. Free diagnostic tool. Call (402) 812-3294`
-
-  useEffect(() => {
-    if (window.gtag) {
-      window.gtag('event', 'page_view', {
-        page_title: `${cityName} Tree Care Hub`,
-        page_location: window.location.href,
-        city: cityName
-      })
-    }
-  }, [city, cityName])
+  // Formatting helpers
+  const cityName = cityKey.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+  const pageTitle = `Tree Service in ${cityName}, NE | Midwest Roots`
+  const metaDesc = `Top-rated tree removal and trimming in ${cityName}, Nebraska. Serving all neighborhoods including ${neighborhoods.slice(0,3).join(', ')}. Free estimates: ${CONTACT.phone}.`
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-50">
       <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
-        <meta name="description" content={metaDescription} />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={`${CONTACT.siteUrl}/locations/${city}`} />
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={`${CONTACT.siteUrl}/locations/${cityKey}`} />
 
-        {/* OpenGraph */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${CONTACT.siteUrl}/locations/${city}`} />
-        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-        <meta property="og:site_name" content={CONTACT.businessName} />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "serviceType": "Tree Services",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": CONTACT.businessName,
+              "telephone": CONTACT.phone,
+              "areaServed": {
+                "@type": "City",
+                "name": cityName,
+                "addressRegion": "NE"
+              }
+            },
+            "areaServed": neighborhoods.map(n => ({
+              "@type": "Place",
+              "name": n.replace(/-/g, ' ')
+            }))
+          })}
+        </script>
       </Head>
 
-      {/* Back to home */}
-      <div className="bg-slate-800 border-b border-slate-700">
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center text-slate-300 hover:text-white transition"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
-        </div>
-      </div>
+      {/* Hero Section */}
+      <section className="relative pt-24 pb-20 bg-slate-900 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-40"
+          style={{ backgroundImage: `url(/images/${cityName.replace(/\s+/g, '-')}-Nebraska.webp), url(/images/og-image.jpg)` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 to-slate-900/80" />
 
-      {/* Hero */}
-      <section className="relative pt-16 pb-12">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/20 to-transparent"></div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full mb-6 font-semibold">
-            <MapPin className="w-5 h-5" />
-            Serving {cityName}, Nebraska
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 bg-emerald-600/20 border border-emerald-500/50 text-emerald-400 px-4 py-2 rounded-full mb-6 font-semibold">
+            <MapPin className="w-4 h-4" />
+            Serving All of {cityName}
           </div>
-
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Tree Care in {cityName}<br />
-            <span className="text-emerald-400">All Neighborhoods</span>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            Expert Tree Care in <span className="text-emerald-400">{cityName}</span>
           </h1>
-
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl">
-            Professional tree service for all {cityName} neighborhoods. Select your area below for
-            neighborhood-specific information, or use our free diagnostic tool.
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-8">
+            From historic canopy preservation to storm damage prevention, we understand the specific tree needs of {cityName} homeowners.
           </p>
-
-          <Link
-            to="/tools"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-8 rounded-xl transition transform hover:scale-105"
-          >
-            <TreeDeciduous className="w-5 h-5" />
-            Start Free Tree Assessment
-          </Link>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href={`tel:${CONTACT.phoneRaw}`}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-8 rounded-xl transition flex items-center justify-center gap-2"
+            >
+              <Phone className="w-5 h-5" />
+              Call {CONTACT.phone}
+            </a>
+            <Link
+              to="/tools"
+              className="bg-white/10 hover:bg-white/20 text-white font-semibold py-4 px-8 rounded-xl transition backdrop-blur-sm"
+            >
+              Use Free Diagnostic Tool
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Neighborhoods Grid */}
-      <section className="bg-slate-800 py-16">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            {cityName} Neighborhoods We Serve
-          </h2>
+      {/* Neighborhood Grid */}
+      <section className="py-16 container mx-auto px-6">
+        <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
+          Serving Your Neighborhood
+        </h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {neighborhoods.map((hood) => (
+            <Link
+              key={hood}
+              to={`/locations/${cityKey}/${hood}`}
+              className="group bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-md transition text-center"
+            >
+              <h3 className="font-bold text-slate-800 group-hover:text-emerald-700 transition mb-2">
+                {hood.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+              </h3>
+              <span className="text-xs font-medium text-slate-500 group-hover:text-emerald-600 uppercase tracking-wide">
+                View Local Services
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl">
-            {neighborhoods.map((neighborhood) => (
-              <Link
-                key={neighborhood}
-                to={`/locations/${city}/${neighborhood}`}
-                className="bg-slate-900 border border-slate-700 hover:border-emerald-500 rounded-lg p-6 transition group"
-              >
-                <MapPin className="w-6 h-6 text-emerald-400 mb-3 group-hover:scale-110 transition" />
-                <h3 className="text-lg font-bold text-white group-hover:text-emerald-400 transition">
-                  {formatName(neighborhood)}
-                </h3>
-                <p className="text-slate-400 text-sm mt-2">
-                  Tree service in {formatName(neighborhood)} →
-                </p>
-              </Link>
+      {/* Lead Capture */}
+      <section className="bg-slate-100 py-16">
+        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Schedule Your {cityName} Estimate
+            </h2>
+            <p className="text-slate-600 mb-6 text-lg">
+              Whether you have a hazardous removal or just need a health checkup, we're in {cityName} every week.
+            </p>
+            <ul className="space-y-4 mb-8">
+              <li className="flex items-start gap-3">
+                <CheckCircle className="w-6 h-6 text-emerald-600 flex-shrink-0" />
+                <div>
+                  <strong className="text-slate-900">Local Knowledge</strong>
+                  <p className="text-slate-600">We know {cityName} ordinances and native species.</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="w-6 h-6 text-emerald-600 flex-shrink-0" />
+                <div>
+                  <strong className="text-slate-900">Licensed & Insured</strong>
+                  <p className="text-slate-600">Full protection for your property.</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="w-6 h-6 text-emerald-600 flex-shrink-0" />
+                <div>
+                  <strong className="text-slate-900">Fast Response</strong>
+                  <p className="text-slate-600">Same-day callbacks for {cityName} residents.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div className="bg-white p-6 rounded-2xl shadow-xl border border-slate-200">
+            <ContactForm urgency="medium" pageSource={`city_hub_${cityKey}`} />
+          </div>
+        </div>
+      </section>
+
+      {/* Internal Linking Footer */}
+      <section className="py-12 bg-white border-t border-slate-200">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-slate-500 mb-4">
+            Not in {cityName}? Check our other major service hubs:
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            {Object.keys(locationsData)
+              .filter(k => k !== cityKey)
+              .slice(0, 6)
+              .map(otherCity => (
+                <Link
+                  key={otherCity}
+                  to={`/locations/${otherCity}`}
+                  className="text-emerald-600 font-medium hover:underline capitalize"
+                >
+                  {otherCity.replace(/-/g, ' ')}
+                </Link>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Local Ordinances & Rules (Authority Booster) */}
-      <section className="bg-slate-800 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl">
-            <LocalOrdinances />
-          </div>
-        </div>
-      </section>
-
-      {/* Contact CTA */}
-      <section className="bg-slate-900 py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Serving All of {cityName}
-          </h2>
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Not seeing your neighborhood? We serve the entire {cityName} area.
-            Call Andrew for a free consultation.
-          </p>
-          <a
-            href={`tel:${CONTACT.phoneRaw}`}
-            className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-10 rounded-xl text-2xl transition transform hover:scale-105"
-          >
-            {CONTACT.phone}
-          </a>
-        </div>
-      </section>
-
-      {/* BreadcrumbList Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": CONTACT.siteUrl
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Locations",
-              "item": `${CONTACT.siteUrl}/locations`
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": cityName,
-              "item": `${CONTACT.siteUrl}/locations/${city}`
-            }
-          ]
-        })}
-      </script>
-
-      {/* Service Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Service",
-          "serviceType": "Tree Care",
-          "provider": {
-            "@type": "LocalBusiness",
-            "name": CONTACT.businessName,
-            "telephone": CONTACT.phone,
-            "email": CONTACT.email
-          },
-          "areaServed": neighborhoods.map(n => ({
-            "@type": "Place",
-            "name": formatName(n),
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": cityName,
-              "addressRegion": "NE"
-            }
-          })),
-          "url": `${CONTACT.siteUrl}/locations/${city}`
-        })}
-      </script>
     </div>
   )
 }

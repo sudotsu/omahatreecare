@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, Leaf, MapPin, Phone, ShieldAlert, TreeDeciduous, Wrench } from 'lucide-react'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'; // ADDED: React import for JSX
 import { Link, useParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
 import ContactForm from '../components/ContactForm'
@@ -32,7 +32,7 @@ export default function LocationTemplate() {
   }
 
   const pageTitle = `Tree Service ${neighborhoodName}, ${cityName} NE | Midwest Roots Tree Services`
-  const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call (402) 812-3294`
+  const metaDescription = `Tree service in ${neighborhoodName}: ${data.meta_snippet} We handle ${data.dominant_trees} common in ${cityName}. Call ${CONTACT.phone}`
   const canonicalUrl = `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`
   // Social Image: Uses the city-specific image
   const socialImage = `${CONTACT.siteUrl}/images/${cityName}-Nebraska.webp`

@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
+import { AlertTriangle, ArrowLeft, CheckCircle, Phone, Shield } from 'lucide-react'
+import React, { useEffect } from 'react'; // ADDED: React import
+import { Link, useSearchParams } from 'react-router-dom'
 import { Head } from 'vite-react-ssg'
-import { Phone, AlertTriangle, CheckCircle, ArrowLeft, Shield } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
-import { CONTACT } from '../constants' // <--- Added Import
+import { CONTACT } from '../constants'
 
 /**
  * Render the Tree Consultation landing page with risk-aware messaging, phone and callback CTAs, educational sections, a contact form, and embedded JSON-LD structured data.
@@ -17,12 +17,12 @@ export default function TreeConsultation() {
   const riskLevel = searchParams.get('risk')
 
   const pageTitle = 'Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots';
-  const metaDescription = 'Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Save money and stay safe.';
+  const metaDescription = `Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Call ${CONTACT.phone}.`;
 
   useEffect(() => {
     // Track page view (Title is now handled statically by <Head>)
     if (window.gtag) {
-      gtag('event', 'page_view', {
+      window.gtag('event', 'page_view', {
         page_title: 'Tree Consultation',
         page_location: window.location.href,
         risk_level: riskLevel
@@ -32,7 +32,7 @@ export default function TreeConsultation() {
 
   const handlePhoneClick = () => {
     if (window.gtag) {
-      gtag('event', 'phone_click', {
+      window.gtag('event', 'phone_click', {
         event_category: 'engagement',
         event_label: 'consultation_page',
         risk_level: riskLevel

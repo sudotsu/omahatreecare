@@ -1,4 +1,5 @@
-import { Snowflake, Wind, Search, ArrowRight } from 'lucide-react';
+import { ArrowRight, Search, Snowflake, Wind } from 'lucide-react';
+import React from 'react'; // ADDED: React import
 import { Link } from 'react-router-dom';
 
 const WinterTriage = () => {

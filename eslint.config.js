@@ -31,12 +31,15 @@ export default defineConfig([
       },
     },
     rules: {
-      // your overrides (uncomment if you want them):
-      // "react/jsx-uses-react": "off",
-      // "react/react-in-jsx-scope": "off",
+      // --------------------------------------------------------
+      // FOREMAN FIX: DISABLE "React in Scope" RULE
+      // Modern React (v17+) with Vite does not require this import.
+      // --------------------------------------------------------
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "off",
 
-      // keep all the default React rules
-      ...pluginReact.configs.flat.recommended.rules,
+      // Optional: Add prop-types off if you aren't using them
+      "react/prop-types": "off",
     },
   },
 

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Search, AlertCircle, CheckCircle, Info, Upload, X, Camera } from 'lucide-react'
+import { AlertCircle, Camera, CheckCircle, Info, Search, Upload, X } from 'lucide-react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CONTACT } from '../../../constants'
 
@@ -11,9 +11,9 @@ const treeDatabase = [
     riskLevel: 'high',
     characteristics: ['Compound leaves (5-11 leaflets)', 'Opposite branching', 'Diamond-pattern bark'],
     commonIssues: [
-      'Emerald Ash Borer (EAB) - 99% mortality if untreated',
+      'Fatal Risk: 99% mortality if untreated due to Emerald Ash Borer (EAB)',
       'Rapid decline: 2-4 years from infestation to death',
-      'Brittle wood when dead = extreme hazard'
+      'Extremely brittle wood when dead = extreme hazard'
     ],
     maintenanceNotes: 'Remove all untreated ash unless active EAB treatment program in place. Treatment requires trunk injections every 2 years ($10-15 per diameter inch).',
     size: '50-80 feet'
@@ -200,7 +200,7 @@ export function SpeciesIdentifier() {
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-amber-900 dark:text-slate-100 mb-3">Tree Species Identifier</h2>
         <p className="text-amber-800 dark:text-slate-300 leading-relaxed">
-          Identify common Omaha-area tree species and learn about their specific care requirements, 
+          Identify common Omaha-area tree species and learn about their specific care requirements,
           potential issues, and maintenance needs.
         </p>
       </div>
@@ -323,7 +323,7 @@ export function SpeciesIdentifier() {
                       </h3>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${getRiskColor(tree.riskLevel)}`}>
                         <RiskIcon className="w-3 h-3" />
-                        {tree.riskLevel === 'high' ? 'High Risk' : tree.riskLevel === 'moderate' ? 'Moderate Risk' : 'Low Risk'}
+                        {tree.riskLevel === 'high' ? '🔴 High Risk' : tree.riskLevel === 'moderate' ? '🟡 Moderate Risk' : '🟢 Low Risk'}
                       </span>
                     </div>
                     <p className="text-sm text-amber-700 dark:text-slate-400 italic">{tree.scientificName}</p>
@@ -402,7 +402,7 @@ export function SpeciesIdentifier() {
             {/* Common Issues */}
             <div>
               <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-3 flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-orange-600" />
+                <AlertCircle className="w-5 h-5" />
                 Common Issues
               </h3>
               <ul className="space-y-2">

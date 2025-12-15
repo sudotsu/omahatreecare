@@ -1,5 +1,6 @@
-import { useState } from 'react'
 import { DollarSign, Info } from 'lucide-react'
+import React, { useState } from 'react'
+import { CONTACT } from '../../../constants'
 
 
 const services = [
@@ -131,7 +132,7 @@ export function CostEstimator() {
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-amber-900 dark:text-slate-100 mb-3">Tree Service Cost Estimator</h2>
         <p className="text-amber-800 dark:text-slate-300 leading-relaxed">
-          Get typical price ranges for common tree services in the Omaha area. 
+          Get typical price ranges for common tree services in the Omaha area.
           These are estimates only - actual costs vary based on specific conditions.
         </p>
       </div>
@@ -249,18 +250,18 @@ export function CostEstimator() {
               <h3 className="text-xl font-bold text-green-900 dark:text-emerald-200 mb-4 text-center">Ready for a Free Quote?</h3>
               <div className="space-y-3">
                 <a
-                  href="mailto:andrew@midwestroots.info?subject=Free%20Quote%20Request%20from%20Cost%20Estimator&body=I'd%20like%20a%20quote%20for%20the%20following%20service:%20[SERVICE]%0A%0AMy%20address:%20%0AMy%20phone:%20%0ABest%20time%20to%20reach%20me:%20"
+                  href={`mailto:${CONTACT.email}?subject=Free%20Quote%20Request%20from%20Cost%20Estimator&body=I'd%20like%20a%20quote%20for%20the%20following%20service:%20[SERVICE]%0A%0AMy%20address:%20%0AMy%20phone:%20%0ABest%20time%20to%20reach%20me:%20`}
                   className="block w-full px-6 py-4 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-bold hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center"
                 >
                   📧 Email for Free Written Quote
                   <div className="text-sm font-normal text-green-100 mt-1">Get detailed pricing for your specific situation</div>
                 </a>
-                
+
                 <a
-                  href="tel:+14028123294"
+                  href={`tel:${CONTACT.phoneRaw}`}
                   className="block w-full px-6 py-4 bg-blue-600 dark:bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors text-center"
                 >
-                  📞 Call for Faster Response: (402) 812-3294
+                  📞 Call for Faster Response: {CONTACT.phone}
                   <div className="text-sm font-normal text-blue-100 mt-1">Often same-day quotes available</div>
                 </a>
 
@@ -284,7 +285,7 @@ export function CostEstimator() {
           <h3 className="text-2xl font-bold text-amber-900 dark:text-slate-100 mb-4">Understanding Tree Service Pricing</h3>
           <div className="space-y-4 text-amber-900 dark:text-slate-100">
             <p>
-              Tree service costs vary significantly based on complexity, equipment needed, and local market rates. 
+              Tree service costs vary significantly based on complexity, equipment needed, and local market rates.
               Here are some general guidelines:
             </p>
             <div className="grid md:grid-cols-2 gap-4">

@@ -1,115 +1,110 @@
-import { CheckCircle, ExternalLink, Eye, Keyboard, ShieldCheck } from 'lucide-react';
-import React from 'react';
-import { Head } from 'vite-react-ssg';
-import { CONTACT } from '../constants';
+import { ArrowLeft, Mail, Phone, ShieldCheck } from 'lucide-react'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Head } from 'vite-react-ssg'
+import { CONTACT } from '../constants'
 
 export default function Accessibility() {
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800">
+    <div className="min-h-screen bg-slate-50 pt-20">
       <Head>
         <title>Accessibility Statement | {CONTACT.businessName}</title>
+        <meta name="description" content={`Accessibility statement for ${CONTACT.businessName}. We are committed to ensuring digital accessibility for people with disabilities.`} />
         <meta name="robots" content="noindex, follow" />
       </Head>
 
-      <main className="max-w-4xl mx-auto px-6 py-16">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Accessibility Statement</h1>
-        <p className="text-slate-600 mb-8">omahatreecare.com</p>
-
-        {/* --- TRUST BADGE (LINKS TO VERIFICATION) --- */}
-        <a
-          // PASTE YOUR EXACT REPORT URL HERE:
-          href="https://seojuice.io/accessibility-compliance/303f6beb-ea60-4a57-913c-409669387e39"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-4 bg-slate-900 text-white p-4 rounded-xl mb-8 hover:bg-slate-800 transition-colors shadow-md group w-full sm:w-auto"
+      <div className="container mx-auto px-6 py-12 max-w-4xl">
+        <Link
+          to="/"
+          className="inline-flex items-center text-slate-500 hover:text-emerald-600 transition mb-8"
         >
-          <div className="bg-emerald-500/20 p-3 rounded-full">
-            <ShieldCheck className="w-8 h-8 text-emerald-400" />
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Return Home
+        </Link>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12">
+          <div className="flex items-center gap-3 mb-6">
+            <ShieldCheck className="w-10 h-10 text-emerald-600" />
+            <h1 className="text-3xl font-bold text-slate-900">Accessibility Statement</h1>
           </div>
-          <div className="text-left">
-            <p className="font-bold text-base">Independently Audited & Verified</p>
-            <p className="text-sm text-slate-400 group-hover:text-emerald-300 transition-colors flex items-center gap-2 mt-1">
-              View Official Compliance Certificate <ExternalLink className="w-3 h-3" />
+
+          <div className="prose prose-slate max-w-none">
+            <p className="lead text-xl text-slate-600 mb-6">
+              <strong>{CONTACT.businessName}</strong> is committed to ensuring digital accessibility for people with disabilities.
+              We are continually improving the user experience for everyone and applying the relevant accessibility standards.
             </p>
-          </div>
-        </a>
-        {/* ------------------------------------------- */}
 
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
-          <p className="mb-4">
-            This accessibility statement applies to the service <strong>omahatreecare.com</strong> and has been prepared on December 10, 2025.
-          </p>
-          <p>
-            The service is subject to the Act on the Provision of Digital Services, which requires that public web services be accessible. We strive to ensure compliance with this legislation to make our digital presence available to all users.
-          </p>
-        </div>
+            <h2 className="text-2xl font-bold text-slate-800 mt-8 mb-4">Conformance Status</h2>
+            <p>
+              The Web Content Accessibility Guidelines (WCAG) defines requirements for designers and developers to improve accessibility
+              for people with disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA.
+              <strong>{CONTACT.businessName}</strong> is partially conformant with WCAG 2.1 level AA.
+              Partially conformant means that some parts of the content may not fully conform to the accessibility standard,
+              though we strive for full compliance.
+            </p>
 
-        {/* Compliance Status */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">Compliance Status</h2>
-          <div className="bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-lg">
-            <div className="flex items-start gap-3">
-              <CheckCircle className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-1" />
-              <div>
-                <p className="font-semibold text-emerald-900">WCAG 2.1 Level AA Compliant</p>
-                <p className="text-emerald-800 mt-1 text-sm leading-relaxed">
-                  The service fully complies with accessibility requirements according to the Web Content Accessibility Guidelines (WCAG) 2.1 Level A and AA. All critical and non-critical issues have been addressed.
-                </p>
-              </div>
+            <h2 className="text-2xl font-bold text-slate-800 mt-8 mb-4">Feedback</h2>
+            <p>
+              We welcome your feedback on the accessibility of our website. Please let us know if you encounter accessibility
+              barriers on <strong>{CONTACT.siteUrl}</strong>:
+            </p>
+
+            <div className="bg-slate-50 rounded-xl p-6 mt-6 border border-slate-200">
+              <ul className="space-y-4 list-none pl-0">
+                <li className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-emerald-600" />
+                  <span className="font-semibold">Phone:</span>
+                  <a href={`tel:${CONTACT.phoneRaw}`} className="text-emerald-700 hover:underline">{CONTACT.phone}</a>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-emerald-600" />
+                  <span className="font-semibold">E-mail:</span>
+                  <a href={`mailto:${CONTACT.email}`} className="text-emerald-700 hover:underline">{CONTACT.email}</a>
+                </li>
+                <li className="flex items-center gap-3">
+                  <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                  <span className="font-semibold">Postal Address:</span>
+                  <span>{CONTACT.address}</span>
+                </li>
+              </ul>
             </div>
-          </div>
-        </section>
 
-        {/* Features Grid */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Accessibility Features</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <Eye className="w-8 h-8 text-blue-600 mb-3" />
-              <h3 className="font-bold text-slate-800 mb-2">Screen Readers</h3>
-              <p className="text-sm text-slate-600">Optimized with ARIA attributes and semantic HTML structure.</p>
-            </div>
-            <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <Keyboard className="w-8 h-8 text-blue-600 mb-3" />
-              <h3 className="font-bold text-slate-800 mb-2">Navigation</h3>
-              <p className="text-sm text-slate-600">Full keyboard navigation support for menus and tools.</p>
-            </div>
-            <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <ShieldCheck className="w-8 h-8 text-blue-600 mb-3" />
-              <h3 className="font-bold text-slate-800 mb-2">UI Adjustments</h3>
-              <p className="text-sm text-slate-600">High contrast text and scalable font sizing.</p>
-            </div>
-          </div>
-        </section>
+            <p className="mt-6 text-sm text-slate-500">
+              We try to respond to feedback within 2 business days.
+            </p>
 
-        {/* Exclusions */}
-        <section className="space-y-6">
-          <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Inaccessible Content</h3>
-            <p className="text-slate-600">No accessibility violations have been identified under the WCAG 2.1 guidelines for this service.</p>
-          </div>
+            <h2 className="text-2xl font-bold text-slate-800 mt-8 mb-4">Technical Specifications</h2>
+            <p>
+              Accessibility of this website relies on the following technologies to work with the particular combination of
+              web browser and any assistive technologies or plugins installed on your computer:
+            </p>
+            <ul className="list-disc pl-6 mb-4">
+              <li>HTML</li>
+              <li>WAI-ARIA</li>
+              <li>CSS</li>
+              <li>JavaScript</li>
+            </ul>
+            <p>
+              These technologies are relied upon for conformance with the accessibility standards used.
+            </p>
 
-          <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Content Not Covered</h3>
-            <p className="text-slate-600 mb-2">The Act on the provision of digital services does not apply to:</p>
-            <ul className="list-disc pl-5 space-y-1 text-slate-600">
-              <li>Online Maps and mapping services</li>
-              <li>Content published by third parties (e.g., social media embeds)</li>
-              <li>Attachment files published before September 23, 2018</li>
+            <h2 className="text-2xl font-bold text-slate-800 mt-8 mb-4">Limitations and Alternatives</h2>
+            <p>
+              Despite our best efforts to ensure accessibility of {CONTACT.businessName}, there may be some limitations.
+              Below is a description of known limitations, and potential solutions. Please contact us if you observe an issue not listed below.
+            </p>
+            <p className="mt-2">
+              <strong>Known limitations:</strong>
+            </p>
+            <ul className="list-disc pl-6 mb-4">
+              <li>
+                <strong>Third-party tools:</strong> Some interactive tools (like maps or external widgets) may not be fully accessible
+                as they are controlled by third-party providers. We monitor these and report issues to the vendors.
+              </li>
             </ul>
           </div>
-        </section>
-
-        {/* Feedback */}
-        <div className="mt-12 pt-8 border-t border-slate-200 text-center">
-          <p className="text-slate-600">
-            Did you find an accessibility issue? Please tell us.<br />
-            <a href={`mailto:${CONTACT.email}`} className="text-emerald-600 font-bold hover:underline">
-              {CONTACT.email}
-            </a>
-          </p>
         </div>
-      </main>
+      </div>
     </div>
-  );
+  )
 }

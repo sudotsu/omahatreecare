@@ -1,7 +1,7 @@
 import React from 'react';
 import { Head } from 'vite-react-ssg';
 import Credibility from '../components/Credibility';
-import FAQAccordion from '../components/FAQAccordion'; // Added
+import FAQAccordion from '../components/FAQAccordion';
 import Footer from '../components/Footer';
 import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
@@ -16,22 +16,10 @@ import { useScrollPosition } from '../hooks/useScrollPosition';
 const HomePage = () => {
   const scrolled = useScrollPosition();
 
-  // Color Palette: "Trusted Local"
-  const colors = {
-    primary: '#52796f',      // Muted green
-    accent: '#c1666b',        // Terracotta
-    background: '#f8f6f1',    // Cream
-    text: '#3d3027',          // Dark brown
-  };
-
   return (
-    <div
-      className="min-h-screen font-sans selection:bg-opacity-20"
-      style={{
-        backgroundColor: colors.background,
-        color: colors.text
-      }}
-    >
+    // FOREMAN FIX: Removed 'bg-slate-50' class.
+    // It is now transparent so the global 'stone-100' background shows through.
+    <div className="min-h-screen font-sans selection:bg-opacity-20 text-slate-900">
       <Head prioritizeSeoTags>
         <title>Omaha Tree Care | Winter Defense & Tree Removal | Midwest Roots</title>
         <meta name="description" content="Free tree diagnostic tools for Omaha homeowners. Assess storm risk, get winter prep estimates, and access expert tree care resources. Serving Dundee, Millard, & Elkhorn." />
@@ -61,16 +49,16 @@ const HomePage = () => {
             "priceRange": "$$",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": CONTACT.streetAddress,
-              "addressLocality": CONTACT.addressLocality,
-              "addressRegion": CONTACT.addressRegion,
-              "postalCode": CONTACT.postalCode,
-              "addressCountry": CONTACT.addressCountry
+              "streetAddress": CONTACT.address.split(',')[0], // Extract street
+              "addressLocality": "Omaha",
+              "addressRegion": "NE",
+              "postalCode": "68104",
+              "addressCountry": "US"
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": CONTACT.latitude,
-              "longitude": CONTACT.longitude
+              "latitude": 41.2565, // Omaha Lat
+              "longitude": -95.9345 // Omaha Lng
             },
             "areaServed": SERVICE_AREAS.map(area => ({
               "@type": area.type,
@@ -134,7 +122,11 @@ const HomePage = () => {
                 }
               ]
             },
-            "sameAs": CONTACT.socialProfiles
+            "sameAs": [
+              CONTACT.facebookUrl,
+              CONTACT.linkedinUrl,
+              CONTACT.googleMapsUrl
+            ].filter(Boolean)
           })}
         </script>
       </Head>
@@ -146,10 +138,7 @@ const HomePage = () => {
       <Credibility />
       <HowItWorks />
       <SocialProof />
-
-      {/* FAQ Section - Aligns with Schema */}
       <FAQAccordion />
-
       <ServiceAreas />
       <Footer />
     </div>

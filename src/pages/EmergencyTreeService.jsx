@@ -1,301 +1,176 @@
-import { AlertTriangle, ArrowLeft, CheckCircle, Clock, Phone } from 'lucide-react'
-import { useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { AlertTriangle, CheckCircle, Clock, Phone, ShieldAlert } from 'lucide-react'
+import React from 'react'
 import { Head } from 'vite-react-ssg'
 import ContactForm from '../components/ContactForm'
-import { CONTACT } from '../constants'; // <--- Added Import
+import { CONTACT } from '../constants'
 
-/**
- * Render the Emergency Tree Service page with CTAs, risk indicator, and a contact form.
- *
- * Reads the `risk` query parameter to conditionally display a high-risk badge, sets the
- * document title via Head for SEO, and emits analytics events via gtag.
- *
- * @returns {JSX.Element} The rendered Emergency Tree Service page component.
- */
 export default function EmergencyTreeService() {
-  const [searchParams] = useSearchParams()
-  const riskLevel = searchParams.get('risk')
-
-  const pageTitle = 'Emergency Tree Service Omaha - Immediate Risk Response | Midwest Roots';
-  const metaDescription = '24/7 Emergency tree service in Omaha. Immediate response for storm damage, fallen trees, and hazardous limbs. Priority removal service available.';
-
-  useEffect(() => {
-    // Track page view (Title is now handled statically by <Head>)
-    if (window.gtag) {
-      gtag('event', 'page_view', {
-        page_title: 'Emergency Tree Service',
-        page_location: window.location.href,
-        risk_level: riskLevel
-      })
-    }
-  }, [riskLevel])
-
-  const handlePhoneClick = () => {
-    if (window.gtag) {
-      gtag('event', 'phone_click', {
-        event_category: 'engagement',
-        event_label: 'emergency_page',
-        risk_level: riskLevel
-      })
-    }
-  }
+  const pageTitle = "24/7 Emergency Tree Service Omaha | Storm Damage Removal"
+  const metaDescription = `Urgent tree removal and storm damage cleanup in Omaha. 24-hour emergency response for hazardous trees. Call ${CONTACT.phone} immediately.`
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-50 pt-20">
       <Head prioritizeSeoTags>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
-        <meta name="robots" content="index, follow" />
         <link rel="canonical" href={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
 
-        {/* OpenGraph */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${CONTACT.siteUrl}/emergency-tree-service-omaha`} />
-        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-        <meta property="og:site_name" content={CONTACT.businessName} />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-      </Head>
-
-      {/* Back to results link */}
-      <div className="bg-slate-800 border-b border-slate-700">
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/tools"
-            className="inline-flex items-center text-slate-300 hover:text-white transition"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Diagnostic Tools
-          </Link>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-24">
-        <div className="absolute inset-0 bg-gradient-to-b from-red-900/20 to-transparent"></div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          {riskLevel && (
-            <div className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full mb-6 font-semibold">
-              <AlertTriangle className="w-5 h-5" />
-              HIGH RISK DETECTED - Priority Response Available
-            </div>
-          )}
-
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Emergency Tree Service<br />
-            <span className="text-emerald-400">Omaha Metro</span>
-          </h1>
-
-          <p className="text-xl text-slate-300 mb-8">
-            Your hazard assessment indicated immediate action needed.
-            I'm standing by to help protect your property.
-          </p>
-
-          {/* Two-column layout: Phone CTA + Emergency Scenarios | Contact Form */}
-          <div className="grid lg:grid-cols-2 gap-6 max-w-6xl">
-            {/* Left column: Call CTA + Emergency Scenarios */}
-            <div className="space-y-6">
-              {/* Primary CTA - Phone */}
-              <div className="bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8">
-                <div className="flex items-start gap-4 mb-6">
-                  <Phone className="w-8 h-8 text-emerald-400 flex-shrink-0" />
-                  <div>
-                    <h2 className="text-2xl font-bold text-white mb-2">
-                      Call or Text Andrew Now
-                    </h2>
-                    <p className="text-slate-300 text-lg">
-                      Available 24/7 for urgent tree emergencies
-                    </p>
-                  </div>
-                </div>
-
-                <a
-                  href={`tel:${CONTACT.phoneRaw}`}
-                  onClick={handlePhoneClick}
-                  className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-5 px-8 rounded-xl text-center text-2xl mb-4 transition transform hover:scale-105"
-                >
-                  {CONTACT.phone}
-                </a>
-
-                <div className="flex items-start gap-3 text-sm text-slate-400">
-                  <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <p>
-                    <strong className="text-slate-300">Response time:</strong> If voicemail,
-                    expect callback within 2 hours during business hours (8am-6pm),
-                    or first thing next morning after hours. Your safety is my priority.
-                  </p>
-                </div>
-              </div>
-
-              {/* Emergency Scenarios - Moved here */}
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-6">
-                  Common Emergency Situations We Handle
-                </h3>
-                <div className="space-y-4">
-                  <div className="bg-slate-800 border-l-4 border-red-500 rounded-lg p-6">
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      Trees Leaning Toward Structures
-                    </h4>
-                    <p className="text-slate-300 text-sm">
-                      Sudden lean after storms, especially in Omaha's clay soil, can indicate root failure.
-                      Quick assessment prevents property damage.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-800 border-l-4 border-orange-500 rounded-lg p-6">
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      Large Dead Branches ("Widow Makers")
-                    </h4>
-                    <p className="text-slate-300 text-sm">
-                      Dead limbs over driveways, roofs, or high-traffic areas are ticking time bombs.
-                      Ice and wind can cause sudden failure.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-800 border-l-4 border-yellow-500 rounded-lg p-6">
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      Storm Damage & Split Trunks
-                    </h4>
-                    <p className="text-slate-300 text-sm">
-                      Omaha ice storms create massive loads on branches. Split trunks and hanging limbs
-                      need immediate removal before they fall.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-800 border-l-4 border-emerald-500 rounded-lg p-6">
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      EAB-Infested Ash Trees
-                    </h4>
-                    <p className="text-slate-300 text-sm">
-                      Emerald Ash Borer weakens ash trees to the point of sudden failure.
-                      Dead or dying ash trees near structures require urgent removal.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right column: Contact Form */}
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Or Request a Callback
-              </h3>
-              <p className="text-slate-400 mb-6">
-                I'll call you back within 2 hours (business hours) to discuss your tree emergency.
-              </p>
-              <ContactForm urgency="high" pageSource="emergency_tree_service" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Section */}
-      <section className="bg-slate-800 py-16">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
-            Why Omaha Homeowners Trust Midwest Roots
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
-              <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">
-                Honest Assessment
-              </h3>
-              <p className="text-slate-300">
-                I'll never recommend unnecessary work. If your tree can be saved,
-                I'll tell you how. If it needs removal, you'll know why.
-              </p>
-            </div>
-
-            <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
-              <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">
-                Local Expertise
-              </h3>
-              <p className="text-slate-300">
-                Based in Omaha, I understand our unique challenges:
-                ice storms, wind shear, EAB, and alkaline soil affecting tree health.
-              </p>
-            </div>
-
-            <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
-              <CheckCircle className="w-10 h-10 text-emerald-400 mb-4" />
-              <h3 className="text-xl font-bold text-white mb-3">
-                ISA Standards
-              </h3>
-              <p className="text-slate-300">
-                All assessments follow International Society of Arboriculture
-                guidelines for tree risk evaluation and safety.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* BreadcrumbList Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": CONTACT.siteUrl
+        {/* Specific Schema for Emergency Service */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "EmergencyService",
+            "name": "Midwest Roots Emergency Tree Service",
+            "serviceType": "Emergency Tree Removal",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": CONTACT.businessName,
+              "telephone": CONTACT.phone,
+              "email": CONTACT.email,
+              "address": CONTACT.address,
+              "priceRange": "$$$"
             },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Emergency Tree Service",
-              "item": `${CONTACT.siteUrl}/emergency-tree-service-omaha`
-            }
-          ]
-        })}
-      </script>
-
-      {/* Service Schema */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Service",
-          "serviceType": "Emergency Tree Removal",
-          "provider": {
-            "@type": "LocalBusiness",
-            "name": CONTACT.businessName,
-            "telephone": CONTACT.phone,
             "areaServed": {
               "@type": "City",
-              "name": "Omaha",
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "NE",
-                "addressCountry": "US"
-              }
-            }
-          },
-          "availableChannel": {
-            "@type": "ServiceChannel",
-            "servicePhone": {
-              "@type": "ContactPoint",
-              "telephone": CONTACT.phoneRaw,
-              "contactType": "Emergency Service",
-              "availableLanguage": "English",
-              "hoursAvailable": "24/7 phone availability"
-            }
-          }
-        })}
-      </script>
+              "name": "Omaha"
+            },
+            "availableChannel": {
+              "@type": "ServiceChannel",
+              "serviceUrl": `${CONTACT.siteUrl}/contact`,
+              "servicePhone": CONTACT.phone,
+              "serviceSmsNumber": CONTACT.phone
+            },
+            "openingHours": "Mo-Su 00:00-24:00"
+          })}
+        </script>
+      </Head>
+
+      {/* Emergency Hero */}
+      <section className="bg-red-900 text-white py-16 lg:py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 bg-red-800 border border-red-700 text-red-100 px-4 py-2 rounded-full mb-6 font-bold animate-pulse">
+              <AlertTriangle className="w-5 h-5" />
+              24/7 Emergency Response Available
+            </div>
+
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              Emergency Tree Removal<br />in Omaha
+            </h1>
+            <p className="text-xl md:text-2xl text-red-100 mb-8 max-w-2xl mx-auto">
+              Tree on your house? Driveway blocked? We prioritize safety hazards and storm damage.
+            </p>
+
+            <a
+              href={`tel:${CONTACT.phoneRaw}`}
+              className="inline-flex items-center gap-3 bg-white text-red-900 font-bold py-5 px-10 rounded-xl text-xl hover:bg-red-50 transition shadow-lg transform hover:scale-105"
+            >
+              <Phone className="w-6 h-6" />
+              Call Now: {CONTACT.phone}
+            </a>
+            <p className="mt-4 text-red-200 text-sm">
+              Click to call. Available 24 hours for emergencies.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Triage Info & Form */}
+      <section className="py-16 container mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+
+          {/* Left: What counts as emergency */}
+          <div className="space-y-8">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <ShieldAlert className="w-6 h-6 text-red-600" />
+                What We Prioritize
+              </h2>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-4">
+                  <div className="bg-red-100 p-2 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-red-700" />
+                  </div>
+                  <div>
+                    <strong className="block text-slate-900 text-lg">Structural Impact</strong>
+                    <p className="text-slate-600">Trees fallen on roofs, siding, or breaking windows.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="bg-red-100 p-2 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-red-700" />
+                  </div>
+                  <div>
+                    <strong className="block text-slate-900 text-lg">Blocked Access</strong>
+                    <p className="text-slate-600">Driveways, garage doors, or main entryways blocked by debris.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="bg-red-100 p-2 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-red-700" />
+                  </div>
+                  <div>
+                    <strong className="block text-slate-900 text-lg">Immediate Hazard</strong>
+                    <p className="text-slate-600">Hanging limbs ("widowmakers") threatening safety or power lines.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-slate-100 rounded-2xl p-8 border border-slate-200">
+              <h3 className="font-bold text-slate-900 text-lg mb-2 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-slate-600" />
+                Response Time Protocol
+              </h3>
+              <p className="text-slate-700 mb-4">
+                We triage calls based on severity. Structural damage and safety risks come first.
+                For non-emergency removals, please use our standard quote form.
+              </p>
+              <p className="text-sm text-slate-500 italic">
+                *Emergency rates apply for after-hours and holiday service calls.
+              </p>
+            </div>
+          </div>
+
+          {/* Right: Urgent Form */}
+          <div>
+            <div className="bg-white rounded-2xl shadow-xl border-t-4 border-red-600 p-8">
+              <h2 className="text-2xl font-bold text-slate-900 mb-2">Request Urgent Assistance</h2>
+              <p className="text-slate-600 mb-6">
+                Fill this out if lines are busy. This form alerts our field crew immediately.
+              </p>
+              <ContactForm urgency="high" pageSource="emergency_page" />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Insurance Info */}
+      <section className="bg-slate-900 text-white py-16">
+        <div className="container mx-auto px-6 text-center max-w-3xl">
+          <h2 className="text-3xl font-bold mb-6">Insurance Claims Assistance</h2>
+          <p className="text-slate-300 text-lg mb-8 leading-relaxed">
+            Dealing with storm damage is stressful enough. We can document all damage with detailed
+            photos and invoices to help streamline your homeowner's insurance claim.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-6 text-left">
+            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
+              <span className="text-emerald-400 font-bold block mb-1">Step 1</span>
+              Safety stabilization (removing the immediate threat).
+            </div>
+            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
+              <span className="text-emerald-400 font-bold block mb-1">Step 2</span>
+              Documentation & itemized invoicing for insurance.
+            </div>
+            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
+              <span className="text-emerald-400 font-bold block mb-1">Step 3</span>
+              Full debris cleanup and haul-away.
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

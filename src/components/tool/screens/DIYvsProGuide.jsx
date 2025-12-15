@@ -1,4 +1,6 @@
-import { Wrench, AlertTriangle, CheckCircle } from 'lucide-react'
+import { AlertTriangle, CheckCircle, Wrench } from 'lucide-react'
+import React from 'react'
+import { CONTACT } from '../../../constants'
 
 
 const tasks = [
@@ -36,7 +38,7 @@ const tasks = [
       'Keep mulch 3-6 inches away from trunk',
       'Apply 2-4 inch layer, no deeper',
       'Use organic mulch (wood chips, bark)',
-      'Don\'t create "volcano mulching" against trunk'
+      'Don’t create "volcano mulching" against trunk' // FIX: Replaced ' with ’
     ],
     tools: ['Wheelbarrow', 'Rake', 'Mulch'],
     whenToCall: 'Never - this is always safe to DIY'
@@ -170,15 +172,15 @@ export function DIYvsProGuide() {
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-amber-900 dark:text-slate-100 mb-3">DIY vs Professional Guide</h2>
         <p className="text-amber-800 dark:text-slate-300 leading-relaxed mb-4">
-          Learn which tree care tasks you can safely do yourself and when to call a professional. 
+          Learn which tree care tasks you can safely do yourself and when to call a professional.
           Your safety is the most important consideration.
         </p>
         <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-300 rounded-xl p-4">
           <div className="flex gap-3">
             <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-red-900 dark:text-red-200 font-medium">
-              <strong>Safety First:</strong> Tree work is inherently dangerous. If you have any doubt 
-              about your ability to safely complete a task, call a professional. Medical bills and 
+              <strong>Safety First:</strong> Tree work is inherently dangerous. If you have any doubt
+              about your ability to safely complete a task, call a professional. Medical bills and
               property damage cost far more than hiring an expert.
             </p>
           </div>
@@ -198,7 +200,7 @@ export function DIYvsProGuide() {
             <div key={index} className="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 border-2 border-green-200">
               <h4 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-2">{task.name}</h4>
               <p className="text-amber-700 dark:text-slate-400 mb-4">{task.description}</p>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <h5 className="font-semibold text-green-800 mb-2">Safety Tips:</h5>
@@ -225,7 +227,7 @@ export function DIYvsProGuide() {
                   </div>
                 )}
               </div>
-              
+
               <div className="mt-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3">
                 <p className="text-sm text-blue-900 dark:text-blue-200">
                   <strong>When to call a pro:</strong> {task.whenToCall}
@@ -249,7 +251,7 @@ export function DIYvsProGuide() {
             <div key={index} className="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 border-2 border-yellow-300">
               <h4 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-2">{task.name}</h4>
               <p className="text-amber-700 dark:text-slate-400 mb-4">{task.description}</p>
-              
+
               <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 mb-4">
                 <h5 className="font-semibold text-yellow-900 dark:text-yellow-200 mb-2 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4" />
@@ -264,14 +266,14 @@ export function DIYvsProGuide() {
                   ))}
                 </ul>
               </div>
-              
+
               {task.tools && (
                 <div className="mb-4">
                   <h5 className="font-semibold text-amber-900 dark:text-slate-100 mb-2">Required Equipment:</h5>
                   <p className="text-sm text-amber-700 dark:text-slate-400">{task.tools.join(', ')}</p>
                 </div>
               )}
-              
+
               <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-3">
                 <p className="text-sm text-red-900 dark:text-red-200">
                   <strong>When to call a pro:</strong> {task.whenToCall}
@@ -295,7 +297,7 @@ export function DIYvsProGuide() {
             <div key={index} className="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 border-2 border-red-300">
               <h4 className="text-xl font-bold text-amber-900 dark:text-slate-100 mb-2">{task.name}</h4>
               <p className="text-amber-700 dark:text-slate-400 mb-4">{task.description}</p>
-              
+
               <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
                 <h5 className="font-semibold text-red-900 dark:text-red-200 mb-2 flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5" />
@@ -310,7 +312,7 @@ export function DIYvsProGuide() {
                   ))}
                 </ul>
               </div>
-              
+
               <div className="mt-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3">
                 <p className="text-sm text-blue-900 dark:text-blue-200">
                   <strong>What to do:</strong> {task.whenToCall}
@@ -325,19 +327,19 @@ export function DIYvsProGuide() {
       <div className="mt-8 bg-gradient-to-br from-amber-800 to-yellow-700 text-white rounded-2xl p-8">
         <h3 className="text-2xl font-bold mb-4">Still Not Sure? Ask a Pro</h3>
         <p className="text-amber-100 mb-6">
-          If you're uncertain whether a task is safe for DIY, err on the side of caution. 
+          If you're uncertain whether a task is safe for DIY, err on the side of caution.
           Free consultations are always available - we'd rather answer your question than see you get hurt.
         </p>
         <div className="space-y-3">
           <a
-            href="tel:+14028123294"
+            href={`tel:${CONTACT.phoneRaw}`}
             className="block w-full px-6 py-4 bg-white dark:bg-slate-800 text-amber-900 dark:text-slate-100 rounded-xl font-bold hover:bg-amber-50 dark:bg-slate-700/50 transition-colors text-center"
           >
-            📞 Call Andrew: (402) 812-3294
+            📞 Call Andrew: {CONTACT.phone}
             <div className="text-sm font-normal text-amber-700 dark:text-slate-400 mt-1">Free advice, no obligation</div>
           </a>
           <a
-            href="mailto:andrew@midwestroots.info?subject=Question%20About%20Tree%20Work%20-%20DIY%20vs%20Pro"
+            href={`mailto:${CONTACT.email}?subject=Question%20About%20Tree%20Work%20-%20DIY%20vs%20Pro`}
             className="block w-full px-6 py-3 bg-amber-900 text-white rounded-xl font-semibold hover:bg-amber-800 transition-colors text-center"
           >
             📧 Email Your Question
