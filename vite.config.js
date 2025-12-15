@@ -16,22 +16,24 @@ const generateLocationRoutes = () => {
   return routes
 }
 
-// 2. Generate Service Routes (Existing Logic)
+// 2. Generate Service Routes (New Logic)
 const generateServiceRoutes = () => {
   const routes = []
-  Object.keys(servicesData).forEach(serviceId => {
-    routes.push(`/services/${serviceId}`)
+  // This assumes your services.json is an array of service objects
+  servicesData.forEach(service => {
+    routes.push(`/${service.slug}`)
   })
   return routes
 }
 
-// 3. Define Static Routes (Manual pages)
+// 3. Define Static Routes (Existing Logic)
 const staticRoutes = [
   '/',
   '/tools',
   '/locations',
+  '/tree-consultation-omaha',
   '/emergency-tree-service-omaha',
-  '/tree-consultation-omaha'
+  '/404',
 ]
 
 // 4. MASTER LIST: Combine everything into one source of truth
@@ -48,11 +50,12 @@ const allRoutes = [
 export default defineConfig({
   plugins: [
     react(),
-    // NEW: Generates sitemap.xml using the Master List
+    // NEW: sitemap generation plugin
     Sitemap({
       hostname: 'https://omahatreecare.com',
+      // Use our master route list
       dynamicRoutes: allRoutes,
-      exclude: ['/404'], // Explicitly exclude 404 from sitemap
+      // Explicitly exclude 404 from sitemap
       readable: true,
       robots: [{
         userAgent: '*',
@@ -63,7 +66,7 @@ export default defineConfig({
   ],
   // EXISTING: Generates HTML files using the Master List
   ssgOptions: {
-    script: 'async',
+    script: 'sync',
     formatting: 'minify',
     includedRoutes(paths) {
       // We ignore the default 'paths' guess and force our Master List

@@ -2,20 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "rewrites": [
-    {
-      "source": "/guide",
-      "destination": "/guide.html"
-    },
-    {
-      "source": "/tools",
-      "destination": "/tools/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -56,7 +42,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.(jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot)",
+      "source": "/(.*).(css|js|png|jpg|jpeg|gif|svg|webp|ico|woff2?)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -65,11 +51,11 @@
       ]
     },
     {
-      "source": "/(robots.txt|sitemap.xml)",
+      "source": "/(.*).html",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=3600, must-revalidate"
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     }
