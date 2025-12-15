@@ -15,7 +15,7 @@ const treeDatabase = [
       'Rapid decline: 2-4 years from infestation to death',
       'Extremely brittle wood when dead = extreme hazard'
     ],
-    maintenanceNotes: 'Remove all untreated ash unless active EAB treatment program in place. Treatment requires trunk injections every 2 years ($10-15 per diameter inch).',
+    maintenanceNotes: 'Remove all untreated ash unless active EAB treatment program in place. Treatment requires trunk injections every 2 years ($10-15 per diameter inch). Treatment must start BEFORE infestation for best results.',
     size: '50-80 feet'
   },
   {
@@ -140,6 +140,16 @@ const treeDatabase = [
   }
 ]
 
+// HELPER: Accessible Risk Labels (FIXED: Extracted helper function)
+const getRiskLabel = (level) => {
+  switch (level) {
+    case 'high': return { emoji: '🔴', text: 'High Risk' }
+    case 'moderate': return { emoji: '🟡', text: 'Moderate Risk' }
+    case 'low': return { emoji: '🟢', text: 'Low Risk' }
+    default: return { emoji: '', text: 'Unknown Risk' }
+  }
+}
+
 export function SpeciesIdentifier() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTree, setSelectedTree] = useState(null)
@@ -167,7 +177,6 @@ export function SpeciesIdentifier() {
       return;
     }
     // TODO: Implement backend submission
-    // This would send photos + species ID + consent to backend
     alert(`Thanks for contributing! Your ${uploadedPhotos.length} photo(s) of ${selectedTree.name} will help other homeowners identify their trees.`)
     setUploadedPhotos([])
     setShowUploadSection(false)
@@ -309,6 +318,7 @@ export function SpeciesIdentifier() {
         <div className="space-y-3">
           {filteredTrees.map((tree, index) => {
             const RiskIcon = getRiskIcon(tree.riskLevel)
+            const riskInfo = getRiskLabel(tree.riskLevel) // Use Helper
             return (
               <button
                 key={index}
@@ -318,12 +328,14 @@ export function SpeciesIdentifier() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 group-hover:text-amber-700 dark:text-slate-400 transition-colors">
+                      <h3 className="text-xl font-bold text-amber-900 dark:text-slate-100 group-hover:text-amber-700 dark:group-hover:text-slate-400 transition-colors">
                         {tree.name}
                       </h3>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${getRiskColor(tree.riskLevel)}`}>
                         <RiskIcon className="w-3 h-3" />
-                        {tree.riskLevel === 'high' ? '🔴 High Risk' : tree.riskLevel === 'moderate' ? '🟡 Moderate Risk' : '🟢 Low Risk'}
+                        {/* Accessible Emoji + Text */}
+                        <span aria-hidden="true">{riskInfo.emoji}</span>
+                        <span>{riskInfo.text}</span>
                       </span>
                     </div>
                     <p className="text-sm text-amber-700 dark:text-slate-400 italic">{tree.scientificName}</p>
@@ -358,7 +370,9 @@ export function SpeciesIdentifier() {
             </div>
             <div className="flex items-center gap-6 text-sm">
               <span className={`px-4 py-2 rounded-full font-semibold ${getRiskColor(selectedTree.riskLevel)}`}>
-                {selectedTree.riskLevel === 'high' ? '🔴 High Risk' : selectedTree.riskLevel === 'moderate' ? '🟡 Moderate Risk' : '🟢 Low Risk'}
+                 {/* Accessible Emoji + Text (Detail View) - FIX: Use helper function */}
+                 <span aria-hidden="true" className="mr-2">{getRiskLabel(selectedTree.riskLevel).emoji}</span>
+                 {getRiskLabel(selectedTree.riskLevel).text}
               </span>
               <span className="text-amber-100">Typical Size: {selectedTree.size}</span>
             </div>
@@ -430,7 +444,7 @@ export function SpeciesIdentifier() {
                     href={`tel:${CONTACT.phoneRaw}`}
                     className="block w-full px-6 py-3 bg-green-600 dark:bg-emerald-600 text-white rounded-xl font-semibold hover:bg-green-700 dark:hover:bg-emerald-700 transition-colors text-center"
                   >
-                    📞 Call Andrew: {CONTACT.phone}
+                    📞 Call Andrew: ${CONTACT.phone}
                   </a>
                   <a
                     href={`mailto:${CONTACT.email}?subject=Question%20About%20My%20${encodeURIComponent(selectedTree.name)}%20-%20From%20Species%20Guide`}

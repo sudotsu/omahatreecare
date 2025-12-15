@@ -1,8 +1,8 @@
-import { AlertTriangle, CheckCircle, Info, Mail, MessageSquare, Share2, XCircle } from 'lucide-react'
+import { AlertTriangle, CheckCircle, Info, Mail, MessageSquare, Share2, XCircle } from 'lucide-react';
 import React, { useState } from 'react'; // ADDED: React import
-import { useNavigate } from 'react-router-dom'
-import { CONTACT } from '../../../constants'
-import EmailCaptureModal from '../../EmailCaptureModal'
+import { useNavigate } from 'react-router-dom';
+import { CONTACT } from '../../../constants';
+import EmailCaptureModal from '../../EmailCaptureModal';
 
 
 /**
@@ -428,7 +428,8 @@ export function HazardAssessment() {
               className="w-full p-5 text-left bg-amber-50 dark:bg-slate-700/50 hover:bg-amber-100 dark:hover:bg-slate-600 border-2 border-amber-200 dark:border-slate-600 hover:border-amber-400 dark:hover:border-amber-500 rounded-xl transition-all group"
             >
               <div className="flex items-center justify-between">
-                <span className="text-amber-900 dark:text-slate-100 font-medium group-hover:text-amber-700 dark:text-slate-400 transition-colors">
+                {/* FOREMAN FIX: Added group-hover: to dark text so it doesn't override white text by default */}
+                <span className="text-amber-900 dark:text-slate-100 font-medium group-hover:text-amber-700 dark:group-hover:text-slate-400 transition-colors">
                   {option.text}
                 </span>
                 <svg className="w-5 h-5 text-amber-600 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,7 +1,12 @@
 import emailjs from '@emailjs/browser'
 import { ArrowRight, CheckCircle, Zap } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CONTACT } from '../constants'
+
+// Environment Variables - Moved to module scope for performance
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
 export default function FastQuote() {
   const [step, setStep] = useState(1)
@@ -13,10 +18,15 @@ export default function FastQuote() {
     phone: ''
   })
 
-  // Environment Variables
-  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+  // Ref to hold the timeout ID for cleanup
+  const timeoutRef = useRef(null)
+
+  // Cleanup timeout on component unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -25,6 +35,7 @@ export default function FastQuote() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+
     // Analytics & Email Logic (kept same)
     if (window.gtag) {
       window.gtag('event', 'lead_submission', {
@@ -32,6 +43,7 @@ export default function FastQuote() {
         event_label: formData.service
       })
     }
+
     const templateParams = {
       from_name: "Fast Quote Widget",
       user_phone: formData.phone,
@@ -41,14 +53,18 @@ export default function FastQuote() {
       page_source: 'fast_quote_widget',
       from_email: 'no-reply@fastquote.com'
     }
+
     try {
       await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
       setStep(3)
       setIsSubmitting(false)
-      setTimeout(() => {
+
+      // Extended timeout to 10s and assigned to ref for safety
+      timeoutRef.current = setTimeout(() => {
         setStep(1)
         setFormData({ zip: '', service: '', urgency: 'normal', phone: '' })
-      }, 5000)
+      }, 10000)
+
     } catch (error) {
       console.error('FastQuote Error:', error)
       alert('Sorry, there was an issue sending your request. Please call us directly.')
@@ -74,6 +90,9 @@ export default function FastQuote() {
               value={formData.zip}
               onChange={handleChange}
               placeholder="e.g. 68104"
+              pattern="[0-9]{5}"
+              maxLength={5}
+              inputMode="numeric"
               className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-300 focus:ring-2 focus:ring-primary outline-none text-slate-900 font-medium placeholder:text-slate-400"
             />
           </div>

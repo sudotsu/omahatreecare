@@ -38,7 +38,7 @@ const tasks = [
       'Keep mulch 3-6 inches away from trunk',
       'Apply 2-4 inch layer, no deeper',
       'Use organic mulch (wood chips, bark)',
-      'Don’t create "volcano mulching" against trunk' // FIX: Replaced ' with ’
+      'Don\'t create "volcano mulching" against trunk'
     ],
     tools: ['Wheelbarrow', 'Rake', 'Mulch'],
     whenToCall: 'Never - this is always safe to DIY'
@@ -333,7 +333,7 @@ export function DIYvsProGuide() {
         <div className="space-y-3">
           <a
             href={`tel:${CONTACT.phoneRaw}`}
-            className="block w-full px-6 py-4 bg-white dark:bg-slate-800 text-amber-900 dark:text-slate-100 rounded-xl font-bold hover:bg-amber-50 dark:bg-slate-700/50 transition-colors text-center"
+            className="block w-full px-6 py-4 bg-white dark:bg-slate-800 text-amber-900 dark:text-slate-100 rounded-xl font-bold hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors text-center"
           >
             📞 Call Andrew: {CONTACT.phone}
             <div className="text-sm font-normal text-amber-700 dark:text-slate-400 mt-1">Free advice, no obligation</div>

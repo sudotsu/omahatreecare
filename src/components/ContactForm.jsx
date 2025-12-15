@@ -1,183 +1,232 @@
 import emailjs from '@emailjs/browser';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, CheckCircle, Loader2, Send } from 'lucide-react';
-import PropTypes from 'prop-types'; // ADDED: Import PropTypes
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 import { CONTACT } from '../constants';
 
-export default function ContactForm({ urgency = 'medium', pageSource = 'contact_page' }) {
-  const form = useRef();
-  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
+// 1. Zod Validation Schema - REDUCED FRICTION
+// We only demand to know WHO they are and HOW to reach them.
+// The "What" (message/service) is now optional.
+const schema = z.object({
+  user_name: z.string().min(1, { message: "Name is required." }),
+  user_email: z.string().email({ message: "Please enter a valid email." }),
+  user_phone: z.string().min(7, { message: "Phone number is required." }), // Min 7 to catch basic errors, but permissive
+  service_type: z.string().optional(),
+  message: z.string().optional(),
+  address: z.string().optional(),
+});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus('loading');
+export default function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
-    // 1. ANALYTICS: Track the attempt
-    if (window.gtag) {
-      window.gtag('event', 'form_submission', {
-        event_category: 'lead_generation',
-        event_label: pageSource,
-        urgency: urgency
-      });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          user_name: data.user_name,
+          user_email: data.user_email,
+          user_phone: data.user_phone,
+          // Fallbacks for optional fields so email doesn't look broken
+          service_type: data.service_type || 'Not specified',
+          message: data.message || 'No description provided',
+          address: data.address || 'Not provided',
+        },
+        publicKey
+      );
+
+      setSubmitStatus('success');
+      reset();
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // 2. SEND: Using sendForm (Matches your template variables automatically)
-    // NOTE: Ensure your .env variables are set!
-    emailjs.sendForm(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID,
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-      form.current,
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-    )
-    .then((result) => {
-      setStatus('success');
-
-      // Analytics: Track Success
-      if (window.gtag) {
-        window.gtag('event', 'generate_lead', {
-            currency: "USD",
-            value: urgency === 'high' ? 50.00 : 20.00 // Arbitrary lead value
-        });
-      }
-
-      form.current.reset();
-    }, (error) => {
-      setStatus('error');
-      console.error('EmailJS Error:', error.text);
-    });
   };
 
-  // SUCCESS STATE
-  if (status === 'success') {
+  if (submitStatus === 'success') {
     return (
-      <div className="bg-green-50 border-2 border-green-500 rounded-2xl p-8 text-center animate-fade-in">
-        <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-        <h3 className="text-2xl font-bold text-green-900 mb-2">
-          Message Received.
-        </h3>
-        <p className="text-green-800 mb-4">
-          Thanks. Andrew or the crew will review your property via satellite and reach out shortly.
+      <div className="bg-green-50 p-8 rounded-lg border border-green-200 text-center shadow-sm">
+        <div className="flex justify-center mb-4">
+          <CheckCircle className="h-16 w-16 text-green-600" />
+        </div>
+        <h3 className="text-2xl font-bold text-green-900 mb-2">Message Received</h3>
+        <p className="text-green-800 mb-6">
+          We have your contact info. We will call you shortly to discuss the details.
         </p>
         <button
-          onClick={() => setStatus('idle')}
-          className="text-sm font-bold text-green-700 underline hover:text-green-900"
+          onClick={() => setSubmitStatus(null)}
+          className="text-green-700 font-semibold hover:underline"
         >
-          Send another request
+          Send another message
         </button>
       </div>
     );
   }
 
-  // FORM STATE
   return (
-    <form ref={form} onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+    <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-100">
+      <h2 className="text-2xl font-bold text-slate-900 mb-6">Request an Estimate</h2>
 
-      {/* ERROR ALERT */}
-      {status === 'error' && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
+      {submitStatus === 'error' && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex gap-3 items-start">
+          <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
           <div>
-            <p className="font-bold text-red-900">Transmission Failed</p>
-            <p className="text-sm text-red-800">
-              Technology is great when it works. Please just call/text us:
-              <a href={`tel:${CONTACT.phoneRaw}`} className="font-bold hover:underline ml-1">
-                {CONTACT.phone}
-              </a>.
+            <h4 className="font-semibold text-red-900">Submission Failed</h4>
+            <p className="text-sm text-red-700">
+              Something went wrong. Please call us at <strong>{CONTACT.phone}</strong>.
             </p>
           </div>
         </div>
       )}
 
-      {/* HIDDEN ANALYTICS FIELDS */}
-      <input type="hidden" name="urgency" value={urgency} />
-      <input type="hidden" name="page_source" value={pageSource} />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-      {/* NAME */}
-      <div>
-        <label className="block text-sm font-bold text-slate-700 mb-1">Your Name *</label>
-        <input
-          type="text"
-          name="user_name"
-          required
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition outline-none"
-          placeholder="Jane Doe"
-        />
-      </div>
+        {/* Row 1: Name & Phone */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="space-y-1">
+            <label htmlFor="user_name" className="block text-sm font-medium text-slate-700">
+              Full Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="user_name"
+              type="text"
+              placeholder="Your Name"
+              {...register('user_name')}
+              className={`w-full px-4 py-2 rounded-lg border focus:ring-2 focus:outline-none transition-all ${
+                errors.user_name
+                  ? 'border-red-300 focus:ring-red-200 bg-red-50'
+                  : 'border-slate-300 focus:ring-emerald-200 focus:border-emerald-500'
+              }`}
+            />
+          </div>
 
-      {/* PHONE & BEST TIME */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-1">Phone *</label>
+          <div className="space-y-1">
+            <label htmlFor="user_phone" className="block text-sm font-medium text-slate-700">
+              Phone Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="user_phone"
+              type="tel"
+              placeholder="(402)..."
+              {...register('user_phone')}
+              className={`w-full px-4 py-2 rounded-lg border focus:ring-2 focus:outline-none transition-all ${
+                errors.user_phone
+                  ? 'border-red-300 focus:ring-red-200 bg-red-50'
+                  : 'border-slate-300 focus:ring-emerald-200 focus:border-emerald-500'
+              }`}
+            />
+          </div>
+        </div>
+
+        {/* Row 2: Email */}
+        <div className="space-y-1">
+          <label htmlFor="user_email" className="block text-sm font-medium text-slate-700">
+            Email Address <span className="text-red-500">*</span>
+          </label>
           <input
-            type="tel"
-            name="user_phone"
-            required
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
-            placeholder="(402) ..."
+            id="user_email"
+            type="email"
+            placeholder="email@address.com"
+            {...register('user_email')}
+            className={`w-full px-4 py-2 rounded-lg border focus:ring-2 focus:outline-none transition-all ${
+              errors.user_email
+                ? 'border-red-300 focus:ring-red-200 bg-red-50'
+                : 'border-slate-300 focus:ring-emerald-200 focus:border-emerald-500'
+            }`}
           />
         </div>
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-1">Best Time</label>
+
+        {/* Row 3: Address (Optional) */}
+        <div className="space-y-1">
+          <label htmlFor="address" className="block text-sm font-medium text-slate-700">
+            Property Address <span className="text-slate-400 font-normal">(Optional)</span>
+          </label>
+          <input
+            id="address"
+            type="text"
+            {...register('address')}
+            className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 focus:outline-none transition-all"
+          />
+        </div>
+
+        {/* Row 4: Service Type (Optional) */}
+        <div className="space-y-1">
+          <label htmlFor="service_type" className="block text-sm font-medium text-slate-700">
+            Service <span className="text-slate-400 font-normal">(Optional)</span>
+          </label>
           <select
-            name="best_time"
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
+            id="service_type"
+            {...register('service_type')}
+            className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 focus:outline-none transition-all"
           >
-            <option value="Anytime">Anytime</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
+            <option value="">I'm not sure</option>
+            <option value="Tree Removal">Tree Removal</option>
+            <option value="Pruning / Trimming">Pruning / Trimming</option>
+            <option value="Stump Grinding">Stump Grinding</option>
+            <option value="Storm Damage">Storm Damage</option>
+            <option value="Plant Health / EAB">Plant Health Care</option>
           </select>
         </div>
-      </div>
 
-      {/* ADDRESS */}
-      <div>
-        <label className="block text-sm font-bold text-slate-700 mb-1">Property Address</label>
-        <input
-          type="text"
-          name="user_address"
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
-          placeholder="Street, City, Zip (Allows us to check satellite view)"
-        />
-      </div>
+        {/* Row 5: Message (Optional) */}
+        <div className="space-y-1">
+          <label htmlFor="message" className="block text-sm font-medium text-slate-700">
+            How can we help? <span className="text-slate-400 font-normal">(Optional)</span>
+          </label>
+          <textarea
+            id="message"
+            rows="3"
+            placeholder="Leave blank if you prefer to discuss on the phone."
+            {...register('message')}
+            className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 focus:outline-none transition-all"
+          ></textarea>
+        </div>
 
-      {/* MESSAGE */}
-      <div>
-        <label className="block text-sm font-bold text-slate-700 mb-1">How can we help?</label>
-        <textarea
-          name="message"
-          rows="4"
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none resize-none"
-          placeholder="I have a Silver Maple leaning over the garage..."
-        ></textarea>
-      </div>
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Sending...
+            </>
+          ) : (
+            <>
+              <Send className="h-5 w-5" />
+              Get My Free Estimate
+            </>
+          )}
+        </button>
 
-      {/* SUBMIT */}
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        className="w-full bg-green-700 hover:bg-green-800 disabled:opacity-70 text-white font-bold py-4 px-8 rounded-lg transition transform hover:scale-[1.02] flex items-center justify-center gap-2"
-      >
-        {status === 'loading' ? (
-          <>
-            <Loader2 className="animate-spin w-5 h-5" /> Sending...
-          </>
-        ) : (
-          <>
-            <Send className="w-5 h-5" /> Request Assessment
-          </>
-        )}
-      </button>
-
-      <p className="text-xs text-slate-400 text-center">
-        We respect your privacy. Direct contact only, no spam lists.
-      </p>
-    </form>
+        <p className="text-xs text-slate-400 text-center mt-4">
+          Or call us directly at <a href={`tel:${CONTACT.phoneRaw}`} className="text-emerald-600 hover:underline">{CONTACT.phone}</a>
+        </p>
+      </form>
+    </div>
   );
 }
-
-// ADDED: PropTypes Validation
-ContactForm.propTypes = {
-  urgency: PropTypes.string,
-  pageSource: PropTypes.string,
-};

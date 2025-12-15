@@ -1,8 +1,15 @@
 import emailjs from '@emailjs/browser';
 import { CheckCircle, Mail, X } from 'lucide-react';
-import PropTypes from 'prop-types'; // ADDED: Import PropTypes for prop validation
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
+// -----------------------------------------------------------------------------
+// MODULE SCOPE CONSTANTS
+// Moved outside component to prevent re-evaluation on every render
+// -----------------------------------------------------------------------------
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 /**
  * Renders an email capture modal that collects an email address, emits a tracking event when available, and shows a brief success state before closing.
@@ -19,22 +26,17 @@ export default function EmailCaptureModal({ isOpen, onClose }) {
 
   if (!isOpen) return null
 
-  // Use the same environment variables as ContactForm.jsx
-  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID; // Assuming one template is used for all leads
-  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // 1. ANALYTICS: Track the attempt
+    // 1. ANALYTICS: Track the attempt - PII FIELD (email) REMOVED
     if (window.gtag) {
       window.gtag('event', 'email_capture', {
         event_category: 'lead_generation',
         event_label: 'low_risk_email',
         value: 1,
-        email: email
+        // email field removed here to prevent PII violation.
       })
     }
 

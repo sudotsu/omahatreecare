@@ -16,12 +16,16 @@ const Hero = () => {
         }}
       />
 
-      {/* FOREMAN FIX: Drastically reduced opacity.
-          Top: 60% Grey (Readable Nav)
-          Middle: Transparent (Show the Tree!)
-          Bottom: Solid Grey (Blend to body)
+      {/* FOREMAN FIX: Gradient Strategy Update
+          - Left (Text Side): 90% Opacity Stone-100 (High Contrast for Dark Text)
+          - Middle: Fades to 60%
+          - Right: Transparent (Show the Tree Image)
+          - Bottom: Solid fade to blend with next section
       */}
-      <div className="absolute inset-0 bg-gradient-to-b from-stone-200/60 via-transparent to-stone-200"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-stone-100/90 via-stone-100/60 to-transparent"></div>
+
+      {/* Additional bottom fade for smooth transition to body */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-stone-100 to-transparent"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
