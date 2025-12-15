@@ -1,76 +1,110 @@
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
-import Sitemap from 'vite-plugin-sitemap'; // <--- The new plugin
-import locationsData from './src/data/locations.json';
-import servicesData from './src/data/services.json';
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import Sitemap from 'vite-plugin-sitemap'
+import locationsData from './src/data/locations.json'
+import servicesData from './src/data/services.json'
 
-// 1. Generate Location Routes (Existing Logic)
+/**
+ * Normalize services.json into a flat array of service objects.
+ * Handles common shapes:
+ * - Array: [{ slug: "tree-removal" }, ...]
+ * - Object with array property: { services: [...] } or { items: [...] }
+ * - Object of categories: { "core": [...], "winter": [...] }
+ * - Object keyed by slug: { "tree-removal": { slug: "tree-removal", ... }, ... }
+ */
+const normalizeServices = (data) => {
+  if (Array.isArray(data)) return data
+
+  if (data && typeof data === 'object') {
+    if (Array.isArray(data.services)) return data.services
+    if (Array.isArray(data.items)) return data.items
+
+    // Flatten object values; if values are arrays, flatten them; if objects, keep them.
+    const vals = Object.values(data)
+    const flattened = vals.flatMap((v) => (Array.isArray(v) ? v : [v]))
+    return flattened.filter(Boolean)
+  }
+
+  return []
+}
+
+// Generate Location Routes
 const generateLocationRoutes = () => {
   const routes = []
-  Object.keys(locationsData).forEach(city => {
+  Object.keys(locationsData).forEach((city) => {
     routes.push(`/locations/${city}`)
-    locationsData[city].forEach(neighborhood => {
+    locationsData[city].forEach((neighborhood) => {
       routes.push(`/locations/${city}/${neighborhood}`)
     })
   })
   return routes
 }
 
-// 2. Generate Service Routes (New Logic)
+// Generate Service Routes (robust)
 const generateServiceRoutes = () => {
-  const routes = []
-  // This assumes your services.json is an array of service objects
-  servicesData.forEach(service => {
-    routes.push(`/${service.slug}`)
-  })
+  const services = normalizeServices(servicesData)
+
+  const routes = services
+    .map((service) => {
+      // accept common field names
+      const slug =
+        service?.slug ||
+        service?.path ||
+        service?.url ||
+        service?.id ||
+        service?.handle
+
+      if (!slug) return null
+
+      // ensure leading slash and avoid double slashes
+      const cleaned = String(slug).startsWith('/') ? String(slug) : `/${slug}`
+      return cleaned.replace(/\/{2,}/g, '/')
+    })
+    .filter(Boolean)
+
   return routes
 }
 
-// 3. Define Static Routes (Existing Logic)
+// Static Routes
 const staticRoutes = [
   '/',
   '/tools',
   '/locations',
   '/tree-consultation-omaha',
   '/emergency-tree-service-omaha',
-  '/404',
+  '/404'
 ]
 
-// 4. MASTER LIST: Combine everything into one source of truth
-// Filter out 404 and deduplicate routes
+// Master route list (dedupe + exclude 404 from sitemap)
 const allRoutes = [
   ...staticRoutes,
   ...generateLocationRoutes(),
   ...generateServiceRoutes()
 ]
-  .filter(route => route !== '/404') // Exclude 404 page from sitemap
-  .filter((route, index, self) => self.indexOf(route) === index) // Remove duplicates
+  .filter((route) => route !== '/404')
+  .filter((route, index, self) => self.indexOf(route) === index)
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    // NEW: sitemap generation plugin
     Sitemap({
       hostname: 'https://omahatreecare.com',
-      // Use our master route list
       dynamicRoutes: allRoutes,
-      // Explicitly exclude 404 from sitemap
       readable: true,
-      robots: [{
-        userAgent: '*',
-        allow: '/',
-        disallow: ['/404']
-      }]
+      robots: [
+        {
+          userAgent: '*',
+          allow: '/',
+          disallow: ['/404']
+        }
+      ]
     })
   ],
-  // EXISTING: Generates HTML files using the Master List
   ssgOptions: {
+    // IMPORTANT: prevents the race where your app JS can run before the hash is defined
     script: 'sync',
     formatting: 'minify',
-    includedRoutes(paths) {
-      // We ignore the default 'paths' guess and force our Master List
-      // This ensures HTML and XML always match perfectly.
+    includedRoutes() {
       return allRoutes
     }
   }
