@@ -65,7 +65,24 @@ export const Header: React.FC = () => {
               onMouseLeave={() => setIsServicesOpen(false)}
             >
               <button
+                type="button"
                 className="flex items-center gap-1 text-sm font-semibold text-neutral-900 hover:text-primary-600 transition-colors"
+                onClick={() => setIsServicesOpen(!isServicesOpen)}
+                onFocus={() => setIsServicesOpen(true)}
+                onBlur={(e) => {
+                  // Only close if focus is leaving the entire dropdown
+                  if (!e.currentTarget.parentElement?.contains(e.relatedTarget as Node)) {
+                    setIsServicesOpen(false);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsServicesOpen(!isServicesOpen);
+                  } else if (e.key === 'Escape') {
+                    setIsServicesOpen(false);
+                  }
+                }}
                 aria-expanded={isServicesOpen}
                 aria-haspopup="true"
               >
