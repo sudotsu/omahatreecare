@@ -77,9 +77,6 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
 
-  // Vercel deployment compatibility
-  output: "standalone",
-
   // Image optimization
   images: {
     domains: ["omahatreecare.com"],
