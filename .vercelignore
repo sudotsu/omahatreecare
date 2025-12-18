@@ -1,0 +1,11 @@
+legacy/**
+src/components-legacy/**
+src/pages/**
+src/main.jsx
+src/main.jsx.backup
+src/routes.jsx
+vite.config.js
+vite.config.js.backup
+index.html
+page_source.txt
+api/**
