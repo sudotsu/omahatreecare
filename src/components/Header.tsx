@@ -142,6 +142,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button
+            type="button"
             className="lg:hidden p-2 text-neutral-900 hover:text-primary-600 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
