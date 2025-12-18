@@ -1,51 +1,47 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // THE FIX: Distinct Warm Greys
+        // Warm Greys (from existing config)
         stone: {
-            50: '#fafaf9',
-            100: '#f5f5f4', // <--- MAIN BACKGROUND (Visible Grey)
-            200: '#e7e5e4', // <--- BORDERS
-            300: '#d6d3d1',
+          50: '#fafaf9',
+          100: '#f5f5f4',
+          200: '#e7e5e4',
+          300: '#d6d3d1',
         },
         slate: {
-            800: '#1e293b',
-            900: '#0f172a', // Main Text / Dark Backgrounds
+          800: '#1e293b',
+          900: '#0f172a',
         },
         // Brand Colors
         primary: {
-          DEFAULT: '#52796f', // Muted Green (Brand)
+          DEFAULT: '#52796f',
           dark: '#2f4b43',
           light: '#84a98c',
         },
-        // The "Action" Color (Not Ugly Brown)
         accent: {
-            DEFAULT: '#e76f51', // Burnt Sienna (Warm/Urgent)
-            hover: '#d05c40',
+          DEFAULT: '#e76f51',
+          hover: '#d05c40',
         },
-        // Wood tones for text accents only
         wood: {
-            DEFAULT: '#5c4d43',
-        }
+          DEFAULT: '#5c4d43',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         serif: ['Crimson Pro', 'serif'],
       },
       boxShadow: {
-        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)', // Premium soft shadow
-        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-      }
+        soft: '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+        card: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require('@tailwindcss/typography')],
 }
