@@ -16,7 +16,7 @@ export const Card: React.FC<CardProps> = ({
   hover = false,
   ...props
 }) => {
-  const baseStyles = 'bg-white border border-neutral-200 transition-all duration-default ease-smooth';
+  const baseStyles = 'bg-white border border-neutral-200 transition-all duration-250 ease-smooth';
 
   const variantStyles = {
     standard: 'rounded-lg p-6 shadow-sm',
