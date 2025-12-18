@@ -3,6 +3,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { Header, Footer, StickyMobileCTA } from '../src/components'
 import '../src/index.css'
 
 /**
@@ -14,9 +16,16 @@ import '../src/index.css'
  * - Speed Insights: @vercel/speed-insights/next (Next.js specific)
  * - Global styles: imported from src/index.css
  * - Dark mode script: moved to _document.tsx
+ * - Site chrome: Header, Footer, StickyMobileCTA
  */
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  // Pages that should not have chrome (special layouts)
+  const noChrome = ['/design-system'];
+  const shouldShowChrome = !noChrome.includes(router.pathname);
+
   useEffect(() => {
     // Dark mode initialization (client-side)
     // This runs after hydration to prevent flash
@@ -41,7 +50,15 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
 
-      <Component {...pageProps} />
+      {shouldShowChrome && <Header />}
+
+      {/* Main content with top padding for fixed header */}
+      <main className={shouldShowChrome ? 'pt-20' : ''}>
+        <Component {...pageProps} />
+      </main>
+
+      {shouldShowChrome && <Footer />}
+      {shouldShowChrome && <StickyMobileCTA />}
 
       {/* Vercel Analytics - same as Vite setup */}
       <Analytics />
