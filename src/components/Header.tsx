@@ -141,7 +141,7 @@ export const Header: React.FC = () => {
                       All Services
                     </Link>
                     <div className="border-t border-neutral-200 my-2" />
-                    {services.map((service) => (
+                    {services.map((service: { name: string; slug: string }) => (
                       <Link
                         key={service.slug}
                         href={`/services/${service.slug}`}
@@ -218,7 +218,7 @@ export const Header: React.FC = () => {
                   Services
                 </Link>
                 <div className="pl-4 space-y-2">
-                  {services.map((service) => (
+                  {services.map((service: { name: string; slug: string }) => (
                     <Link
                       key={service.slug}
                       href={`/services/${service.slug}`}
