@@ -7,6 +7,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Build artifacts
+build-output.txt
+
+# Legacy Vite config (migrated to Next.js)
+vite.config.js
+vite.config.js.backup
+
 node_modules
 dist
 dist-ssr
@@ -15,7 +22,6 @@ dist-ssr
 # Next.js
 /.next/
 /out/
-next-env.d.ts
 
 # Editor directories and files
 .vscode/*

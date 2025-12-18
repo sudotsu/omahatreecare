@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Menu, X, ChevronDown, AlertTriangle, Phone } from 'lucide-react';
 import { Button } from './primitives';
 import { CONTACT } from '../constants';
+import servicesData from '../data/services.json';
 
 /**
  * Header Component
@@ -29,12 +30,47 @@ export const Header: React.FC = () => {
     setIsMenuOpen(false);
   }, [router.pathname]);
 
-  const services = [
-    { name: 'Tree Removal', slug: 'tree-removal' },
-    { name: 'Tree Trimming', slug: 'tree-trimming' },
-    { name: 'Tree Health Assessment', slug: 'tree-health-assessment' },
-    { name: 'Winter Tree Prep', slug: 'winter-tree-prep' },
-  ];
+  // Normalize services.json to array with runtime validation
+  const normalizeServices = (data: any) => {
+    // Already an array
+    if (Array.isArray(data)) {
+      return data.map((service: any) => ({
+        name: service.title || service.name,
+        slug: service.slug
+      }));
+    }
+
+    // Object with nested services array
+    if (data && typeof data === 'object') {
+      if (Array.isArray(data.services)) {
+        return data.services.map((service: any) => ({
+          name: service.title || service.name,
+          slug: service.slug
+        }));
+      }
+      if (Array.isArray(data.items)) {
+        return data.items.map((service: any) => ({
+          name: service.title || service.name,
+          slug: service.slug
+        }));
+      }
+
+      // Object keyed by slug (current shape)
+      const values = Object.values(data);
+      if (values.length > 0 && values.every((v: any) => v && typeof v === 'object')) {
+        return values.map((service: any) => ({
+          name: service.title || service.name,
+          slug: service.slug
+        }));
+      }
+    }
+
+    // Fallback: log warning and return empty array
+    console.warn('Header: Unable to normalize services.json, expected array or object with services');
+    return [];
+  };
+
+  const services = normalizeServices(servicesData);
 
   return (
     <header
@@ -65,7 +101,24 @@ export const Header: React.FC = () => {
               onMouseLeave={() => setIsServicesOpen(false)}
             >
               <button
+                type="button"
                 className="flex items-center gap-1 text-sm font-semibold text-neutral-900 hover:text-primary-600 transition-colors"
+                onClick={() => setIsServicesOpen(!isServicesOpen)}
+                onFocus={() => setIsServicesOpen(true)}
+                onBlur={(e) => {
+                  // Only close if focus is leaving the entire dropdown
+                  if (!e.currentTarget.parentElement?.contains(e.relatedTarget as Node)) {
+                    setIsServicesOpen(false);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsServicesOpen(!isServicesOpen);
+                  } else if (e.key === 'Escape') {
+                    setIsServicesOpen(false);
+                  }
+                }}
                 aria-expanded={isServicesOpen}
                 aria-haspopup="true"
               >
@@ -142,6 +195,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button
+            type="button"
             className="lg:hidden p-2 text-neutral-900 hover:text-primary-600 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}

@@ -2,7 +2,6 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Header, Footer, StickyMobileCTA } from '../src/components'
 import '../src/index.css'
@@ -25,22 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
   // Pages that should not have chrome (special layouts)
   const noChrome = ['/design-system'];
   const shouldShowChrome = !noChrome.includes(router.pathname);
-
-  useEffect(() => {
-    // Dark mode initialization (client-side)
-    // This runs after hydration to prevent flash
-    try {
-      const savedMode = localStorage.getItem('darkMode')
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      if (savedMode === 'true' || (savedMode === null && prefersDark)) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
-    } catch (e) {
-      console.error('Dark mode initialization failed:', e)
-    }
-  }, [])
 
   return (
     <>
