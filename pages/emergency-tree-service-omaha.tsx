@@ -64,6 +64,8 @@ export default function EmergencyTreeServicePage() {
                 className="w-8 h-8 animate-pulse"
                 fill="currentColor"
                 viewBox="0 0 24 24"
+                role="img"
+                aria-label="Shield"
               >
                 <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
               </svg>
@@ -99,6 +101,8 @@ export default function EmergencyTreeServicePage() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      role="img"
+                      aria-label="Warning"
                     >
                       <path
                         strokeLinecap="round"
@@ -123,6 +127,8 @@ export default function EmergencyTreeServicePage() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      role="img"
+                      aria-label="Warning"
                     >
                       <path
                         strokeLinecap="round"
@@ -145,6 +151,8 @@ export default function EmergencyTreeServicePage() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      role="img"
+                      aria-label="Warning"
                     >
                       <path
                         strokeLinecap="round"
@@ -167,6 +175,8 @@ export default function EmergencyTreeServicePage() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      role="img"
+                      aria-label="Warning"
                     >
                       <path
                         strokeLinecap="round"
@@ -194,6 +204,8 @@ export default function EmergencyTreeServicePage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    role="img"
+                    aria-label="Confirmed"
                   >
                     <path
                       strokeLinecap="round"
@@ -215,6 +227,8 @@ export default function EmergencyTreeServicePage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    role="img"
+                    aria-label="Confirmed"
                   >
                     <path
                       strokeLinecap="round"
@@ -236,6 +250,8 @@ export default function EmergencyTreeServicePage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    role="img"
+                    aria-label="Confirmed"
                   >
                     <path
                       strokeLinecap="round"
@@ -257,6 +273,8 @@ export default function EmergencyTreeServicePage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    role="img"
+                    aria-label="Confirmed"
                   >
                     <path
                       strokeLinecap="round"
