@@ -76,11 +76,11 @@ export const Header: React.FC = () => {
     <header
       className={`fixed w-full z-50 transition-all duration-default ease-smooth ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-sm shadow-md py-3'
-          : 'bg-white py-4'
+          ? 'bg-white/95 backdrop-blur-sm shadow-md py-6'
+          : 'bg-white py-6'
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-xl">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
         <div className="flex items-center justify-between">
           {/* Logo/Brand */}
           <Link href="/" className="flex flex-col group">
