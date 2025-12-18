@@ -30,11 +30,47 @@ export const Header: React.FC = () => {
     setIsMenuOpen(false);
   }, [router.pathname]);
 
-  // Transform services.json to match expected {name, slug} shape
-  const services = Object.values(servicesData).map(service => ({
-    name: service.title,
-    slug: service.slug
-  }));
+  // Normalize services.json to array with runtime validation
+  const normalizeServices = (data: any) => {
+    // Already an array
+    if (Array.isArray(data)) {
+      return data.map((service: any) => ({
+        name: service.title || service.name,
+        slug: service.slug
+      }));
+    }
+
+    // Object with nested services array
+    if (data && typeof data === 'object') {
+      if (Array.isArray(data.services)) {
+        return data.services.map((service: any) => ({
+          name: service.title || service.name,
+          slug: service.slug
+        }));
+      }
+      if (Array.isArray(data.items)) {
+        return data.items.map((service: any) => ({
+          name: service.title || service.name,
+          slug: service.slug
+        }));
+      }
+
+      // Object keyed by slug (current shape)
+      const values = Object.values(data);
+      if (values.length > 0 && values.every((v: any) => v && typeof v === 'object')) {
+        return values.map((service: any) => ({
+          name: service.title || service.name,
+          slug: service.slug
+        }));
+      }
+    }
+
+    // Fallback: log warning and return empty array
+    console.warn('Header: Unable to normalize services.json, expected array or object with services');
+    return [];
+  };
+
+  const services = normalizeServices(servicesData);
 
   return (
     <header
