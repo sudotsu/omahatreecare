@@ -56,9 +56,16 @@ const generateServiceRoutes = () => {
 
       if (!slug) return null
 
-      // ensure leading slash and avoid double slashes
+      // Normalize to single leading slash
       const cleaned = String(slug).startsWith('/') ? String(slug) : `/${slug}`
-      return cleaned.replace(/\/{2,}/g, '/')
+
+      // Prepend /services/ prefix if not already present
+      const withPrefix = cleaned.startsWith('/services/')
+        ? cleaned
+        : `/services${cleaned}`
+
+      // Collapse multiple slashes into one
+      return withPrefix.replace(/\/\/+/g, '/')
     })
     .filter(Boolean)
 
