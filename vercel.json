@@ -1,7 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
   "headers": [
     {
       "source": "/(.*)",
@@ -72,6 +70,5 @@
       "permanent": true
     }
   ],
-  "cleanUrls": true,
   "trailingSlash": false
 }
