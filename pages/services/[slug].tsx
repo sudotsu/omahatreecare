@@ -103,9 +103,7 @@ export default function ServicePage({ service }: ServicePageProps) {
               </h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="flex items-start gap-3">
-                  <svg
-                    aria-hidden="true"
-                    className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
+                  <svg className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -121,9 +119,7 @@ export default function ServicePage({ service }: ServicePageProps) {
                   <span className="text-slate-700 dark:text-slate-300">{service.benefit_1}</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <svg
-                    aria-hidden="true"
-                    className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
+                  <svg className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -139,9 +135,7 @@ export default function ServicePage({ service }: ServicePageProps) {
                   <span className="text-slate-700 dark:text-slate-300">{service.benefit_2}</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <svg
-                    aria-hidden="true"
-                    className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
+                  <svg className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
