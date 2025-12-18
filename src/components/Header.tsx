@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Menu, X, ChevronDown, AlertTriangle, Phone } from 'lucide-react';
 import { Button } from './primitives';
 import { CONTACT } from '../constants';
+import servicesData from '../data/services.json';
 
 /**
  * Header Component
@@ -29,12 +30,11 @@ export const Header: React.FC = () => {
     setIsMenuOpen(false);
   }, [router.pathname]);
 
-  const services = [
-    { name: 'Tree Removal', slug: 'tree-removal' },
-    { name: 'Tree Trimming', slug: 'tree-trimming' },
-    { name: 'Tree Health Assessment', slug: 'tree-health-assessment' },
-    { name: 'Winter Tree Prep', slug: 'winter-tree-prep' },
-  ];
+  // Transform services.json to match expected {name, slug} shape
+  const services = Object.values(servicesData).map(service => ({
+    name: service.title,
+    slug: service.slug
+  }));
 
   return (
     <header
