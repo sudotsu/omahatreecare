@@ -29,6 +29,8 @@ next-env.d.ts
 *.njsproj
 *.sln
 *.sw?
+/index.html
+/vite.config.js.backup
 
 # Environment variables
 .env
