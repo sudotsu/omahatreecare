@@ -1,14 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-// NOTE: This route generation logic is adapted from vite.config.js.backup
-// It will be used for sitemap generation in future steps
-
 const locationsData = require('./src/data/locations.json')
 const servicesData = require('./src/data/services.json')
 
 /**
  * Normalize services.json into a flat array of service objects.
- * Adapted from vite.config.js.backup
  */
 const normalizeServices = (data) => {
   if (Array.isArray(data)) return data
@@ -27,7 +23,6 @@ const normalizeServices = (data) => {
 
 /**
  * Generate location routes for sitemap
- * Adapted from vite.config.js.backup
  */
 const generateLocationRoutes = () => {
   const routes = []
@@ -83,9 +78,6 @@ const allRoutes = [
 ]
   .filter((route, index, self) => self.indexOf(route) === index) // dedupe
 
-// Export for use in sitemap generation (future step)
-module.exports.allRoutes = allRoutes
-
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
@@ -102,12 +94,16 @@ const nextConfig = {
   // Trailing slash behavior (matching vercel.json config)
   trailingSlash: false,
 
-  // Headers (matching security headers from vercel.json)
+  // Security headers
   async headers() {
     return [
       {
         source: '/:path*',
         headers: [
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
@@ -115,10 +111,6 @@ const nextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
           },
           {
             key: 'Referrer-Policy',
@@ -158,4 +150,6 @@ const nextConfig = {
   },
 }
 
+// Export Next.js config with allRoutes attached
 module.exports = nextConfig
+module.exports.allRoutes = allRoutes
