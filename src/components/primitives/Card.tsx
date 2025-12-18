@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({
   };
 
   const hoverStyles = hover
-    ? 'hover:shadow-lg hover:scale-101 cursor-pointer'
+    ? 'hover:shadow-lg hover:scale-[1.01] cursor-pointer'
     : '';
 
   return (
