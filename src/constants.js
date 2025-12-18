@@ -3,12 +3,14 @@
  * Centralized configuration for contact info, branding, and common values
  */
 
+export const SITE_URL = 'https://omahatreecare.com'
+
 export const CONTACT = {
   phone: '(402) 812-3294',
   phoneRaw: '+14028123294',
   email: 'andrew@omahatreecare.com', // UPDATED
   businessName: 'Midwest Roots Tree Services',
-  siteUrl: 'https://omahatreecare.com',
+  siteUrl: SITE_URL,
 
   // Helper string for internal use (Safe to keep)
   address: '5634 Corby St # 1, Omaha, NE 68104-4128',
