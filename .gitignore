@@ -36,6 +36,9 @@ next-env.d.ts
 .env.production.local
 .vercel
 
+# Backup files
+*.backup
+
 # Playwright
 /test-results/
 /playwright-report/

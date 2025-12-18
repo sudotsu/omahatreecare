@@ -4,7 +4,6 @@
     "src/components-legacy/**",
     "src/pages/**/*.jsx",
     "src/main.jsx",
-    "src/main.jsx.backup",
-    "vite.config.js.backup"
+    "src/main.jsx.backup"
   ]
 }
