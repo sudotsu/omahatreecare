@@ -35,6 +35,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+/index.html
+/vite.config.js.backup
 
 # Environment variables
 .env
