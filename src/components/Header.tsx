@@ -94,6 +94,14 @@ export const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-6">
+            {/* 24/7 Emergency Badge - Desktop */}
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-alert-500 rounded-full">
+              <AlertTriangle size={14} className="text-white animate-pulse" />
+              <span className="text-xs font-bold text-white tracking-wide">
+                24/7 EMERGENCY SERVICE
+              </span>
+            </div>
+
             {/* Services Dropdown */}
             <div
               className="relative"
@@ -176,17 +184,9 @@ export const Header: React.FC = () => {
               Free Consultation
             </Link>
 
-            {/* Emergency CTA - Desktop */}
-            <Link href="/emergency-tree-service-omaha">
-              <Button variant="emergency" size="sm" className="flex items-center gap-2">
-                <AlertTriangle size={16} />
-                Emergency
-              </Button>
-            </Link>
-
-            {/* Phone CTA - Desktop */}
+            {/* Phone CTA - Desktop (High Contrast) */}
             <a href={`tel:${CONTACT.phoneRaw}`}>
-              <Button variant="primary" size="sm" className="flex items-center gap-2">
+              <Button variant="emergency" size="sm" className="flex items-center gap-2 min-h-[44px]">
                 <Phone size={16} />
                 {CONTACT.phone}
               </Button>
@@ -205,67 +205,49 @@ export const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Simplified for "Emergency Distress" */}
         {isMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 w-full bg-neutral-900 border-t border-neutral-700 shadow-xl">
             <nav className="container mx-auto px-4 py-6 space-y-4">
-              {/* Services Section */}
-              <div>
-                <Link
-                  href="/services"
-                  className="block text-base font-semibold text-neutral-900 mb-3 hover:text-primary-600 transition-colors"
-                >
-                  Services
-                </Link>
-                <div className="pl-4 space-y-2">
-                  {services.map((service: { name: string; slug: string }) => (
-                    <Link
-                      key={service.slug}
-                      href={`/services/${service.slug}`}
-                      className="block text-sm text-neutral-700 hover:text-primary-600 transition-colors"
-                    >
-                      {service.name}
-                    </Link>
-                  ))}
-                </div>
+              {/* 24/7 Emergency Badge - Mobile (Top of Menu) */}
+              <div className="flex items-center justify-center gap-2 px-4 py-2.5 bg-alert-500 rounded-lg mb-4">
+                <AlertTriangle size={16} className="text-white animate-pulse" />
+                <span className="text-sm font-bold text-white tracking-wide">
+                  24/7 EMERGENCY SERVICE
+                </span>
               </div>
 
-              <Link
-                href="/locations"
-                className="block text-base font-semibold text-neutral-900 hover:text-primary-600 transition-colors"
-              >
-                Service Areas
-              </Link>
-
-              <Link
-                href="/tools"
-                className="block text-base font-semibold text-neutral-900 hover:text-primary-600 transition-colors"
-              >
-                Tools
-              </Link>
-
-              <Link
-                href="/tree-consultation-omaha"
-                className="block text-base font-semibold text-neutral-900 hover:text-primary-600 transition-colors"
-              >
-                Free Consultation
-              </Link>
-
-              {/* Emergency CTA - Mobile */}
-              <Link href="/emergency-tree-service-omaha" className="block">
-                <Button variant="emergency" className="w-full flex items-center justify-center gap-2">
-                  <AlertTriangle size={20} />
-                  Emergency Service
-                </Button>
-              </Link>
-
-              {/* Phone CTA - Mobile */}
+              {/* Phone CTA - Mobile (Priority #1) */}
               <a href={`tel:${CONTACT.phoneRaw}`} className="block">
-                <Button variant="primary" className="w-full flex items-center justify-center gap-2">
+                <Button variant="emergency" className="w-full flex items-center justify-center gap-2 min-h-[44px]">
                   <Phone size={20} />
                   Call {CONTACT.phone}
                 </Button>
               </a>
+
+              {/* Get Quote CTA - Mobile (Priority #2) */}
+              <Link href="/tree-consultation-omaha" className="block">
+                <Button variant="secondary" className="w-full flex items-center justify-center gap-2 min-h-[44px]">
+                  Get Free Quote
+                </Button>
+              </Link>
+
+              {/* Simplified Navigation - Non-Essential Links Hidden on Mobile */}
+              <div className="border-t border-neutral-700 pt-4 mt-4 space-y-3">
+                <Link
+                  href="/services"
+                  className="block text-sm font-medium text-neutral-50 hover:text-primary-400 transition-colors"
+                >
+                  Services
+                </Link>
+
+                <Link
+                  href="/locations"
+                  className="block text-sm font-medium text-neutral-50 hover:text-primary-400 transition-colors"
+                >
+                  Service Areas
+                </Link>
+              </div>
             </nav>
           </div>
         )}
