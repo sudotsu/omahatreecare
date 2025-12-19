@@ -456,77 +456,93 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 /**
- * GetStaticProps - Mock LocationData for now
- * TODO: Phase 4 will replace this with real JSON data files
+ * GetStaticProps - Hybrid Import Strategy
+ * Tries to load neighborhood-specific JSON, falls back to mock data if not found
+ * This allows gradual migration from mock to real data without breaking builds
  */
 export const getStaticProps: GetStaticProps<LocationPageProps> = async ({ params }) => {
-  // Mock LocationData - "Resident" data for Dundee neighborhood
-  const mockLocation: LocationData = {
-    identifiers: {
-      neighborhoodName: 'Dundee',
-      cityName: 'Omaha',
-      stateCode: 'NE',
-      slug: 'dundee',
-      zipCodes: ['68132'],
-      coordinates: {
-        latitude: 41.2565,
-        longitude: -95.9345,
+  const city = params?.city as string
+  const neighborhood = params?.neighborhood as string
+
+  let data: LocationData
+
+  try {
+    // Attempt to load neighborhood-specific JSON file
+    const filePath = `../../../src/data/neighborhoods/${city}-${neighborhood}.json`
+    data = require(filePath) as LocationData
+    console.log(`✅ Loaded real data for ${city}-${neighborhood}`)
+  } catch (error) {
+    // Fallback to mock data if JSON file doesn't exist yet
+    console.log(`⚠️  No data file for ${city}-${neighborhood}, using mock data`)
+
+    // Mock LocationData - Fallback for neighborhoods without JSON files
+    data = {
+      identifiers: {
+        neighborhoodName: 'Dundee',
+        cityName: 'Omaha',
+        stateCode: 'NE',
+        slug: 'dundee',
+        zipCodes: ['68132'],
+        coordinates: {
+          latitude: 41.2565,
+          longitude: -95.9345,
+        },
       },
-    },
-    seo: {
-      metaTitle: 'Tree Service in Dundee Omaha | Emergency Tree Removal & Trimming',
-      metaDescription:
-        'Professional tree removal, trimming, and emergency service in Dundee. ISA Certified Arborists serving Memorial Park, Underwood Ave, and surrounding areas. Call (402) 812-3294.',
-    },
-    content: {
-      heroTitle: 'Tree Service in Dundee You Can Trust',
-      heroDescription:
-        'We work in Dundee regularly — from Memorial Park to Underwood Ave. ISA Certified Arborists with $2M insurance, same-day emergency service available.',
-      primaryServiceFocus: 'Emergency Tree Removal',
-    },
-    services: [
-      { name: 'Tree Removal', slug: 'tree-removal', isAvailable: true },
-      { name: 'Tree Trimming & Pruning', slug: 'tree-trimming', isAvailable: true },
-      { name: 'Stump Grinding', slug: 'stump-grinding', isAvailable: true },
-      { name: 'Emergency Storm Damage', slug: 'emergency-tree-service', isAvailable: true },
-    ],
-    residentSignals: {
-      localLandmarks: [
-        'Memorial Park (we trim the oaks along the east side regularly)',
-        'Dundee Elementary School (know the drop-off/pickup traffic patterns)',
-        'Underwood Ave commercial district (tight parking, we plan accordingly)',
+      seo: {
+        metaTitle: 'Tree Service in Dundee Omaha | Emergency Tree Removal & Trimming',
+        metaDescription:
+          'Professional tree removal, trimming, and emergency service in Dundee. ISA Certified Arborists serving Memorial Park, Underwood Ave, and surrounding areas. Call (402) 812-3294.',
+      },
+      content: {
+        heroTitle: 'Tree Service in Dundee You Can Trust',
+        heroDescription:
+          'We work in Dundee regularly — from Memorial Park to Underwood Ave. ISA Certified Arborists with $2M insurance, same-day emergency service available.',
+        primaryServiceFocus: 'Emergency Tree Removal',
+      },
+      services: [
+        { name: 'Tree Removal', slug: 'tree-removal', isAvailable: true },
+        { name: 'Tree Trimming & Pruning', slug: 'tree-trimming', isAvailable: true },
+        { name: 'Stump Grinding', slug: 'stump-grinding', isAvailable: true },
+        { name: 'Emergency Storm Damage', slug: 'emergency-tree-service', isAvailable: true },
       ],
-      proximityTips: [
-        'We park behind the library on 50th Street when meters are full',
-        'Avoid scheduling during Dundee Dell lunch rush (11:30am-1pm) if access is tight',
-        'Happy Hollow can flood after heavy rain - we check before bringing heavy equipment',
-      ],
-      localVernacular: ['Happy Hollow', 'The Dell', 'Memorial Park Loop'],
-    },
-    aeoContent: {
-      commonProblems: [
-        {
-          question: 'Why are so many mature oaks dying in Dundee?',
-          answer:
-            'Dundee has a lot of 80-100 year old bur oaks and red oaks. Many are experiencing "oak decline" - a combination of age, soil compaction from development, and stress from drought cycles. We can assess if your oak is salvageable with proper care or if removal is safer.',
-        },
-        {
-          question: 'Can you work around the power lines near Underwood Ave?',
-          answer:
-            'Yes. We are certified to work near power lines and coordinate with OPPD when needed. Many Dundee properties have lines running through tree canopies - we know how to prune safely without cutting power to the block.',
-        },
-        {
-          question: 'What should I do if a branch falls during a storm?',
-          answer:
-            'Call us immediately at (402) 812-3294. We offer 24/7 emergency service. If the branch is on a power line, call OPPD first (402-536-5400), then call us to remove it safely once power is secured. Do not touch fallen branches near wires.',
-        },
-      ],
-    },
+      residentSignals: {
+        localLandmarks: [
+          'Memorial Park (we trim the oaks along the east side regularly)',
+          'Dundee Elementary School (know the drop-off/pickup traffic patterns)',
+          'Underwood Ave commercial district (tight parking, we plan accordingly)',
+        ],
+        proximityTips: [
+          'We park behind the library on 50th Street when meters are full',
+          'Avoid scheduling during Dundee Dell lunch rush (11:30am-1pm) if access is tight',
+          'Happy Hollow can flood after heavy rain - we check before bringing heavy equipment',
+        ],
+        localVernacular: ['Happy Hollow', 'The Dell', 'Memorial Park Loop'],
+      },
+      aeoContent: {
+        commonProblems: [
+          {
+            question: 'Why are so many mature oaks dying in Dundee?',
+            answer:
+              'Dundee has a lot of 80-100 year old bur oaks and red oaks. Many are experiencing "oak decline" - a combination of age, soil compaction from development, and stress from drought cycles. We can assess if your oak is salvageable with proper care or if removal is safer.',
+          },
+          {
+            question: 'Can you work around the power lines near Underwood Ave?',
+            answer:
+              'Yes. We are certified to work near power lines and coordinate with OPPD when needed. Many Dundee properties have lines running through tree canopies - we know how to prune safely without cutting power to the block.',
+          },
+          {
+            question: 'What should I do if a branch falls during a storm?',
+            answer:
+              'Call us immediately at (402) 812-3294. We offer 24/7 emergency service. If the branch is on a power line, call OPPD first (402-536-5400), then call us to remove it safely once power is secured. Do not touch fallen branches near wires.',
+          },
+        ],
+      },
+    }
   }
 
   return {
     props: {
-      data: mockLocation,
+      data,
     },
   }
 }
