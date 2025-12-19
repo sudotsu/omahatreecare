@@ -25,13 +25,13 @@ export const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-neutral-900 text-neutral-100 pb-20 lg:pb-0">
+    <footer className="bg-neutral-900 text-neutral-200 pb-20 lg:pb-0">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-xl py-12">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* NAP Block (Name, Address, Phone) */}
           <div className="lg:col-span-2">
-            <h3 className="text-lg font-bold mb-4">{CONTACT.businessName}</h3>
+            <h3 className="text-lg font-bold text-neutral-50 mb-4">{CONTACT.businessName}</h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="text-primary-500 flex-shrink-0 mt-0.5" />
@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 text-sm text-neutral-400">
+            <div className="mt-6 text-sm text-neutral-300">
               <p>
                 Serving Omaha and surrounding areas with professional tree care
                 services.
