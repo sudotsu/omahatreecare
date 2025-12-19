@@ -28,16 +28,20 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
     description: `Professional tree care services in ${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}, ${data.identifiers.stateCode}`,
     telephone: CONTACT.phoneRaw,
     email: CONTACT.email,
+    // Physical HQ address (NOT neighborhood-specific)
     address: {
       '@type': 'PostalAddress',
-      addressLocality: data.identifiers.cityName,
-      addressRegion: data.identifiers.stateCode,
-      addressCountry: 'US',
+      streetAddress: CONTACT.streetAddress,
+      addressLocality: CONTACT.addressLocality,
+      addressRegion: CONTACT.addressRegion,
+      postalCode: CONTACT.postalCode,
+      addressCountry: CONTACT.addressCountry,
     },
+    // HQ geo coordinates (NOT neighborhood-specific)
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: data.identifiers.coordinates.latitude,
-      longitude: data.identifiers.coordinates.longitude,
+      latitude: CONTACT.latitude,
+      longitude: CONTACT.longitude,
     },
     areaServed: data.identifiers.zipCodes.map((zip) => ({
       '@type': 'PostalAddress',
