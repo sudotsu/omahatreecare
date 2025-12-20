@@ -10,9 +10,6 @@ lerna-debug.log*
 # Build artifacts
 build-output.txt
 
-# Legacy Vite config (migrated to Next.js)
-vite.config.js
-
 node_modules
 dist
 dist-ssr
