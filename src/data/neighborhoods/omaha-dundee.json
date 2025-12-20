@@ -1,0 +1,83 @@
+{
+  "identifiers": {
+    "neighborhoodName": "Dundee",
+    "cityName": "Omaha",
+    "stateCode": "NE",
+    "slug": "dundee",
+    "zipCodes": ["68132"],
+    "coordinates": {
+      "latitude": 41.2565,
+      "longitude": -95.9345
+    }
+  },
+  "seo": {
+    "metaTitle": "Tree Service in Dundee Omaha | Local Arborists in Dundee | Emergency Tree Removal",
+    "metaDescription": "Professional tree service in Dundee with ISA Certified Arborists. Emergency tree removal, oak care, and storm damage cleanup near Memorial Park. Serving 68132. Call (402) 812-3294."
+  },
+  "content": {
+    "heroTitle": "Tree Care in Dundee That Honors Your Historic Neighborhood",
+    "heroDescription": "Dundee's 100-year-old oaks deserve expert care. We're ISA Certified Arborists who understand the mature canopy that defines your neighborhood—from Memorial Park to the Underwood strip.",
+    "primaryServiceFocus": "Mature Tree Care & Emergency Storm Response"
+  },
+  "services": [
+    {
+      "name": "Tree Removal",
+      "slug": "tree-removal",
+      "isAvailable": true
+    },
+    {
+      "name": "Tree Trimming & Pruning",
+      "slug": "tree-trimming",
+      "isAvailable": true
+    },
+    {
+      "name": "Plant Health Care",
+      "slug": "tree-health-assessment",
+      "isAvailable": true
+    },
+    {
+      "name": "Emergency Storm Damage",
+      "slug": "emergency-tree-service",
+      "isAvailable": true
+    }
+  ],
+  "residentSignals": {
+    "localLandmarks": [
+      "Memorial Park (we've worked on the oak grove along the east side multiple times)",
+      "Brownell Talbot School (know the pickup/dropoff traffic patterns)",
+      "The Dundee Dell restaurant (iconic local spot on Underwood)",
+      "Happy Hollow Club area (adjacent neighborhood we also serve)",
+      "The Underwood strip between 50th and 51st (tight commercial parking)"
+    ],
+    "proximityTips": [
+      "Parking is tight on Underwood Ave on weekends—we schedule large equipment jobs for weekday mornings",
+      "We park behind the Dundee Library on 50th Street when street meters are full",
+      "Memorial Park Loop can flood after heavy rain—we check ground conditions before bringing cranes",
+      "Dodge Street access from the south is fastest for emergency calls",
+      "Many Dundee alleys are narrow—we scout access routes before removal jobs"
+    ],
+    "localVernacular": [
+      "Happy Hollow",
+      "The Dell",
+      "Memorial Park Loop",
+      "Underwood Strip",
+      "The Benson Line"
+    ]
+  },
+  "aeoContent": {
+    "commonProblems": [
+      {
+        "question": "Do I need a permit to remove a tree in Dundee?",
+        "answer": "Yes, if the tree is on the city right-of-way (between the sidewalk and street), you need a permit from the City of Omaha Forestry Division. Trees on private property (behind the sidewalk) do not require a city permit, but we always verify property lines before removal. Dundee has strict tree ordinances because of its historic canopy—we handle all permit coordination for you."
+      },
+      {
+        "question": "How do I treat Oak Wilt in Dundee's mature bur oaks?",
+        "answer": "Dundee is full of 80-100 year old bur oaks, and Oak Wilt is a serious threat here. If you see leaves wilting from the tips inward (starting in mid-summer), that's a red flag. We use fungicide injections for early-stage infections and can set up a treatment plan to protect valuable specimens. For infected trees beyond saving, removal must happen immediately—and we sterilize equipment between jobs to prevent spread to neighboring oaks."
+      },
+      {
+        "question": "What should I do if a tree falls during a storm near Memorial Park?",
+        "answer": "Call us immediately at (402) 812-3294—we offer 24/7 emergency response. If the tree is on power lines, call OPPD first (402-536-5400), then call us once power is secured. Dundee's mature trees often drop large branches during windstorms, especially the oaks along the park perimeter. We can arrive within 2-4 hours for true emergencies and have the equipment to handle the large-diameter wood common in this neighborhood."
+      }
+    ]
+  }
+}

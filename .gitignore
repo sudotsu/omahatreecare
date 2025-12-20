@@ -10,10 +10,6 @@ lerna-debug.log*
 # Build artifacts
 build-output.txt
 
-# Legacy Vite config (migrated to Next.js)
-vite.config.js
-vite.config.js.backup
-
 node_modules
 dist
 dist-ssr
@@ -36,13 +32,15 @@ dist-ssr
 *.sln
 *.sw?
 /index.html
-/vite.config.js.backup
 
 # Environment variables
 .env
 .env.local
 .env.production.local
 .vercel
+
+# Backup files
+*.backup
 
 # Playwright
 /test-results/
