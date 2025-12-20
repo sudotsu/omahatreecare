@@ -7,24 +7,59 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
-      // DESIGN SYSTEM COLORS (from DESIGN_BRIEF.md)
+      // LOGO-DERIVED COLOR SYSTEM (from VISUAL-BRANDING-GUIDE.md)
       colors: {
-        // Primary Green Scale (Premium Evergreen Action)
+        // PRIMARY: Forest Green (from Primary Badge Logo)
         primary: {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          500: '#047857',
-          600: '#065f46',
-          700: '#064e3b',
-          900: '#022c22',
+          50: '#f3f6f4',    // Lightest tint
+          100: '#e6ece8',   // Hover states on light
+          400: '#6b8873',   // Muted/disabled
+          500: '#4a6d5a',   // LOGO GREEN (main brand)
+          600: '#3d5a4d',   // Darker logo variation
+          700: '#2f4639',   // Hover/active states
+          800: '#243629',   // Dark mode primary
+          900: '#1a251c',   // Text on light backgrounds
         },
-        // Safety Orange (Emergency Signal)
+
+        // ALERT: Emergency Red/Orange (from Emergency Logo)
         alert: {
-          400: '#fb923c',
-          500: '#ea580c',
-          600: '#c2410c',
+          // Red (helmet color)
+          400: '#ef5350',   // Warning states
+          500: '#d32f2f',   // PRIMARY ALERT (helmet red)
+          600: '#c62828',   // Active emergency
+          700: '#b71c1c',   // Pressed state
+          // Orange (background color)
+          orange: {
+            400: '#ffa726', // Soft warning
+            500: '#fb8c00', // EMERGENCY BACKGROUND
+            600: '#f57c00', // Hover state
+          },
         },
-        // Concrete Neutrals (Jobsite Gray)
+
+        // CREAM: Warm backgrounds (from logo backgrounds)
+        cream: {
+          50: '#fdfcfa',    // Lightest page background
+          100: '#f5efe0',   // Logo background cream
+          200: '#f0e9d5',   // Darker cream
+          300: '#e8dfc5',   // Borders, dividers
+        },
+
+        // SAGE: Olive/green secondary (from Worker Logos)
+        sage: {
+          400: '#8c9985',   // Muted olive
+          500: '#7a8c71',   // Mid-tone sage
+          600: '#6b7c63',   // Darker olive
+          700: '#5a6952',   // Deep sage
+        },
+
+        // TAN: Brown accents (from hard hats)
+        tan: {
+          400: '#a1887f',   // Light tan
+          500: '#8d6e63',   // Hard hat brown
+          600: '#795548',   // Darker brown
+        },
+
+        // NEUTRAL: Concrete grays (warm undertones for logo harmony)
         neutral: {
           50: '#fafaf9',
           100: '#f5f5f4',
@@ -35,7 +70,8 @@ module.exports = {
           900: '#1c1917',
           950: '#0c0a09',
         },
-        // Steel Blue-Grays (Trust/Secondary)
+
+        // STEEL: Blue-grays (trust/secondary - keep existing)
         steel: {
           50: '#f1f5f9',
           600: '#475569',
