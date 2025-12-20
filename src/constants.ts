@@ -121,12 +121,91 @@ export const SERVICE_AREAS: readonly ServiceArea[] = [
   },
 ] as const
 
-// Brand colors
+// Brand colors (logo-derived - see VISUAL-BRANDING-GUIDE.md)
 export const COLORS = {
-  primary: '#52796f',
-  accent: '#c1666b',
-  background: '#f8f6f1',
-  text: '#3d3027',
-  textLight: '#6b5d54',
-  textLighter: '#8b8175',
+  // Primary forest green (from Primary Badge Logo)
+  primary: '#4a6d5a',
+  primaryDark: '#3d5a4d',
+  primaryHover: '#2f4639',
+
+  // Emergency red/orange (from Emergency Logo)
+  emergencyRed: '#d32f2f',
+  emergencyOrange: '#fb8c00',
+
+  // Cream backgrounds (from logo backgrounds)
+  cream: '#f5efe0',
+  creamLight: '#fdfcfa',
+
+  // Sage/olive secondary (from Worker Logos)
+  sage: '#6b7c63',
+
+  // Legacy mappings (deprecated - use Tailwind tokens instead)
+  accent: '#d32f2f',      // Emergency red
+  background: '#f5efe0',  // Cream
+  text: '#1c1917',        // Neutral-900
+  textLight: '#57534e',   // Neutral-600
+  textLighter: '#a8a29e', // Neutral-400
+} as const
+
+// Logo assets (see VISUAL-BRANDING-GUIDE.md for usage rules)
+export const LOGOS = {
+  // Primary Brand Logo (Green Badge)
+  primary: '/images/logos/primary-green-badge.png',
+  primarySvg: '/images/logos/primary-green-badge.svg',
+
+  // Emergency Logo (Red/Orange)
+  emergency: '/images/logos/emergency-red-orange.png',
+  emergencySvg: '/images/logos/emergency-red-orange.svg',
+
+  // Alternate Worker/Olive Logo
+  worker: '/images/logos/worker-olive-sage.png',
+  workerSvg: '/images/logos/worker-olive-sage.svg',
+
+  // Simplified tree icon (favicons)
+  icon: '/images/logos/tree-icon-simplified.png',
+  iconSvg: '/images/logos/tree-icon-simplified.svg',
+
+  // Favicon paths
+  favicon16: '/favicon-16x16.png',
+  favicon32: '/favicon-32x32.png',
+  favicon64: '/favicon-64x64.png',
+  faviconIco: '/favicon.ico',
+
+  // Apple touch icon
+  appleTouchIcon: '/apple-touch-icon.png',
+
+  // Open Graph image
+  ogImage: '/og-image.png',
+} as const
+
+// Logo usage contexts (see VISUAL-BRANDING-GUIDE.md)
+export const LOGO_USAGE = {
+  // Use Primary Green Badge for:
+  standard: [
+    'header',
+    'footer',
+    'invoices',
+    'estimates',
+    'social-media',
+    'email-signatures',
+    'standard-ctas',
+  ],
+
+  // Use Emergency Red/Orange for:
+  emergency: [
+    'emergency-banners',
+    '24-7-callouts',
+    'storm-damage-alerts',
+    'emergency-ctas',
+    'emergency-landing-pages',
+  ],
+
+  // Use Worker/Olive for:
+  physical: [
+    'merchandise',
+    'truck-decals',
+    'crew-uniforms',
+    'tool-ui',
+    'job-site-signage',
+  ],
 } as const
