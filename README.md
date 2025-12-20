@@ -28,7 +28,7 @@ npm run lint         # Run ESLint
 
 ## Project Structure
 
-```
+```text
 ├── pages/                              # Next.js Pages Router
 │   ├── _app.tsx                        # App wrapper with site chrome
 │   ├── _document.tsx                   # HTML document
@@ -93,7 +93,10 @@ npm run lint         # Run ESLint
 ## Architecture Highlights
 
 ### Hybrid Data Loading (Phase 4)
+
 Neighborhood pages use try/catch import strategy:
+
+
 ```typescript
 try {
   const filePath = `../../../src/data/neighborhoods/${city}-${neighborhood}.json`
