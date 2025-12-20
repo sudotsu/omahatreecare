@@ -1,15 +1,25 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { useState } from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import { Phone, MapPin, ShieldCheck, Users, HardHat, Award } from 'lucide-react'
-import { LocationData } from '../../../types/location-page'
-import { Container, Section, Grid, Accordion, AccordionItem, Modal, Button } from '../../../src/components/primitives'
-import { CONTACT, SITE_URL } from '../../../src/constants'
-import locationsData from '../../../src/data/locations.json'
+import fs from "fs";
+import { Award, HardHat, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import path from "path";
+import { useState } from "react";
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Container,
+  Grid,
+  Modal,
+  Section,
+} from "../../../src/components/primitives";
+import { CONTACT, SITE_URL } from "../../../src/constants";
+import locationsData from "../../../src/data/locations.json";
+import { LocationData } from "../../../types/location-page";
 
 interface LocationPageProps {
-  data: LocationData
+  data: LocationData;
 }
 
 /**
@@ -18,19 +28,19 @@ interface LocationPageProps {
  * UX: Dual-State (Emergency Distress + Routine Research)
  */
 export default function NeighborhoodPage({ data }: LocationPageProps) {
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false)
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   // Generate Schema.org JSON-LD
   const localBusinessSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
     name: CONTACT.businessName,
     description: `Professional tree care services in ${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}, ${data.identifiers.stateCode}`,
     telephone: CONTACT.phoneRaw,
     email: CONTACT.email,
     // Physical HQ address (NOT neighborhood-specific)
     address: {
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       streetAddress: CONTACT.streetAddress,
       addressLocality: CONTACT.addressLocality,
       addressRegion: CONTACT.addressRegion,
@@ -39,45 +49,45 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
     },
     // HQ geo coordinates (NOT neighborhood-specific)
     geo: {
-      '@type': 'GeoCoordinates',
+      "@type": "GeoCoordinates",
       latitude: CONTACT.latitude,
       longitude: CONTACT.longitude,
     },
     areaServed: data.identifiers.zipCodes.map((zip) => ({
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       postalCode: zip,
       addressLocality: data.identifiers.cityName,
       addressRegion: data.identifiers.stateCode,
     })),
     hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Tree Care Services',
+      "@type": "OfferCatalog",
+      name: "Tree Care Services",
       itemListElement: data.services
         .filter((s) => s.isAvailable)
         .map((service, idx) => ({
-          '@type': 'Offer',
+          "@type": "Offer",
           position: idx + 1,
           itemOffered: {
-            '@type': 'Service',
+            "@type": "Service",
             name: service.name,
             url: `${SITE_URL}/services/${service.slug}`,
           },
         })),
     },
-  }
+  };
 
   const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
     mainEntity: data.aeoContent.commonProblems.map((problem) => ({
-      '@type': 'Question',
+      "@type": "Question",
       name: problem.question,
       acceptedAnswer: {
-        '@type': 'Answer',
+        "@type": "Answer",
         text: problem.answer,
       },
     })),
-  }
+  };
 
   return (
     <>
@@ -182,8 +192,9 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
               </div>
 
               <p className="text-lg text-neutral-700 dark:text-neutral-300 mb-8">
-                We&apos;re not just &quot;serving the area&quot; — we work in {data.identifiers.neighborhoodName} regularly.
-                Here&apos;s proof we know the neighborhood:
+                We&apos;re not just &quot;serving the area&quot; — we work in{" "}
+                {data.identifiers.neighborhoodName} regularly. Here&apos;s proof we know the
+                neighborhood:
               </p>
 
               <Grid cols={2} gap="md" className="mb-8">
@@ -194,7 +205,10 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
                   </h3>
                   <ul className="space-y-2">
                     {data.residentSignals.localLandmarks.map((landmark, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-neutral-700 dark:text-neutral-300">
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2 text-neutral-700 dark:text-neutral-300"
+                      >
                         <span className="text-primary-600 mt-1">•</span>
                         <span>{landmark}</span>
                       </li>
@@ -209,7 +223,10 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
                   </h3>
                   <ul className="space-y-2">
                     {data.residentSignals.proximityTips.map((tip, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-neutral-700 dark:text-neutral-300">
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2 text-neutral-700 dark:text-neutral-300"
+                      >
                         <span className="text-steel-600 mt-1">•</span>
                         <span>{tip}</span>
                       </li>
@@ -259,7 +276,9 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
                   <div className="w-16 h-16 bg-alert-100 dark:bg-alert-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                     <HardHat className="w-8 h-8 text-alert-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-50 mb-2">Full PPE</h3>
+                  <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-50 mb-2">
+                    Full PPE
+                  </h3>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
                     Hard hats, hi-vis vests, steel-toe boots on every job
                   </p>
@@ -383,7 +402,11 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
       </div>
 
       {/* Quote Request Modal */}
-      <Modal isOpen={isQuoteModalOpen} onClose={() => setIsQuoteModalOpen(false)} title="Request Free Quote">
+      <Modal
+        isOpen={isQuoteModalOpen}
+        onClose={() => setIsQuoteModalOpen(false)}
+        title="Request Free Quote"
+      >
         <form className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">Name</label>
@@ -411,7 +434,9 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Service Needed</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">
+              Service Needed
+            </label>
             <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
               <option>Select a service...</option>
               {data.services
@@ -429,7 +454,7 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
         </form>
       </Modal>
     </>
-  )
+  );
 }
 
 /**
@@ -437,27 +462,27 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
  * Copied from legacy file to keep all 24 neighborhood pages live
  */
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths: { params: { city: string; neighborhood: string } }[] = []
+  const paths: { params: { city: string; neighborhood: string } }[] = [];
 
   // Generate paths from locations.json (same as legacy)
   Object.entries(locationsData).forEach(([city, cityData]: [string, any]) => {
-    if (cityData.neighborhoods) {
-      Object.keys(cityData.neighborhoods).forEach((neighborhood) => {
+    if (Array.isArray(cityData)) {
+      cityData.forEach((neighborhood: string) => {
         paths.push({
           params: {
             city,
             neighborhood,
           },
-        })
-      })
+        });
+      });
     }
-  })
+  });
 
   return {
     paths,
     fallback: false,
-  }
-}
+  };
+};
 
 /**
  * GetStaticProps - Hybrid Import Strategy
@@ -465,88 +490,95 @@ export const getStaticPaths: GetStaticPaths = async () => {
  * This allows gradual migration from mock to real data without breaking builds
  */
 export const getStaticProps: GetStaticProps<LocationPageProps> = async ({ params }) => {
-  const city = params?.city as string
-  const neighborhood = params?.neighborhood as string
+  const city = params?.city as string;
+  const neighborhood = params?.neighborhood as string;
 
-  let data: LocationData
+  let data: LocationData;
 
   try {
     // Attempt to load neighborhood-specific JSON file
-    const filePath = `../../../src/data/neighborhoods/${city}-${neighborhood}.json`
-    data = require(filePath) as LocationData
-    console.log(`✅ Loaded real data for ${city}-${neighborhood}`)
+    const filePath = path.join(
+      process.cwd(),
+      "src",
+      "data",
+      "neighborhoods",
+      `${city}-${neighborhood}.json`,
+    );
+    const raw = fs.readFileSync(filePath, "utf8");
+    data = JSON.parse(raw) as LocationData;
+    console.log(`✅ Loaded real data for ${city}-${neighborhood}`);
   } catch (error) {
     // Fallback to mock data if JSON file doesn't exist yet
-    console.log(`⚠️  No data file for ${city}-${neighborhood}, using mock data`)
+    console.log(`⚠️  No data file for ${city}-${neighborhood}, using mock data`);
 
     // Mock LocationData - Fallback for neighborhoods without JSON files
     data = {
       identifiers: {
-        neighborhoodName: 'Dundee',
-        cityName: 'Omaha',
-        stateCode: 'NE',
-        slug: 'dundee',
-        zipCodes: ['68132'],
+        neighborhoodName: "Dundee",
+        cityName: "Omaha",
+        stateCode: "NE",
+        slug: "dundee",
+        zipCodes: ["68132"],
         coordinates: {
           latitude: 41.2565,
           longitude: -95.9345,
         },
       },
       seo: {
-        metaTitle: 'Tree Service in Dundee Omaha | Emergency Tree Removal & Trimming',
+        metaTitle: "Tree Service in Dundee Omaha | Emergency Tree Removal & Trimming",
         metaDescription:
-          'Professional tree removal, trimming, and emergency service in Dundee. ISA Certified Arborists serving Memorial Park, Underwood Ave, and surrounding areas. Call (402) 812-3294.',
+          "Professional tree removal, trimming, and emergency service in Dundee. ISA Certified Arborists serving Memorial Park, Underwood Ave, and surrounding areas. Call (402) 812-3294.",
       },
       content: {
-        heroTitle: 'Tree Service in Dundee You Can Trust',
+        heroTitle: "Tree Service in Dundee You Can Trust",
         heroDescription:
-          'We work in Dundee regularly — from Memorial Park to Underwood Ave. ISA Certified Arborists with $2M insurance, same-day emergency service available.',
-        primaryServiceFocus: 'Emergency Tree Removal',
+          "We work in Dundee regularly — from Memorial Park to Underwood Ave. ISA Certified Arborists with $2M insurance, same-day emergency service available.",
+        primaryServiceFocus: "Emergency Tree Removal",
       },
       services: [
-        { name: 'Tree Removal', slug: 'tree-removal', isAvailable: true },
-        { name: 'Tree Trimming & Pruning', slug: 'tree-trimming', isAvailable: true },
-        { name: 'Stump Grinding', slug: 'stump-grinding', isAvailable: true },
-        { name: 'Emergency Storm Damage', slug: 'emergency-tree-service', isAvailable: true },
+        { name: "Tree Removal", slug: "tree-removal", isAvailable: true },
+        { name: "Tree Trimming & Pruning", slug: "tree-trimming", isAvailable: true },
+        { name: "Stump Grinding", slug: "stump-grinding", isAvailable: true },
+        { name: "Emergency Storm Damage", slug: "emergency-tree-service", isAvailable: true },
       ],
       residentSignals: {
         localLandmarks: [
-          'Memorial Park (we trim the oaks along the east side regularly)',
-          'Dundee Elementary School (know the drop-off/pickup traffic patterns)',
-          'Underwood Ave commercial district (tight parking, we plan accordingly)',
+          "Memorial Park (we trim the oaks along the east side regularly)",
+          "Dundee Elementary School (know the drop-off/pickup traffic patterns)",
+          "Underwood Ave commercial district (tight parking, we plan accordingly)",
         ],
         proximityTips: [
-          'We park behind the library on 50th Street when meters are full',
-          'Avoid scheduling during Dundee Dell lunch rush (11:30am-1pm) if access is tight',
-          'Happy Hollow can flood after heavy rain - we check before bringing heavy equipment',
+          "We park behind the library on 50th Street when meters are full",
+          "Avoid scheduling during Dundee Dell lunch rush (11:30am-1pm) if access is tight",
+          "Happy Hollow can flood after heavy rain - we check before bringing heavy equipment",
         ],
-        localVernacular: ['Happy Hollow', 'The Dell', 'Memorial Park Loop'],
+        localVernacular: ["Happy Hollow", "The Dell", "Memorial Park Loop"],
       },
       aeoContent: {
         commonProblems: [
           {
-            question: 'Why are so many mature oaks dying in Dundee?',
+            question: "Why are so many mature oaks dying in Dundee?",
             answer:
               'Dundee has a lot of 80-100 year old bur oaks and red oaks. Many are experiencing "oak decline" - a combination of age, soil compaction from development, and stress from drought cycles. We can assess if your oak is salvageable with proper care or if removal is safer.',
           },
           {
-            question: 'Can you work around the power lines near Underwood Ave?',
+            question: "Can you work around the power lines near Underwood Ave?",
             answer:
-              'Yes. We are certified to work near power lines and coordinate with OPPD when needed. Many Dundee properties have lines running through tree canopies - we know how to prune safely without cutting power to the block.',
+              "Yes. We are certified to work near power lines and coordinate with OPPD when needed. Many Dundee properties have lines running through tree canopies - we know how to prune safely without cutting power to the block.",
           },
           {
-            question: 'What should I do if a branch falls during a storm?',
+            question: "What should I do if a branch falls during a storm?",
             answer:
-              'Call us immediately at (402) 812-3294. We offer 24/7 emergency service. If the branch is on a power line, call OPPD first (402-536-5400), then call us to remove it safely once power is secured. Do not touch fallen branches near wires.',
+              "Call us immediately at (402) 812-3294. We offer 24/7 emergency service. If the branch is on a power line, call OPPD first (402-536-5400), then call us to remove it safely once power is secured. Do not touch fallen branches near wires.",
           },
         ],
       },
-    }
+    };
   }
 
   return {
     props: {
       data,
     },
-  }
-}
+  };
+};

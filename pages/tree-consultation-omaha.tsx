@@ -1,6 +1,15 @@
+/**
+ * Tree Consultation Page (REFACTORED)
+ *
+ * Uses standardized PageHero + section patterns.
+ * Replace tree-consultation-omaha.tsx once approved.
+ */
+
 import Head from 'next/head'
-import Link from 'next/link'
 import { CONTACT } from '../src/constants'
+import { PageHero } from '../src/components/PageHero'
+import { IconBulletList, ProcessSteps, CTASection } from '../src/components/sections'
+import { Check } from 'lucide-react'
 
 export default function TreeConsultationPage() {
   const pageTitle = 'Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots'
@@ -56,198 +65,84 @@ export default function TreeConsultationPage() {
         />
       </Head>
 
-      <div className="min-h-screen bg-slate-900">
-        {/* Hero */}
-        <div className="bg-gradient-to-br from-primary via-primary-dark to-slate-900 text-white py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl">
-              <div className="inline-block bg-emerald-500/20 border border-emerald-400 text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                100% FREE - NO OBLIGATION
-              </div>
+      {/* PageHero - with FREE badge */}
+      <PageHero
+        eyebrow="Free Consultation"
+        title="Expert Tree Consultation Before You DIY"
+        description="Get professional advice without the sales pressure. Know what you're dealing with before you pick up that chainsaw."
+        badge={{
+          text: '100% FREE - NO OBLIGATION',
+          variant: 'success',
+        }}
+        variant="default"
+      />
 
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Expert Tree Consultation <br />
-                Before You DIY
-              </h1>
-              <p className="text-2xl text-emerald-100 mb-8">
-                Get professional advice without the sales pressure
-              </p>
+      {/* Why Get a Consultation - IconBulletList pattern */}
+      <IconBulletList
+        title="Why Get a Professional Consultation?"
+        description="Most homeowner tree injuries happen during DIY work that should have been left to pros. Here's what a free consultation can prevent:"
+        items={[
+          {
+            title: 'Safety Assessment',
+            description:
+              'Know if your tree is truly dangerous or just looks scary. Most homeowner injuries happen during DIY tree work that should have been left to pros.',
+          },
+          {
+            title: 'Prune or Remove?',
+            description:
+              'Removing a healthy tree costs $2,000+. Pruning might cost $400. We will tell you honestly which you need (or if you need neither).',
+          },
+          {
+            title: 'Disease Identification',
+            description:
+              'Is it Emerald Ash Borer, Oak Wilt, or just fall leaf drop? Misdiagnosis can waste thousands on unnecessary treatments.',
+          },
+          {
+            title: 'Realistic Cost Ranges',
+            description:
+              'Know what you should actually pay before getting quotes. Avoid both low-ball hacks and overpriced operators.',
+          },
+        ]}
+        background="white"
+        iconVariant="check"
+      />
 
-              <a
-                href={`tel:${CONTACT.phoneRaw}`}
-                className="inline-block bg-emerald-500 text-white px-10 py-5 rounded-lg text-xl font-bold hover:bg-emerald-600 transition-colors shadow-lg"
-              >
-                Call for Free Consult: {CONTACT.phone}
-              </a>
-            </div>
-          </div>
-        </div>
+      {/* What to Expect - ProcessSteps pattern */}
+      <ProcessSteps
+        title="What to Expect"
+        description="No pressure, no obligations. Just honest professional advice."
+        steps={[
+          {
+            title: '15-Minute Phone Call',
+            description:
+              'Describe your tree, your concerns, and what you are trying to accomplish',
+          },
+          {
+            title: 'Honest Assessment',
+            description:
+              'We will tell you if it is DIY-safe or needs a pro. No sales pressure.',
+          },
+          {
+            title: 'Next Steps (Your Choice)',
+            description:
+              'If you want a quote, we can schedule that. If not, no follow-up calls.',
+          },
+        ]}
+        background="cream"
+        layout="horizontal"
+      />
 
-        {/* Why Get a Consultation */}
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-slate-800 rounded-lg shadow-xl p-8 mb-8">
-              <h2 className="text-3xl font-bold text-white mb-6">
-                Why Get a Professional Consultation?
-              </h2>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <div>
-                    <h3 className="font-bold text-white mb-2">Safety Assessment</h3>
-                    <p className="text-slate-300">
-                      Know if your tree is truly dangerous or just looks scary. Most homeowner
-                      injuries happen during DIY tree work that should have been left to pros.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <div>
-                    <h3 className="font-bold text-white mb-2">Prune or Remove?</h3>
-                    <p className="text-slate-300">
-                      Removing a healthy tree costs $2,000+. Pruning might cost $400. We will tell
-                      you honestly which you need (or if you need neither).
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <div>
-                    <h3 className="font-bold text-white mb-2">Disease Identification</h3>
-                    <p className="text-slate-300">
-                      Is it Emerald Ash Borer, Oak Wilt, or just fall leaf drop? Misdiagnosis can
-                      waste thousands on unnecessary treatments.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <div>
-                    <h3 className="font-bold text-white mb-2">Realistic Cost Ranges</h3>
-                    <p className="text-slate-300">
-                      Know what you should actually pay before getting quotes. Avoid both low-ball
-                      hacks and overpriced operators.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* What to Expect */}
-            <div className="bg-slate-800 rounded-lg shadow-xl p-8 mb-8">
-              <h2 className="text-3xl font-bold text-white mb-6">What to Expect</h2>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white mb-1">15-Minute Phone Call</h3>
-                    <p className="text-slate-300">
-                      Describe your tree, your concerns, and what you are trying to accomplish
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white mb-1">Honest Assessment</h3>
-                    <p className="text-slate-300">
-                      We will tell you if it is DIY-safe or needs a pro. No sales pressure.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white mb-1">Next Steps (Your Choice)</h3>
-                    <p className="text-slate-300">
-                      If you want a quote, we can schedule that. If not, no follow-up calls.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg shadow-xl p-10 text-white text-center">
-              <h2 className="text-3xl font-bold mb-4">Get Your Free Consultation</h2>
-              <p className="text-xl mb-8 text-emerald-100">
-                No obligation. No sales pitch. Just honest advice.
-              </p>
-              <a
-                href={`tel:${CONTACT.phoneRaw}`}
-                className="inline-block bg-white text-emerald-600 px-12 py-5 rounded-lg text-2xl font-bold hover:bg-emerald-50 transition-colors shadow-lg"
-              >
-                {CONTACT.phone}
-              </a>
-              <p className="mt-6 text-sm text-emerald-200">
-                Available daily 7am - 9pm
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* CTA Section */}
+      <CTASection
+        title="Get Your Free Consultation"
+        description="No obligation. No sales pitch. Just honest advice."
+        primaryCTA={{
+          label: CONTACT.phone,
+          href: `tel:${CONTACT.phoneRaw}`,
+        }}
+        variant="primary"
+        note="Available daily 7am - 9pm"
+      />
     </>
   )
 }

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
-const locationsData = require('./src/data/locations.json')
-const servicesData = require('./src/data/services.json')
+const locationsData = require("./src/data/locations.json");
+const servicesData = require("./src/data/services.json");
 
 /**
  * Normalize services.json into a flat array of service objects.
@@ -93,20 +93,20 @@ const nextConfig = {
         source: "/:path*",
         headers: [
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           {
             key: "X-Frame-Options",
             value: "DENY",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
           },
           {
             key: "Permissions-Policy",
@@ -145,5 +145,8 @@ const nextConfig = {
 };
 
 // Export Next.js config with allRoutes attached
-module.exports = nextConfig
-module.exports.allRoutes = allRoutes
+module.exports = nextConfig;
+Object.defineProperty(module.exports, "allRoutes", {
+  value: allRoutes,
+  enumerable: false,
+});
