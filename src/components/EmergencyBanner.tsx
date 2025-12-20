@@ -87,6 +87,7 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({
 
             {dismissible && (
               <button
+                type="button"
                 onClick={() => setDismissed(true)}
                 className="p-2 text-neutral-800 hover:text-neutral-900 transition-colors"
                 aria-label="Dismiss emergency banner"
