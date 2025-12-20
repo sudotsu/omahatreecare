@@ -150,7 +150,7 @@ export const COLORS = {
 // Logo assets (see VISUAL-BRANDING-GUIDE.md for usage rules)
 export const LOGOS = {
   // Primary Brand Logo (Green Badge)
-  primary: '/images/logos/primary-green-badge.png',
+  primary: '/images/logos/primary-green-badge.webp',
   primarySvg: '/images/logos/primary-green-badge.svg',
 
   // Emergency Logo (Red/Orange)
@@ -158,7 +158,7 @@ export const LOGOS = {
   emergencySvg: '/images/logos/emergency-red-orange.svg',
 
   // Alternate Worker/Olive Logo
-  worker: '/images/logos/worker-olive-sage.png',
+  worker: '/images/logos/worker-olive-sage.webp',
   workerSvg: '/images/logos/worker-olive-sage.svg',
 
   // Simplified tree icon (favicons)
