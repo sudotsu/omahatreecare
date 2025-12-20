@@ -12,7 +12,6 @@ build-output.txt
 
 # Legacy Vite config (migrated to Next.js)
 vite.config.js
-vite.config.js.backup
 
 node_modules
 dist
@@ -36,7 +35,6 @@ dist-ssr
 *.sln
 *.sw?
 /index.html
-/vite.config.js.backup
 
 # Environment variables
 .env
