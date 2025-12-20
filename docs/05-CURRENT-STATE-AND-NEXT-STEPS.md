@@ -173,6 +173,8 @@
 ### What Data Exists
 
 #### src/constants.ts (COMPLETE)
+
+
 ```ts
 - CONTACT: All business info (NAP, phone, email, hours, geo coords)
 - BUSINESS_HOURS: Schedule in human + schema format
@@ -182,6 +184,8 @@
 ```
 
 #### types/location-page.ts (COMPLETE)
+
+
 ```ts
 export interface LocationData {
   identifiers: { neighborhoodName, cityName, stateCode, slug, zipCodes[], coordinates }
@@ -194,6 +198,8 @@ export interface LocationData {
 ```
 
 #### src/data/services.json (COMPLETE)
+
+
 ```json
 4 services with:
 - title, slug, meta_desc
@@ -209,6 +215,8 @@ Services:
 4. winter-tree-prep
 
 #### src/data/locations.json (COMPLETE)
+
+
 ```json
 8 cities with neighborhoods:
 {
@@ -222,6 +230,8 @@ Services:
 Total: 8 cities, 24 neighborhoods
 
 #### src/data/neighborhoods/omaha-dundee.json (COMPLETE)
+
+
 Real hyper-local content for Dundee following LocationData interface:
 - Authentic landmarks: Memorial Park oak grove, Brownell Talbot, Dundee Dell
 - Proximity tips: Parking behind library, Underwood traffic, Memorial Park flooding
@@ -229,9 +239,13 @@ Real hyper-local content for Dundee following LocationData interface:
 - 3 neighborhood-specific FAQ entries (permits, Oak Wilt, storm damage)
 
 #### src/data/neighborhoodData.json (LEGACY - NOT USED)
+
+
 Old detailed data for each neighborhood (replaced by new LocationData structure)
 
 #### src/routes.ts (COMPLETE)
+
+
 Canonical route definitions with changefreq and priority for sitemap
 
 ---
