@@ -58,7 +58,7 @@ export default function ToolsPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Free Tree Health Diagnostic Tool
             </h1>
-            <p className="text-xl text-emerald-100">
+            <p className="text-xl text-primary-100">
               Assess storm risk, identify diseases, and get instant recommendations
             </p>
           </div>
@@ -108,7 +108,7 @@ export default function ToolsPage() {
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <svg
-                    className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-500 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -131,7 +131,7 @@ export default function ToolsPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <svg
-                    className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-500 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -154,7 +154,7 @@ export default function ToolsPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <svg
-                    className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-500 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -177,7 +177,7 @@ export default function ToolsPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <svg
-                    className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-500 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -202,14 +202,14 @@ export default function ToolsPage() {
             </div>
 
             {/* CTA - Contact Instead */}
-            <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg shadow-lg p-8 text-white text-center">
+            <div className="bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg shadow-lg p-8 text-white text-center">
               <h2 className="text-2xl font-bold mb-4">Need Help Now?</h2>
-              <p className="mb-6 text-emerald-100">
+              <p className="mb-6 text-primary-100">
                 While our diagnostic tool is being upgraded, call us for a free phone consultation
               </p>
               <a
                 href={`tel:${CONTACT.phoneRaw}`}
-                className="inline-block bg-white text-emerald-600 px-8 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors"
+                className="inline-block bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
               >
                 {CONTACT.phone}
               </a>

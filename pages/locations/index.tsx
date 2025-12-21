@@ -33,7 +33,7 @@ export default function LocationsIndexPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Our Service Areas
             </h1>
-            <p className="text-xl text-emerald-100">
+            <p className="text-xl text-primary-100">
               Professional tree care across Omaha and surrounding communities
             </p>
           </div>
@@ -62,7 +62,7 @@ export default function LocationsIndexPage() {
                     <p className="text-slate-600 dark:text-slate-400 mb-4">
                       {neighborhoods.length} neighborhoods served
                     </p>
-                    <div className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-2">
+                    <div className="text-primary-600 dark:text-primary-400 font-semibold flex items-center gap-2">
                       View Areas
                       <svg
                         className="w-5 h-5"
@@ -88,14 +88,14 @@ export default function LocationsIndexPage() {
 
         {/* CTA */}
         <div className="container mx-auto px-4 pb-12">
-          <div className="max-w-3xl mx-auto bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg shadow-lg p-8 text-white text-center">
+          <div className="max-w-3xl mx-auto bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg shadow-lg p-8 text-white text-center">
             <h2 className="text-2xl font-bold mb-4">Serving Your Community</h2>
-            <p className="mb-6 text-emerald-100">
+            <p className="mb-6 text-primary-100">
               Local tree care experts who know your neighborhood
             </p>
             <a
               href={`tel:${CONTACT.phoneRaw}`}
-              className="inline-block bg-white text-emerald-600 px-8 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors"
+              className="inline-block bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
             >
               {CONTACT.phone}
             </a>
