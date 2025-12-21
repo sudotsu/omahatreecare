@@ -50,8 +50,8 @@ export const CTASection: React.FC<CTASectionProps> = ({
     emergency: {
       container: 'bg-gradient-to-br from-alert-500 to-alert-600',
       title: 'text-neutral-50',
-      description: 'text-alert-orange-100',
-      note: 'text-alert-orange-200',
+      description: 'text-alert-100',
+      note: 'text-alert-200',
     },
     subtle: {
       container: 'bg-cream-100 border-2 border-cream-300',

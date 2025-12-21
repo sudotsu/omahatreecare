@@ -49,15 +49,12 @@ module.exports = {
 
         // ALERT COLORS - Emergency and warnings
         alert: {
+          100: '#fee2e2',          // Light tint for backgrounds
+          200: '#fecaca',          // Lighter tint
           400: '#fb923c',          // Warning
           500: '#E85D04',          // PRIMARY ALERT (brand.accent - safety orange)
           600: '#dc2626',          // Critical red
           700: '#b91c1c',          // Pressed state
-          orange: {
-            400: '#fdba74',
-            500: '#E85D04',        // Safety orange
-            600: '#ea580c',
-          },
         },
 
         // CREAM - Warm backgrounds (maps to surface.warm but needed for component compatibility)
