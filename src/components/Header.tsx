@@ -172,15 +172,8 @@ export const Header: React.FC = () => {
               Service Areas
             </Link>
 
-            <Link
-              href="/tree-consultation-omaha"
-              className="text-sm font-semibold text-content-body hover:text-brand-secondary transition-colors"
-            >
-              Free Consultation
-            </Link>
-
             {/* Primary CTA: Free Consultation Button */}
-            <Link href="/tree-consultation-omaha">
+            <Link href="/tree-consultation-omaha" aria-label="Get a free tree care consultation">
               <Button variant="primary" size="md" className="min-h-[44px]">
                 Get Free Quote
               </Button>
