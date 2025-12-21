@@ -109,18 +109,18 @@ export const Header: React.FC = () => {
               className="relative"
               onMouseEnter={() => setIsServicesOpen(true)}
               onMouseLeave={() => setIsServicesOpen(false)}
+              onBlur={(e) => {
+                // Close if focus leaves entire dropdown container
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                  setIsServicesOpen(false);
+                }
+              }}
             >
               <button
                 type="button"
                 className="flex items-center gap-1 text-sm font-semibold text-content-body hover:text-brand-secondary transition-colors"
                 onClick={() => setIsServicesOpen(!isServicesOpen)}
                 onFocus={() => setIsServicesOpen(true)}
-                onBlur={(e) => {
-                  // Only close if focus is leaving the entire dropdown
-                  if (!e.currentTarget.parentElement?.contains(e.relatedTarget as Node)) {
-                    setIsServicesOpen(false);
-                  }
-                }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
