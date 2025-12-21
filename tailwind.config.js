@@ -58,6 +58,11 @@ module.exports = {
         },
 
         // CREAM - Warm backgrounds (maps to surface.warm but needed for component compatibility)
+        // TODO: Coordinated refactor required to migrate from 'cream' to 'warm'
+        // Components using background="cream" or variant="cream": PageHero, IconBulletList,
+        // ThreeUpCards, TextWithImage, ProcessSteps, FAQAccordion, CTASection
+        // Pages affected: tree-consultation-omaha.tsx, services/[slug].tsx
+        // See MASTER-PLAYBOOK.md and COLOR-SYSTEM.md for migration strategy
         cream: {
           50: '#fdfcfa',           // Lightest
           100: '#F5F5F0',          // MAIN (same as surface.warm)
