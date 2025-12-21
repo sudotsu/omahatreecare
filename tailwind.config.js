@@ -60,6 +60,14 @@ module.exports = {
           },
         },
 
+        // CREAM - Warm backgrounds (maps to surface.warm but needed for component compatibility)
+        cream: {
+          50: '#fdfcfa',           // Lightest
+          100: '#F5F5F0',          // MAIN (same as surface.warm)
+          200: '#f0e9d5',          // Medium
+          300: '#e8dfc5',          // Borders
+        },
+
         // NEUTRAL GRAYS - Borders, dividers, backgrounds
         neutral: {
           50: '#fafaf9',

@@ -120,8 +120,8 @@ export default function HomePage() {
           </div>
         </Section>
 
-        {/* CTA Section - Uses gradient (can stay as-is for brand accent) */}
-        <Section variant="default" spacing="lg" className="bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500">
+        {/* CTA Section - Brand gradient variant */}
+        <Section variant="gradient" spacing="lg">
           <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Protect Your Property?</h2>
             <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">Get a free, no-pressure tree assessment from Omaha&apos;s trusted tree care experts.</p>

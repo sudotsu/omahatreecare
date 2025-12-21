@@ -2,7 +2,7 @@ import React from 'react';
 
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   spacing?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'default' | 'warm' | 'dark';
+  variant?: 'default' | 'warm' | 'dark' | 'gradient';
   as?: keyof JSX.IntrinsicElements;
 }
 
@@ -21,6 +21,7 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
  * - default: bg-surface-primary (white) - Most sections
  * - warm: bg-surface-warm (#F5F5F0) - Alternates with default for rhythm
  * - dark: bg-surface-dark (slate) - Hero sections, dark mode blocks
+ * - gradient: bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500 - CTA sections
  *
  * Usage pattern:
  * Alternate default ↔ warm for visual rhythm (avoid stacking same variant)
@@ -44,6 +45,7 @@ export const Section: React.FC<SectionProps> = ({
     default: 'bg-surface-primary',  // White
     warm: 'bg-surface-warm',        // Cream/warm off-white
     dark: 'bg-surface-dark text-content-inverse', // Dark slate with light text
+    gradient: 'bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500', // Brand gradient for CTAs
   };
 
   return React.createElement(
