@@ -7,76 +7,97 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
-      // LOGO-DERIVED COLOR SYSTEM (from VISUAL-BRANDING-GUIDE.md)
+      // SEMANTIC "HIGH-TRUST TRADE" COLOR SYSTEM
+      // Deep forest greens + warm neutrals + safety orange accent
       colors: {
-        // PRIMARY: Forest Green (from Primary Badge Logo)
+        // BRAND COLORS - Primary identity
+        brand: {
+          primary: '#1B4332',      // Deep forest green (main brand)
+          secondary: '#2D6A4F',    // Medium forest green (hover/active)
+          accent: '#E85D04',       // Safety orange (emergency/CTAs)
+        },
+
+        // SURFACE COLORS - Backgrounds and containers
+        surface: {
+          primary: '#FFFFFF',      // Pure white
+          warm: '#F5F5F0',         // Warm off-white (cream alternative)
+          dark: '#0F172A',         // Dark slate (dark mode/hero)
+        },
+
+        // CONTENT COLORS - Typography
+        content: {
+          body: '#334155',         // Slate 700 (body text)
+          heading: '#0F172A',      // Slate 900 (headings)
+          muted: '#64748B',        // Slate 500 (captions, disabled)
+          inverse: '#F1F5F9',      // Light text on dark backgrounds
+        },
+
+        // SEMANTIC ALIASES (backwards compatibility with existing components)
+        // These map to the brand colors above
         primary: {
-          50: '#f3f6f4',    // Lightest tint
-          100: '#e6ece8',   // Hover states on light
-          400: '#6b8873',   // Muted/disabled
-          500: '#4a6d5a',   // LOGO GREEN (main brand)
-          600: '#3d5a4d',   // Darker logo variation
-          700: '#2f4639',   // Hover/active states
-          800: '#243629',   // Dark mode primary
-          900: '#1a251c',   // Text on light backgrounds
+          50: '#f0fdf4',           // Lightest tint (from emerald-50)
+          100: '#dcfce7',          // Very light (from emerald-100)
+          200: '#bbf7d0',          // Light
+          300: '#86efac',          //
+          400: '#4ade80',          // Muted
+          500: '#2D6A4F',          // MAIN BRAND (brand.secondary)
+          600: '#1B4332',          // Darker (brand.primary)
+          700: '#14532d',          // Hover/active
+          800: '#0f3a23',          // Dark mode
+          900: '#0a2818',          // Darkest
         },
 
-        // ALERT: Emergency Red/Orange (from Emergency Logo)
+        // ALERT COLORS - Emergency and warnings
         alert: {
-          // Red (helmet color)
-          400: '#ef5350',   // Warning states
-          500: '#d32f2f',   // PRIMARY ALERT (helmet red)
-          600: '#c62828',   // Active emergency
-          700: '#b71c1c',   // Pressed state
-          // Orange (background color)
-          orange: {
-            400: '#ffa726', // Soft warning
-            500: '#fb8c00', // EMERGENCY BACKGROUND
-            600: '#f57c00', // Hover state
-          },
+          100: '#fee2e2',          // Light tint for backgrounds
+          200: '#fecaca',          // Lighter tint
+          300: '#fca5a5',          // Medium tint (between 200 and 400)
+          400: '#fb923c',          // Warning
+          500: '#E85D04',          // PRIMARY ALERT (brand.accent - safety orange)
+          600: '#dc2626',          // Critical red
+          700: '#b91c1c',          // Pressed state
         },
 
-        // CREAM: Warm backgrounds (from logo backgrounds)
+        // CREAM - Warm backgrounds (maps to surface.warm but needed for component compatibility)
+        // TODO: Coordinated refactor required to migrate from 'cream' to 'warm'
+        // Components using background="cream" or variant="cream": PageHero, IconBulletList,
+        // ThreeUpCards, TextWithImage, ProcessSteps, FAQAccordion, CTASection
+        // Pages affected: tree-consultation-omaha.tsx, services/[slug].tsx
+        // See MASTER-PLAYBOOK.md and COLOR-SYSTEM.md for migration strategy
         cream: {
-          50: '#fdfcfa',    // Lightest page background
-          100: '#f5efe0',   // Logo background cream
-          200: '#f0e9d5',   // Darker cream
-          300: '#e8dfc5',   // Borders, dividers
+          50: '#fdfcfa',           // Lightest
+          100: '#F5F5F0',          // MAIN (same as surface.warm)
+          200: '#f0e9d5',          // Medium
+          300: '#e8dfc5',          // Borders
         },
 
-        // SAGE: Olive/green secondary (from Worker Logos)
-        sage: {
-          400: '#8c9985',   // Muted olive
-          500: '#7a8c71',   // Mid-tone sage
-          600: '#6b7c63',   // Darker olive
-          700: '#5a6952',   // Deep sage
-        },
-
-        // TAN: Brown accents (from hard hats)
-        tan: {
-          400: '#a1887f',   // Light tan
-          500: '#8d6e63',   // Hard hat brown
-          600: '#795548',   // Darker brown
-        },
-
-        // NEUTRAL: Concrete grays (warm undertones for logo harmony)
+        // NEUTRAL GRAYS - Borders, dividers, backgrounds
         neutral: {
           50: '#fafaf9',
           100: '#f5f5f4',
           200: '#e7e5e4',
+          300: '#d6d3d1',
           400: '#a8a29e',
+          500: '#78716c',
           600: '#57534e',
+          700: '#44403c',
           800: '#292524',
           900: '#1c1917',
           950: '#0c0a09',
         },
 
-        // STEEL: Blue-grays (trust/secondary - keep existing)
+        // STEEL GRAYS - Trust/professional secondary
         steel: {
-          50: '#f1f5f9',
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
           600: '#475569',
           700: '#334155',
           800: '#1e293b',
+          900: '#0f172a',
         },
       },
 

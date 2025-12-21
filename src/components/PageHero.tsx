@@ -77,7 +77,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
   const badgeStyles = badge
     ? {
         success: 'bg-primary-500/20 border-primary-400 text-primary-100',
-        emergency: 'bg-alert-orange-500/20 border-alert-500 text-alert-orange-400',
+        emergency: 'bg-alert-500/20 border-alert-600 text-alert-400',
         info: 'bg-steel-700/20 border-steel-600 text-steel-200',
       }[badge.variant || 'success']
     : ''

@@ -25,12 +25,12 @@ export const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-neutral-900 text-neutral-200 pb-20 lg:pb-0">
+    <footer className="bg-neutral-900 text-neutral-200">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl py-12 md:py-14">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* NAP Block (Name, Address, Phone) */}
-          <div className="lg:col-span-2">
+          <div className="md:col-span-2">
             <h3 className="text-lg font-bold text-neutral-50 mb-4">{CONTACT.businessName}</h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-3">
@@ -133,35 +133,10 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Additional Links Row */}
-        <div className="mt-12 pt-8 border-t border-neutral-800">
-          <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm">
-            <Link
-              href="/emergency-tree-service-omaha"
-              className="text-alert-400 hover:text-alert-500 transition-colors font-semibold"
-            >
-              Emergency Service
-            </Link>
-            <Link
-              href="/tree-consultation-omaha"
-              className="text-neutral-400 hover:text-primary-400 transition-colors"
-            >
-              Free Consultation
-            </Link>
-            <Link
-              href="/tools"
-              className="text-neutral-400 hover:text-primary-400 transition-colors"
-            >
-              Tree Care Tools
-            </Link>
-          </div>
-        </div>
-
         {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-neutral-800 text-center text-xs text-neutral-600">
+        <div className="mt-10 pt-6 border-t border-neutral-800 text-center text-xs text-neutral-600">
           <p>
-            &copy; {new Date().getFullYear()} {CONTACT.businessName}. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} {CONTACT.businessName}. All rights reserved.
           </p>
         </div>
       </div>

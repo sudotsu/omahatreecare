@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Phone, Shield, CheckCircle, MapPin, Users, Award } from 'lucide-react'
 import { CONTACT } from '../src/constants'
+import { Section, Card } from '../src/components/primitives'
 
 export default function HomePage() {
   const services = [
@@ -22,7 +23,8 @@ export default function HomePage() {
       </Head>
 
       <div className="min-h-screen">
-        <section className="bg-gradient-to-br from-neutral-900 via-neutral-800 to-steel-800 text-white pt-32 pb-20">
+        {/* Hero Section - Dark variant */}
+        <Section variant="dark" spacing="xl">
           <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
             <div className="max-w-4xl">
               <div className="flex items-center gap-2 mb-6">
@@ -56,21 +58,24 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="bg-neutral-50 dark:bg-neutral-950 py-16">
+        {/* Services Section - Default (white) variant */}
+        <Section variant="default">
           <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-50 mb-4">Professional Tree Services</h2>
-              <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">From emergency removal to preventive care, we handle the trees other companies won&apos;t touch.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-content-heading mb-4">Professional Tree Services</h2>
+              <p className="text-xl text-content-body max-w-3xl mx-auto">From emergency removal to preventive care, we handle the trees other companies won&apos;t touch.</p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {services.map((service) => (
-                <Link key={service.slug} href={`/services/${service.slug}`} className="bg-neutral-100 border border-neutral-200 rounded-lg p-6 hover:border-primary-500 hover:shadow-lg transition-all group">
-                  <CheckCircle className="w-8 h-8 text-primary-500 mb-4" aria-hidden="true" />
-                  <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-primary-600">{service.name}</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">{service.description}</p>
-                  <span className="text-primary-600 font-semibold text-sm group-hover:text-primary-700">Learn more →</span>
+                <Link key={service.slug} href={`/services/${service.slug}`}>
+                  <Card hover className="h-full">
+                    <CheckCircle className="w-8 h-8 text-primary-500 mb-4" aria-hidden="true" />
+                    <h3 className="text-lg font-bold text-content-heading mb-2">{service.name}</h3>
+                    <p className="text-sm text-content-body mb-4">{service.description}</p>
+                    <span className="text-primary-600 font-semibold text-sm">Learn more →</span>
+                  </Card>
                 </Link>
               ))}
             </div>
@@ -78,43 +83,45 @@ export default function HomePage() {
               <Link href="/services" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 font-semibold">View All Services →</Link>
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="bg-steel-50 dark:bg-steel-800 py-16">
+        {/* Trust Section - Warm variant (alternates with white) */}
+        <Section variant="warm">
           <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-50 mb-4">Serving Omaha Since Day One</h2>
-              <p className="text-xl text-steel-700 dark:text-steel-300 max-w-3xl mx-auto">Local experts who know your neighborhood&apos;s trees</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-content-heading mb-4">Serving Omaha Since Day One</h2>
+              <p className="text-xl text-content-body max-w-3xl mx-auto">Local experts who know your neighborhood&apos;s trees</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-neutral-100 border border-steel-200 rounded-lg p-6">
+              <Card>
                 <MapPin className="w-8 h-8 text-steel-700 mb-4" aria-hidden="true" />
-                <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-4">Service Areas</h3>
+                <h3 className="text-lg font-bold text-content-heading mb-4">Service Areas</h3>
                 <div className="flex flex-wrap gap-2">
                   {neighborhoods.map((n) => <span key={n} className="text-xs bg-steel-100 text-steel-700 px-2 py-1 rounded">{n}</span>)}
                 </div>
                 <Link href="/locations" className="inline-block mt-4 text-sm text-primary-600 hover:text-primary-700 font-semibold">See all areas →</Link>
-              </div>
-              <div className="bg-neutral-100 border border-steel-200 rounded-lg p-6">
+              </Card>
+              <Card>
                 <Award className="w-8 h-8 text-steel-700 mb-4" aria-hidden="true" />
-                <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-4">Certified & Insured</h3>
-                <ul className="space-y-2 text-sm text-steel-700 dark:text-steel-300">
+                <h3 className="text-lg font-bold text-content-heading mb-4">Certified & Insured</h3>
+                <ul className="space-y-2 text-sm text-content-body">
                   <li>• ISA Certified Arborists</li>
                   <li>• Licensed & Bonded</li>
                   <li>• $2M Liability Insurance</li>
                 </ul>
-              </div>
-              <div className="bg-neutral-100 border border-steel-200 rounded-lg p-6">
+              </Card>
+              <Card>
                 <Users className="w-8 h-8 text-steel-700 mb-4" aria-hidden="true" />
-                <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-4">Omaha Owned & Operated</h3>
-                <p className="text-sm text-steel-700 dark:text-steel-300 mb-4">We live in the neighborhoods we serve. Your trees are our trees.</p>
-                <p className="text-sm text-steel-700 dark:text-steel-300"><strong>Contact:</strong> {CONTACT.email}</p>
-              </div>
+                <h3 className="text-lg font-bold text-content-heading mb-4">Omaha Owned & Operated</h3>
+                <p className="text-sm text-content-body mb-4">We live in the neighborhoods we serve. Your trees are our trees.</p>
+                <p className="text-sm text-content-body"><strong>Contact:</strong> {CONTACT.email}</p>
+              </Card>
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500 py-16">
+        {/* CTA Section - Brand gradient variant */}
+        <Section variant="gradient" spacing="lg">
           <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Protect Your Property?</h2>
             <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">Get a free, no-pressure tree assessment from Omaha&apos;s trusted tree care experts.</p>
@@ -129,7 +136,7 @@ export default function HomePage() {
             </div>
             <p className="mt-6 text-primary-200 text-sm">Serving all Omaha neighborhoods • Licensed & Insured • Free Estimates</p>
           </div>
-        </section>
+        </Section>
       </div>
     </>
   )

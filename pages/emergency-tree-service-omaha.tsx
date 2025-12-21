@@ -200,7 +200,7 @@ export default function EmergencyTreeServicePage() {
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-400 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -223,7 +223,7 @@ export default function EmergencyTreeServicePage() {
                 </div>
                 <div className="flex items-start gap-4">
                   <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-400 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -246,7 +246,7 @@ export default function EmergencyTreeServicePage() {
                 </div>
                 <div className="flex items-start gap-4">
                   <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-400 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -269,7 +269,7 @@ export default function EmergencyTreeServicePage() {
                 </div>
                 <div className="flex items-start gap-4">
                   <svg
-                    className="w-6 h-6 text-emerald-400 flex-shrink-0 mt-1"
+                    className="w-6 h-6 text-primary-400 flex-shrink-0 mt-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

@@ -377,6 +377,110 @@ All strategic objectives met. Template is production-ready for all 24 neighborho
 
 ---
 
+## DESIGN SYSTEM REFACTOR SESSION (2025-12-21)
+
+**Status:** ✅ COMPLETE
+**Session Date:** 2025-12-21
+**Branch:** `crazy-williams`
+**Focus:** Semantic color system, component primitives, accessibility improvements
+
+### Requirements
+✅ Implement semantic "High-Trust Trade" color palette in tailwind.config.js
+✅ Create reusable Card and Section primitives with depth system
+✅ Refactor Header and Footer to fix floating header, oversized footer, cramped nav
+✅ Fix className conflicts and redundant color structures
+✅ Improve accessibility (keyboard navigation, focus management, ARIA)
+✅ Remove duplicate CTAs and consolidate conversion paths
+
+### Changes Made
+
+**1. Semantic Color System (tailwind.config.js)**
+- Implemented brand colors: primary (#1B4332), secondary (#2D6A4F), accent (#E85D04)
+- Added surface colors: primary (white), warm (#F5F5F0), dark (#0F172A)
+- Added content colors: body, heading, muted, inverse
+- Removed nested alert.orange object (duplicate of alert.500)
+- Added alert.100 and alert.200 for light tints
+- Restored cream palette for component compatibility
+
+**2. Component Primitives (src/components/primitives/)**
+- **Card.tsx:** Added semantic dark mode (dark:bg-surface-dark, dark:border-neutral-700)
+- **Section.tsx:** Added 'gradient' variant for CTA sections
+- Both components now use consistent semantic tokens
+
+**3. Header Refactor (src/components/Header.tsx)**
+- Changed from fixed to sticky positioning with backdrop-blur
+- Increased nav link spacing to gap-8
+- Fixed Services dropdown text visibility (text-content-body)
+- Removed duplicate "Free Consultation" link (kept prominent button)
+- Added aria-controls="mobile-menu" to menu button
+- Implemented Escape key handler for mobile menu
+- Added ArrowDown key support for Services dropdown
+- Replaced console.warn with dev-only console.error
+- Improved focus management with container-level onBlur
+
+**4. Footer Cleanup (src/components/Footer.tsx)**
+- Reduced height by removing pb-20 and extra sections
+- Simplified grid to md:grid-cols-4
+- Reduced copyright margins
+
+**5. Homepage Updates (pages/index.tsx)**
+- Refactored to use Section/Card primitives
+- Implemented alternating rhythm: dark → default → warm → gradient
+- Fixed className conflict: variant="gradient" instead of className override
+- All service cards use Card hover for consistent lift effect
+
+**6. Other Component Updates**
+- EmergencyBanner.tsx: bg-alert-orange-500 → bg-alert-500
+- PageHero.tsx: alert-orange-500/20 → alert-500/20
+- CTASection.tsx: text-alert-orange-100 → text-alert-100
+
+### Site-Wide Color Replacement
+Batch replaced emerald-* with primary-* across:
+- pages/emergency-tree-service-omaha.tsx
+- pages/locations/index.tsx
+- pages/locations/[city]/index.tsx
+- pages/tools.tsx
+
+### Verification Proof
+✅ **Build Verification:** `npm run build` - ✓ Compiled successfully (all 7 commits)
+✅ **Route Generation:** 46/46 routes generated successfully
+✅ **TypeScript Compilation:** No errors
+✅ **Accessibility:** ARIA labels, keyboard navigation, focus management improved
+✅ **Visual Consistency:** Semantic tokens used throughout
+✅ **No Breaking Changes:** All pages render correctly
+
+### Git Commits (Session Summary)
+1. **2baa35f** - Add gradient variant to Section component - fix className conflict
+2. **577f059** - Fix dropdown focus management - improve keyboard navigation
+3. **07431bd** - Replace hardcoded dark mode colors with semantic tokens in Card
+4. **d7a26ac** - Remove redundant nested alert.orange color structure
+5. **a9b1777** - Remove duplicate consultation CTA from Header navigation
+6. **554922f** - Improve Header accessibility and error handling
+7. **(Current)** - Update documentation with session changes
+
+**Branch:** All changes committed to `crazy-williams`
+**Pushed:** ✅ Ready for merge to main
+
+### Known Issues / Tech Debt
+- Services dropdown arrow key navigation within items not fully implemented (basic open/close works)
+- Mobile menu focus trap not implemented (Escape key works, but focus can escape)
+- Full arrow key navigation (Up/Down/Home/End) in dropdown would require refs and focus management
+
+### Design System Impact
+This session established:
+- **Semantic color foundation** - All components now use brand/surface/content tokens
+- **Primitive consistency** - Card and Section components provide unified depth/rhythm
+- **Accessibility baseline** - ARIA labels, keyboard support, focus management patterns
+- **Visual hierarchy** - Consolidated CTAs, removed duplication, clear conversion paths
+
+### Next Steps
+- Implement full arrow key navigation in Services dropdown (if needed)
+- Add focus trap to mobile menu (react-focus-lock or custom implementation)
+- Create image capture form components for tree issue submissions
+- Consider error monitoring service integration (referenced in Header.tsx comments)
+
+---
+
 ## SESSION BASELINE
 
 **Starting Commit:** `23fcd11` - Add Vercel Web Analytics to Next.js

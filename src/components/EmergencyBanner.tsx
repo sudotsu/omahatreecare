@@ -43,7 +43,7 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({
 
   return (
     <div
-      className={`bg-alert-orange-500 border-b-4 border-alert-500 ${
+      className={`bg-alert-500 border-b-4 border-alert-600 ${
         sticky ? 'sticky top-0 z-50' : ''
       }`}
       role="alert"
