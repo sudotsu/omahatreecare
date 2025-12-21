@@ -51,6 +51,7 @@ module.exports = {
         alert: {
           100: '#fee2e2',          // Light tint for backgrounds
           200: '#fecaca',          // Lighter tint
+          300: '#fca5a5',          // Medium tint (between 200 and 400)
           400: '#fb923c',          // Warning
           500: '#E85D04',          // PRIMARY ALERT (brand.accent - safety orange)
           600: '#dc2626',          // Critical red
