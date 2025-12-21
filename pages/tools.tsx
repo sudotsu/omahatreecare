@@ -64,13 +64,13 @@ export default function ToolsPage() {
           </div>
         </div>
 
-        {/* TODO Notice */}
+        {/* Coming Soon Notice */}
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-8 mb-8">
+            <div className="bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-lg p-8 mb-8">
               <div className="flex items-start gap-4">
                 <svg
-                  className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1"
+                  className="w-6 h-6 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -83,18 +83,17 @@ export default function ToolsPage() {
                   />
                 </svg>
                 <div>
-                  <h2 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-2">
-                    TODO: Interactive Tool Pending
+                  <h2 className="text-xl font-bold text-primary-900 dark:text-primary-200 mb-2">
+                    Interactive Tools Coming Soon
                   </h2>
-                  <p className="text-blue-800 dark:text-blue-300 mb-4">
-                    The interactive tree diagnostic tool from the legacy components will be ported
-                    in a future step. This page is a placeholder to ensure 0 internal 404s.
+                  <p className="text-primary-800 dark:text-primary-300 mb-4">
+                    We&apos;re developing interactive tree diagnostic tools to help you assess your trees. In the meantime, call us for a free in-person assessment.
                   </p>
-                  <p className="text-sm text-blue-700 dark:text-blue-400">
-                    <strong>Legacy component location:</strong>{' '}
-                    <code className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded">
-                      src/components-legacy/tool/TreeDiagnostic.jsx
-                    </code>
+                  <p className="text-sm text-primary-700 dark:text-primary-400">
+                    <strong>Need help now?</strong> Call or text Andrew at{' '}
+                    <a href={`tel:${CONTACT.phoneRaw}`} className="font-bold underline hover:no-underline">
+                      {CONTACT.phone}
+                    </a>
                   </p>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import { Phone, Shield, CheckCircle, Clock, MapPin, Award, ChevronDown } from 'l
 import { motion, AnimatePresence } from 'framer-motion'
 import { Section, Container, Button, Card, Badge, Alert, Input, FormRow, Textarea } from '@/components/primitives'
 import { CONTACT } from '@/constants'
+import { submitLeadForm, validateFormData, type FormSubmissionData } from '@/lib/emailjs'
 
 export default function FreeAssessmentPage() {
   const [showFormTop, setShowFormTop] = useState(false)
@@ -15,6 +16,9 @@ export default function FreeAssessmentPage() {
     address: '',
     issue: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [submittedFrom, setSubmittedFrom] = useState<string | null>(null)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -23,11 +27,46 @@ export default function FreeAssessmentPage() {
     })
   }
 
-  const handleSubmit = (e: React.FormEvent, location: string) => {
+  const handleSubmit = async (e: React.FormEvent, location: string) => {
     e.preventDefault()
-    console.log(`Form submitted from ${location}:`, formData)
-    // TODO: Integrate with EmailJS or form handler
-    alert('Thank you! We&apos;ll contact you within 24 hours.')
+    setSubmitMessage(null)
+    setSubmittedFrom(location)
+
+    // Prepare data for EmailJS
+    const emailData: FormSubmissionData = {
+      from_name: formData.name,
+      from_phone: formData.phone,
+      address: formData.address,
+      message: formData.issue || 'Free tree assessment request',
+      form_location: `Services Free Assessment Page - ${location}`,
+    }
+
+    // Validate form data
+    const validation = validateFormData(emailData)
+    if (!validation.isValid) {
+      setSubmitMessage({ type: 'error', text: validation.error! })
+      return
+    }
+
+    // Submit to EmailJS
+    setIsSubmitting(true)
+    const result = await submitLeadForm(emailData)
+    setIsSubmitting(false)
+
+    if (result.success) {
+      setSubmitMessage({ type: 'success', text: result.message })
+      // Clear form on success
+      setFormData({ name: '', phone: '', address: '', issue: '' })
+      // Hide form after 5 seconds
+      setTimeout(() => {
+        if (location === 'hero') setShowFormTop(false)
+        if (location === 'mid-page') setShowFormMid(false)
+        if (location === 'bottom') setShowFormBottom(false)
+        setSubmitMessage(null)
+      }, 5000)
+    } else {
+      setSubmitMessage({ type: 'error', text: result.message })
+    }
   }
 
   const ContactForm = ({ onSubmit, location }: { onSubmit: (e: React.FormEvent, loc: string) => void; location: string }) => (
@@ -48,6 +87,7 @@ export default function FreeAssessmentPage() {
           onChange={handleInputChange}
           required
           className="w-full"
+          disabled={isSubmitting}
         />
       </FormRow>
       <FormRow>
@@ -59,6 +99,7 @@ export default function FreeAssessmentPage() {
           onChange={handleInputChange}
           required
           className="w-full"
+          disabled={isSubmitting}
         />
       </FormRow>
       <FormRow>
@@ -70,20 +111,40 @@ export default function FreeAssessmentPage() {
           onChange={handleInputChange}
           required
           className="w-full"
+          disabled={isSubmitting}
         />
       </FormRow>
       <FormRow>
         <Textarea
           name="issue"
-          placeholder="What&apos;s your tree concern? (e.g., leaning oak, dead branches over garage)"
+          placeholder="What's your tree concern? (e.g., leaning oak, dead branches over garage)"
           value={formData.issue}
           onChange={handleInputChange}
           rows={3}
           className="w-full"
+          disabled={isSubmitting}
         />
       </FormRow>
-      <Button type="submit" variant="primary" className="w-full text-lg font-bold">
-        Send My Free Assessment Request
+
+      {submitMessage && submittedFrom === location && (
+        <div
+          className={`p-4 rounded-lg text-sm font-medium ${
+            submitMessage.type === 'success'
+              ? 'bg-primary-100 border-2 border-primary-500 text-primary-900'
+              : 'bg-alert-100 border-2 border-alert-500 text-alert-900'
+          }`}
+        >
+          {submitMessage.text}
+        </div>
+      )}
+
+      <Button
+        type="submit"
+        variant="primary"
+        className="w-full text-lg font-bold"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Sending...' : 'Send My Free Assessment Request'}
       </Button>
       <p className="text-xs text-neutral-600 text-center">
         We respond within 24 hours. No spam, no pressure, no charge.
