@@ -112,7 +112,7 @@ export const Header: React.FC = () => {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 text-sm font-semibold text-neutral-50 hover:text-primary-400 transition-colors"
+                className="flex items-center gap-1 text-sm font-semibold text-content-body hover:text-brand-secondary transition-colors"
                 onClick={() => setIsServicesOpen(!isServicesOpen)}
                 onFocus={() => setIsServicesOpen(true)}
                 onBlur={(e) => {
