@@ -17,6 +17,7 @@ import {
 import { CONTACT, SITE_URL } from "../../../src/constants";
 import locationsData from "../../../src/data/locations.json";
 import { LocationData } from "../../../types/location-page";
+import { submitLeadForm, validateFormData, type FormSubmissionData } from "../../../src/lib/emailjs";
 
 interface LocationPageProps {
   data: LocationData;
@@ -26,9 +27,62 @@ interface LocationPageProps {
  * Neighborhood Landing Page Template
  * Strategy: "Resident, not Tourist" hyper-local SEO
  * UX: Dual-State (Emergency Distress + Routine Research)
+ * Forms: EmailJS integration for quote requests
  */
 export default function NeighborhoodPage({ data }: LocationPageProps) {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [quoteFormData, setQuoteFormData] = useState({
+    name: '',
+    phone: '',
+    address: `${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
+    service: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleQuoteSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitMessage(null);
+
+    // Prepare data for EmailJS
+    const emailData: FormSubmissionData = {
+      from_name: quoteFormData.name,
+      from_phone: quoteFormData.phone,
+      address: quoteFormData.address,
+      service_type: quoteFormData.service || 'General tree service inquiry',
+      form_location: `Neighborhood Page - ${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
+    };
+
+    // Validate form data
+    const validation = validateFormData(emailData);
+    if (!validation.isValid) {
+      setSubmitMessage({ type: 'error', text: validation.error! });
+      return;
+    }
+
+    // Submit to EmailJS
+    setIsSubmitting(true);
+    const result = await submitLeadForm(emailData);
+    setIsSubmitting(false);
+
+    if (result.success) {
+      setSubmitMessage({ type: 'success', text: result.message });
+      // Clear form on success
+      setQuoteFormData({
+        name: '',
+        phone: '',
+        address: `${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
+        service: '',
+      });
+      // Close modal after 3 seconds
+      setTimeout(() => {
+        setIsQuoteModalOpen(false);
+        setSubmitMessage(null);
+      }, 3000);
+    } else {
+      setSubmitMessage({ type: 'error', text: result.message });
+    }
+  };
 
   // Generate Schema.org JSON-LD
   const localBusinessSchema = {
@@ -404,53 +458,93 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
       {/* Quote Request Modal */}
       <Modal
         isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
+        onClose={() => {
+          setIsQuoteModalOpen(false);
+          setSubmitMessage(null);
+        }}
         title="Request Free Quote"
       >
-        <form className="space-y-4">
+        <form onSubmit={handleQuoteSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Name</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Name *</label>
             <input
               type="text"
+              value={quoteFormData.name}
+              onChange={(e) => setQuoteFormData({ ...quoteFormData, name: e.target.value })}
               className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               required
+              disabled={isSubmitting}
+              placeholder="John Smith"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Phone</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Phone *</label>
             <input
               type="tel"
+              value={quoteFormData.phone}
+              onChange={(e) => setQuoteFormData({ ...quoteFormData, phone: e.target.value })}
               className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               required
+              disabled={isSubmitting}
+              placeholder="(402) 555-1234"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Address</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Address *</label>
             <input
               type="text"
+              value={quoteFormData.address}
+              onChange={(e) => setQuoteFormData({ ...quoteFormData, address: e.target.value })}
               className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              defaultValue={`${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`}
               required
+              disabled={isSubmitting}
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">
               Service Needed
             </label>
-            <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-              <option>Select a service...</option>
+            <select
+              value={quoteFormData.service}
+              onChange={(e) => setQuoteFormData({ ...quoteFormData, service: e.target.value })}
+              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              disabled={isSubmitting}
+            >
+              <option value="">Select a service...</option>
               {data.services
                 .filter((s) => s.isAvailable)
                 .map((service, idx) => (
-                  <option key={idx} value={service.slug}>
+                  <option key={idx} value={service.name}>
                     {service.name}
                   </option>
                 ))}
             </select>
           </div>
-          <Button type="submit" variant="primary" className="w-full">
-            Submit Request
+
+          {submitMessage && (
+            <div
+              className={`p-3 rounded-lg text-sm font-medium ${
+                submitMessage.type === 'success'
+                  ? 'bg-primary-100 border border-primary-500 text-primary-900'
+                  : 'bg-alert-100 border border-alert-500 text-alert-900'
+              }`}
+            >
+              {submitMessage.text}
+            </div>
+          )}
+
+          <Button
+            type="submit"
+            variant="primary"
+            className="w-full"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Sending...' : 'Submit Request'}
           </Button>
+
+          <p className="text-xs text-center text-neutral-600">
+            We&apos;ll contact you within 24 hours. No spam, no pressure.
+          </p>
         </form>
       </Modal>
     </>
