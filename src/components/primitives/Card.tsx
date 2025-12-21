@@ -16,7 +16,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
  *
  * Hover: Adds lift effect (-translate-y-1) + shadow increase
  *
- * Dark mode: Automatically adapts with dark:bg-slate-800 dark:border-slate-700
+ * Dark mode: Uses semantic surface and neutral tokens for consistency
  */
 export const Card: React.FC<CardProps> = ({
   children,
@@ -26,7 +26,7 @@ export const Card: React.FC<CardProps> = ({
   ...props
 }) => {
   // Use semantic surface color + dark mode support
-  const baseStyles = 'bg-surface-primary dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 transition-all duration-250 ease-smooth';
+  const baseStyles = 'bg-surface-primary dark:bg-surface-dark border border-neutral-200 dark:border-neutral-700 transition-all duration-250 ease-smooth';
 
   const variantStyles = {
     standard: 'rounded-lg p-6 shadow-sm',
