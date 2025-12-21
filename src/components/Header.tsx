@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Menu, X, ChevronDown, AlertTriangle, Phone } from 'lucide-react';
+import { Menu, X, ChevronDown, Phone } from 'lucide-react';
 import { Button } from './primitives';
 import { CONTACT } from '../constants';
 import servicesData from '../data/services.json';
 
 /**
  * Header Component
- * Blue-collar trustworthy navigation with Emergency CTA
+ *
+ * Sticky header with semantic surface colors, proper spacing, and consolidated emergency CTA
+ *
+ * Features:
+ * - Sticky positioning with backdrop blur
+ * - Increased nav link spacing (gap-8)
+ * - Single emergency CTA (no duplication)
+ * - Working Services dropdown with keyboard support
+ * - Mobile-friendly hamburger menu
  */
 export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,6 +36,7 @@ export const Header: React.FC = () => {
   // Close mobile menu on route change
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsServicesOpen(false);
   }, [router.pathname]);
 
   // Normalize services.json to array with runtime validation
@@ -74,33 +83,26 @@ export const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-250 ease-smooth ${
+      className={`sticky top-0 z-50 transition-all duration-250 ease-smooth ${
         scrolled
-          ? 'bg-neutral-900/95 backdrop-blur-sm shadow-lg py-4'
-          : 'bg-neutral-900 py-6'
+          ? 'bg-surface-primary/95 backdrop-blur-md shadow-md'
+          : 'bg-surface-primary shadow-sm'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between py-4">
           {/* Logo/Brand */}
           <Link href="/" className="flex flex-col group">
-            <span className="text-xl md:text-2xl font-bold text-neutral-50 leading-tight group-hover:text-primary-400 transition-colors">
+            <span className="text-xl md:text-2xl font-bold text-content-heading leading-tight group-hover:text-brand-secondary transition-colors">
               {CONTACT.businessName}
             </span>
-            <span className="text-xs font-medium text-neutral-300 tracking-wide">
+            <span className="text-xs font-medium text-content-muted tracking-wide">
               Tree Care Omaha
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6">
-            {/* 24/7 Emergency Badge - Desktop */}
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-alert-500 rounded-full">
-              <AlertTriangle size={14} className="text-white animate-pulse" />
-              <span className="text-xs font-bold text-white tracking-wide">
-                24/7 EMERGENCY SERVICE
-              </span>
-            </div>
+          <nav className="hidden lg:flex items-center gap-8">
 
             {/* Services Dropdown */}
             <div
@@ -141,19 +143,19 @@ export const Header: React.FC = () => {
 
               {isServicesOpen && (
                 <div className="absolute top-full left-0 pt-2 w-64">
-                  <div className="bg-neutral-800 rounded-lg shadow-xl border border-neutral-700 py-2">
+                  <div className="bg-surface-primary rounded-lg shadow-xl border border-neutral-200 py-2">
                     <Link
                       href="/services"
-                      className="block px-4 py-2 text-sm font-medium text-neutral-50 hover:bg-primary-700 hover:text-white transition-colors"
+                      className="block px-4 py-2 text-sm font-medium text-content-heading hover:bg-brand-secondary hover:text-white transition-colors"
                     >
                       All Services
                     </Link>
-                    <div className="border-t border-neutral-700 my-2" />
+                    <div className="border-t border-neutral-200 my-2" />
                     {services.map((service: { name: string; slug: string }) => (
                       <Link
                         key={service.slug}
                         href={`/services/${service.slug}`}
-                        className="block px-4 py-2 text-sm text-neutral-200 hover:bg-primary-700 hover:text-white transition-colors"
+                        className="block px-4 py-2 text-sm text-content-body hover:bg-brand-secondary hover:text-white transition-colors"
                       >
                         {service.name}
                       </Link>
@@ -165,30 +167,31 @@ export const Header: React.FC = () => {
 
             <Link
               href="/locations"
-              className="text-sm font-semibold text-neutral-50 hover:text-primary-400 transition-colors"
+              className="text-sm font-semibold text-content-body hover:text-brand-secondary transition-colors"
             >
               Service Areas
             </Link>
 
             <Link
-              href="/tools"
-              className="text-sm font-semibold text-neutral-50 hover:text-primary-400 transition-colors"
-            >
-              Tools
-            </Link>
-
-            <Link
               href="/tree-consultation-omaha"
-              className="text-sm font-semibold text-neutral-50 hover:text-primary-400 transition-colors"
+              className="text-sm font-semibold text-content-body hover:text-brand-secondary transition-colors"
             >
               Free Consultation
             </Link>
 
-            {/* Phone CTA - Desktop (High Contrast) */}
+            {/* Primary CTA: Free Consultation Button */}
+            <Link href="/tree-consultation-omaha">
+              <Button variant="primary" size="md" className="min-h-[44px]">
+                Get Free Quote
+              </Button>
+            </Link>
+
+            {/* Emergency CTA: Phone (Secondary but visible) */}
             <a href={`tel:${CONTACT.phoneRaw}`}>
               <Button variant="emergency" size="sm" className="flex items-center gap-2 min-h-[44px]">
                 <Phone size={16} />
-                {CONTACT.phone}
+                <span className="hidden xl:inline">{CONTACT.phone}</span>
+                <span className="xl:hidden">Call Now</span>
               </Button>
             </a>
           </nav>
@@ -196,7 +199,7 @@ export const Header: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             type="button"
-            className="lg:hidden p-2 text-neutral-50 hover:text-primary-400 transition-colors"
+            className="lg:hidden p-2 text-content-heading hover:text-brand-secondary transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMenuOpen}
@@ -205,19 +208,18 @@ export const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile Menu - Simplified for "Emergency Distress" */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-neutral-900 border-t border-neutral-700 shadow-xl">
-            <nav className="container mx-auto px-4 py-6 space-y-4">
-              {/* 24/7 Emergency Badge - Mobile (Top of Menu) */}
-              <div className="flex items-center justify-center gap-2 px-4 py-2.5 bg-alert-500 rounded-lg mb-4">
-                <AlertTriangle size={16} className="text-white animate-pulse" />
-                <span className="text-sm font-bold text-white tracking-wide">
-                  24/7 EMERGENCY SERVICE
-                </span>
-              </div>
+          <div className="lg:hidden border-t border-neutral-200">
+            <nav className="py-6 space-y-4">
+              {/* Primary CTA - Mobile (Priority #1) */}
+              <Link href="/tree-consultation-omaha" className="block">
+                <Button variant="primary" className="w-full flex items-center justify-center gap-2 min-h-[44px]">
+                  Get Free Quote
+                </Button>
+              </Link>
 
-              {/* Phone CTA - Mobile (Priority #1) */}
+              {/* Emergency Phone CTA - Mobile (Priority #2) */}
               <a href={`tel:${CONTACT.phoneRaw}`} className="block">
                 <Button variant="emergency" className="w-full flex items-center justify-center gap-2 min-h-[44px]">
                   <Phone size={20} />
@@ -225,27 +227,27 @@ export const Header: React.FC = () => {
                 </Button>
               </a>
 
-              {/* Get Quote CTA - Mobile (Priority #2) */}
-              <Link href="/tree-consultation-omaha" className="block">
-                <Button variant="secondary" className="w-full flex items-center justify-center gap-2 min-h-[44px]">
-                  Get Free Quote
-                </Button>
-              </Link>
-
-              {/* Simplified Navigation - Non-Essential Links Hidden on Mobile */}
-              <div className="border-t border-neutral-700 pt-4 mt-4 space-y-3">
+              {/* Navigation Links */}
+              <div className="border-t border-neutral-200 pt-4 mt-4 space-y-3">
                 <Link
                   href="/services"
-                  className="block text-sm font-medium text-neutral-50 hover:text-primary-400 transition-colors"
+                  className="block text-sm font-medium text-content-body hover:text-brand-secondary transition-colors py-2"
                 >
                   Services
                 </Link>
 
                 <Link
                   href="/locations"
-                  className="block text-sm font-medium text-neutral-50 hover:text-primary-400 transition-colors"
+                  className="block text-sm font-medium text-content-body hover:text-brand-secondary transition-colors py-2"
                 >
                   Service Areas
+                </Link>
+
+                <Link
+                  href="/emergency-tree-service-omaha"
+                  className="block text-sm font-medium text-alert-500 hover:text-alert-600 transition-colors py-2"
+                >
+                  24/7 Emergency Service
                 </Link>
               </div>
             </nav>
