@@ -39,6 +39,17 @@ export const Header: React.FC = () => {
     setIsServicesOpen(false);
   }, [router.pathname]);
 
+  // Close mobile menu on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isMenuOpen]);
+
   // Normalize services.json to array with runtime validation
   const normalizeServices = (data: any) => {
     // Already an array
@@ -74,8 +85,11 @@ export const Header: React.FC = () => {
       }
     }
 
-    // Fallback: log warning and return empty array
-    console.warn('Header: Unable to normalize services.json, expected array or object with services');
+    // Fallback: return empty array (services dropdown will not render)
+    // In production, consider sending this to error monitoring service
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Header: Unable to normalize services.json, expected array or object with services');
+    }
     return [];
   };
 
@@ -127,6 +141,9 @@ export const Header: React.FC = () => {
                     setIsServicesOpen(!isServicesOpen);
                   } else if (e.key === 'Escape') {
                     setIsServicesOpen(false);
+                  } else if (e.key === 'ArrowDown' && !isServicesOpen) {
+                    e.preventDefault();
+                    setIsServicesOpen(true);
                   }
                 }}
                 aria-expanded={isServicesOpen}
@@ -196,6 +213,7 @@ export const Header: React.FC = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -203,7 +221,7 @@ export const Header: React.FC = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-neutral-200">
+          <div id="mobile-menu" className="lg:hidden border-t border-neutral-200">
             <nav className="py-6 space-y-4">
               {/* Primary CTA - Mobile (Priority #1) */}
               <Link href="/tree-consultation-omaha" className="block">
