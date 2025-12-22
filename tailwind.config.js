@@ -10,17 +10,17 @@ module.exports = {
       // SEMANTIC "HIGH-TRUST TRADE" COLOR SYSTEM
       // Deep forest greens + warm neutrals + safety orange accent
       colors: {
-        // BRAND COLORS - Primary identity
+        // BRAND COLORS - Primary identity (from worker-olive-sage.webp logo)
         brand: {
-          primary: '#1B4332',      // Deep forest green (main brand)
-          secondary: '#2D6A4F',    // Medium forest green (hover/active)
+          primary: '#4a6d5a',      // Olive-sage green (main brand from logo)
+          secondary: '#6b7c63',    // Sage green (hover/active from logo)
           accent: '#E85D04',       // Safety orange (emergency/CTAs)
         },
 
-        // SURFACE COLORS - Backgrounds and containers
+        // SURFACE COLORS - Backgrounds and containers (from primary-green-badge.webp)
         surface: {
           primary: '#FFFFFF',      // Pure white
-          warm: '#F5F5F0',         // Warm off-white (cream alternative)
+          warm: '#f5efe0',         // Cream background (from primary-green-badge.webp)
           dark: '#0F172A',         // Dark slate (dark mode/hero)
         },
 
@@ -33,18 +33,18 @@ module.exports = {
         },
 
         // SEMANTIC ALIASES (backwards compatibility with existing components)
-        // These map to the brand colors above
+        // These map to the brand colors above (from worker-olive-sage.webp logo)
         primary: {
-          50: '#f0fdf4',           // Lightest tint (from emerald-50)
-          100: '#dcfce7',          // Very light (from emerald-100)
-          200: '#bbf7d0',          // Light
-          300: '#86efac',          //
-          400: '#4ade80',          // Muted
-          500: '#2D6A4F',          // MAIN BRAND (brand.secondary)
-          600: '#1B4332',          // Darker (brand.primary)
-          700: '#14532d',          // Hover/active
-          800: '#0f3a23',          // Dark mode
-          900: '#0a2818',          // Darkest
+          50: '#f0f4f1',           // Lightest tint
+          100: '#e0e9e3',          // Very light
+          200: '#c1d3c7',          // Light
+          300: '#a2bdab',          //
+          400: '#83a78f',          // Muted
+          500: '#6b7c63',          // MAIN BRAND (brand.secondary - sage from logo)
+          600: '#4a6d5a',          // Darker (brand.primary - olive from logo)
+          700: '#3d5a4d',          // Hover/active
+          800: '#2f4639',          // Dark mode
+          900: '#1a251c',          // Darkest
         },
 
         // ALERT COLORS - Emergency and warnings
@@ -58,7 +58,7 @@ module.exports = {
           700: '#b91c1c',          // Pressed state
         },
 
-        // CREAM - Warm backgrounds (maps to surface.warm but needed for component compatibility)
+        // CREAM - Warm backgrounds (from primary-green-badge.webp logo)
         // TODO: Coordinated refactor required to migrate from 'cream' to 'warm'
         // Components using background="cream" or variant="cream": PageHero, IconBulletList,
         // ThreeUpCards, TextWithImage, ProcessSteps, FAQAccordion, CTASection
@@ -66,7 +66,7 @@ module.exports = {
         // See MASTER-PLAYBOOK.md and COLOR-SYSTEM.md for migration strategy
         cream: {
           50: '#fdfcfa',           // Lightest
-          100: '#F5F5F0',          // MAIN (same as surface.warm)
+          100: '#f5efe0',          // MAIN (from primary-green-badge.webp - same as surface.warm)
           200: '#f0e9d5',          // Medium
           300: '#e8dfc5',          // Borders
         },
