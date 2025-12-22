@@ -16,8 +16,12 @@ import {
 } from "../../../src/components/primitives";
 import { CONTACT, SITE_URL } from "../../../src/constants";
 import locationsData from "../../../src/data/locations.json";
+import {
+  submitLeadForm,
+  validateFormData,
+  type FormSubmissionData,
+} from "../../../src/lib/emailjs";
 import { LocationData } from "../../../types/location-page";
-import { submitLeadForm, validateFormData, type FormSubmissionData } from "../../../src/lib/emailjs";
 
 interface LocationPageProps {
   data: LocationData;
@@ -32,13 +36,16 @@ interface LocationPageProps {
 export default function NeighborhoodPage({ data }: LocationPageProps) {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [quoteFormData, setQuoteFormData] = useState({
-    name: '',
-    phone: '',
+    name: "",
+    phone: "",
     address: `${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
-    service: '',
+    service: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const handleQuoteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,14 +56,14 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
       from_name: quoteFormData.name,
       from_phone: quoteFormData.phone,
       address: quoteFormData.address,
-      service_type: quoteFormData.service || 'General tree service inquiry',
+      service_type: quoteFormData.service || "General tree service inquiry",
       form_location: `Neighborhood Page - ${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
     };
 
     // Validate form data
     const validation = validateFormData(emailData);
     if (!validation.isValid) {
-      setSubmitMessage({ type: 'error', text: validation.error! });
+      setSubmitMessage({ type: "error", text: validation.error! });
       return;
     }
 
@@ -66,13 +73,13 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
     setIsSubmitting(false);
 
     if (result.success) {
-      setSubmitMessage({ type: 'success', text: result.message });
+      setSubmitMessage({ type: "success", text: result.message });
       // Clear form on success
       setQuoteFormData({
-        name: '',
-        phone: '',
+        name: "",
+        phone: "",
         address: `${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
-        service: '',
+        service: "",
       });
       // Close modal after 3 seconds
       setTimeout(() => {
@@ -80,7 +87,7 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
         setSubmitMessage(null);
       }, 3000);
     } else {
-      setSubmitMessage({ type: 'error', text: result.message });
+      setSubmitMessage({ type: "error", text: result.message });
     }
   };
 
@@ -523,22 +530,17 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
           {submitMessage && (
             <div
               className={`p-3 rounded-lg text-sm font-medium ${
-                submitMessage.type === 'success'
-                  ? 'bg-primary-100 border border-primary-500 text-primary-900'
-                  : 'bg-alert-100 border border-alert-500 text-alert-900'
+                submitMessage.type === "success"
+                  ? "bg-primary-100 border border-primary-500 text-primary-900"
+                  : "bg-alert-100 border border-alert-500 text-alert-900"
               }`}
             >
               {submitMessage.text}
             </div>
           )}
 
-          <Button
-            type="submit"
-            variant="primary"
-            className="w-full"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Sending...' : 'Submit Request'}
+          <Button type="submit" variant="primary" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Sending..." : "Submit Request"}
           </Button>
 
           <p className="text-xs text-center text-neutral-600">
@@ -556,11 +558,15 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
  */
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths: { params: { city: string; neighborhood: string } }[] = [];
+  const neighborhoodsDir = path.join(process.cwd(), "src", "data", "neighborhoods");
 
   // Generate paths from locations.json (same as legacy)
   Object.entries(locationsData).forEach(([city, cityData]: [string, any]) => {
     if (Array.isArray(cityData)) {
       cityData.forEach((neighborhood: string) => {
+        const filePath = path.join(neighborhoodsDir, `${city}-${neighborhood}.json`);
+        if (!fs.existsSync(filePath)) return;
+
         paths.push({
           params: {
             city,
@@ -588,84 +594,28 @@ export const getStaticProps: GetStaticProps<LocationPageProps> = async ({ params
 
   let data: LocationData;
 
+  const filePath = path.join(
+    process.cwd(),
+    "src",
+    "data",
+    "neighborhoods",
+    `${city}-${neighborhood}.json`,
+  );
+
+  if (!fs.existsSync(filePath)) {
+    return {
+      notFound: true,
+    };
+  }
+
   try {
     // Attempt to load neighborhood-specific JSON file
-    const filePath = path.join(
-      process.cwd(),
-      "src",
-      "data",
-      "neighborhoods",
-      `${city}-${neighborhood}.json`,
-    );
     const raw = fs.readFileSync(filePath, "utf8");
     data = JSON.parse(raw) as LocationData;
     console.log(`✅ Loaded real data for ${city}-${neighborhood}`);
   } catch (error) {
-    // Fallback to mock data if JSON file doesn't exist yet
-    console.log(`⚠️  No data file for ${city}-${neighborhood}, using mock data`);
-
-    // Mock LocationData - Fallback for neighborhoods without JSON files
-    data = {
-      identifiers: {
-        neighborhoodName: "Dundee",
-        cityName: "Omaha",
-        stateCode: "NE",
-        slug: "dundee",
-        zipCodes: ["68132"],
-        coordinates: {
-          latitude: 41.2565,
-          longitude: -95.9345,
-        },
-      },
-      seo: {
-        metaTitle: "Tree Service in Dundee Omaha | Emergency Tree Removal & Trimming",
-        metaDescription:
-          "Professional tree removal, trimming, and emergency service in Dundee. ISA Certified Arborists serving Memorial Park, Underwood Ave, and surrounding areas. Call (402) 812-3294.",
-      },
-      content: {
-        heroTitle: "Tree Service in Dundee You Can Trust",
-        heroDescription:
-          "We work in Dundee regularly — from Memorial Park to Underwood Ave. ISA Certified Arborists with $2M insurance, same-day emergency service available.",
-        primaryServiceFocus: "Emergency Tree Removal",
-      },
-      services: [
-        { name: "Tree Removal", slug: "tree-removal", isAvailable: true },
-        { name: "Tree Trimming & Pruning", slug: "tree-trimming", isAvailable: true },
-        { name: "Stump Grinding", slug: "stump-grinding", isAvailable: true },
-        { name: "Emergency Storm Damage", slug: "emergency-tree-service", isAvailable: true },
-      ],
-      residentSignals: {
-        localLandmarks: [
-          "Memorial Park (we trim the oaks along the east side regularly)",
-          "Dundee Elementary School (know the drop-off/pickup traffic patterns)",
-          "Underwood Ave commercial district (tight parking, we plan accordingly)",
-        ],
-        proximityTips: [
-          "We park behind the library on 50th Street when meters are full",
-          "Avoid scheduling during Dundee Dell lunch rush (11:30am-1pm) if access is tight",
-          "Happy Hollow can flood after heavy rain - we check before bringing heavy equipment",
-        ],
-        localVernacular: ["Happy Hollow", "The Dell", "Memorial Park Loop"],
-      },
-      aeoContent: {
-        commonProblems: [
-          {
-            question: "Why are so many mature oaks dying in Dundee?",
-            answer:
-              'Dundee has a lot of 80-100 year old bur oaks and red oaks. Many are experiencing "oak decline" - a combination of age, soil compaction from development, and stress from drought cycles. We can assess if your oak is salvageable with proper care or if removal is safer.',
-          },
-          {
-            question: "Can you work around the power lines near Underwood Ave?",
-            answer:
-              "Yes. We are certified to work near power lines and coordinate with OPPD when needed. Many Dundee properties have lines running through tree canopies - we know how to prune safely without cutting power to the block.",
-          },
-          {
-            question: "What should I do if a branch falls during a storm?",
-            answer:
-              "Call us immediately at (402) 812-3294. We offer 24/7 emergency service. If the branch is on a power line, call OPPD first (402-536-5400), then call us to remove it safely once power is secured. Do not touch fallen branches near wires.",
-          },
-        ],
-      },
+    return {
+      notFound: true,
     };
   }
 
