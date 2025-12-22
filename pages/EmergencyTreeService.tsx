@@ -39,15 +39,16 @@ export default function EmergencyTreeService() {
             <p className="text-xl font-medium max-w-2xl mx-auto opacity-90 text-white">
               Tree on your house? Driveway blocked? We prioritize safety hazards and storm damage across Omaha [3, 6].
             </p>
-            <Button
-              variant="emergency"
-              size="lg"
-              className="bg-white text-brand-accent hover:bg-white/90 font-black py-5 px-10 rounded-2xl text-2xl shadow-2xl transform hover:scale-105"
-              onClick={() => window.location.href = `tel:${CONTACT.phoneRaw}`}
-            >
-              <span>Call Now: {CONTACT.phone}</span>
-              <span className="block text-xs uppercase tracking-widest opacity-70">Click to call 24/7</span>
-            </Button>
+            <a href={`tel:${CONTACT.phoneRaw}`}>
+              <Button
+                variant="emergency"
+                size="lg"
+                className="bg-white text-brand-accent hover:bg-white/90 font-black py-5 px-10 rounded-2xl text-2xl shadow-2xl transform hover:scale-105"
+              >
+                <span>Call Now: {CONTACT.phone}</span>
+                <span className="block text-xs uppercase tracking-widest opacity-70">Click to call 24/7</span>
+              </Button>
+            </a>
           </Container>
         </Section>
 
