@@ -103,7 +103,7 @@ export default function TreeConsultation() {
                     { title: "Native Species", desc: "Understanding local growth patterns.", icon: Info }
                   ].map((item, i) => (
                     <Card key={i} className="p-5 border-neutral-200 dark:border-neutral-800 bg-surface-primary/50 rounded-2xl">
-                      <item.icon className="w-5 h-5 text-brand-primary mb-2" />
+                      <item.icon className="w-5 h-5 text-brand-primary mb-2"/>
                       <h3 className="font-bold text-content-heading dark:text-content-inverse text-sm uppercase italic">{item.title}</h3>
                       <p className="text-xs text-content-body dark:text-content-muted leading-relaxed font-medium">{item.desc} [5].</p>
                     </Card>

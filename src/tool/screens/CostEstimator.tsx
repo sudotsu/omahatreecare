@@ -26,6 +26,7 @@ export function CostEstimator() {
           {services.map((service) => (
             <button
               key={service.name}
+              type="button"
               onClick={() => setSelectedService(service)}
               className="group p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-md border-2 border-transparent hover:border-emerald-500 transition-all text-left flex justify-between items-center"
             >
@@ -51,7 +52,7 @@ export function CostEstimator() {
               <h2 className="text-3xl font-black uppercase italic tracking-tighter">{selectedService.name}</h2>
               <p className="text-amber-100 font-medium">{selectedService.description}</p>
             </div>
-            <button onClick={() => setSelectedService(null)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+            <button type="button" onClick={() => setSelectedService(null)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
               <X className="w-6 h-6" />
             </button>
           </div>

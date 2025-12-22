@@ -75,6 +75,7 @@ export function Home({ setScreen }: HomeProps) {
         {tools.map((tool) => (
           <button
             key={tool.id}
+            type="button"
             onClick={() => setScreen(tool.id)}
             className="group relative bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-300 text-left border-2 border-transparent hover:border-emerald-500/20 transform hover:-translate-y-2 overflow-hidden"
           >

@@ -55,6 +55,7 @@ export function SpeciesIdentifier() {
             return (
               <button
                 key={tree.name}
+                type="button"
                 onClick={() => setSelectedTree(tree)}
                 className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all border border-transparent hover:border-emerald-500/30 text-left"
               >
@@ -79,7 +80,7 @@ export function SpeciesIdentifier() {
               <h2 className="text-2xl font-black uppercase italic">{selectedTree.name}</h2>
               <p className="opacity-90 italic">{selectedTree.scientificName}</p>
             </div>
-            <button onClick={() => setSelectedTree(null)} className="p-2 hover:bg-white/20 rounded-full transition-colors">
+            <button type="button" onClick={() => setSelectedTree(null)} className="p-2 hover:bg-white/20 rounded-full transition-colors">
               <X className="w-6 h-6" />
             </button>
           </div>

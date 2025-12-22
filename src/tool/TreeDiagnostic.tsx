@@ -86,6 +86,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
           <div className="flex items-center gap-4">
             {currentScreen !== 'home' && (
               <button
+                type="button"
                 onClick={goHome}
                 className="p-2 hover:bg-white/10 rounded-xl transition-colors focus:ring-2 focus:ring-brand-accent outline-none"
                 aria-label="Back to tools"
@@ -100,6 +101,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
           </div>
 
           <button
+            type="button"
             onClick={() => setDarkMode(!darkMode)}
             className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all focus:ring-2 focus:ring-brand-accent outline-none"
             aria-label="Toggle dark mode"

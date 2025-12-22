@@ -35,6 +35,7 @@ export function CommonAilments() {
           {(['all', 'pest', 'disease', 'environmental'] as const).map((type) => (
             <button
               key={type}
+              type="button"
               onClick={() => setFilterType(type)}
               className={`px-6 py-2 rounded-xl font-bold uppercase tracking-tighter transition-all ${
                 filterType === type ? 'bg-emerald-600 text-white shadow-lg' : 'bg-white dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700'
@@ -52,6 +53,7 @@ export function CommonAilments() {
           {filteredAilments.map((ailment) => (
             <button
               key={ailment.name}
+              type="button"
               onClick={() => setSelectedAilment(ailment)}
               className="p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all border border-transparent hover:border-emerald-500/30 text-left"
             >
@@ -75,7 +77,7 @@ export function CommonAilments() {
               <h2 className="text-3xl font-black uppercase italic tracking-tighter">{selectedAilment.name}</h2>
               <p className="opacity-90 font-bold uppercase text-xs tracking-widest">{selectedAilment.type} | {selectedAilment.severity} Severity</p>
             </div>
-            <button onClick={() => setSelectedAilment(null)} className="p-2 hover:bg-white/20 rounded-full transition-colors"><X /></button>
+            <button type="button" onClick={() => setSelectedAilment(null)} className="p-2 hover:bg-white/20 rounded-full transition-colors"><X /></button>
           </div>
 
           <div className="p-8 space-y-6">

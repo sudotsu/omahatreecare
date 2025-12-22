@@ -102,12 +102,13 @@ export function HazardAssessment() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
+              type="button"
               onClick={() => router.push(`/emergency-tree-service-omaha?score=${riskScore}`)}
               className="flex items-center justify-center gap-3 py-4 bg-emerald-600 text-white rounded-2xl font-bold shadow-lg hover:bg-emerald-500 transition-all"
             >
               ⚡ Get Professional Eval
             </button> [10, 11]
-            <button onClick={() => setStep(0)} className="flex items-center justify-center gap-2 py-4 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white rounded-2xl font-bold">
+            <button type="button" onClick={() => setStep(0)} className="flex items-center justify-center gap-2 py-4 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white rounded-2xl font-bold">
               <RotateCcw className="w-5 h-5" /> Start Over
             </button> [12]
           </div>
@@ -133,6 +134,7 @@ export function HazardAssessment() {
         {currentQuestion.options.map((option, i) => (
           <button
             key={i}
+            type="button"
             onClick={() => handleAnswer(option.value, option.issues, currentQuestion.isConsequence)}
             className="w-full p-6 text-left bg-white dark:bg-slate-800 border-2 border-amber-100 dark:border-slate-700 rounded-2xl hover:border-emerald-500 transition-all shadow-sm group"
           >

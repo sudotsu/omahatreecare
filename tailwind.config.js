@@ -62,11 +62,9 @@ module.exports = {
         },
 
         // CREAM - Warm backgrounds (from primary-green-badge.webp logo)
-        // TODO: Coordinated refactor required to migrate from 'cream' to 'warm'
-        // Components using background="cream" or variant="cream": PageHero, IconBulletList,
-        // ThreeUpCards, TextWithImage, ProcessSteps, FAQAccordion, CTASection
-        // Pages affected: tree-consultation-omaha-old.tsx, services/[slug].tsx
-        // See MASTER-PLAYBOOK.md and COLOR-SYSTEM.md for migration strategy
+        // TRACKED: Coordinated refactor required to migrate from 'cream' to 'surface.warm'
+        // See MIGRATION_TICKET_COLOR_SYSTEM.md (#COLOR-SYS-2025-001) for audit and task list.
+        // Affects: PageHero, IconBulletList, ThreeUpCards, TextWithImage, ProcessSteps, FAQAccordion, CTASection, etc.
         cream: {
           50: '#fdfcfa',           // Lightest
           100: '#f5efe0',          // MAIN (from primary-green-badge.webp - same as surface.warm)
