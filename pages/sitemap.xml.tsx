@@ -4,7 +4,7 @@
  */
 
 import { GetServerSideProps } from 'next'
-import { getAllCanonicalRoutes } from '../src/routes'
+import { getAllCanonicalRoutes } from '@/routes'
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const routes = getAllCanonicalRoutes()

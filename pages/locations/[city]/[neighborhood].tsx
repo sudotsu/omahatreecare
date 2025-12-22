@@ -11,17 +11,19 @@ import {
   Button,
   Container,
   Grid,
+  Input,
   Modal,
   Section,
-} from "../../../src/components/primitives";
-import { CONTACT, SITE_URL } from "../../../src/constants";
-import locationsData from "../../../src/data/locations.json";
+  Select,
+} from "@/components/primitives";
+import { CONTACT, SITE_URL } from "@/constants";
+import locationsData from "@/data/locations.json";
 import {
   submitLeadForm,
   validateFormData,
   type FormSubmissionData,
 } from "@/lib/emailjs";
-import { LocationData } from "../../../types/location-page";
+import { LocationData } from "@/types/location-page";
 
 interface LocationPageProps {
   data: LocationData;
@@ -81,25 +83,32 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
 
     // Submit to EmailJS
     setIsSubmitting(true);
-    const result = await submitLeadForm(emailData);
-    setIsSubmitting(false);
-
-    if (result.success) {
-      setSubmitMessage({ type: "success", text: result.message });
-      // Clear form on success
-      setQuoteFormData({
-        name: "",
-        phone: "",
-        address: `${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
-        service: "",
-      });
-      // Close modal after 3 seconds
-      setTimeout(() => {
-        setIsQuoteModalOpen(false);
-        setSubmitMessage(null);
-      }, 3000);
-    } else {
-      setSubmitMessage({ type: "error", text: result.message });
+    try {
+      const result = await submitLeadForm(emailData);
+      if (result.success) {
+        setSubmitMessage({ type: "success", text: result.message });
+        // Clear form on success
+        setQuoteFormData({
+          name: "",
+          phone: "",
+          address: `${data.identifiers.neighborhoodName}, ${data.identifiers.cityName}`,
+          service: "",
+        });
+        // Close modal after 3 seconds
+        setTimeout(() => {
+          setIsQuoteModalOpen(false);
+          setSubmitMessage(null);
+        }, 3000);
+      } else {
+        setSubmitMessage({ type: "error", text: result.message });
+      }
+    } catch (err) {
+      setSubmitMessage({
+        type: 'error',
+        text: 'A system error occurred. Please try again or call us.'
+      })
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -495,11 +504,10 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
         <form onSubmit={handleQuoteSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">Name *</label>
-            <input
+            <Input
               type="text"
               value={quoteFormData.name}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, name: e.target.value })}
-              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               required
               disabled={isSubmitting}
               placeholder="John Smith"
@@ -507,34 +515,33 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
           </div>
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">Phone *</label>
-            <input
+            <Input
               type="tel"
               value={quoteFormData.phone}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, phone: e.target.value })}
-              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               required
               disabled={isSubmitting}
               placeholder="(402) 555-1234"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Address (optional)</label>
-            <input
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Address *</label>
+            <Input
               type="text"
               value={quoteFormData.address}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, address: e.target.value })}
-              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              required
               disabled={isSubmitting}
+              placeholder="1234 Maple St"
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">
               Service Needed
             </label>
-            <select
+            <Select
               value={quoteFormData.service}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, service: e.target.value })}
-              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               disabled={isSubmitting}
             >
               <option value="">Select a service...</option>
@@ -545,7 +552,7 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
                     {service.name}
                   </option>
                 ))}
-            </select>
+            </Select>
           </div>
 
           {submitMessage && (

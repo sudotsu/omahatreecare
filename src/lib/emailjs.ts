@@ -47,6 +47,19 @@ function validateEmailJSConfig(): { isValid: boolean; error?: string } {
 }
 
 /**
+ * Simple sanitization to prevent basic injection attacks
+ */
+function sanitizeInput(text: string | undefined): string | undefined {
+  if (!text) return text;
+  return text
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .trim();
+}
+
+/**
  * Submits a lead form to EmailJS
  *
  * @param formData - The form data to submit
@@ -65,12 +78,23 @@ export async function submitLeadForm(
     };
   }
 
+  // Sanitize all inputs before sending to EmailJS
+  const sanitizedData: FormSubmissionData = {
+    from_name: sanitizeInput(formData.from_name)!,
+    from_phone: sanitizeInput(formData.from_phone)!,
+    from_email: sanitizeInput(formData.from_email),
+    message: sanitizeInput(formData.message),
+    address: sanitizeInput(formData.address),
+    service_type: sanitizeInput(formData.service_type),
+    form_location: sanitizeInput(formData.form_location),
+  };
+
   try {
     // Send email using EmailJS
     const response = await emailjs.send(
       process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
       process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-      formData as any,
+      sanitizedData as any,
       process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
     );
 

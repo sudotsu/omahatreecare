@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Phone, Shield, Clock, CheckCircle, AlertTriangle, Award, Users, FileText, ChevronRight } from 'lucide-react'
-import { CONTACT } from '../src/constants'
-import { submitLeadForm, validateFormData, type FormSubmissionData } from '../src/lib/emailjs'
+import { CONTACT } from '@/constants'
+import { submitLeadForm, validateFormData, type FormSubmissionData } from '@/lib/emailjs'
 
 /**
  * High-Converting Landing Page: Free Tree Risk Assessment

@@ -49,7 +49,7 @@ This document summarizes the migration from a Vite-based React SPA to Next.js 14
 │   │   │   ├── index.tsx     # /locations/omaha
 │   │   │   └── [neighborhood].tsx  # /locations/omaha/dundee
 │   ├── emergency-tree-service-omaha.tsx
-│   ├── tree-consultation-omaha.tsx
+│   ├── tree-consultation-omaha-old.tsx
 │   ├── tools.tsx
 │   ├── sitemap.xml.tsx       # Dynamic sitemap
 │   └── robots.txt.tsx        # Dynamic robots.txt

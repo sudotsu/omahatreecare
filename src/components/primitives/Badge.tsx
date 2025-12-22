@@ -1,12 +1,12 @@
 import React from 'react';
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: 'primary' | 'steel' | 'neutral';
+  variant?: 'primary' | 'steel' | 'neutral' | 'emergency';
 }
 
 /**
  * Badge/Tag primitive component
- * Variants: primary, steel, neutral
+ * Variants: primary, steel, neutral, emergency
  */
 export const Badge: React.FC<BadgeProps> = ({
   children,
@@ -20,6 +20,7 @@ export const Badge: React.FC<BadgeProps> = ({
     primary: 'bg-primary-50 text-primary-900',
     steel: 'bg-steel-50 text-steel-800',
     neutral: 'bg-neutral-100 text-neutral-800',
+    emergency: 'bg-alert-500 text-white',
   };
 
   return (

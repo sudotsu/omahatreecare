@@ -9,6 +9,9 @@ module.exports = {
     extend: {
       // SEMANTIC "HIGH-TRUST TRADE" COLOR SYSTEM
       // Deep forest greens + warm neutrals + safety orange accent
+      // Colors derived from brand assets:
+      // - Olive-sage/Sage greens from worker-olive-sage.webp
+      // - Cream background from primary-green-badge.webp
       colors: {
         // BRAND COLORS - Primary identity (from worker-olive-sage.webp logo)
         brand: {
@@ -62,7 +65,7 @@ module.exports = {
         // TODO: Coordinated refactor required to migrate from 'cream' to 'warm'
         // Components using background="cream" or variant="cream": PageHero, IconBulletList,
         // ThreeUpCards, TextWithImage, ProcessSteps, FAQAccordion, CTASection
-        // Pages affected: tree-consultation-omaha.tsx, services/[slug].tsx
+        // Pages affected: tree-consultation-omaha-old.tsx, services/[slug].tsx
         // See MASTER-PLAYBOOK.md and COLOR-SYSTEM.md for migration strategy
         cream: {
           50: '#fdfcfa',           // Lightest

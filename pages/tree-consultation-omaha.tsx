@@ -1,314 +1,155 @@
-/**
- * Tree Consultation Page (REFACTORED)
- *
- * Uses standardized PageHero + section patterns.
- * Includes EmailJS-integrated contact form.
- */
+'use client';
 
-import { useState } from 'react'
-import Head from 'next/head'
-import { CONTACT } from '../src/constants'
-import { PageHero } from '../src/components/PageHero'
-import { IconBulletList, ProcessSteps, CTASection } from '../src/components/sections'
-import { Section, Container, Button } from '../src/components/primitives'
-import { Check } from 'lucide-react'
-import { submitLeadForm, validateFormData, type FormSubmissionData } from '../src/lib/emailjs'
+import React, { useEffect } from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ArrowLeft, CheckCircle, Phone, Shield, Info, AlertTriangle, Clock, MapPin } from 'lucide-react';
+import { CONTACT } from '@/constants';
+import ContactForm from '@/components/ContactForm';
+import { Badge, Card, Button, Section, Container, Grid } from '@/components/primitives';
 
-export default function TreeConsultationPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    address: '',
-    message: '',
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+export default function TreeConsultation() {
+  const router = useRouter();
+  const riskLevel = router.query.risk as string | undefined;
+  const score = router.query.score as string | undefined;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitMessage(null)
+  const pageTitle = 'Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots';
+  const metaDescription = `Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Call ${CONTACT.phone}.`;
 
-    // Prepare data for EmailJS
-    const emailData: FormSubmissionData = {
-      from_name: formData.name,
-      from_phone: formData.phone,
-      from_email: formData.email || undefined,
-      address: formData.address || undefined,
-      message: formData.message || 'Tree consultation request',
-      form_location: 'Tree Consultation Omaha Page',
+  useEffect(() => {
+    if (window.gtag) {
+      window.gtag('event', 'page_view', {
+        page_title: 'Tree Consultation',
+        risk_level: riskLevel,
+        risk_score: score
+      });
     }
-
-    // Validate form data
-    const validation = validateFormData(emailData)
-    if (!validation.isValid) {
-      setSubmitMessage({ type: 'error', text: validation.error! })
-      return
-    }
-
-    // Submit to EmailJS
-    setIsSubmitting(true)
-    const result = await submitLeadForm(emailData)
-    setIsSubmitting(false)
-
-    if (result.success) {
-      setSubmitMessage({ type: 'success', text: result.message })
-      // Clear form on success
-      setFormData({ name: '', phone: '', email: '', address: '', message: '' })
-    } else {
-      setSubmitMessage({ type: 'error', text: result.message })
-    }
-  }
-  const pageTitle = 'Tree Consultation Omaha - Professional Assessment Before DIY | Midwest Roots'
-  const metaDescription = `Get a professional tree risk assessment in Omaha before you DIY. Expert advice on safety, pruning vs removal, and storm risks. Call ${CONTACT.phone}.`
-  const canonicalUrl = `${CONTACT.siteUrl}/tree-consultation-omaha`
+  }, [riskLevel, score]);
 
   return (
     <>
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={canonicalUrl} />
-
-        {/* OpenGraph */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${CONTACT.siteUrl}/images/og-image.jpg`} />
-
-        {/* JSON-LD Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Service',
-              name: 'Tree Consultation Service',
-              description: metaDescription,
-              provider: {
-                '@type': 'LocalBusiness',
-                name: CONTACT.businessName,
-                telephone: CONTACT.phone,
-                email: CONTACT.email,
-                address: {
-                  '@type': 'PostalAddress',
-                  streetAddress: CONTACT.streetAddress,
-                  addressLocality: CONTACT.addressLocality,
-                  addressRegion: CONTACT.addressRegion,
-                  postalCode: CONTACT.postalCode,
-                  addressCountry: CONTACT.addressCountry,
-                },
-              },
-              offers: {
-                '@type': 'Offer',
-                price: '0',
-                priceCurrency: 'USD',
-                description: 'Free consultation',
-              },
-            }),
-          }}
-        />
+        {/* Service Schema for Local SEO */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "serviceType": "Tree Consultation and Safety Assessment",
+            "provider": { "@type": "LocalBusiness", "name": CONTACT.businessName },
+            "areaServed": "Omaha, NE",
+            "description": "Professional arborist consultation to identify hidden risks and provide honest DIY vs Pro advice."
+          })}} />
       </Head>
 
-      {/* PageHero - with FREE badge */}
-      <PageHero
-        eyebrow="Free Consultation"
-        title="Expert Tree Consultation Before You DIY"
-        description="Get professional advice without the sales pressure. Know what you're dealing with before you pick up that chainsaw."
-        badge={{
-          text: '100% FREE - NO OBLIGATION',
-          variant: 'success',
-        }}
-        variant="default"
-      />
+      <main className="min-h-screen bg-surface-warm dark:bg-surface-dark transition-colors">
+        {/* Navigation & Risk Badge */}
+        <Section className="py-6 border-b border-neutral-100 dark:border-neutral-800">
+          <Container>
+            <div className="flex justify-between items-center">
+              <Link href="/tools" className="inline-flex items-center gap-2 text-content-muted hover:text-brand-primary transition font-bold uppercase text-xs tracking-widest">
+                <ArrowLeft className="w-4 h-4" /> Back to Tools
+              </Link>
+              {riskLevel && (
+                <Badge variant="steel" className="animate-pulse border-alert-400">
+                  {riskLevel} Risk Identified (Score: {score})
+                </Badge>
+              )}
+            </div>
+          </Container>
+        </Section>
 
-      {/* Contact Form Section */}
-      <Section variant="warm" spacing="lg">
-        <Container>
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-neutral-900 mb-3">Request Your Free Consultation</h2>
-              <p className="text-lg text-neutral-600">
-                Fill out the form below and we&apos;ll get back to you within 24 hours
+        {/* Hero Section */}
+        <Section className="pt-12 pb-8 text-center">
+          <Container>
+            <div className="max-w-4xl mx-auto space-y-4">
+              <h1 className="text-4xl md:text-6xl font-black text-content-heading dark:text-content-inverse uppercase italic leading-none tracking-tighter">
+                Get a Professional Look <br />
+                <span className="text-brand-primary">Before You DIY</span>
+              </h1>
+              <p className="text-lg text-content-body dark:text-content-muted max-w-2xl mx-auto font-medium">
+                Your assessment shows concerns that warrant a closer look. Let’s provide an honest opinion before you invest time or risk your safety [3].
               </p>
             </div>
+          </Container>
+        </Section>
 
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 md:p-8 space-y-5">
-              <div className="grid md:grid-cols-2 gap-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-neutral-700 mb-2">
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    disabled={isSubmitting}
-                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-neutral-100 disabled:cursor-not-allowed"
-                    placeholder="John Smith"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold text-neutral-700 mb-2">
-                    Phone *
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    disabled={isSubmitting}
-                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-neutral-100 disabled:cursor-not-allowed"
-                    placeholder="(402) 555-1234"
-                  />
-                </div>
+        <Section className="pb-20">
+          <Container>
+            <Grid cols={1} lgCols={2} gap={8}>
+              <div className="space-y-8">
+                {/* Primary CTA */}
+                <Card variant="feature" className="border-brand-primary/20 bg-white/80 backdrop-blur-sm shadow-xl p-8 rounded-[2.5rem]">
+                  <h2 className="text-2xl font-black text-content-heading dark:text-content-inverse uppercase italic mb-2">Talk to Andrew</h2>
+                  <p className="text-content-muted mb-6 text-sm font-medium">Quick phone call to discuss your tree situation and whether you truly need professional help [6].</p>
+                  <a href={`tel:${CONTACT.phoneRaw}`} className="block group">
+                    <Button variant="primary" className="w-full py-6 text-2xl flex items-center justify-center gap-4 rounded-2xl transition-all group-hover:scale-102">
+                      <Phone className="w-6 h-6 group-hover:animate-bounce" />
+                      {CONTACT.phone}
+                    </Button>
+                  </a>
+                  <p className="text-center mt-4 text-xs font-bold text-content-muted uppercase tracking-widest flex items-center justify-center gap-2">
+                    <Clock className="w-3 h-3" /> Best Times: Mon-Sat 8am-6pm
+                  </p>
+                </Card>
+
+                {/* Omaha-Specific Authority */}
+                <Grid cols={1} mdCols={2} gap={4}>
+                  {[
+                    { title: "Clay Soil Impacts", desc: "How Omaha's soil affects root stability.", icon: MapPin },
+                    { title: "Ice Load Risks", desc: "Preparing your canopy for Nebraska winters.", icon: Shield },
+                    { title: "EAB Strategy", desc: "Treatment decisions for Ash trees.", icon: AlertTriangle },
+                    { title: "Native Species", desc: "Understanding local growth patterns.", icon: Info }
+                  ].map((item, i) => (
+                    <Card key={i} className="p-5 border-neutral-200 dark:border-neutral-800 bg-surface-primary/50 rounded-2xl">
+                      <item.icon className="w-5 h-5 text-brand-primary mb-2" />
+                      <h3 className="font-bold text-content-heading dark:text-content-inverse text-sm uppercase italic">{item.title}</h3>
+                      <p className="text-xs text-content-body dark:text-content-muted leading-relaxed font-medium">{item.desc} [5].</p>
+                    </Card>
+                  ))}
+                </Grid>
               </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-neutral-700 mb-2">
-                  Email (optional)
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-neutral-100 disabled:cursor-not-allowed"
-                  placeholder="john@email.com"
-                />
+              {/* Contact Form / Callback */}
+              <Card variant="feature" className="md:p-12 shadow-2xl border-brand-primary/10 rounded-[3rem]">
+                <h2 className="text-3xl font-black text-content-heading dark:text-content-inverse uppercase italic mb-2 leading-none">Request a <br />Callback</h2>
+                <p className="text-content-body dark:text-content-muted mb-8 font-medium">I'll reach out within 24 hours to schedule a formal assessment [7].</p>
+                <ContactForm />
+              </Card>
+            </Grid>
+          </Container>
+        </Section>
+
+        {/* Education: DIY vs Pro */}
+        <Section variant="dark" className="py-20">
+          <Container className="space-y-12">
+            <h2 className="text-3xl font-black uppercase italic text-center tracking-tighter">DIY-Friendly vs. Call a Professional</h2>
+            <Grid cols={1} mdCols={2} gap={8}>
+              <div className="space-y-6 bg-white/5 p-8 rounded-3xl border border-white/10">
+                <h3 className="text-xl font-bold text-brand-secondary uppercase italic">Often DIY-Friendly</h3>
+                <ul className="space-y-4">
+                  {["Small branches (under 3 inches diameter)", "Work that doesn't require ladders", "Clear of power lines and structures", "Routine pruning on young, healthy trees"].map((li, i) => (
+                    <li key={i} className="flex gap-3 text-sm font-medium text-content-inverse/80">
+                      <CheckCircle className="w-5 h-5 text-brand-primary shrink-0" /> {li} [8].
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <div>
-                <label htmlFor="address" className="block text-sm font-semibold text-neutral-700 mb-2">
-                  Address (optional)
-                </label>
-                <input
-                  type="text"
-                  id="address"
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-neutral-100 disabled:cursor-not-allowed"
-                  placeholder="123 Main St, Omaha, NE"
-                />
+              <div className="space-y-6 bg-alert-500/10 p-8 rounded-3xl border border-alert-500/20">
+                <h3 className="text-xl font-bold text-alert-400 uppercase italic">Call a Professional</h3>
+                <ul className="space-y-4">
+                  {["Any work near power lines", "Trees/branches leaning toward structures", "Large branches (over 6 inches diameter)", "Any tree removal or stump grinding"].map((li, i) => (
+                    <li key={i} className="flex gap-3 text-sm font-medium text-content-inverse/80">
+                      <AlertTriangle className="w-5 h-5 text-alert-500 shrink-0" /> {li} [7, 8].
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-neutral-700 mb-2">
-                  What&apos;s your tree concern?
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-neutral-100 disabled:cursor-not-allowed"
-                  placeholder="Large oak tree leaning toward house after last storm..."
-                />
-              </div>
-
-              {submitMessage && (
-                <div
-                  className={`p-4 rounded-lg text-sm font-medium ${
-                    submitMessage.type === 'success'
-                      ? 'bg-primary-100 border-2 border-primary-500 text-primary-900'
-                      : 'bg-alert-100 border-2 border-alert-500 text-alert-900'
-                  }`}
-                >
-                  {submitMessage.text}
-                </div>
-              )}
-
-              <Button
-                type="submit"
-                variant="primary"
-                className="w-full text-lg font-bold"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Sending...' : 'Request Free Consultation'}
-              </Button>
-
-              <p className="text-center text-sm text-neutral-600">
-                We&apos;ll contact you within 24 hours. No spam, no pressure.
-              </p>
-            </form>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Why Get a Consultation - IconBulletList pattern */}
-      <IconBulletList
-        title="Why Get a Professional Consultation?"
-        description="Most homeowner tree injuries happen during DIY work that should have been left to pros. Here's what a free consultation can prevent:"
-        items={[
-          {
-            title: 'Safety Assessment',
-            description:
-              'Know if your tree is truly dangerous or just looks scary. Most homeowner injuries happen during DIY tree work that should have been left to pros.',
-          },
-          {
-            title: 'Prune or Remove?',
-            description:
-              'Removing a healthy tree costs $2,000+. Pruning might cost $400. We will tell you honestly which you need (or if you need neither).',
-          },
-          {
-            title: 'Disease Identification',
-            description:
-              'Is it Emerald Ash Borer, Oak Wilt, or just fall leaf drop? Misdiagnosis can waste thousands on unnecessary treatments.',
-          },
-          {
-            title: 'Realistic Cost Ranges',
-            description:
-              'Know what you should actually pay before getting quotes. Avoid both low-ball hacks and overpriced operators.',
-          },
-        ]}
-        background="white"
-        iconVariant="check"
-      />
-
-      {/* What to Expect - ProcessSteps pattern */}
-      <ProcessSteps
-        title="What to Expect"
-        description="No pressure, no obligations. Just honest professional advice."
-        steps={[
-          {
-            title: '15-Minute Phone Call',
-            description:
-              'Describe your tree, your concerns, and what you are trying to accomplish',
-          },
-          {
-            title: 'Honest Assessment',
-            description:
-              'We will tell you if it is DIY-safe or needs a pro. No sales pressure.',
-          },
-          {
-            title: 'Next Steps (Your Choice)',
-            description:
-              'If you want a quote, we can schedule that. If not, no follow-up calls.',
-          },
-        ]}
-        background="cream"
-        layout="horizontal"
-      />
-
-      {/* CTA Section */}
-      <CTASection
-        title="Get Your Free Consultation"
-        description="No obligation. No sales pitch. Just honest advice."
-        primaryCTA={{
-          label: CONTACT.phone,
-          href: `tel:${CONTACT.phoneRaw}`,
-        }}
-        variant="primary"
-        note="Available daily 7am - 9pm"
-      />
+            </Grid>
+          </Container>
+        </Section>
+      </main>
     </>
-  )
+  );
 }

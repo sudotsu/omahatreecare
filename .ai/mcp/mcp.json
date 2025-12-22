@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "jetbrains": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "IDE_PORT",
+        "mcp/jetbrains"
+      ],
+      "env": {
+        "IDE_PORT": "8090"
+      }
+    }
+  }
+}

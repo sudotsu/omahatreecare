@@ -5,8 +5,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect } from "react";
-import { Footer, Header, StickyMobileCTA } from "../src/components";
-import "../src/index.css";
+import { Footer, Header, StickyMobileCTA } from "@/components";
+import "@/index.css";
 
 declare global {
   interface Window {

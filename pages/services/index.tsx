@@ -7,10 +7,10 @@
 
 import Head from 'next/head'
 import Link from 'next/link'
-import servicesData from '../../src/data/services.json'
-import { CONTACT } from '../../src/constants'
-import { PageHero } from '../../src/components/PageHero'
-import { ThreeUpCards, QuickPhoneCTA } from '../../src/components/sections'
+import servicesData from '@/data/services.json'
+import { CONTACT } from '@/constants'
+import { PageHero } from '@/components/PageHero'
+import { ThreeUpCards, QuickPhoneCTA } from '@/components/sections'
 import { ArrowRight } from 'lucide-react'
 
 export default function ServicesIndexPage() {

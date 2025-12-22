@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import locationsData from '../../src/data/locations.json'
-import { CONTACT } from '../../src/constants'
+import locationsData from '@/data/locations.json'
+import { CONTACT } from '@/constants'
 
 export default function LocationsIndexPage() {
   const pageTitle = `Service Areas | ${CONTACT.businessName}`

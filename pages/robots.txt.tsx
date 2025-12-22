@@ -3,7 +3,7 @@
  */
 
 import { GetServerSideProps } from 'next'
-import { SITE_URL } from '../src/constants'
+import { SITE_URL } from '@/constants'
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const robotsTxt = `# https://www.robotstxt.org/robotstxt.html
