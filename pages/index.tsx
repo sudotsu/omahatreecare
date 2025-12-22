@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Phone, Shield, CheckCircle, MapPin, Users, Award } from 'lucide-react'
-import { CONTACT } from '../src/constants'
+import { CONTACT } from '@/constants'
 import { Section, Card, Button } from '../src/components/primitives'
 import { submitLeadForm, validateFormData, type FormSubmissionData } from '../src/lib/emailjs'
 
