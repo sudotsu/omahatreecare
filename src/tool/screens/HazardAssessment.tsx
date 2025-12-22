@@ -14,14 +14,14 @@ export function HazardAssessment() {
     issues: [] as string[]
   });
 
-  const calculateRisk = () => assessment.likelihood * assessment.consequence; [2]
+  const calculateRisk = () => assessment.likelihood * assessment.consequence;
 
   const getRiskLevel = () => {
     const risk = calculateRisk();
-    if (risk >= 9) return { level: 'Extreme', color: 'red', action: 'Immediate action required (0-14 days)', theme: 'from-red-600 to-red-800' }; [2, 4]
-    if (risk >= 6) return { level: 'High', color: 'orange', action: 'Priority service within 30-60 days', theme: 'from-orange-600 to-orange-800' }; [2, 4]
-    if (risk >= 3) return { level: 'Moderate', color: 'yellow', action: 'Schedule maintenance within 90 days', theme: 'from-yellow-600 to-yellow-800' }; [2, 4]
-    return { level: 'Low', color: 'green', action: 'Monitor during regular visits', theme: 'from-green-600 to-green-800' }; [4, 5]
+    if (risk >= 9) return { level: 'Extreme', color: 'red', action: 'Immediate action required (0-14 days)', theme: 'from-red-600 to-red-800' };
+    if (risk >= 6) return { level: 'High', color: 'orange', action: 'Priority service within 30-60 days', theme: 'from-orange-600 to-orange-800' };
+    if (risk >= 3) return { level: 'Moderate', color: 'yellow', action: 'Schedule maintenance within 90 days', theme: 'from-yellow-600 to-yellow-800' };
+    return { level: 'Low', color: 'green', action: 'Monitor during regular visits', theme: 'from-green-600 to-green-800' };
   };
 
   const questions = [
@@ -81,23 +81,23 @@ export function HazardAssessment() {
     if (step < questions.length - 1) setStep(step + 1);
   };
 
-  const isComplete = step === questions.length - 1 && assessment.consequence > 0; [8]
+  const isComplete = step === questions.length - 1 && assessment.consequence > 0;
 
   if (isComplete) {
     const risk = getRiskLevel();
-    const riskScore = calculateRisk(); [4, 9]
+    const riskScore = calculateRisk();
 
     return (
       <div className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-2xl border border-amber-100 dark:border-slate-700 animate-in fade-in zoom-in duration-500">
         <div className={`p-8 text-white bg-gradient-to-br ${risk.theme}`}>
           <h2 className="text-4xl font-black uppercase italic tracking-tighter">{risk.level} Risk</h2>
-          <p className="text-white/80 font-bold uppercase tracking-widest text-sm">ISA Score: {riskScore} / 16</p> [4, 9]
+          <p className="text-white/80 font-bold uppercase tracking-widest text-sm">ISA Score: {riskScore} / 16</p>
         </div>
 
         <div className="p-8 space-y-8">
           <div className="bg-amber-50 dark:bg-slate-900/50 p-6 rounded-2xl border-l-4 border-emerald-500">
             <h3 className="font-black text-amber-900 dark:text-white uppercase italic text-sm mb-2">Recommended Action</h3>
-            <p className="text-xl font-bold text-slate-800 dark:text-slate-200">{risk.action}</p> [9]
+            <p className="text-xl font-bold text-slate-800 dark:text-slate-200">{risk.action}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -107,10 +107,10 @@ export function HazardAssessment() {
               className="flex items-center justify-center gap-3 py-4 bg-emerald-600 text-white rounded-2xl font-bold shadow-lg hover:bg-emerald-500 transition-all"
             >
               ⚡ Get Professional Eval
-            </button> [10, 11]
+            </button>
             <button type="button" onClick={() => setStep(0)} className="flex items-center justify-center gap-2 py-4 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white rounded-2xl font-bold">
               <RotateCcw className="w-5 h-5" /> Start Over
-            </button> [12]
+            </button>
           </div>
         </div>
       </div>
@@ -122,12 +122,12 @@ export function HazardAssessment() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-        <div className="bg-emerald-500 h-full transition-all duration-500" style={{ width: `${((step + 1) / questions.length) * 100}%` }} /> [13]
+        <div className="bg-emerald-500 h-full transition-all duration-500" style={{ width: `${((step + 1) / questions.length) * 100}%` }} />
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-3xl font-black text-amber-900 dark:text-white uppercase italic leading-none">{currentQuestion.title}</h2> [14]
-        <p className="text-amber-800 dark:text-slate-400 font-medium">{currentQuestion.description}</p> [14]
+        <h2 className="text-3xl font-black text-amber-900 dark:text-white uppercase italic leading-none">{currentQuestion.title}</h2>
+        <p className="text-amber-800 dark:text-slate-400 font-medium">{currentQuestion.description}</p>
       </div>
 
       <div className="space-y-3">
@@ -139,7 +139,7 @@ export function HazardAssessment() {
             className="w-full p-6 text-left bg-white dark:bg-slate-800 border-2 border-amber-100 dark:border-slate-700 rounded-2xl hover:border-emerald-500 transition-all shadow-sm group"
           >
             <div className="flex justify-between items-center">
-              <span className="font-bold text-slate-700 dark:text-slate-200">{option.text}</span> [3]
+              <span className="font-bold text-slate-700 dark:text-slate-200">{option.text}</span>
               <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-emerald-500 transition-colors" />
             </div>
           </button>

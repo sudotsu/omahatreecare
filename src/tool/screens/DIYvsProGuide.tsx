@@ -5,15 +5,15 @@ import { ShieldCheck, AlertTriangle, XCircle, Wrench, Info } from 'lucide-react'
 import { CONTACT } from '@/constants';
 
 const tasks = [
-  { name: 'Small Branch Pruning (<2")', cat: 'safe', desc: 'Ground-level pruning with hand tools [9].', note: 'Call if >10ft high.' },
-  { name: 'Storm-Damaged Trees', cat: 'pro', desc: 'Broken, hanging, or uprooted trees under tension [10].', note: 'Extremely dangerous.' },
-  { name: 'Medium Branch Pruning (2-4")', cat: 'caution', desc: 'Requires pole saws and safety awareness [11].', note: 'Never use chainsaw on ladder.' },
-  { name: 'Large Branch Removal (>4")', cat: 'pro', desc: 'High-weight limbs requiring rigging [12].', note: 'Gravity is unforgiving.' },
-  { name: 'Tree Near Power Lines', cat: 'pro', desc: 'Any contact or close proximity to utility lines [13].', note: 'Fatal risk. Call OPPD.' },
-  { name: 'Young Tree Training', cat: 'safe', desc: 'Structural pruning for trees under 15ft [14].', note: 'Great for tree longevity.' },
-  { name: 'Stump Grinding', cat: 'pro', desc: 'Requires specialized heavy machinery [15].', note: 'Utility locates required.' },
-  { name: 'Deadwood Removal', cat: 'caution', desc: 'Removing small dead branches for aesthetics [16].', note: 'Dead wood is brittle.' },
-  { name: 'Full Tree Removal', cat: 'pro', desc: 'Complete felling or sectional dismantling [17].', note: 'High liability task.' }
+  { name: 'Small Branch Pruning (<2")', cat: 'safe', desc: 'Ground-level pruning with hand tools.', note: 'Call if >10ft high.' },
+  { name: 'Storm-Damaged Trees', cat: 'pro', desc: 'Broken, hanging, or uprooted trees under tension.', note: 'Extremely dangerous.' },
+  { name: 'Medium Branch Pruning (2-4")', cat: 'caution', desc: 'Requires pole saws and safety awareness.', note: 'Never use chainsaw on ladder.' },
+  { name: 'Large Branch Removal (>4")', cat: 'pro', desc: 'High-weight limbs requiring rigging.', note: 'Gravity is unforgiving.' },
+  { name: 'Tree Near Power Lines', cat: 'pro', desc: 'Any contact or close proximity to utility lines.', note: 'Fatal risk. Call OPPD.' },
+  { name: 'Young Tree Training', cat: 'safe', desc: 'Structural pruning for trees under 15ft.', note: 'Great for tree longevity.' },
+  { name: 'Stump Grinding', cat: 'pro', desc: 'Requires specialized heavy machinery.', note: 'Utility locates required.' },
+  { name: 'Deadwood Removal', cat: 'caution', desc: 'Removing small dead branches for aesthetics.', note: 'Dead wood is brittle.' },
+  { name: 'Full Tree Removal', cat: 'pro', desc: 'Complete felling or sectional dismantling.', note: 'High liability task.' }
 ];
 
 export function DIYvsProGuide() {
@@ -29,7 +29,7 @@ export function DIYvsProGuide() {
     <div className="space-y-10">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-black text-amber-900 dark:text-slate-100 uppercase italic">DIY vs. Professional</h2>
-        <p className="text-amber-800 dark:text-slate-400 font-medium max-w-xl mx-auto">Your safety is priority #1. Learn when to pick up the loppers and when to call Andrew [18, 19].</p>
+        <p className="text-amber-800 dark:text-slate-400 font-medium max-w-xl mx-auto">Your safety is priority #1. Learn when to pick up the loppers and when to call Andrew.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
@@ -55,7 +55,7 @@ export function DIYvsProGuide() {
 
       <div className="bg-emerald-600 rounded-3xl p-8 text-white text-center shadow-xl shadow-emerald-600/20">
         <h3 className="text-2xl font-black uppercase italic mb-2">Still Unsure?</h3>
-        <p className="text-emerald-50 mb-6 font-medium">Free advice is always safer than a trip to the ER [19, 20].</p>
+        <p className="text-emerald-50 mb-6 font-medium">Free advice is always safer than a trip to the ER.</p>
         <a href={`tel:${CONTACT.phoneRaw}`} className="inline-block px-8 py-4 bg-white text-emerald-700 rounded-2xl font-black text-lg hover:bg-emerald-50 transition-colors">
           📞 Call {CONTACT.businessName}
         </a>

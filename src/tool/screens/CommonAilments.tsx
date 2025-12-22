@@ -26,7 +26,7 @@ export function CommonAilments() {
     <div className="space-y-8 animate-in fade-in duration-700">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-black text-amber-900 dark:text-slate-100 uppercase italic">Omaha Tree Health</h2>
-        <p className="text-amber-800 dark:text-slate-400 font-medium max-w-xl mx-auto">Identify local pests, diseases, and environmental stresses [4].</p>
+        <p className="text-amber-800 dark:text-slate-400 font-medium max-w-xl mx-auto">Identify local pests, diseases, and environmental stresses.</p>
       </div>
 
       {/* Filter Tabs */}
@@ -63,7 +63,7 @@ export function CommonAilments() {
                   {ailment.severity}
                 </span>
               </div>
-              <p className="text-sm text-slate-500 line-clamp-2">Affects: {ailment.affectedSpecies.join(', ')} [5].</p>
+              <p className="text-sm text-slate-500 line-clamp-2">Affects: {ailment.affectedSpecies.join(', ')}</p>
             </button>
           ))}
         </div>
@@ -91,18 +91,18 @@ export function CommonAilments() {
               <div className="space-y-4">
                 <div className="bg-amber-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-amber-100 dark:border-slate-700">
                   <h4 className="font-bold text-amber-900 dark:text-emerald-500 flex items-center gap-2 uppercase text-xs mb-2"><Calendar className="w-4 h-4" /> Best Timing</h4>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{selectedAilment.timing} [6].</p>
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{selectedAilment.timing}</p>
                 </div>
                 <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
                   <h4 className="font-bold text-emerald-800 dark:text-emerald-400 flex items-center gap-2 uppercase text-xs mb-2"><ShieldCheck className="w-4 h-4" /> Prevention</h4>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{selectedAilment.prevention} [6].</p>
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{selectedAilment.prevention}</p>
                 </div>
               </div>
             </section>
 
             <div className="pt-6 border-t border-slate-100 dark:border-slate-700">
               <p className="text-sm font-bold text-slate-900 dark:text-white mb-3">Professional Treatment:</p>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 italic">{selectedAilment.treatment} [6].</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 italic">{selectedAilment.treatment}</p>
               <a href={`tel:${CONTACT.phoneRaw}`} className="flex items-center justify-center gap-3 w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold shadow-lg transition-all">
                 📞 Get Professional Diagnosis
               </a>

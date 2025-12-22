@@ -6,14 +6,14 @@ import { CONTACT, SERVICE_AREAS } from '@/constants';
 /**
  * ToolsPage - The primary SEO and accessibility wrapper for the Tree Diagnostic Suite.
  * This page implements WCAG 2.1 Level AA standards and includes comprehensive
- * JSON-LD schemas for maximum visibility in Omaha search results [1, 3, 4].
+ * JSON-LD schemas for maximum visibility in Omaha search results.
  */
 const ToolsPage = () => {
   const pageTitle = 'Free Tree Health Diagnostic Tool | Omaha, NE | Midwest Roots';
-  const metaDescription = 'Identify tree species, calculate risk scores, and diagnose Omaha tree diseases like EAB. Free professional arborist tools for local homeowners [2].';
+  const metaDescription = 'Identify tree species, calculate risk scores, and diagnose Omaha tree diseases like EAB. Free professional arborist tools for local homeowners.';
   const siteUrl = CONTACT.siteUrl;
 
-  // 1. SoftwareApplication Schema: Triggers Rich Snippets in Google [3]
+  // 1. SoftwareApplication Schema: Triggers Rich Snippets in Google
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -33,7 +33,7 @@ const ToolsPage = () => {
     }
   };
 
-  // 2. LocalBusiness Schema: Drives Omaha-specific GEO-traffic [3]
+  // 2. LocalBusiness Schema: Drives Omaha-specific GEO-traffic
   const businessSchema = {
     "@context": "https://schema.org",
     "@type": "TreeService",
@@ -57,7 +57,7 @@ const ToolsPage = () => {
     "priceRange": "$$"
   };
 
-  // 3. BreadcrumbList Schema: Enhances Search Result Navigation [3]
+  // 3. BreadcrumbList Schema: Enhances Search Result Navigation
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -78,7 +78,7 @@ const ToolsPage = () => {
   return (
     <>
       <Head>
-        {/* SEO Foundation [2] */}
+        {/* SEO Foundation */}
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={`${siteUrl}/tools`} />
@@ -95,7 +95,7 @@ const ToolsPage = () => {
         <meta property="og:image" content={`${siteUrl}/og-image-tools.jpg`} />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
 
-        {/* JSON-LD Structured Data Injection [3] */}
+        {/* JSON-LD Structured Data Injection */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
@@ -111,7 +111,7 @@ const ToolsPage = () => {
       </Head>
 
       {/*
-        Semantic Main Element with Accessibility Attributes [4, 5]
+        Semantic Main Element with Accessibility Attributes
         We ensure the main-content ID is present for 'Skip to Content' links
       */}
       <main

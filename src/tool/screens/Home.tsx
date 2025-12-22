@@ -66,7 +66,7 @@ export function Home({ setScreen }: HomeProps) {
           <span className="text-emerald-600">Care Assistant</span>
         </h1>
         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">
-          Professional arborist knowledge at your fingertips. Identify problems, assess risks, and make informed decisions for your Omaha property [1, 3].
+          Professional arborist knowledge at your fingertips. Identify problems, assess risks, and make informed decisions for your Omaha property.
         </p>
       </section>
 
@@ -103,9 +103,9 @@ export function Home({ setScreen }: HomeProps) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             {[
-              { title: "Expert Knowledge", text: "Professional arborist insights, simplified for you [2, 4].", icon: GraduationCap },
-              { title: "No Pressure", text: "Free tools, zero obligation or sales pitch [2, 4].", icon: ShieldCheck },
-              { title: "Save Money", text: "Learn what you can DIY and when to call pros [2, 4].", icon: Banknote }
+              { title: "Expert Knowledge", text: "Professional arborist insights, simplified for you.", icon: GraduationCap },
+              { title: "No Pressure", text: "Free tools, zero obligation or sales pitch.", icon: ShieldCheck },
+              { title: "Save Money", text: "Learn what you can DIY and when to call pros.", icon: Banknote }
             ].map((item, i) => (
               <div key={i} className="space-y-4">
                 <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto">

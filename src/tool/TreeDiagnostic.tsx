@@ -9,7 +9,7 @@ import { CONTACT, SERVICE_AREAS, TRUST_SIGNALS } from '@/constants';
 // Type safety for the routing system
 type ToolId = 'home' | 'species' | 'hazard' | 'cost' | 'diy' | 'ailments';
 
-// Performance: Lazy load screens to minimize initial bundle size [1, 6]
+// Performance: Lazy load screens to minimize initial bundle size
 const Home = lazy(() => import('./screens/Home').then(m => ({ default: m.Home })));
 const SpeciesIdentifier = lazy(() => import('./screens/SpeciesIdentifier').then(m => ({ default: m.SpeciesIdentifier })));
 const HazardAssessment = lazy(() => import('./screens/HazardAssessment').then(m => ({ default: m.HazardAssessment })));
@@ -17,7 +17,7 @@ const CostEstimator = lazy(() => import('./screens/CostEstimator').then(m => ({ 
 const DIYvsProGuide = lazy(() => import('./screens/DIYvsProGuide').then(m => ({ default: m.DIYvsProGuide })));
 const CommonAilments = lazy(() => import('./screens/CommonAilments').then(m => ({ default: m.CommonAilments })));
 
-// Accessible Loading State [7]
+// Accessible Loading State
 const ToolLoader = () => (
   <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
     <Loader2 className="w-12 h-12 text-brand-primary animate-spin" />
@@ -31,7 +31,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
   const currentScreen = (forceTool || queryTool) as ToolId || 'home';
   const [darkMode, setDarkMode] = useState(false);
 
-  // SEO/GEO: Dynamic Metadata based on the active tool [2, 3]
+  // SEO/GEO: Dynamic Metadata based on the active tool
   const getMetadata = () => {
     const baseTitle = `Omaha Tree Care Tools | ${CONTACT.businessName}`;
     switch (currentScreen) {
@@ -46,7 +46,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
 
   const meta = getMetadata();
 
-  // Navigation logic for deep linking and static routing [2]
+  // Navigation logic for deep linking and static routing
   const setScreen = (id: string) => {
     if (forceTool) {
       router.push(`/tools/${id}`);
@@ -56,7 +56,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
   };
   const goHome = () => router.push('/tools');
 
-  // Dark Mode Sync: LocalStorage + OS Preference [4, 5]
+  // Dark Mode Sync: LocalStorage + OS Preference
   useEffect(() => {
     const isDark = localStorage.getItem('darkMode') === 'true' ||
                   (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -80,7 +80,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
         Skip to tool content
       </a>
 
-      {/* Modern App Header [4, 8] - Using Brand Identity Tokens */}
+      {/* Modern App Header - Using Brand Identity Tokens */}
       <header className="bg-brand-primary text-white p-6 shadow-2xl">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -111,7 +111,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
         </div>
       </header>
 
-      {/* Tool Content Wrapper [9, 10] */}
+      {/* Tool Content Wrapper */}
       <main id="tool-main" className="max-w-6xl mx-auto p-4 md:p-8">
         <Suspense fallback={<ToolLoader />}>
           {currentScreen === 'home' && <Home setScreen={setScreen} />}
@@ -123,7 +123,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
         </Suspense>
       </main>
 
-      {/* High-Conversion Contextual Footer [9-11] - Integrated with Design System & GEO context */}
+      {/* High-Conversion Contextual Footer - Integrated with Design System & GEO context */}
       <footer className="mt-12 border-t border-neutral-200 dark:border-slate-800 bg-surface-warm dark:bg-slate-900 p-8 md:p-12">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h2 className="text-2xl font-serif font-black text-content-heading dark:text-white uppercase italic tracking-tight">

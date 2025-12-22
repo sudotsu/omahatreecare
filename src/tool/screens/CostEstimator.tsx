@@ -16,7 +16,7 @@ export function CostEstimator() {
           Cost Estimator
         </h2>
         <p className="text-amber-800 dark:text-slate-400 font-medium max-w-xl mx-auto">
-          Get transparent price ranges for common Omaha tree services based on typical local market rates [3].
+          Get transparent price ranges for common Omaha tree services based on typical local market rates.
         </p>
       </div>
 
@@ -87,7 +87,7 @@ export function CostEstimator() {
                 <TrendingDown className="w-4 h-4 text-emerald-500" /> Pro Tip: How to Save
               </h4>
               <p className="text-sm text-slate-600 dark:text-slate-400">
-                Schedule work during the <strong>dormant season (winter)</strong> when demand is lower or bundle multiple services together to reduce travel fees [4, 5].
+                Schedule work during the <strong>dormant season (winter)</strong> when demand is lower or bundle multiple services together to reduce travel fees.
               </p>
             </div>
 
@@ -105,7 +105,7 @@ export function CostEstimator() {
       {!selectedService && (
         <div className="bg-slate-100 dark:bg-slate-900 p-6 rounded-2xl text-center">
           <p className="text-sm text-slate-500 dark:text-slate-400 italic">
-            *Pricing for services like <strong>Ash Tree EAB Treatment</strong> ($10-$15 per inch) is calculated by diameter at chest height [3, 6].
+            *Pricing for services like <strong>Ash Tree EAB Treatment</strong> ($10-$15 per inch) is calculated by diameter at chest height.
           </p>
         </div>
       )}

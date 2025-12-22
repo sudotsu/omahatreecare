@@ -69,7 +69,7 @@ export default function TreeConsultation() {
                 <span className="text-brand-primary">Before You DIY</span>
               </h1>
               <p className="text-lg text-content-body dark:text-content-muted max-w-2xl mx-auto font-medium">
-                Your assessment shows concerns that warrant a closer look. Let’s provide an honest opinion before you invest time or risk your safety [3].
+                Your assessment shows concerns that warrant a closer look. Let’s provide an honest opinion before you invest time or risk your safety.
               </p>
             </div>
           </Container>
@@ -82,7 +82,7 @@ export default function TreeConsultation() {
                 {/* Primary CTA */}
                 <Card variant="feature" className="border-brand-primary/20 bg-white/80 backdrop-blur-sm shadow-xl p-8 rounded-[2.5rem]">
                   <h2 className="text-2xl font-black text-content-heading dark:text-content-inverse uppercase italic mb-2">Talk to Andrew</h2>
-                  <p className="text-content-muted mb-6 text-sm font-medium">Quick phone call to discuss your tree situation and whether you truly need professional help [6].</p>
+                  <p className="text-content-muted mb-6 text-sm font-medium">Quick phone call to discuss your tree situation and whether you truly need professional help.</p>
                   <a href={`tel:${CONTACT.phoneRaw}`} className="block group">
                     <Button variant="primary" className="w-full py-6 text-2xl flex items-center justify-center gap-4 rounded-2xl transition-all group-hover:scale-102">
                       <Phone className="w-6 h-6 group-hover:animate-bounce" />
@@ -105,7 +105,7 @@ export default function TreeConsultation() {
                     <Card key={i} className="p-5 border-neutral-200 dark:border-neutral-800 bg-surface-primary/50 rounded-2xl">
                       <item.icon className="w-5 h-5 text-brand-primary mb-2"/>
                       <h3 className="font-bold text-content-heading dark:text-content-inverse text-sm uppercase italic">{item.title}</h3>
-                      <p className="text-xs text-content-body dark:text-content-muted leading-relaxed font-medium">{item.desc} [5].</p>
+                      <p className="text-xs text-content-body dark:text-content-muted leading-relaxed font-medium">{item.desc}.</p>
                     </Card>
                   ))}
                 </Grid>
@@ -114,7 +114,7 @@ export default function TreeConsultation() {
               {/* Contact Form / Callback */}
               <Card variant="feature" className="md:p-12 shadow-2xl border-brand-primary/10 rounded-[3rem]">
                 <h2 className="text-3xl font-black text-content-heading dark:text-content-inverse uppercase italic mb-2 leading-none">Request a <br />Callback</h2>
-                <p className="text-content-body dark:text-content-muted mb-8 font-medium">I&apos;ll reach out within 24 hours to schedule a formal assessment [7].</p>
+                <p className="text-content-body dark:text-content-muted mb-8 font-medium">I&apos;ll reach out within 24 hours to schedule a formal assessment.</p>
                 <ContactForm />
               </Card>
             </Grid>
@@ -131,7 +131,7 @@ export default function TreeConsultation() {
                 <ul className="space-y-4">
                   {["Small branches (under 3 inches diameter)", "Work that doesn't require ladders", "Clear of power lines and structures", "Routine pruning on young, healthy trees"].map((li, i) => (
                     <li key={i} className="flex gap-3 text-sm font-medium text-content-inverse/80">
-                      <CheckCircle className="w-5 h-5 text-brand-primary shrink-0" /> {li} [8].
+                      <CheckCircle className="w-5 h-5 text-brand-primary shrink-0" /> {li}.
                     </li>
                   ))}
                 </ul>
@@ -141,7 +141,7 @@ export default function TreeConsultation() {
                 <ul className="space-y-4">
                   {["Any work near power lines", "Trees/branches leaning toward structures", "Large branches (over 6 inches diameter)", "Any tree removal or stump grinding"].map((li, i) => (
                     <li key={i} className="flex gap-3 text-sm font-medium text-content-inverse/80">
-                      <AlertTriangle className="w-5 h-5 text-alert-500 shrink-0" /> {li} [7, 8].
+                      <AlertTriangle className="w-5 h-5 text-alert-500 shrink-0" /> {li}.
                     </li>
                   ))}
                 </ul>

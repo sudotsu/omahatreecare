@@ -30,7 +30,7 @@ export function SpeciesIdentifier() {
     <div className="space-y-6">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-black text-amber-900 dark:text-slate-100 uppercase italic">Species Identifier</h2>
-        <p className="text-amber-800 dark:text-slate-400">Identify Omaha trees and check for Emerald Ash Borer or Oak Wilt risks [1, 5].</p>
+        <p className="text-amber-800 dark:text-slate-400">Identify Omaha trees and check for Emerald Ash Borer or Oak Wilt risks.</p>
       </div>
 
       {/* Search Bar [2] */}

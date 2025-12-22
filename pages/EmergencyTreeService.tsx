@@ -37,7 +37,7 @@ export default function EmergencyTreeService() {
               Emergency Tree <span className="text-red-200">Removal</span>
             </h1>
             <p className="text-xl font-medium max-w-2xl mx-auto opacity-90 text-white">
-              Tree on your house? Driveway blocked? We prioritize safety hazards and storm damage across Omaha [3, 6].
+              Tree on your house? Driveway blocked? We prioritize safety hazards and storm damage across Omaha.
             </p>
             <Button
               variant="emergency"
@@ -68,7 +68,7 @@ export default function EmergencyTreeService() {
                         <item.icon className="w-6 h-6 text-brand-accent shrink-0" />
                         <div>
                           <h3 className="font-bold text-content-heading dark:text-content-inverse uppercase italic text-sm">{item.title}</h3>
-                          <p className="text-content-body dark:text-content-muted text-sm">{item.desc} [6].</p>
+                          <p className="text-content-body dark:text-content-muted text-sm">{item.desc}.</p>
                         </div>
                       </Card>
                     ))}
@@ -78,7 +78,7 @@ export default function EmergencyTreeService() {
                 <div className="p-6 bg-brand-accent/5 dark:bg-brand-accent/10 rounded-3xl border-2 border-brand-accent/20">
                   <h3 className="font-black uppercase italic text-brand-accent mb-2">Response Protocol</h3>
                   <p className="text-sm text-content-body dark:text-content-muted font-medium">
-                    We triage calls based on severity. Structural damage and safety risks come first. Emergency rates apply for after-hours and holiday service calls [4].
+                    We triage calls based on severity. Structural damage and safety risks come first. Emergency rates apply for after-hours and holiday service calls.
                   </p>
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default function EmergencyTreeService() {
               <Card variant="feature" className="bg-content-heading text-content-inverse p-8 md:p-12 rounded-[3rem] shadow-2xl space-y-8 border-none">
                 <h2 className="text-3xl font-black uppercase italic leading-none">Insurance Claims <br /><span className="text-brand-primary text-xl">Assistance Included</span></h2>
                 <p className="text-content-inverse/70 font-medium">
-                  Dealing with storm damage is stressful. We help streamline your homeowner&apos;s insurance claim with professional documentation [4, 5].
+                  Dealing with storm damage is stressful. We help streamline your homeowner&apos;s insurance claim with professional documentation.
                 </p>
                 <div className="space-y-6">
                   {[
@@ -101,7 +101,7 @@ export default function EmergencyTreeService() {
                       </div>
                       <div>
                         <h4 className="font-bold text-content-inverse uppercase text-xs tracking-widest">{item.step}: {item.title}</h4>
-                        <p className="text-sm text-content-inverse/60 font-medium">{item.desc} [5].</p>
+                        <p className="text-sm text-content-inverse/60 font-medium">{item.desc}.</p>
                       </div>
                     </div>
                   ))}
