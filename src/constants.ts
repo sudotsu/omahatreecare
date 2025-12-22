@@ -6,6 +6,13 @@
 
 export const SITE_URL = 'https://omahatreecare.com' as const
 
+/**
+ * Primary business identity and NAP (Name, Address, Phone) data.
+ *
+ * IMPORTANT: These values are the Single Source of Truth for LocalBusiness
+ * Schema.org injections. Changing these will affect SEO consistency across
+ * all 46+ SSG routes.
+ */
 export const CONTACT = {
   phone: '(402) 812-3294',
   phoneRaw: '+14028123294',
@@ -34,19 +41,25 @@ export const CONTACT = {
   ],
 } as const
 
-// Business hours for Schema.org
+/**
+ * Business hours for Schema.org and customer expectation management.
+ * `schedule` follows the Schema.org OpeningHours specification.
+ */
 export const BUSINESS_HOURS = {
   schedule: 'Mo-Su 07:00-21:00', // Schema.org format
   display: 'Daily 7am - 9pm', // Human-readable
 } as const
 
-// Trust signals
+/** High-level trust signals used in badges and secondary CTAs. */
 export const TRUST_SIGNALS = {
   certification: 'Certified Arborist Standards',
   certificationShort: 'ISA Certified',
 } as const
 
-// Service areas with geo coordinates for Schema.org areaServed
+/**
+ * Interface for defining geographic service areas.
+ * Used to build dynamic AreaServed Schema and localized "Resident" pages.
+ */
 export interface ServiceArea {
   type: 'City' | 'Place'
   name: string
@@ -55,6 +68,14 @@ export interface ServiceArea {
   sameAs: string
 }
 
+/**
+ * List of primary cities and neighborhoods served.
+ *
+ * Used for:
+ * 1. Generating dynamic sitemaps and robots.txt.
+ * 2. Injecting 'areaServed' into LocalBusiness schema.
+ * 3. Providing 'sameAs' links to Wikipedia/Entity authorities for SEO.
+ */
 export const SERVICE_AREAS: readonly ServiceArea[] = [
   {
     type: 'City',
@@ -121,7 +142,10 @@ export const SERVICE_AREAS: readonly ServiceArea[] = [
   },
 ] as const
 
-// Brand colors (logo-derived - see VISUAL-BRANDING-GUIDE.md)
+/**
+ * Design system color tokens derived from the visual branding guide.
+ * Supports the "Dual-state UX": Sage/Forest for research, Red/Orange for emergencies.
+ */
 export const COLORS = {
   // Primary forest green (from Primary Badge Logo)
   primary: '#4a6d5a',
@@ -147,7 +171,7 @@ export const COLORS = {
   textLighter: '#a8a29e', // Neutral-400
 } as const
 
-// Logo assets (see VISUAL-BRANDING-GUIDE.md for usage rules)
+/** Assets for the brand's multi-logo system. */
 export const LOGOS = {
   // Primary Brand Logo (Green Badge)
   primary: '/images/logos/primary-green-badge.webp',
@@ -178,7 +202,10 @@ export const LOGOS = {
   ogImage: '/og-image.png',
 } as const
 
-// Logo usage contexts (see VISUAL-BRANDING-GUIDE.md)
+/**
+ * Contextual rules for logo usage to maintain brand integrity.
+ * Based on VISUAL-BRANDING-GUIDE.md logic.
+ */
 export const LOGO_USAGE = {
   // Use Primary Green Badge for:
   standard: [

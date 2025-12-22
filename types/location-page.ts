@@ -15,53 +15,91 @@
  */
 
 export interface LocationData {
-  // Core Identity & Routing
+  /**
+   * Core identity and routing information.
+   * Essential for URL generation and Schema.org business location data.
+   */
   identifiers: {
-    neighborhoodName: string; // e.g., "Dundee"
-    cityName: string;         // e.g., "Omaha"
-    stateCode: string;        // e.g., "NE"
-    slug: string;             // e.g., "dundee" (URL-safe)
-    zipCodes: string[];       // e.g., ["68132"] - Critical for AreaServed Schema
-    coordinates: {            // Critical for GeoCoordinates Schema
-      latitude: number;       // e.g., 41.2565
-      longitude: number;      // e.g., -95.9345
+    /** The human-readable name of the neighborhood (e.g., "Dundee"). */
+    neighborhoodName: string;
+    /** The city name where the neighborhood is located (e.g., "Omaha"). */
+    cityName: string;
+    /** The ISO state code (e.g., "NE"). */
+    stateCode: string;
+    /** URL-safe version of the neighborhood name used for routing. */
+    slug: string;
+    /** Array of ZIP codes within the neighborhood. Critical for 'areaServed' Schema. */
+    zipCodes: string[];
+    /** Precise geographic location for GeoCoordinates Schema. */
+    coordinates: {
+      /** Latitude coordinate. */
+      latitude: number;
+      /** Longitude coordinate. */
+      longitude: number;
     };
   };
 
-  // SEO Metadata (Head tags)
+  /**
+   * Search Engine Optimization metadata.
+   * Directly maps to <head> tags for ranking and social sharing.
+   */
   seo: {
-    metaTitle: string;        // e.g., "Tree Service in Dundee Omaha | Emergency & Routine Care"
-    metaDescription: string;  // e.g., "Professional tree removal, trimming, and emergency service in Dundee..."
+    /** The <title> tag content. Weighted heavily by search engines. */
+    metaTitle: string;
+    /** The meta description for SERP snippets. */
+    metaDescription: string;
   };
 
-  // Page Content (UI)
+  /**
+   * UI-facing content for the landing page.
+   * Focuses on keyword-rich headings and clear value propositions.
+   */
   content: {
-    heroTitle: string;        // H1 - heavily weighted for keywords
-    heroDescription: string;  // Intro paragraph below H1
-    primaryServiceFocus: string; // e.g., "Emergency Tree Removal" - Used for H1 context
+    /** The main H1 title. Typically includes neighborhood and primary service keywords. */
+    heroTitle: string;
+    /** Detailed introductory text following the H1. */
+    heroDescription: string;
+    /** The core service highlighted for this location (e.g., "Emergency Tree Removal"). */
+    primaryServiceFocus: string;
   };
 
-  // Service Links & Schema Data
+  /**
+   * List of services offered in this specific neighborhood.
+   * Allows for granular control over service availability per area.
+   */
   services: {
-    name: string;             // e.g., "Stump Grinding"
-    slug: string;             // e.g., "stump-grinding" - Links to /services/[slug]
-    isAvailable: boolean;     // Some neighborhoods might not get all services
+    /** Human-readable service name. */
+    name: string;
+    /** URL slug to link to the dedicated service page. */
+    slug: string;
+    /** Flag to toggle availability if a service isn't offered in this specific zone. */
+    isAvailable: boolean;
   }[];
 
-  // The "Resident" Persona Signals
-  // These demonstrate deep local knowledge ("Resident, not Tourist")
+  /**
+   * The "Resident" Persona Signals.
+   * Differentiates the site from generic national competitors by demonstrating deep local knowledge.
+   */
   residentSignals: {
-    localLandmarks: string[]; // e.g., ["Memorial Park", "Dundee Elementary"]
-    proximityTips: string[];  // e.g., ["We park behind the library on 50th - meters are free"]
-    localVernacular: string[];// e.g., ["Happy Hollow", "The Dell"]
+    /** Recognizable local landmarks (e.g., parks, schools) to build trust. */
+    localLandmarks: string[];
+    /** Practical, local-only advice (e.g., parking tips for crews). */
+    proximityTips: string[];
+    /** Local terms or area nicknames used by residents (e.g., "Happy Hollow"). */
+    localVernacular: string[];
   };
 
-  // AEO Content (The "Reference Librarian")
-  // Simple structure - transformed to FAQPage Schema in component
+  /**
+   * Answer Engine Optimization (AEO) content.
+   * Structured as Q&A pairs to target voice search and FAQPage Schema.
+   */
   aeoContent: {
+    /** List of frequently asked questions regarding tree care in this neighborhood. */
     commonProblems: {
-      question: string;       // e.g., "Why are so many oak trees dying in Dundee?"
-      answer: string;         // e.g., "Dundee's mature bur oaks are experiencing..."
+      /** The specific question a resident might ask. */
+      question: string;
+      /** The expert answer explaining the local context. */
+      answer: string;
     }[];
   };
 }

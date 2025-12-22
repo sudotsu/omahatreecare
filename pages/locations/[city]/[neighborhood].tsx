@@ -20,7 +20,7 @@ import {
   submitLeadForm,
   validateFormData,
   type FormSubmissionData,
-} from "../../../src/lib/emailjs";
+} from "@/lib/emailjs";
 import { LocationData } from "../../../types/location-page";
 
 interface LocationPageProps {
@@ -29,9 +29,15 @@ interface LocationPageProps {
 
 /**
  * Neighborhood Landing Page Template
- * Strategy: "Resident, not Tourist" hyper-local SEO
- * UX: Dual-State (Emergency Distress + Routine Research)
- * Forms: EmailJS integration for quote requests
+ *
+ * Strategy: "Resident, not Tourist" hyper-local SEO. This page targets specific
+ * neighborhoods with local landmarks, proximity tips, and neighborhood-specific schema.
+ *
+ * UX: Dual-State design:
+ * 1. Emergency Distress (Red/Orange): High-contrast "Call Now" triggers for storm damage.
+ * 2. Routine Research (Ghost/Modal): For users looking for quotes and information.
+ *
+ * Forms: Integrated with EmailJS for lead capture.
  */
 export default function NeighborhoodPage({ data }: LocationPageProps) {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
@@ -47,6 +53,12 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
     text: string;
   } | null>(null);
 
+  /**
+   * Handles the submission of the lead capture form.
+   * Validates input, sends to EmailJS, and provides UI feedback.
+   *
+   * @param {React.FormEvent} e - The form submission event
+   */
   const handleQuoteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitMessage(null);
@@ -91,7 +103,12 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
     }
   };
 
-  // Generate Schema.org JSON-LD
+  /**
+   * Generates Schema.org LocalBusiness JSON-LD.
+   *
+   * Note: This uses the business HQ address for global consistency but
+   * localized 'areaServed' ZIP codes to help Google map service boundaries.
+   */
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -137,6 +154,10 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
     },
   };
 
+  /**
+   * Generates Schema.org FAQPage JSON-LD.
+   * Used for "Answer Engine Optimization" (AEO) to help win featured snippets.
+   */
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

@@ -4,7 +4,20 @@ import { Phone, Shield, CheckCircle, MapPin, Users, Award } from 'lucide-react'
 import { CONTACT } from '../src/constants'
 import { Section, Card } from '../src/components/primitives'
 
+/**
+ * Main landing page for Omaha Tree Care.
+ *
+ * Features a high-conversion Hero section with emergency focus,
+ * a services overview, local trust signals, and SEO-optimized
+ * neighborhood links.
+ *
+ * @returns {JSX.Element} The rendered homepage component
+ */
 export default function HomePage() {
+  /**
+   * Core service offerings displayed in the Services section.
+   * Descriptions are optimized for SEO and readability.
+   */
   const services = [
     { name: 'Tree Removal', slug: 'tree-removal', description: 'Safe removal of hazardous trees with zero property damage guarantee' },
     { name: 'Tree Trimming & Pruning', slug: 'tree-trimming', description: 'Structural pruning following ANSI A300 standards' },
@@ -12,6 +25,7 @@ export default function HomePage() {
     { name: 'Winter Tree Prep', slug: 'winter-tree-prep', description: 'Weight reduction pruning to prevent ice storm damage' },
   ]
 
+  /** List of top-tier neighborhoods for quick navigation and local SEO relevance. */
   const neighborhoods = ['Dundee', 'Millard', 'Elkhorn', 'Benson', 'Papillion', 'Bellevue']
 
   return (
