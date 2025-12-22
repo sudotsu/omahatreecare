@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
-  spacing?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'default' | 'warm' | 'dark' | 'gradient';
+  spacing?: "sm" | "md" | "lg" | "xl";
+  variant?: "default" | "warm" | "dark" | "gradient";
   as?: keyof JSX.IntrinsicElements;
 }
 
@@ -28,24 +28,24 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
  */
 export const Section: React.FC<SectionProps> = ({
   children,
-  spacing = 'lg',
-  variant = 'default',
-  className = '',
-  as: Component = 'section',
+  spacing = "lg",
+  variant = "default",
+  className = "",
+  as: Component = "section",
   ...props
 }) => {
   const spacingStyles = {
-    sm: 'py-8 md:py-12',
-    md: 'py-12 md:py-16',
-    lg: 'py-16 md:py-24',
-    xl: 'py-24 md:py-32',
+    sm: "py-8 md:py-12",
+    md: "py-12 md:py-16",
+    lg: "py-16 md:py-24",
+    xl: "py-24 md:py-32",
   };
 
   const variantStyles = {
-    default: 'bg-surface-primary',  // White
-    warm: 'bg-surface-warm',        // Cream/warm off-white
-    dark: 'bg-surface-dark text-content-inverse', // Dark slate with light text
-    gradient: 'bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500', // Brand gradient for CTAs
+    default: "bg-surface-primary", // White
+    warm: "bg-surface-warm", // Cream/warm off-white
+    dark: "bg-surface-dark text-content-inverse", // Dark slate with light text
+    gradient: "bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500", // Brand gradient for CTAs
   };
 
   return React.createElement(
@@ -54,7 +54,7 @@ export const Section: React.FC<SectionProps> = ({
       className: `${spacingStyles[spacing]} ${variantStyles[variant]} ${className}`,
       ...props,
     },
-    children
+    children,
   );
 };
 

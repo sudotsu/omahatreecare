@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Props for the Input component.
@@ -28,6 +28,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
  * @param {React.Ref<HTMLInputElement>} ref - Forwarded ref for the underlying input element.
  * @returns {JSX.Element} The rendered input component.
  */
+<<<<<<< Updated upstream
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
   type = 'text',
   error = false,
@@ -44,17 +45,30 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
 
   /** Consistency styles for placeholder text */
   const placeholderStyles = 'placeholder:text-neutral-400';
+=======
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ type = "text", error = false, className = "", ...props }, ref) => {
+    const baseStyles =
+      "w-full py-3 px-4 text-base leading-normal rounded-md transition-all duration-default ease-smooth focus:outline-none focus:ring-2";
 
-  return (
-    <input
-      ref={ref}
-      type={type}
-      className={`${baseStyles} ${stateStyles} ${placeholderStyles} ${className}`}
-      {...props}
-    />
-  );
-});
+    const stateStyles = error
+      ? "border-2 border-alert-500 text-alert-600 focus:ring-alert-500"
+      : "border border-neutral-200 text-neutral-900 focus:border-primary-500 focus:ring-primary-500";
 
-Input.displayName = 'Input';
+    const placeholderStyles = "placeholder:text-neutral-400";
+>>>>>>> Stashed changes
+
+    return (
+      <input
+        ref={ref}
+        type={type}
+        className={`${baseStyles} ${stateStyles} ${placeholderStyles} ${className}`}
+        {...props}
+      />
+    );
+  },
+);
+
+Input.displayName = "Input";
 
 export default Input;

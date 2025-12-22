@@ -5,6 +5,7 @@
  * Replace the current index.tsx with this file once approved.
  */
 
+<<<<<<< Updated upstream
 import Head from 'next/head'
 import Link from 'next/link'
 import servicesData from '@/data/services.json'
@@ -12,13 +13,20 @@ import { CONTACT } from '@/constants'
 import { PageHero } from '@/components/PageHero'
 import { ThreeUpCards, QuickPhoneCTA } from '@/components/sections'
 import { ArrowRight } from 'lucide-react'
+=======
+import Head from "next/head";
+import { PageHero } from "../../src/components/PageHero";
+import { QuickPhoneCTA, ThreeUpCards } from "../../src/components/sections";
+import { CONTACT } from "../../src/constants";
+import servicesData from "../../src/data/services.json";
+>>>>>>> Stashed changes
 
 export default function ServicesIndexPage() {
-  const pageTitle = `Our Services | ${CONTACT.businessName}`
-  const metaDescription = `Professional tree services in Omaha: removal, trimming, health assessment, and winter prep. Expert care for your trees. Call ${CONTACT.phone}.`
-  const canonicalUrl = `${CONTACT.siteUrl}/services`
+  const pageTitle = `Our Services | ${CONTACT.businessName}`;
+  const metaDescription = `Professional tree services in Omaha: removal, trimming, health assessment, and winter prep. Expert care for your trees. Call ${CONTACT.phone}.`;
+  const canonicalUrl = `${CONTACT.siteUrl}/services`;
 
-  const services = Object.values(servicesData)
+  const services = Object.values(servicesData);
 
   // Transform services data for ThreeUpCards component
   const serviceCards = services.map((service) => ({
@@ -26,9 +34,9 @@ export default function ServicesIndexPage() {
     description: service.meta_desc,
     link: {
       href: `/services/${service.slug}`,
-      label: 'Learn More',
+      label: "Learn More",
     },
-  }))
+  }));
 
   return (
     <>
@@ -52,8 +60,8 @@ export default function ServicesIndexPage() {
         title="Professional Tree Services"
         description="Expert care for your trees in Omaha and surrounding areas. From emergency removal to routine maintenance, we've got you covered."
         breadcrumbs={[
-          { label: 'Home', href: '/' },
-          { label: 'Services', href: '/services' },
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
         ]}
         variant="default"
       />
@@ -74,5 +82,5 @@ export default function ServicesIndexPage() {
         variant="primary"
       />
     </>
-  )
+  );
 }

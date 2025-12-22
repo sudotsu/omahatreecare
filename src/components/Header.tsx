@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Menu, X, ChevronDown, Phone } from 'lucide-react';
-import { Button } from './primitives';
-import { CONTACT } from '../constants';
-import servicesData from '../data/services.json';
+import { ChevronDown, Menu, Phone, X } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { CONTACT } from "../constants";
+import servicesData from "../data/services.json";
+import { Button } from "./primitives";
 
 /**
  * Header Component
@@ -29,8 +29,8 @@ export const Header: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close mobile menu on route change
@@ -42,12 +42,12 @@ export const Header: React.FC = () => {
   // Close mobile menu on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isMenuOpen) {
+      if (e.key === "Escape" && isMenuOpen) {
         setIsMenuOpen(false);
       }
     };
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, [isMenuOpen]);
 
   // Normalize services.json to array with runtime validation
@@ -56,39 +56,41 @@ export const Header: React.FC = () => {
     if (Array.isArray(data)) {
       return data.map((service: any) => ({
         name: service.title || service.name,
-        slug: service.slug
+        slug: service.slug,
       }));
     }
 
     // Object with nested services array
-    if (data && typeof data === 'object') {
+    if (data && typeof data === "object") {
       if (Array.isArray(data.services)) {
         return data.services.map((service: any) => ({
           name: service.title || service.name,
-          slug: service.slug
+          slug: service.slug,
         }));
       }
       if (Array.isArray(data.items)) {
         return data.items.map((service: any) => ({
           name: service.title || service.name,
-          slug: service.slug
+          slug: service.slug,
         }));
       }
 
       // Object keyed by slug (current shape)
       const values = Object.values(data);
-      if (values.length > 0 && values.every((v: any) => v && typeof v === 'object')) {
+      if (values.length > 0 && values.every((v: any) => v && typeof v === "object")) {
         return values.map((service: any) => ({
           name: service.title || service.name,
-          slug: service.slug
+          slug: service.slug,
         }));
       }
     }
 
     // Fallback: return empty array (services dropdown will not render)
     // In production, consider sending this to error monitoring service
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Header: Unable to normalize services.json, expected array or object with services');
+    if (process.env.NODE_ENV === "development") {
+      console.error(
+        "Header: Unable to normalize services.json, expected array or object with services",
+      );
     }
     return [];
   };
@@ -99,8 +101,8 @@ export const Header: React.FC = () => {
     <header
       className={`sticky top-0 z-50 transition-all duration-250 ease-smooth ${
         scrolled
-          ? 'bg-surface-primary/95 backdrop-blur-md shadow-md'
-          : 'bg-surface-primary shadow-sm'
+          ? "bg-surface-primary/95 backdrop-blur-md shadow-md"
+          : "bg-surface-primary shadow-sm"
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
@@ -117,7 +119,6 @@ export const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-
             {/* Services Dropdown */}
             <div
               className="relative"
@@ -136,12 +137,12 @@ export const Header: React.FC = () => {
                 onClick={() => setIsServicesOpen(!isServicesOpen)}
                 onFocus={() => setIsServicesOpen(true)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
+                  if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     setIsServicesOpen(!isServicesOpen);
-                  } else if (e.key === 'Escape') {
+                  } else if (e.key === "Escape") {
                     setIsServicesOpen(false);
-                  } else if (e.key === 'ArrowDown' && !isServicesOpen) {
+                  } else if (e.key === "ArrowDown" && !isServicesOpen) {
                     e.preventDefault();
                     setIsServicesOpen(true);
                   }
@@ -153,7 +154,7 @@ export const Header: React.FC = () => {
                 <ChevronDown
                   size={16}
                   className={`transition-transform duration-fast ${
-                    isServicesOpen ? 'rotate-180' : ''
+                    isServicesOpen ? "rotate-180" : ""
                   }`}
                 />
               </button>
@@ -198,7 +199,11 @@ export const Header: React.FC = () => {
 
             {/* Emergency CTA: Phone (Secondary but visible) */}
             <a href={`tel:${CONTACT.phoneRaw}`}>
-              <Button variant="emergency" size="sm" className="flex items-center gap-2 min-h-[44px]">
+              <Button
+                variant="emergency"
+                size="sm"
+                className="flex items-center gap-2 min-h-[44px]"
+              >
                 <Phone size={16} />
                 <span className="hidden xl:inline">{CONTACT.phone}</span>
                 <span className="xl:hidden">Call Now</span>
@@ -211,7 +216,7 @@ export const Header: React.FC = () => {
             type="button"
             className="lg:hidden p-2 text-content-heading hover:text-brand-secondary transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
           >
@@ -225,14 +230,20 @@ export const Header: React.FC = () => {
             <nav className="py-6 space-y-4">
               {/* Primary CTA - Mobile (Priority #1) */}
               <Link href="/tree-consultation-omaha" className="block">
-                <Button variant="primary" className="w-full flex items-center justify-center gap-2 min-h-[44px]">
+                <Button
+                  variant="primary"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px]"
+                >
                   Get Free Quote
                 </Button>
               </Link>
 
               {/* Emergency Phone CTA - Mobile (Priority #2) */}
               <a href={`tel:${CONTACT.phoneRaw}`} className="block">
-                <Button variant="emergency" className="w-full flex items-center justify-center gap-2 min-h-[44px]">
+                <Button
+                  variant="emergency"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px]"
+                >
                   <Phone size={20} />
                   Call {CONTACT.phone}
                 </Button>

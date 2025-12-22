@@ -1,14 +1,21 @@
+<<<<<<< Updated upstream
 import Head from 'next/head'
 import Link from 'next/link'
 import locationsData from '@/data/locations.json'
 import { CONTACT } from '@/constants'
+=======
+import Head from "next/head";
+import Link from "next/link";
+import { CONTACT } from "../../src/constants";
+import locationsData from "../../src/data/locations.json";
+>>>>>>> Stashed changes
 
 export default function LocationsIndexPage() {
-  const pageTitle = `Service Areas | ${CONTACT.businessName}`
-  const metaDescription = `Professional tree services across Omaha and surrounding areas. We serve ${Object.keys(locationsData).join(', ')} and more.`
-  const canonicalUrl = `${CONTACT.siteUrl}/locations`
+  const pageTitle = `Service Areas | ${CONTACT.businessName}`;
+  const metaDescription = `Professional tree services across Omaha and surrounding areas. We serve ${Object.keys(locationsData).join(", ")} and more.`;
+  const canonicalUrl = `${CONTACT.siteUrl}/locations`;
 
-  const cities = Object.keys(locationsData)
+  const cities = Object.keys(locationsData);
 
   return (
     <>
@@ -30,9 +37,7 @@ export default function LocationsIndexPage() {
         {/* Hero */}
         <div className="bg-gradient-to-br from-primary via-primary-dark to-slate-800 text-white py-16">
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Our Service Areas
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Service Areas</h1>
             <p className="text-xl text-primary-100">
               Professional tree care across Omaha and surrounding communities
             </p>
@@ -44,11 +49,11 @@ export default function LocationsIndexPage() {
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {cities.map((city) => {
-                const neighborhoods = locationsData[city as keyof typeof locationsData]
+                const neighborhoods = locationsData[city as keyof typeof locationsData];
                 const cityName = city
-                  .split('-')
+                  .split("-")
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(' ')
+                  .join(" ");
 
                 return (
                   <Link
@@ -80,7 +85,7 @@ export default function LocationsIndexPage() {
                       </svg>
                     </div>
                   </Link>
-                )
+                );
               })}
             </div>
           </div>
@@ -103,5 +108,5 @@ export default function LocationsIndexPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

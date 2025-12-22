@@ -8,25 +8,24 @@
  * DO NOT use for routine services - dilutes urgency signal.
  */
 
-import React from 'react'
-import Image from 'next/image'
-import { Container } from './primitives'
-import { CONTACT, LOGOS } from '../constants'
-import { X } from 'lucide-react'
+import { X } from "lucide-react";
+import React from "react";
+import { CONTACT } from "../constants";
+import { Container } from "./primitives";
 
 export interface EmergencyBannerProps {
   /** Main urgent message */
-  message: string
+  message: string;
   /** Supporting detail text */
-  details?: string
+  details?: string;
   /** Show dismiss button */
-  dismissible?: boolean
+  dismissible?: boolean;
   /** Custom CTA text (defaults to "Call Emergency: {phone}") */
-  ctaText?: string
+  ctaText?: string;
   /** Custom CTA phone number (defaults to CONTACT.phone) */
-  ctaPhone?: string
+  ctaPhone?: string;
   /** Sticky position */
-  sticky?: boolean
+  sticky?: boolean;
 }
 
 export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({
@@ -37,15 +36,13 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({
   ctaPhone = CONTACT.phone,
   sticky = true,
 }) => {
-  const [dismissed, setDismissed] = React.useState(false)
+  const [dismissed, setDismissed] = React.useState(false);
 
-  if (dismissed) return null
+  if (dismissed) return null;
 
   return (
     <div
-      className={`bg-alert-500 border-b-4 border-alert-600 ${
-        sticky ? 'sticky top-0 z-50' : ''
-      }`}
+      className={`bg-alert-500 border-b-4 border-alert-600 ${sticky ? "sticky top-0 z-50" : ""}`}
       role="alert"
       aria-live="assertive"
     >
@@ -65,14 +62,8 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({
 
             {/* Message Content */}
             <div className="flex-1">
-              <p className="text-neutral-900 font-bold text-base md:text-lg">
-                {message}
-              </p>
-              {details && (
-                <p className="text-neutral-800 text-sm mt-0.5">
-                  {details}
-                </p>
-              )}
+              <p className="text-neutral-900 font-bold text-base md:text-lg">{message}</p>
+              {details && <p className="text-neutral-800 text-sm mt-0.5">{details}</p>}
             </div>
           </div>
 
@@ -99,17 +90,15 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({
         </div>
       </Container>
     </div>
-  )
-}
+  );
+};
 
 /**
  * StormDamageBanner
  *
  * Pre-configured emergency banner for storm damage contexts.
  */
-export const StormDamageBanner: React.FC<{ dismissible?: boolean }> = ({
-  dismissible = true,
-}) => {
+export const StormDamageBanner: React.FC<{ dismissible?: boolean }> = ({ dismissible = true }) => {
   return (
     <EmergencyBanner
       message="Storm Damage? We're Available 24/7"
@@ -117,8 +106,8 @@ export const StormDamageBanner: React.FC<{ dismissible?: boolean }> = ({
       dismissible={dismissible}
       sticky
     />
-  )
-}
+  );
+};
 
 /**
  * Winter EmergencyBanner
@@ -135,5 +124,5 @@ export const WinterEmergencyBanner: React.FC<{ dismissible?: boolean }> = ({
       dismissible={dismissible}
       sticky
     />
-  )
-}
+  );
+};

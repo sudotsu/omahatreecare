@@ -1,19 +1,35 @@
+<<<<<<< Updated upstream
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import locationsData from '@/data/locations.json'
 import { CONTACT } from '@/constants'
+=======
+import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import { CONTACT } from "../../../src/constants";
+import locationsData from "../../../src/data/locations.json";
+>>>>>>> Stashed changes
 
 interface CityHubProps {
-  city: string
-  cityName: string
-  neighborhoods: string[]
+  city: string;
+  cityName: string;
+  neighborhoods: string[];
 }
 
 export default function CityHubPage({ city, cityName, neighborhoods }: CityHubProps) {
-  const pageTitle = `Tree Service in ${cityName}, NE | ${CONTACT.businessName}`
-  const metaDescription = `Top-rated tree removal and trimming in ${cityName}, Nebraska. Serving all neighborhoods including ${neighborhoods.slice(0, 3).map(n => n.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')).join(', ')}. Free estimates: ${CONTACT.phone}.`
-  const canonicalUrl = `${CONTACT.siteUrl}/locations/${city}`
+  const pageTitle = `Tree Service in ${cityName}, NE | ${CONTACT.businessName}`;
+  const metaDescription = `Top-rated tree removal and trimming in ${cityName}, Nebraska. Serving all neighborhoods including ${neighborhoods
+    .slice(0, 3)
+    .map((n) =>
+      n
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" "),
+    )
+    .join(", ")}. Free estimates: ${CONTACT.phone}.`;
+  const canonicalUrl = `${CONTACT.siteUrl}/locations/${city}`;
 
   return (
     <>
@@ -35,19 +51,19 @@ export default function CityHubPage({ city, cityName, neighborhoods }: CityHubPr
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Service',
+              "@context": "https://schema.org",
+              "@type": "Service",
               name: `Tree Services in ${cityName}`,
               description: metaDescription,
               provider: {
-                '@type': 'LocalBusiness',
-                '@id': `${CONTACT.siteUrl}/#organization`,
+                "@type": "LocalBusiness",
+                "@id": `${CONTACT.siteUrl}/#organization`,
                 name: CONTACT.businessName,
                 telephone: CONTACT.phone,
                 email: CONTACT.email,
               },
               areaServed: {
-                '@type': 'City',
+                "@type": "City",
                 name: cityName,
               },
             }),
@@ -71,9 +87,7 @@ export default function CityHubPage({ city, cityName, neighborhoods }: CityHubPr
               <span className="text-primary-300">{cityName}</span>
             </nav>
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Tree Service in {cityName}, NE
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Tree Service in {cityName}, NE</h1>
             <p className="text-xl text-primary-100">
               Professional tree care for all {cityName} neighborhoods
             </p>
@@ -90,9 +104,9 @@ export default function CityHubPage({ city, cityName, neighborhoods }: CityHubPr
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {neighborhoods.map((neighborhood) => {
                 const neighborhoodName = neighborhood
-                  .split('-')
+                  .split("-")
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(' ')
+                  .join(" ");
 
                 return (
                   <Link
@@ -121,7 +135,7 @@ export default function CityHubPage({ city, cityName, neighborhoods }: CityHubPr
                       </svg>
                     </div>
                   </Link>
-                )
+                );
               })}
             </div>
 
@@ -239,34 +253,34 @@ export default function CityHubPage({ city, cityName, neighborhoods }: CityHubPr
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const cities = Object.keys(locationsData)
+  const cities = Object.keys(locationsData);
 
   return {
     paths: cities.map((city) => ({
       params: { city },
     })),
     fallback: false,
-  }
-}
+  };
+};
 
 export const getStaticProps: GetStaticProps<CityHubProps> = async ({ params }) => {
-  const city = params?.city as string
-  const neighborhoods = locationsData[city as keyof typeof locationsData]
+  const city = params?.city as string;
+  const neighborhoods = locationsData[city as keyof typeof locationsData];
 
   if (!neighborhoods) {
     return {
       notFound: true,
-    }
+    };
   }
 
   const cityName = city
-    .split('-')
+    .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
+    .join(" ");
 
   return {
     props: {
@@ -274,5 +288,5 @@ export const getStaticProps: GetStaticProps<CityHubProps> = async ({ params }) =
       cityName,
       neighborhoods,
     },
-  }
-}
+  };
+};

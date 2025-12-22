@@ -1,7 +1,7 @@
-import React from 'react';
-import Link from 'next/link';
-import { Phone, Mail, MapPin, Clock } from 'lucide-react';
-import { CONTACT, BUSINESS_HOURS } from '../constants';
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+import React from "react";
+import { BUSINESS_HOURS, CONTACT } from "../constants";
 
 /**
  * Footer Component
@@ -9,19 +9,19 @@ import { CONTACT, BUSINESS_HOURS } from '../constants';
  */
 export const Footer: React.FC = () => {
   const services = [
-    { name: 'Tree Removal', slug: 'tree-removal' },
-    { name: 'Tree Trimming', slug: 'tree-trimming' },
-    { name: 'Tree Health Assessment', slug: 'tree-health-assessment' },
-    { name: 'Winter Tree Prep', slug: 'winter-tree-prep' },
+    { name: "Tree Removal", slug: "tree-removal" },
+    { name: "Tree Trimming", slug: "tree-trimming" },
+    { name: "Tree Health Assessment", slug: "tree-health-assessment" },
+    { name: "Winter Tree Prep", slug: "winter-tree-prep" },
   ];
 
   const cities = [
-    { name: 'Omaha', slug: 'omaha' },
-    { name: 'Millard', slug: 'millard' },
-    { name: 'Elkhorn', slug: 'elkhorn' },
-    { name: 'Papillion', slug: 'papillion' },
-    { name: 'Bellevue', slug: 'bellevue' },
-    { name: 'Gretna', slug: 'gretna' },
+    { name: "Omaha", slug: "omaha" },
+    { name: "Millard", slug: "millard" },
+    { name: "Elkhorn", slug: "elkhorn" },
+    { name: "Papillion", slug: "papillion" },
+    { name: "Bellevue", slug: "bellevue" },
+    { name: "Gretna", slug: "gretna" },
   ];
 
   return (
@@ -38,8 +38,7 @@ export const Footer: React.FC = () => {
                 <div>
                   <p>{CONTACT.streetAddress}</p>
                   <p>
-                    {CONTACT.addressLocality}, {CONTACT.addressRegion}{' '}
-                    {CONTACT.postalCode}
+                    {CONTACT.addressLocality}, {CONTACT.addressRegion} {CONTACT.postalCode}
                   </p>
                 </div>
               </div>
@@ -71,10 +70,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="mt-6 text-sm text-neutral-300">
-              <p>
-                Serving Omaha and surrounding areas with professional tree care
-                services.
-              </p>
+              <p>Serving Omaha and surrounding areas with professional tree care services.</p>
             </div>
           </div>
 

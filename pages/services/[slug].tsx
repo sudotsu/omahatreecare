@@ -8,6 +8,7 @@
  * 4. Implemented 'Lucide' icons directly within data structures to satisfy 'unused' import warnings.
  */
 
+<<<<<<< Updated upstream
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
@@ -32,13 +33,35 @@ interface ServiceData {
   benefit_2: string
   benefit_3: string
   is_emergency?: boolean
+=======
+import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
+import { PageHero } from "../../src/components/PageHero";
+import { IconBulletList, QuickPhoneCTA, TextWithImage } from "../../src/components/sections";
+import { CONTACT, SITE_URL } from "../../src/constants";
+import servicesData from "../../src/data/services.json";
+import { getServiceSEO } from "../../src/seo";
+
+interface ServiceData {
+  title: string;
+  slug: string;
+  meta_desc: string;
+  hero_headline: string;
+  hero_sub: string;
+  pain_point: string;
+  solution: string;
+  benefit_1: string;
+  benefit_2: string;
+  benefit_3: string;
+>>>>>>> Stashed changes
 }
 
 interface ServicePageProps {
-  service: ServiceData
+  service: ServiceData;
 }
 
 export default function ServicePage({ service }: ServicePageProps) {
+<<<<<<< Updated upstream
   const seo = getServiceSEO(service)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
@@ -66,6 +89,9 @@ export default function ServicePage({ service }: ServicePageProps) {
     setIsSubmitting(false)
     if (result.success) e.currentTarget.reset()
   }
+=======
+  const seo = getServiceSEO(service);
+>>>>>>> Stashed changes
 
   return (
     <>
@@ -86,9 +112,14 @@ export default function ServicePage({ service }: ServicePageProps) {
         title={service.hero_headline}
         description={service.hero_sub}
         breadcrumbs={[
+<<<<<<< Updated upstream
           { label: 'Home', href: '/' },
           { label: 'Services', href: '/services' },
           { label: service.title, href: '#' },
+=======
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+>>>>>>> Stashed changes
         ]}
         // Fix: Use "dark" for emergency to avoid type error, or update PageHeroProps
         variant={service.is_emergency ? "dark" : "default"}
@@ -174,16 +205,44 @@ export default function ServicePage({ service }: ServicePageProps) {
         </Container>
       </Section>
 
+<<<<<<< Updated upstream
+=======
+      {/* Benefits Section - Using IconBulletList pattern */}
+      <IconBulletList
+        title="Key Benefits"
+        description={`When you choose ${CONTACT.businessName} for ${service.title.toLowerCase()}, you get:`}
+        items={[
+          {
+            title: service.benefit_1,
+            description: "Professional-grade equipment and techniques ensure safe, efficient work.",
+          },
+          {
+            title: service.benefit_2,
+            description:
+              "Our experienced team handles projects of all sizes with care and precision.",
+          },
+          {
+            title: service.benefit_3,
+            description: "Transparent pricing and honest recommendations you can trust.",
+          },
+        ]}
+        background="white"
+        iconVariant="check"
+      />
+
+      {/* CTA Section */}
+>>>>>>> Stashed changes
       <QuickPhoneCTA
         title={service.is_emergency ? "Emergency Dispatch Active" : `Get a Free ${service.title} Quote`}
         description={service.is_emergency ? "Storm response crews are currently prioritized for Omaha." : "Contact Andrew directly for a no-pressure evaluation."}
         variant={service.is_emergency ? "emergency" : "primary"}
       />
     </>
-  )
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+<<<<<<< Updated upstream
   const services = Object.values(servicesData) as ServiceData[];
   const paths = services.map((service: ServiceData) => ({
     params: { slug: service.slug },
@@ -198,3 +257,31 @@ export const getStaticProps: GetStaticProps<ServicePageProps> = async ({ params 
   if (!service) return { notFound: true }
   return { props: { service } }
 }
+=======
+  const slugs = Object.keys(servicesData);
+
+  return {
+    paths: slugs.map((slug) => ({
+      params: { slug },
+    })),
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps<ServicePageProps> = async ({ params }) => {
+  const slug = params?.slug as string;
+  const service = servicesData[slug as keyof typeof servicesData];
+
+  if (!service) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      service,
+    },
+  };
+};
+>>>>>>> Stashed changes
