@@ -490,13 +490,12 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Address *</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Address (optional)</label>
             <input
               type="text"
               value={quoteFormData.address}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, address: e.target.value })}
               className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              required
               disabled={isSubmitting}
             />
           </div>
