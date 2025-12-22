@@ -25,10 +25,10 @@ const ToolLoader = () => (
   </div>
 );
 
-export default function TreeDiagnostic() {
+export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
   const router = useRouter();
-  const { tool } = router.query;
-  const currentScreen = (tool as ToolId) || 'home';
+  const { tool: queryTool } = router.query;
+  const currentScreen = (forceTool || queryTool) as ToolId || 'home';
   const [darkMode, setDarkMode] = useState(false);
 
   // SEO/GEO: Dynamic Metadata based on the active tool [2, 3]
@@ -46,9 +46,15 @@ export default function TreeDiagnostic() {
 
   const meta = getMetadata();
 
-  // Navigation logic for deep linking and shallow routing [2]
-  const setScreen = (id: string) => router.push(`/tools?tool=${id}`, undefined, { shallow: true });
-  const goHome = () => router.push('/tools', undefined, { shallow: true });
+  // Navigation logic for deep linking and static routing [2]
+  const setScreen = (id: string) => {
+    if (forceTool) {
+      router.push(`/tools/${id}`);
+    } else {
+      router.push(`/tools/${id}`, undefined, { shallow: false });
+    }
+  };
+  const goHome = () => router.push('/tools');
 
   // Dark Mode Sync: LocalStorage + OS Preference [4, 5]
   useEffect(() => {
@@ -149,3 +155,5 @@ export default function TreeDiagnostic() {
     </div>
   );
 }
+
+export default TreeDiagnostic;

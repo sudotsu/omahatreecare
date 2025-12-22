@@ -54,7 +54,7 @@ export default function EmergencyTreeService() {
         {/* Triage & Protocol Section */}
         <Section className="py-20">
           <Container>
-            <Grid cols={1} mdCols={2} gap={12}>
+            <Grid cols={1} mdCols={2} gap="xl">
               <div className="space-y-8">
                 <div>
                   <h2 className="text-3xl font-black text-content-heading dark:text-content-inverse uppercase italic mb-6">What We Prioritize</h2>
@@ -87,7 +87,7 @@ export default function EmergencyTreeService() {
               <Card variant="feature" className="bg-content-heading text-content-inverse p-8 md:p-12 rounded-[3rem] shadow-2xl space-y-8 border-none">
                 <h2 className="text-3xl font-black uppercase italic leading-none">Insurance Claims <br /><span className="text-brand-primary text-xl">Assistance Included</span></h2>
                 <p className="text-content-inverse/70 font-medium">
-                  Dealing with storm damage is stressful. We help streamline your homeowner's insurance claim with professional documentation [4, 5].
+                  Dealing with storm damage is stressful. We help streamline your homeowner&apos;s insurance claim with professional documentation [4, 5].
                 </p>
                 <div className="space-y-6">
                   {[

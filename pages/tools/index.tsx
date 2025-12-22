@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { TreeDiagnostic } from '@/tool/TreeDiagnostic';
+import TreeDiagnostic from '@/tool/TreeDiagnostic';
 import { CONTACT, SERVICE_AREAS } from '@/constants';
 
 /**
@@ -67,6 +67,14 @@ const ToolsPage = () => {
     ]
   };
 
+  const toolLinks = [
+    { id: 'hazard', name: 'Hazard Assessment' },
+    { id: 'cost', name: 'Cost Estimator' },
+    { id: 'species', name: 'Species Identifier' },
+    { id: 'ailments', name: 'Common Ailments' },
+    { id: 'diy', name: 'DIY vs Pro Guide' }
+  ];
+
   return (
     <>
       <Head>
@@ -74,6 +82,11 @@ const ToolsPage = () => {
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={`${siteUrl}/tools`} />
+
+        {/* Internal Link Pre-rendering for Crawler Visibility */}
+        {toolLinks.map(t => (
+          <link key={t.id} rel="alternate" href={`${siteUrl}/tools/${t.id}`} />
+        ))}
 
         {/* Social Media & Mobile Meta */}
         <meta property="og:type" content="website" />

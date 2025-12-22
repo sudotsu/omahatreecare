@@ -184,8 +184,7 @@ export default function ServicePage({ service }: ServicePageProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Ensure servicesData is treated as an array
-  const services = Array.isArray(servicesData) ? servicesData : (servicesData as any).services;
+  const services = Object.values(servicesData) as ServiceData[];
   const paths = services.map((service: ServiceData) => ({
     params: { slug: service.slug },
   }))
@@ -193,7 +192,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<ServicePageProps> = async ({ params }) => {
-  const services = Array.isArray(servicesData) ? servicesData : (servicesData as any).services;
+  const services = Object.values(servicesData) as ServiceData[];
   const service = services.find((s: ServiceData) => s.slug === params?.slug)
 
   if (!service) return { notFound: true }

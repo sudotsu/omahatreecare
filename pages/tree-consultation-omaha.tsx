@@ -77,7 +77,7 @@ export default function TreeConsultation() {
 
         <Section className="pb-20">
           <Container>
-            <Grid cols={1} lgCols={2} gap={8}>
+            <Grid cols={1} lgCols={2} gap="lg">
               <div className="space-y-8">
                 {/* Primary CTA */}
                 <Card variant="feature" className="border-brand-primary/20 bg-white/80 backdrop-blur-sm shadow-xl p-8 rounded-[2.5rem]">
@@ -95,7 +95,7 @@ export default function TreeConsultation() {
                 </Card>
 
                 {/* Omaha-Specific Authority */}
-                <Grid cols={1} mdCols={2} gap={4}>
+                <Grid cols={1} mdCols={2} gap="sm">
                   {[
                     { title: "Clay Soil Impacts", desc: "How Omaha's soil affects root stability.", icon: MapPin },
                     { title: "Ice Load Risks", desc: "Preparing your canopy for Nebraska winters.", icon: Shield },
@@ -114,7 +114,7 @@ export default function TreeConsultation() {
               {/* Contact Form / Callback */}
               <Card variant="feature" className="md:p-12 shadow-2xl border-brand-primary/10 rounded-[3rem]">
                 <h2 className="text-3xl font-black text-content-heading dark:text-content-inverse uppercase italic mb-2 leading-none">Request a <br />Callback</h2>
-                <p className="text-content-body dark:text-content-muted mb-8 font-medium">I'll reach out within 24 hours to schedule a formal assessment [7].</p>
+                <p className="text-content-body dark:text-content-muted mb-8 font-medium">I&apos;ll reach out within 24 hours to schedule a formal assessment [7].</p>
                 <ContactForm />
               </Card>
             </Grid>
@@ -125,7 +125,7 @@ export default function TreeConsultation() {
         <Section variant="dark" className="py-20">
           <Container className="space-y-12">
             <h2 className="text-3xl font-black uppercase italic text-center tracking-tighter">DIY-Friendly vs. Call a Professional</h2>
-            <Grid cols={1} mdCols={2} gap={8}>
+            <Grid cols={1} mdCols={2} gap="lg">
               <div className="space-y-6 bg-white/5 p-8 rounded-3xl border border-white/10">
                 <h3 className="text-xl font-bold text-brand-secondary uppercase italic">Often DIY-Friendly</h3>
                 <ul className="space-y-4">

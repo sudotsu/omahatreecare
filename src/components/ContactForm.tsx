@@ -92,7 +92,7 @@ export default function ContactForm() {
         <div className="space-y-2">
           <h3 className="text-3xl font-black text-content-heading uppercase italic tracking-tight">Estimate Requested</h3>
           <p className="text-content-body font-medium max-w-sm mx-auto">
-            We've received your details. One of our arborists will call you shortly to schedule your free on-site assessment.
+            We&apos;ve received your details. One of our arborists will call you shortly to schedule your free on-site assessment.
           </p>
         </div>
         <Button variant="ghost" onClick={() => setSubmitStatus(null)}>
@@ -165,7 +165,7 @@ export default function ContactForm() {
         <div className="space-y-2">
           <label htmlFor="service_type" className="text-xs font-black uppercase tracking-widest text-content-muted ml-1">Service Type</label>
           <Select id="service_type" {...register('service_type')}>
-            <option value="Not sure">I'm not sure</option>
+            <option value="Not sure">I&apos;m not sure</option>
             <option value="Tree Removal">Tree Removal</option>
             <option value="Pruning">Pruning / Trimming</option>
             <option value="Storm Damage">Storm Damage</option>

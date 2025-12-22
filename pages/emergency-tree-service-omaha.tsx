@@ -110,13 +110,13 @@ export default function EmergencyTreeServicePage() {
         {/* When to Call */}
         <Section className="py-24">
           <Container>
-            <Grid cols={1} gap={8} className="max-w-4xl mx-auto">
+            <Grid cols={1} gap="lg" className="max-w-4xl mx-auto">
               <Card variant="feature" className="p-8 md:p-12 border-brand-accent/10 bg-surface-primary/5 shadow-2xl">
                 <h2 className="text-4xl font-black text-white uppercase italic mb-8 tracking-tight flex items-center gap-4">
                   <AlertTriangle className="w-10 h-10 text-brand-accent" />
                   When to Call Emergency Services
                 </h2>
-                <Grid cols={1} mdCols={2} gap={6}>
+                <Grid cols={1} mdCols={2} gap="md">
                   {[
                     { title: "Tree on structure", desc: "Tree or limb has fallen on house, car, or power line", icon: AlertTriangle },
                     { title: "Imminent danger", desc: "Tree leaning dangerously after storm", icon: AlertTriangle },
@@ -141,7 +141,7 @@ export default function EmergencyTreeServicePage() {
               {/* Our Response */}
               <Card variant="feature" className="p-8 md:p-12 border-neutral-800 bg-surface-dark/50 shadow-xl">
                 <h2 className="text-3xl font-black text-white uppercase italic mb-8 tracking-tight">Our Emergency Response</h2>
-                <Grid cols={1} mdCols={2} gap={8}>
+                <Grid cols={1} mdCols={2} gap="lg">
                   {[
                     { title: "24/7 Availability", desc: "We answer the phone day or night, weekends and holidays", icon: Clock },
                     { title: "Rapid Response", desc: "Crews dispatched within 1-2 hours for true emergencies", icon: Shield },

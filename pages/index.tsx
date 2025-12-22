@@ -40,7 +40,7 @@ export default function HomePage() {
         {/* Hero Section with 24/7 Emergency Priority */}
         <Section variant="dark" className="py-16 md:py-24 overflow-hidden relative">
           <Container>
-            <Grid cols={1} lgCols={2} gap={12} className="items-center relative z-10">
+            <Grid cols={1} lgCols={2} gap="xl" className="items-center relative z-10">
               <div className="space-y-8">
                 <div className="flex items-center gap-2">
                   <Shield className="w-8 h-8 text-brand-accent animate-pulse" />
@@ -97,7 +97,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <Grid cols={1} mdCols={2} lgCols={4} gap={6}>
+            <Grid cols={1} mdCols={2} lgCols={4} gap="md">
               {services.map((service) => (
                 <Link key={service.slug} href={`/services/${service.slug}`} className="group">
                   <Card hover className="h-full p-8 rounded-[2rem] border-neutral-100 dark:border-neutral-800">
