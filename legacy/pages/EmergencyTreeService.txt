@@ -28,7 +28,7 @@ export default function EmergencyTreeService() {
               "telephone": CONTACT.phone,
               "email": CONTACT.email,
               "address": {
-                // CONFIRMED: Correctly structured PostalAddress object using SSOT fields
+               "@type": "PostalAddress",
                 "@type": "PostalAddress",
                 "streetAddress": CONTACT.streetAddress,
                 "addressLocality": CONTACT.addressLocality,
