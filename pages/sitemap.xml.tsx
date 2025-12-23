@@ -3,13 +3,8 @@
  * Generated from canonical route source of truth
  */
 
-<<<<<<< Updated upstream
-import { GetServerSideProps } from 'next'
-import { getAllCanonicalRoutes } from '@/routes'
-=======
+import { getAllCanonicalRoutes } from "@/routes";
 import { GetServerSideProps } from "next";
-import { getAllCanonicalRoutes } from "../src/routes";
->>>>>>> Stashed changes
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const routes = getAllCanonicalRoutes();

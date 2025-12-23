@@ -5,21 +5,11 @@
  * Replace the current index.tsx with this file once approved.
  */
 
-<<<<<<< Updated upstream
-import Head from 'next/head'
-import Link from 'next/link'
-import servicesData from '@/data/services.json'
-import { CONTACT } from '@/constants'
-import { PageHero } from '@/components/PageHero'
-import { ThreeUpCards, QuickPhoneCTA } from '@/components/sections'
-import { ArrowRight } from 'lucide-react'
-=======
+import { PageHero } from "@/components/PageHero";
+import { QuickPhoneCTA, ThreeUpCards } from "@/components/sections";
+import { CONTACT } from "@/constants";
+import servicesData from "@/data/services.json";
 import Head from "next/head";
-import { PageHero } from "../../src/components/PageHero";
-import { QuickPhoneCTA, ThreeUpCards } from "../../src/components/sections";
-import { CONTACT } from "../../src/constants";
-import servicesData from "../../src/data/services.json";
->>>>>>> Stashed changes
 
 export default function ServicesIndexPage() {
   const pageTitle = `Our Services | ${CONTACT.businessName}`;
