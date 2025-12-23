@@ -169,7 +169,7 @@ export default function ServicePage({ service }: ServicePageProps) {
             <div className="h-1.5 w-24 bg-primary-600 mx-auto mt-4" />
           </div>
 
-          <Grid cols={3} gap="lg">
+          <Grid cols={1} mdCols={2} lgCols={3} gap="lg">
             <Card hover className="p-8 border-b-4 border-primary-500">
               <Check className="w-10 h-10 text-primary-600 mb-6" />
               <h3 className="text-xl font-bold mb-3">{service.benefit_1}</h3>

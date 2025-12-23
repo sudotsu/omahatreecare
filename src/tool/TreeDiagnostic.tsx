@@ -1,50 +1,57 @@
-'use client';
+"use client";
 
-import React, { Suspense, lazy, useEffect, useState } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { ArrowLeft, Loader2, Moon, Sun, Phone, Mail } from 'lucide-react';
-import { CONTACT, SERVICE_AREAS, TRUST_SIGNALS } from '@/constants';
+import { CONTACT, SERVICE_AREAS, TRUST_SIGNALS } from "@/constants";
+import { TREE_TOOLS_BY_ID } from "@/constants/tools";
+import { ArrowLeft, Loader2, Mail, Moon, Phone, Sun } from "lucide-react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { Suspense, lazy, useEffect, useState } from "react";
 
 // Type safety for the routing system
-type ToolId = 'home' | 'species' | 'hazard' | 'cost' | 'diy' | 'ailments';
+type ToolId = "home" | "species" | "hazard" | "cost" | "diy" | "ailments";
 
 // Performance: Lazy load screens to minimize initial bundle size
-const Home = lazy(() => import('./screens/Home').then(m => ({ default: m.Home })));
-const SpeciesIdentifier = lazy(() => import('./screens/SpeciesIdentifier').then(m => ({ default: m.SpeciesIdentifier })));
-const HazardAssessment = lazy(() => import('./screens/HazardAssessment').then(m => ({ default: m.HazardAssessment })));
-const CostEstimator = lazy(() => import('./screens/CostEstimator').then(m => ({ default: m.CostEstimator })));
-const DIYvsProGuide = lazy(() => import('./screens/DIYvsProGuide').then(m => ({ default: m.DIYvsProGuide })));
-const CommonAilments = lazy(() => import('./screens/CommonAilments').then(m => ({ default: m.CommonAilments })));
+const Home = lazy(() => import("./screens/Home").then((m) => ({ default: m.Home })));
+const SpeciesIdentifier = lazy(() =>
+  import("./screens/SpeciesIdentifier").then((m) => ({ default: m.SpeciesIdentifier })),
+);
+const HazardAssessment = lazy(() =>
+  import("./screens/HazardAssessment").then((m) => ({ default: m.HazardAssessment })),
+);
+const CostEstimator = lazy(() =>
+  import("./screens/CostEstimator").then((m) => ({ default: m.CostEstimator })),
+);
+const DIYvsProGuide = lazy(() =>
+  import("./screens/DIYvsProGuide").then((m) => ({ default: m.DIYvsProGuide })),
+);
+const CommonAilments = lazy(() =>
+  import("./screens/CommonAilments").then((m) => ({ default: m.CommonAilments })),
+);
 
 // Accessible Loading State
 const ToolLoader = () => (
   <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
     <Loader2 className="w-12 h-12 text-brand-primary animate-spin" />
-    <p className="text-content-muted font-bold uppercase tracking-widest text-xs">Loading Tool...</p>
+    <p className="text-content-muted font-bold uppercase tracking-widest text-xs">
+      Loading Tool...
+    </p>
   </div>
 );
 
 export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
   const router = useRouter();
   const { tool: queryTool } = router.query;
-  const currentScreen = (forceTool || queryTool) as ToolId || 'home';
+  const currentScreen = ((forceTool || queryTool) as ToolId) || "home";
   const [darkMode, setDarkMode] = useState(false);
 
   // SEO/GEO: Dynamic Metadata based on the active tool
-  const getMetadata = () => {
-    const baseTitle = `Omaha Tree Care Tools | ${CONTACT.businessName}`;
-    switch (currentScreen) {
-      case 'hazard': return { title: `Tree Hazard Assessment Omaha | ${baseTitle}`, desc: 'Assess tree safety risks using professional ISA standards.' };
-      case 'cost': return { title: `Tree Service Cost Estimator Omaha | ${baseTitle}`, desc: 'Instant price ranges for Omaha tree removals and pruning.' };
-      case 'species': return { title: `Omaha Tree Species Guide | ${baseTitle}`, desc: 'Identify local trees and check for Emerald Ash Borer risks.' };
-      case 'ailments': return { title: `Tree Disease & Pest Guide Omaha | ${baseTitle}`, desc: 'Diagnose Oak Wilt, EAB, and other local tree health issues.' };
-      case 'diy': return { title: `DIY vs Pro Tree Work Guide | ${baseTitle}`, desc: 'Safety guidelines for Omaha homeowners.' };
-      default: return { title: baseTitle, desc: 'Professional arborist tools for Omaha homeowners.' };
-    }
+  const tool = TREE_TOOLS_BY_ID[currentScreen] || {
+    id: "home",
+    name: "Tree Diagnostic Tools",
+    title: `Omaha Tree Care Tools | ${CONTACT.businessName}`,
+    description: "Professional arborist tools for Omaha homeowners.",
   };
-
-  const meta = getMetadata();
+  const meta = { title: tool.title, desc: tool.description };
 
   // Navigation logic for deep linking and static routing
   const setScreen = (id: string) => {
@@ -54,18 +61,20 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
       router.push(`/tools/${id}`, undefined, { shallow: false });
     }
   };
-  const goHome = () => router.push('/tools');
+  const goHome = () => router.push("/tools");
 
   // Dark Mode Sync: LocalStorage + OS Preference
   useEffect(() => {
-    const isDark = localStorage.getItem('darkMode') === 'true' ||
-                  (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const isDark =
+      localStorage.getItem("darkMode") === "true" ||
+      (!localStorage.getItem("darkMode") &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
     setDarkMode(isDark);
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode);
-    localStorage.setItem('darkMode', darkMode.toString());
+    document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("darkMode", darkMode.toString());
   }, [darkMode]);
 
   return (
@@ -76,7 +85,10 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
       </Head>
 
       {/* Accessibility: Skip Link [WCAG 2.1] */}
-      <a href="#tool-main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-brand-accent focus:text-white">
+      <a
+        href="#tool-main"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-brand-accent focus:text-white"
+      >
         Skip to tool content
       </a>
 
@@ -84,7 +96,7 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
       <header className="bg-brand-primary text-white p-6 shadow-2xl">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
-            {currentScreen !== 'home' && (
+            {currentScreen !== "home" && (
               <button
                 type="button"
                 onClick={goHome}
@@ -95,8 +107,12 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
               </button>
             )}
             <div>
-              <h1 className="text-xl font-serif font-black uppercase italic tracking-tighter leading-none">{CONTACT.businessName}</h1>
-              <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-primary-300">{TRUST_SIGNALS.certificationShort} Standards</p>
+              <h1 className="text-xl font-serif font-black uppercase italic tracking-tighter leading-none">
+                {CONTACT.businessName}
+              </h1>
+              <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-primary-300">
+                {TRUST_SIGNALS.certificationShort} Standards
+              </p>
             </div>
           </div>
 
@@ -114,12 +130,12 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
       {/* Tool Content Wrapper */}
       <main id="tool-main" className="max-w-6xl mx-auto p-4 md:p-8">
         <Suspense fallback={<ToolLoader />}>
-          {currentScreen === 'home' && <Home setScreen={setScreen} />}
-          {currentScreen === 'species' && <SpeciesIdentifier />}
-          {currentScreen === 'hazard' && <HazardAssessment />}
-          {currentScreen === 'cost' && <CostEstimator />}
-          {currentScreen === 'diy' && <DIYvsProGuide />}
-          {currentScreen === 'ailments' && <CommonAilments />}
+          {currentScreen === "home" && <Home setScreen={setScreen} />}
+          {currentScreen === "species" && <SpeciesIdentifier />}
+          {currentScreen === "hazard" && <HazardAssessment />}
+          {currentScreen === "cost" && <CostEstimator />}
+          {currentScreen === "diy" && <DIYvsProGuide />}
+          {currentScreen === "ailments" && <CommonAilments />}
         </Suspense>
       </main>
 
@@ -146,7 +162,11 @@ export function TreeDiagnostic({ forceTool }: { forceTool?: string }) {
 
           <div className="pt-4 space-y-2">
             <p className="text-[10px] font-bold text-content-muted uppercase tracking-widest">
-              Proudly serving {SERVICE_AREAS.slice(0, 5).map(area => area.name).join(', ')} & greater Omaha
+              Proudly serving{" "}
+              {SERVICE_AREAS.slice(0, 5)
+                .map((area) => area.name)
+                .join(", ")}{" "}
+              & greater Omaha
             </p>
             <p className="text-xs font-bold text-content-muted uppercase tracking-widest">
               Free community diagnostic tool provided by {CONTACT.businessName}

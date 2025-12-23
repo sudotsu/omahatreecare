@@ -1,7 +1,7 @@
-import React from 'react';
-import Head from 'next/head';
-import TreeDiagnostic from '@/tool/TreeDiagnostic';
-import { CONTACT, SERVICE_AREAS } from '@/constants';
+import { CONTACT, SERVICE_AREAS } from "@/constants";
+import { TREE_TOOLS } from "@/constants/tools";
+import TreeDiagnostic from "@/tool/TreeDiagnostic";
+import Head from "next/head";
 
 /**
  * ToolsPage - The primary SEO and accessibility wrapper for the Tree Diagnostic Suite.
@@ -9,71 +9,65 @@ import { CONTACT, SERVICE_AREAS } from '@/constants';
  * JSON-LD schemas for maximum visibility in Omaha search results.
  */
 const ToolsPage = () => {
-  const pageTitle = 'Free Tree Health Diagnostic Tool | Omaha, NE | Midwest Roots';
-  const metaDescription = 'Identify tree species, calculate risk scores, and diagnose Omaha tree diseases like EAB. Free professional arborist tools for local homeowners.';
+  const pageTitle = "Free Tree Health Diagnostic Tool | Omaha, NE | Midwest Roots";
+  const metaDescription =
+    "Identify tree species, calculate risk scores, and diagnose Omaha tree diseases like EAB. Free professional arborist tools for local homeowners.";
   const siteUrl = CONTACT.siteUrl;
 
   // 1. SoftwareApplication Schema: Triggers Rich Snippets in Google
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "Midwest Roots Tree Diagnostic Tool",
-    "description": "An interactive utility for identifying tree species and assessing property hazards.",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "All",
-    "offers": {
+    name: "Midwest Roots Tree Diagnostic Tool",
+    description:
+      "An interactive utility for identifying tree species and assessing property hazards.",
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "All",
+    offers: {
       "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
+      price: "0",
+      priceCurrency: "USD",
     },
-    "aggregateRating": {
+    aggregateRating: {
       "@type": "AggregateRating",
-      "ratingValue": "5",
-      "ratingCount": "150"
-    }
+      ratingValue: "5",
+      ratingCount: "150",
+    },
   };
 
   // 2. LocalBusiness Schema: Drives Omaha-specific GEO-traffic
   const businessSchema = {
     "@context": "https://schema.org",
     "@type": "TreeService",
-    "name": CONTACT.businessName,
-    "address": {
+    name: CONTACT.businessName,
+    address: {
       "@type": "PostalAddress",
-      "streetAddress": CONTACT.streetAddress,
-      "addressLocality": "Omaha",
-      "addressRegion": "NE",
-      "postalCode": "68104",
-      "addressCountry": "US"
+      streetAddress: CONTACT.streetAddress,
+      addressLocality: "Omaha",
+      addressRegion: "NE",
+      postalCode: "68104",
+      addressCountry: "US",
     },
-    "geo": {
+    geo: {
       "@type": "GeoCoordinates",
-      "latitude": 41.2565,
-      "longitude": -95.9345
+      latitude: 41.2565,
+      longitude: -95.9345,
     },
-    "url": siteUrl,
-    "telephone": CONTACT.phoneRaw,
-    "areaServed": SERVICE_AREAS,
-    "priceRange": "$$"
+    url: siteUrl,
+    telephone: CONTACT.phoneRaw,
+    areaServed: SERVICE_AREAS,
+    priceRange: "$$",
   };
 
   // 3. BreadcrumbList Schema: Enhances Search Result Navigation
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
-      { "@type": "ListItem", "position": 2, "name": "Diagnostic Tools", "item": `${siteUrl}/tools` }
-    ]
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Diagnostic Tools", item: `${siteUrl}/tools` },
+    ],
   };
-
-  const toolLinks = [
-    { id: 'hazard', name: 'Hazard Assessment' },
-    { id: 'cost', name: 'Cost Estimator' },
-    { id: 'species', name: 'Species Identifier' },
-    { id: 'ailments', name: 'Common Ailments' },
-    { id: 'diy', name: 'DIY vs Pro Guide' }
-  ];
 
   return (
     <>
@@ -84,7 +78,7 @@ const ToolsPage = () => {
         <link rel="canonical" href={`${siteUrl}/tools`} />
 
         {/* Internal Link Pre-rendering for Crawler Visibility */}
-        {toolLinks.map(t => (
+        {TREE_TOOLS.map((t) => (
           <link key={t.id} rel="alternate" href={`${siteUrl}/tools/${t.id}`} />
         ))}
 

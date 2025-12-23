@@ -1,10 +1,3 @@
-import fs from "fs";
-import { Award, HardHat, MapPin, Phone, ShieldCheck } from "lucide-react";
-import { GetStaticPaths, GetStaticProps } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import path from "path";
-import { useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -18,12 +11,16 @@ import {
 } from "@/components/primitives";
 import { CONTACT, SITE_URL } from "@/constants";
 import locationsData from "@/data/locations.json";
-import {
-  submitLeadForm,
-  validateFormData,
-  type FormSubmissionData,
-} from "@/lib/emailjs";
-import { LocationData } from "@/types/location-page";
+import { submitLeadForm, validateFormData, type FormSubmissionData } from "@/lib/emailjs";
+import { makeJsonLd } from "@/lib/jsonld";
+import fs from "fs";
+import { Award, HardHat, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import path from "path";
+import { useState } from "react";
+import { LocationData } from "../../../types/location-page";
 
 interface LocationPageProps {
   data: LocationData;
@@ -104,9 +101,9 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
       }
     } catch (err) {
       setSubmitMessage({
-        type: 'error',
-        text: 'A system error occurred. Please try again or call us.'
-      })
+        type: "error",
+        text: "A system error occurred. Please try again or call us.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -204,11 +201,11 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
         {/* Schema.org JSON-LD */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{ __html: makeJsonLd(localBusinessSchema) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          dangerouslySetInnerHTML={{ __html: makeJsonLd(faqSchema) }}
         />
       </Head>
 
@@ -503,8 +500,11 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
       >
         <form onSubmit={handleQuoteSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Name *</label>
+            <label htmlFor="quote-name" className="block text-sm font-medium text-neutral-700 mb-1">
+              Name *
+            </label>
             <Input
+              id="quote-name"
               type="text"
               value={quoteFormData.name}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, name: e.target.value })}
@@ -514,8 +514,14 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Phone *</label>
+            <label
+              htmlFor="quote-phone"
+              className="block text-sm font-medium text-neutral-700 mb-1"
+            >
+              Phone *
+            </label>
             <Input
+              id="quote-phone"
               type="tel"
               value={quoteFormData.phone}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, phone: e.target.value })}
@@ -525,8 +531,14 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Address *</label>
+            <label
+              htmlFor="quote-address"
+              className="block text-sm font-medium text-neutral-700 mb-1"
+            >
+              Address *
+            </label>
             <Input
+              id="quote-address"
               type="text"
               value={quoteFormData.address}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, address: e.target.value })}
@@ -536,10 +548,14 @@ export default function NeighborhoodPage({ data }: LocationPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">
+            <label
+              htmlFor="quote-service"
+              className="block text-sm font-medium text-neutral-700 mb-1"
+            >
               Service Needed
             </label>
             <Select
+              id="quote-service"
               value={quoteFormData.service}
               onChange={(e) => setQuoteFormData({ ...quoteFormData, service: e.target.value })}
               disabled={isSubmitting}

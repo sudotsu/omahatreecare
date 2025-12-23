@@ -24,8 +24,10 @@ export default function HomePage() {
     e.preventDefault()
     setSubmitMessage(null)
 
+    const form = e.currentTarget
+
     // Security: Extracting values via FormData for cleaner sanitization
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData(form)
     const emailData: FormSubmissionData = {
       from_name: formData.get('name') as string,
       from_phone: formData.get('phone') as string,
@@ -45,7 +47,7 @@ export default function HomePage() {
       const result = await submitLeadForm(emailData)
       if (result.success) {
         setSubmitMessage({ type: 'success', text: result.message })
-        e.currentTarget.reset()
+        form?.reset()
       } else {
         setSubmitMessage({ type: 'error', text: result.message })
       }
