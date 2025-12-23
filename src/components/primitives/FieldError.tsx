@@ -1,11 +1,15 @@
-import React from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle } from "lucide-react";
+import React from "react";
 
 /**
  * FieldError primitive component
  * Displays error messages for form fields
  */
-export const FieldError: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, className = '', ...props }) => {
+export const FieldError: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  children,
+  className = "",
+  ...props
+}) => {
   if (!children) return null;
 
   return (

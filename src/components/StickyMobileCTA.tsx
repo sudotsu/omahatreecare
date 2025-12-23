@@ -1,8 +1,8 @@
-import React from 'react';
-import Link from 'next/link';
-import { Phone, FileText } from 'lucide-react';
-import { Button } from './primitives';
-import { CONTACT } from '../constants';
+import { FileText, Phone } from "lucide-react";
+import Link from "next/link";
+import React from "react";
+import { CONTACT } from "../constants";
+import { Button } from "./primitives";
 
 /**
  * StickyMobileCTA Component

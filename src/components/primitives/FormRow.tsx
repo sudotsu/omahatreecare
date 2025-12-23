@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface FormRowProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string;
@@ -17,16 +17,13 @@ export const FormRow: React.FC<FormRowProps> = ({
   required = false,
   error = null,
   children,
-  className = '',
+  className = "",
   ...props
 }) => {
   return (
     <div className={`space-y-2 ${className}`} {...props}>
       {label && (
-        <label
-          htmlFor={htmlFor}
-          className="block text-sm font-medium text-neutral-900"
-        >
+        <label htmlFor={htmlFor} className="block text-sm font-medium text-neutral-900">
           {label}
           {required && <span className="text-alert-500 ml-1">*</span>}
         </label>

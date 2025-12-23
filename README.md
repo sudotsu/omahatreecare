@@ -43,7 +43,7 @@ npm run lint         # Run ESLint
 │   │   │   ├── [neighborhood].tsx      # Hyper-local neighborhood pages (24)
 │   │   │   └── [neighborhood].legacy.tsx  # Legacy template
 │   ├── emergency-tree-service-omaha.tsx
-│   ├── tree-consultation-omaha.tsx
+│   ├── tree-consultation-omaha-old.tsx
 │   ├── tools.tsx
 │   ├── sitemap.xml.tsx                 # Dynamic sitemap
 │   └── robots.txt.tsx                  # Dynamic robots.txt

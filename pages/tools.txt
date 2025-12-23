@@ -1,12 +1,11 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { CONTACT } from '../src/constants'
+import Head from "next/head";
+import { CONTACT } from "../src/constants";
 
 export default function ToolsPage() {
-  const pageTitle = 'Tree Health Diagnostic Tool | Midwest Roots'
+  const pageTitle = "Tree Health Diagnostic Tool | Midwest Roots";
   const metaDescription =
-    'Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees.'
-  const canonicalUrl = `${CONTACT.siteUrl}/tools`
+    "Free AI-powered tree health assessment tool. Check storm risk, identify diseases, and get instant recommendations for your Omaha trees.";
+  const canonicalUrl = `${CONTACT.siteUrl}/tools`;
 
   return (
     <>
@@ -35,16 +34,16 @@ export default function ToolsPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'WebApplication',
-              name: 'Tree Health Diagnostic Tool',
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Tree Health Diagnostic Tool",
               description: metaDescription,
               url: canonicalUrl,
-              applicationCategory: 'UtilityApplication',
+              applicationCategory: "UtilityApplication",
               offers: {
-                '@type': 'Offer',
-                price: '0',
-                priceCurrency: 'USD',
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
               },
             }),
           }}
@@ -89,11 +88,19 @@ export default function ToolsPage() {
                   <p className="text-primary-800 dark:text-primary-300 mb-4">
                     We&apos;re developing interactive tree diagnostic tools to help you assess your trees. In the meantime, call us for a free in-person assessment.
                   </p>
+<<<<<<< Updated upstream:pages/tools.txt
                   <p className="text-sm text-primary-700 dark:text-primary-400">
                     <strong>Need help now?</strong> Call or text Andrew at{' '}
                     <a href={`tel:${CONTACT.phoneRaw}`} className="font-bold underline hover:no-underline">
                       {CONTACT.phone}
                     </a>
+=======
+                  <p className="text-sm text-blue-700 dark:text-blue-400">
+                    <strong>Legacy component location:</strong>{" "}
+                    <code className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded">
+                      src/components-legacy/tool/TreeDiagnostic.jsx
+                    </code>
+>>>>>>> Stashed changes:pages/tools.tsx
                   </p>
                 </div>
               </div>
@@ -217,5 +224,5 @@ export default function ToolsPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

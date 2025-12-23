@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import { useState } from 'react'
 import Head from 'next/head'
 import { Phone, Shield, CheckCircle, Clock, MapPin, Award, ChevronDown } from 'lucide-react'
@@ -5,12 +6,30 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Section, Container, Button, Card, Badge, Alert, Input, FormRow, Textarea } from '@/components/primitives'
 import { CONTACT } from '@/constants'
 import { submitLeadForm, validateFormData, type FormSubmissionData } from '@/lib/emailjs'
+=======
+import {
+  Alert,
+  Button,
+  Card,
+  Container,
+  FormRow,
+  Input,
+  Section,
+  Textarea,
+} from "@/components/primitives";
+import { CONTACT } from "@/constants";
+import { AnimatePresence, motion } from "framer-motion";
+import { Award, CheckCircle, Clock, MapPin, Phone, Shield } from "lucide-react";
+import Head from "next/head";
+import { useState } from "react";
+>>>>>>> Stashed changes
 
 export default function FreeAssessmentPage() {
-  const [showFormTop, setShowFormTop] = useState(false)
-  const [showFormMid, setShowFormMid] = useState(false)
-  const [showFormBottom, setShowFormBottom] = useState(false)
+  const [showFormTop, setShowFormTop] = useState(false);
+  const [showFormMid, setShowFormMid] = useState(false);
+  const [showFormBottom, setShowFormBottom] = useState(false);
   const [formData, setFormData] = useState({
+<<<<<<< Updated upstream
     name: '',
     phone: '',
     address: '',
@@ -19,14 +38,22 @@ export default function FreeAssessmentPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [submittedFrom, setSubmittedFrom] = useState<string | null>(null)
+=======
+    name: "",
+    phone: "",
+    address: "",
+    issue: "",
+  });
+>>>>>>> Stashed changes
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
+<<<<<<< Updated upstream
   const handleSubmit = async (e: React.FormEvent, location: string) => {
     e.preventDefault()
     setSubmitMessage(null)
@@ -68,13 +95,27 @@ export default function FreeAssessmentPage() {
       setSubmitMessage({ type: 'error', text: result.message })
     }
   }
+=======
+  const handleSubmit = (e: React.FormEvent, location: string) => {
+    e.preventDefault();
+    console.log(`Form submitted from ${location}:`, formData);
+    // TODO: Integrate with EmailJS or form handler
+    alert("Thank you! We&apos;ll contact you within 24 hours.");
+  };
+>>>>>>> Stashed changes
 
-  const ContactForm = ({ onSubmit, location }: { onSubmit: (e: React.FormEvent, loc: string) => void; location: string }) => (
+  const ContactForm = ({
+    onSubmit,
+    location,
+  }: {
+    onSubmit: (e: React.FormEvent, loc: string) => void;
+    location: string;
+  }) => (
     <motion.form
       initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
+      animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       onSubmit={(e) => onSubmit(e, location)}
       className="bg-neutral-100 border-2 border-primary-500 rounded-lg p-6 space-y-4"
     >
@@ -150,25 +191,26 @@ export default function FreeAssessmentPage() {
         We respond within 24 hours. No spam, no pressure, no charge.
       </p>
     </motion.form>
-  )
+  );
 
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": "Midwest Roots Tree Service",
-    "description": "Professional tree risk assessments and tree care services in Omaha, NE. Same-day free quotes available.",
-    "telephone": CONTACT.phoneRaw,
-    "email": CONTACT.email,
-    "address": {
+    name: "Midwest Roots Tree Service",
+    description:
+      "Professional tree risk assessments and tree care services in Omaha, NE. Same-day free quotes available.",
+    telephone: CONTACT.phoneRaw,
+    email: CONTACT.email,
+    address: {
       "@type": "PostalAddress",
-      "addressLocality": "Omaha",
-      "addressRegion": "NE",
-      "addressCountry": "US"
+      addressLocality: "Omaha",
+      addressRegion: "NE",
+      addressCountry: "US",
     },
-    "areaServed": ["Omaha", "Dundee", "Midtown", "West Omaha", "Elkhorn", "Papillion", "Bellevue"],
-    "priceRange": "$$",
-    "openingHours": "Mo-Su 00:00-23:59"
-  }
+    areaServed: ["Omaha", "Dundee", "Midtown", "West Omaha", "Elkhorn", "Papillion", "Bellevue"],
+    priceRange: "$$",
+    openingHours: "Mo-Su 00:00-23:59",
+  };
 
   return (
     <>
@@ -178,7 +220,10 @@ export default function FreeAssessmentPage() {
           name="description"
           content="Get a professional tree risk assessment in Omaha at zero cost. Same-day or next-day service available. Expert evaluation of hazardous trees, canopy decline, and storm damage risk. Call or text (402) 812-3294."
         />
-        <meta name="keywords" content="free tree assessment omaha, tree risk evaluation, no charge tree estimate, same day tree quote, arborist consultation omaha" />
+        <meta
+          name="keywords"
+          content="free tree assessment omaha, tree risk evaluation, no charge tree estimate, same day tree quote, arborist consultation omaha"
+        />
         <link rel="canonical" href="https://omahatreecare.com/free-assessment" />
         <script
           type="application/ld+json"
@@ -206,7 +251,8 @@ export default function FreeAssessmentPage() {
 
               {/* Subheadline */}
               <p className="text-xl md:text-2xl text-neutral-200 mb-8 text-center max-w-3xl mx-auto">
-                Expert evaluation of hazardous trees, canopy decline, and storm damage risk. Free quotes within 24 hours. Zero pressure, zero charge.
+                Expert evaluation of hazardous trees, canopy decline, and storm damage risk. Free
+                quotes within 24 hours. Zero pressure, zero charge.
               </p>
 
               {/* CTA Buttons - Above Fold */}
@@ -286,7 +332,8 @@ export default function FreeAssessmentPage() {
                   Target Rating Analysis
                 </h3>
                 <p className="text-neutral-600 dark:text-neutral-400">
-                  We identify what&apos;s at risk if the tree fails: your home, power lines, vehicles, or people. This determines urgency.
+                  We identify what&apos;s at risk if the tree fails: your home, power lines,
+                  vehicles, or people. This determines urgency.
                 </p>
               </Card>
 
@@ -298,7 +345,8 @@ export default function FreeAssessmentPage() {
                   Canopy Decline Assessment
                 </h3>
                 <p className="text-neutral-600 dark:text-neutral-400">
-                  We measure live vs. dead canopy ratio, check for dieback patterns, and estimate how much time you have before action is needed.
+                  We measure live vs. dead canopy ratio, check for dieback patterns, and estimate
+                  how much time you have before action is needed.
                 </p>
               </Card>
 
@@ -310,7 +358,8 @@ export default function FreeAssessmentPage() {
                   Written Recommendations
                 </h3>
                 <p className="text-neutral-600 dark:text-neutral-400">
-                  You get a clear, jargon-free report with photos. Keep it, share it with other companies, use it for insurance claims.
+                  You get a clear, jargon-free report with photos. Keep it, share it with other
+                  companies, use it for insurance claims.
                 </p>
               </Card>
             </div>
@@ -333,13 +382,17 @@ export default function FreeAssessmentPage() {
               <div className="grid md:grid-cols-2 gap-8">
                 <Card className="bg-neutral-100 border-steel-200 p-6">
                   <div className="flex items-start gap-4">
-                    <MapPin className="w-8 h-8 text-steel-700 flex-shrink-0 mt-1" aria-hidden="true" />
+                    <MapPin
+                      className="w-8 h-8 text-steel-700 flex-shrink-0 mt-1"
+                      aria-hidden="true"
+                    />
                     <div>
                       <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-2">
                         Dundee/Midtown
                       </h3>
                       <p className="text-sm text-steel-700 dark:text-steel-300">
-                        Mature oaks with lever arm issues over slate roofs. We know the canopy decline patterns here and how to prune without destroying tree health.
+                        Mature oaks with lever arm issues over slate roofs. We know the canopy
+                        decline patterns here and how to prune without destroying tree health.
                       </p>
                     </div>
                   </div>
@@ -347,13 +400,18 @@ export default function FreeAssessmentPage() {
 
                 <Card className="bg-neutral-100 border-steel-200 p-6">
                   <div className="flex items-start gap-4">
-                    <MapPin className="w-8 h-8 text-steel-700 flex-shrink-0 mt-1" aria-hidden="true" />
+                    <MapPin
+                      className="w-8 h-8 text-steel-700 flex-shrink-0 mt-1"
+                      aria-hidden="true"
+                    />
                     <div>
                       <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-2">
                         West Omaha
                       </h3>
                       <p className="text-sm text-steel-700 dark:text-steel-300">
-                        Emerald Ash Borer (EAB) devastation and volcano mulching damage from landscapers. We&apos;ll tell you if your ash is savable or if it&apos;s time to remove before it falls.
+                        Emerald Ash Borer (EAB) devastation and volcano mulching damage from
+                        landscapers. We&apos;ll tell you if your ash is savable or if it&apos;s time
+                        to remove before it falls.
                       </p>
                     </div>
                   </div>
@@ -362,7 +420,8 @@ export default function FreeAssessmentPage() {
 
               <Alert variant="info" className="mt-8 max-w-3xl mx-auto">
                 <p className="text-sm text-steel-800 dark:text-steel-200">
-                  <strong>Serving:</strong> Dundee, Midtown, Aksarben, West Omaha, Elkhorn, Millard, Papillion, Bellevue, Benson, and all surrounding areas
+                  <strong>Serving:</strong> Dundee, Midtown, Aksarben, West Omaha, Elkhorn, Millard,
+                  Papillion, Bellevue, Benson, and all surrounding areas
                 </p>
               </Alert>
             </div>
@@ -397,9 +456,7 @@ export default function FreeAssessmentPage() {
                       </Button>
                       <div className="text-center text-alert-100 text-sm font-semibold">OR</div>
                       <a href={`tel:${CONTACT.phoneRaw}`} className="block">
-                        <Button
-                          className="w-full bg-neutral-900 hover:bg-neutral-800 text-white text-lg md:text-xl py-5 font-bold shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3"
-                        >
+                        <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white text-lg md:text-xl py-5 font-bold shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3">
                           <Phone className="w-6 h-6" aria-hidden="true" />
                           Call/Text Andrew Anytime
                         </Button>
@@ -472,7 +529,10 @@ export default function FreeAssessmentPage() {
                     What&apos;s the catch? Why is this free?
                   </h3>
                   <p className="text-neutral-600 dark:text-neutral-400">
-                    No catch. We assess your trees for free because we&apos;re confident that if you need work done, you&apos;ll choose us after seeing our professionalism. If you don&apos;t need anything, we&apos;ll tell you that too. We&apos;d rather earn your trust and get a referral later.
+                    No catch. We assess your trees for free because we&apos;re confident that if you
+                    need work done, you&apos;ll choose us after seeing our professionalism. If you
+                    don&apos;t need anything, we&apos;ll tell you that too. We&apos;d rather earn
+                    your trust and get a referral later.
                   </p>
                 </Card>
 
@@ -481,7 +541,9 @@ export default function FreeAssessmentPage() {
                     How long does the assessment take?
                   </h3>
                   <p className="text-neutral-600 dark:text-neutral-400">
-                    Most residential assessments take 30-45 minutes. We&apos;ll walk your property, measure canopy health, photograph concerning areas, and explain everything in plain English. You&apos;ll get a written summary within 24 hours.
+                    Most residential assessments take 30-45 minutes. We&apos;ll walk your property,
+                    measure canopy health, photograph concerning areas, and explain everything in
+                    plain English. You&apos;ll get a written summary within 24 hours.
                   </p>
                 </Card>
 
@@ -490,7 +552,9 @@ export default function FreeAssessmentPage() {
                     Will I be pressured to buy services I don&apos;t need?
                   </h3>
                   <p className="text-neutral-600 dark:text-neutral-400">
-                    Absolutely not. We&apos;ll give you honest recommendations based on target rating and urgency. If you can wait a year, we&apos;ll tell you. If it&apos;s urgent, we&apos;ll explain why. No pressure, no sales tactics.
+                    Absolutely not. We&apos;ll give you honest recommendations based on target
+                    rating and urgency. If you can wait a year, we&apos;ll tell you. If it&apos;s
+                    urgent, we&apos;ll explain why. No pressure, no sales tactics.
                   </p>
                 </Card>
 
@@ -499,7 +563,10 @@ export default function FreeAssessmentPage() {
                     Do you provide pricing during the assessment?
                   </h3>
                   <p className="text-neutral-600 dark:text-neutral-400">
-                    Yes. We&apos;ll give you realistic cost ranges based on the work needed. Tree removal typically runs $500-$8,000+ depending on size, location, and complexity. Trimming/pruning is usually $300-$2,500. We don&apos;t quote fixed prices until we see the tree.
+                    Yes. We&apos;ll give you realistic cost ranges based on the work needed. Tree
+                    removal typically runs $500-$8,000+ depending on size, location, and complexity.
+                    Trimming/pruning is usually $300-$2,500. We don&apos;t quote fixed prices until
+                    we see the tree.
                   </p>
                 </Card>
 
@@ -508,7 +575,16 @@ export default function FreeAssessmentPage() {
                     What if I need emergency service?
                   </h3>
                   <p className="text-neutral-600 dark:text-neutral-400">
-                    Call or text <a href={`tel:${CONTACT.phoneRaw}`} className="text-primary-600 hover:text-primary-700 font-semibold underline">{CONTACT.phone}</a> immediately. We offer 24/7 emergency response for storm damage, fallen trees, and imminent hazards. We can usually arrive within 2-4 hours for true emergencies.
+                    Call or text{" "}
+                    <a
+                      href={`tel:${CONTACT.phoneRaw}`}
+                      className="text-primary-600 hover:text-primary-700 font-semibold underline"
+                    >
+                      {CONTACT.phone}
+                    </a>{" "}
+                    immediately. We offer 24/7 emergency response for storm damage, fallen trees,
+                    and imminent hazards. We can usually arrive within 2-4 hours for true
+                    emergencies.
                   </p>
                 </Card>
               </div>
@@ -524,7 +600,8 @@ export default function FreeAssessmentPage() {
                 Free Quotes Within 24 Hours
               </h2>
               <p className="text-xl text-primary-100 mb-10 max-w-2xl mx-auto">
-                Get expert tree risk assessment with zero cost and zero obligation. Same-day service available.
+                Get expert tree risk assessment with zero cost and zero obligation. Same-day service
+                available.
               </p>
 
               <div className="space-y-4">
@@ -544,9 +621,7 @@ export default function FreeAssessmentPage() {
                       </Button>
                       <div className="text-center text-primary-100 text-sm font-semibold">OR</div>
                       <a href={`tel:${CONTACT.phoneRaw}`} className="block">
-                        <Button
-                          className="w-full bg-primary-800 hover:bg-primary-900 text-white border-2 border-primary-400 text-lg md:text-xl py-5 font-bold shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3"
-                        >
+                        <Button className="w-full bg-primary-800 hover:bg-primary-900 text-white border-2 border-primary-400 text-lg md:text-xl py-5 font-bold shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3">
                           <Phone className="w-6 h-6" aria-hidden="true" />
                           Urgent? Call/Text Andrew
                         </Button>
@@ -562,12 +637,13 @@ export default function FreeAssessmentPage() {
               </div>
 
               <p className="mt-8 text-primary-200 text-sm">
-                Serving Omaha, Dundee, Midtown, West Omaha, Elkhorn, Papillion &amp; Bellevue • Licensed &amp; Insured • ISA Certified
+                Serving Omaha, Dundee, Midtown, West Omaha, Elkhorn, Papillion &amp; Bellevue •
+                Licensed &amp; Insured • ISA Certified
               </p>
             </div>
           </Container>
         </Section>
       </div>
     </>
-  )
+  );
 }
