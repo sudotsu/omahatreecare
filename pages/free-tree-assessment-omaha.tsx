@@ -1,11 +1,5 @@
-<<<<<<< Updated upstream
-import { useState } from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import { Phone, Shield, Clock, CheckCircle, AlertTriangle, Award, Users, FileText, ChevronRight } from 'lucide-react'
-import { CONTACT } from '@/constants'
-import { submitLeadForm, validateFormData, type FormSubmissionData } from '@/lib/emailjs'
-=======
+import { CONTACT } from "@/constants";
+import { submitLeadForm, validateFormData, type FormSubmissionData } from "@/lib/emailjs";
 import {
   AlertTriangle,
   Award,
@@ -19,8 +13,6 @@ import {
 } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
-import { CONTACT } from "../src/constants";
->>>>>>> Stashed changes
 
 /**
  * High-Converting Landing Page: Free Tree Risk Assessment
@@ -31,61 +23,52 @@ import { CONTACT } from "../src/constants";
  */
 
 export default function FreeTreeAssessmentPage() {
-<<<<<<< Updated upstream
-  const [showForm, setShowForm] = useState(false)
-  const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({ name: "", phone: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitMessage(null)
+    e.preventDefault();
+    setSubmitMessage(null);
 
     // Prepare data for EmailJS
     const emailData: FormSubmissionData = {
       from_name: formData.name,
       from_phone: formData.phone,
       from_email: formData.email || undefined,
-      message: formData.message || 'Free tree risk assessment request',
-      form_location: 'Free Tree Assessment Page',
-    }
+      message: formData.message || "Free tree risk assessment request",
+      form_location: "Free Tree Assessment Page",
+    };
 
     // Validate form data
-    const validation = validateFormData(emailData)
+    const validation = validateFormData(emailData);
     if (!validation.isValid) {
-      setSubmitMessage({ type: 'error', text: validation.error! })
-      return
+      setSubmitMessage({ type: "error", text: validation.error! });
+      return;
     }
 
     // Submit to EmailJS
-    setIsSubmitting(true)
-    const result = await submitLeadForm(emailData)
-    setIsSubmitting(false)
+    setIsSubmitting(true);
+    const result = await submitLeadForm(emailData);
+    setIsSubmitting(false);
 
     if (result.success) {
-      setSubmitMessage({ type: 'success', text: result.message })
+      setSubmitMessage({ type: "success", text: result.message });
       // Clear form on success
-      setFormData({ name: '', phone: '', email: '', message: '' })
+      setFormData({ name: "", phone: "", email: "", message: "" });
       // Auto-hide form after 5 seconds
       setTimeout(() => {
-        setShowForm(false)
-        setSubmitMessage(null)
-      }, 5000)
+        setShowForm(false);
+        setSubmitMessage(null);
+      }, 5000);
     } else {
-      setSubmitMessage({ type: 'error', text: result.message })
+      setSubmitMessage({ type: "error", text: result.message });
     }
-  }
-=======
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "", message: "" });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Form submission would integrate with EmailJS or backend
-    console.log("Form submitted:", formData);
-    alert("Thank you! Andrew will call you within 2 hours (or first thing tomorrow if after 7pm).");
   };
->>>>>>> Stashed changes
 
   return (
     <>
@@ -289,9 +272,9 @@ export default function FreeTreeAssessmentPage() {
                 {submitMessage && (
                   <div
                     className={`p-4 rounded-lg ${
-                      submitMessage.type === 'success'
-                        ? 'bg-primary-100 border-2 border-primary-500 text-primary-900'
-                        : 'bg-alert-100 border-2 border-alert-500 text-alert-900'
+                      submitMessage.type === "success"
+                        ? "bg-primary-100 border-2 border-primary-500 text-primary-900"
+                        : "bg-alert-100 border-2 border-alert-500 text-alert-900"
                     }`}
                   >
                     {submitMessage.text}
@@ -303,11 +286,11 @@ export default function FreeTreeAssessmentPage() {
                   disabled={isSubmitting}
                   className={`w-full px-8 py-5 rounded-lg text-xl font-bold transition-all shadow-lg hover:shadow-xl ${
                     isSubmitting
-                      ? 'bg-neutral-400 cursor-not-allowed'
-                      : 'bg-primary-500 hover:bg-primary-600 text-white'
+                      ? "bg-neutral-400 cursor-not-allowed"
+                      : "bg-primary-500 hover:bg-primary-600 text-white"
                   }`}
                 >
-                  {isSubmitting ? 'Sending...' : 'Send My Free Assessment Request'}
+                  {isSubmitting ? "Sending..." : "Send My Free Assessment Request"}
                 </button>
 
                 <p className="text-center text-sm text-neutral-600">
@@ -606,9 +589,5 @@ export default function FreeTreeAssessmentPage() {
         </section>
       </div>
     </>
-<<<<<<< Updated upstream
-  )
-=======
   );
->>>>>>> Stashed changes
 }
