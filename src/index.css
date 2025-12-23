@@ -6,15 +6,24 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    /* THE FIX: Sets background to Warm Grey (Stone-100)
-       This ensures White cards will 'pop' against it. */
-    @apply bg-stone-100 text-slate-900 font-sans antialiased;
+  :root {
+    --bg: #F3E7D3;        /* your tan */
+    --bg-alt: #FFF9F0;    /* lighter card background */
+    --text: #132015;      /* main text */
+    --muted: #536458;     /* secondary text */
+    --primary: #0E3B26;   /* deep green from logo */
+    --accent: #285935;    /* mid green */
   }
 
-  /* Headings use the new Serif font */
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif text-slate-900;
+    @apply font-serif;
+    color: var(--primary);
     line-height: 1.2;
   }
 }
