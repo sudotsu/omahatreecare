@@ -28,35 +28,19 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
  * @param {React.Ref<HTMLInputElement>} ref - Forwarded ref for the underlying input element.
  * @returns {JSX.Element} The rendered input component.
  */
-<<<<<<< Updated upstream
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
-  type = 'text',
-  error = false,
-  className = '',
-  ...props
-}, ref) => {
-  /** Base layout and transition styles */
-  const baseStyles = 'w-full py-3 px-4 text-base leading-normal rounded-md transition-all duration-default ease-smooth focus:outline-none focus:ring-2';
-
-  /** Visual styles based on the presence of an error */
-  const stateStyles = error
-    ? 'border-2 border-alert-500 text-alert-600 focus:ring-alert-500'
-    : 'border border-neutral-200 text-neutral-900 focus:border-primary-500 focus:ring-primary-500';
-
-  /** Consistency styles for placeholder text */
-  const placeholderStyles = 'placeholder:text-neutral-400';
-=======
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ type = "text", error = false, className = "", ...props }, ref) => {
+    /** Base layout and transition styles */
     const baseStyles =
       "w-full py-3 px-4 text-base leading-normal rounded-md transition-all duration-default ease-smooth focus:outline-none focus:ring-2";
 
+    /** Visual styles based on the presence of an error */
     const stateStyles = error
       ? "border-2 border-alert-500 text-alert-600 focus:ring-alert-500"
       : "border border-neutral-200 text-neutral-900 focus:border-primary-500 focus:ring-primary-500";
 
+    /** Consistency styles for placeholder text */
     const placeholderStyles = "placeholder:text-neutral-400";
->>>>>>> Stashed changes
 
     return (
       <input
