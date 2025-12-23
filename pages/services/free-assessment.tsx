@@ -1,12 +1,8 @@
-<<<<<<< Updated upstream
-import { useState } from 'react'
-import Head from 'next/head'
-import { Phone, Shield, CheckCircle, Clock, MapPin, Award, ChevronDown } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Section, Container, Button, Card, Badge, Alert, Input, FormRow, Textarea } from '@/components/primitives'
-import { CONTACT } from '@/constants'
-import { submitLeadForm, validateFormData, type FormSubmissionData } from '@/lib/emailjs'
-=======
+import { AnimatePresence, motion } from "framer-motion";
+import { Award, CheckCircle, Clock, MapPin, Phone, Shield } from "lucide-react";
+import Head from "next/head";
+import { useState } from "react";
+
 import {
   Alert,
   Button,
@@ -18,33 +14,24 @@ import {
   Textarea,
 } from "@/components/primitives";
 import { CONTACT } from "@/constants";
-import { AnimatePresence, motion } from "framer-motion";
-import { Award, CheckCircle, Clock, MapPin, Phone, Shield } from "lucide-react";
-import Head from "next/head";
-import { useState } from "react";
->>>>>>> Stashed changes
+import { submitLeadForm, validateFormData, type FormSubmissionData } from "@/lib/emailjs";
 
 export default function FreeAssessmentPage() {
   const [showFormTop, setShowFormTop] = useState(false);
   const [showFormMid, setShowFormMid] = useState(false);
   const [showFormBottom, setShowFormBottom] = useState(false);
   const [formData, setFormData] = useState({
-<<<<<<< Updated upstream
-    name: '',
-    phone: '',
-    address: '',
-    issue: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
-  const [submittedFrom, setSubmittedFrom] = useState<string | null>(null)
-=======
     name: "",
     phone: "",
     address: "",
     issue: "",
   });
->>>>>>> Stashed changes
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+  const [submittedFrom, setSubmittedFrom] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -53,56 +40,47 @@ export default function FreeAssessmentPage() {
     });
   };
 
-<<<<<<< Updated upstream
   const handleSubmit = async (e: React.FormEvent, location: string) => {
-    e.preventDefault()
-    setSubmitMessage(null)
-    setSubmittedFrom(location)
+    e.preventDefault();
+    setSubmitMessage(null);
+    setSubmittedFrom(location);
 
     // Prepare data for EmailJS
     const emailData: FormSubmissionData = {
       from_name: formData.name,
       from_phone: formData.phone,
       address: formData.address,
-      message: formData.issue || 'Free tree assessment request',
+      message: formData.issue || "Free tree assessment request",
       form_location: `Services Free Assessment Page - ${location}`,
-    }
+    };
 
     // Validate form data
-    const validation = validateFormData(emailData)
+    const validation = validateFormData(emailData);
     if (!validation.isValid) {
-      setSubmitMessage({ type: 'error', text: validation.error! })
-      return
+      setSubmitMessage({ type: "error", text: validation.error! });
+      return;
     }
 
     // Submit to EmailJS
-    setIsSubmitting(true)
-    const result = await submitLeadForm(emailData)
-    setIsSubmitting(false)
+    setIsSubmitting(true);
+    const result = await submitLeadForm(emailData);
+    setIsSubmitting(false);
 
     if (result.success) {
-      setSubmitMessage({ type: 'success', text: result.message })
+      setSubmitMessage({ type: "success", text: result.message });
       // Clear form on success
-      setFormData({ name: '', phone: '', address: '', issue: '' })
+      setFormData({ name: "", phone: "", address: "", issue: "" });
       // Hide form after 5 seconds
       setTimeout(() => {
-        if (location === 'hero') setShowFormTop(false)
-        if (location === 'mid-page') setShowFormMid(false)
-        if (location === 'bottom') setShowFormBottom(false)
-        setSubmitMessage(null)
-      }, 5000)
+        if (location === "hero") setShowFormTop(false);
+        if (location === "mid-page") setShowFormMid(false);
+        if (location === "bottom") setShowFormBottom(false);
+        setSubmitMessage(null);
+      }, 5000);
     } else {
-      setSubmitMessage({ type: 'error', text: result.message })
+      setSubmitMessage({ type: "error", text: result.message });
     }
-  }
-=======
-  const handleSubmit = (e: React.FormEvent, location: string) => {
-    e.preventDefault();
-    console.log(`Form submitted from ${location}:`, formData);
-    // TODO: Integrate with EmailJS or form handler
-    alert("Thank you! We&apos;ll contact you within 24 hours.");
   };
->>>>>>> Stashed changes
 
   const ContactForm = ({
     onSubmit,
@@ -170,9 +148,9 @@ export default function FreeAssessmentPage() {
       {submitMessage && submittedFrom === location && (
         <div
           className={`p-4 rounded-lg text-sm font-medium ${
-            submitMessage.type === 'success'
-              ? 'bg-primary-100 border-2 border-primary-500 text-primary-900'
-              : 'bg-alert-100 border-2 border-alert-500 text-alert-900'
+            submitMessage.type === "success"
+              ? "bg-primary-100 border-2 border-primary-500 text-primary-900"
+              : "bg-alert-100 border-2 border-alert-500 text-alert-900"
           }`}
         >
           {submitMessage.text}
@@ -185,7 +163,7 @@ export default function FreeAssessmentPage() {
         className="w-full text-lg font-bold"
         disabled={isSubmitting}
       >
-        {isSubmitting ? 'Sending...' : 'Send My Free Assessment Request'}
+        {isSubmitting ? "Sending..." : "Send My Free Assessment Request"}
       </Button>
       <p className="text-xs text-neutral-600 text-center">
         We respond within 24 hours. No spam, no pressure, no charge.

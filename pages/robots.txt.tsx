@@ -2,13 +2,8 @@
  * Robots.txt Generation
  */
 
-<<<<<<< Updated upstream
-import { GetServerSideProps } from 'next'
-import { SITE_URL } from '@/constants'
-=======
+import { SITE_URL } from "@/constants";
 import { GetServerSideProps } from "next";
-import { SITE_URL } from "../src/constants";
->>>>>>> Stashed changes
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const robotsTxt = `# https://www.robotstxt.org/robotstxt.html

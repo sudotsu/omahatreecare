@@ -1,16 +1,8 @@
-<<<<<<< Updated upstream
-import { GetStaticPaths, GetStaticProps } from 'next'
-import Head from 'next/head'
-import Link from 'next/link'
-import locationsData from '@/data/locations.json'
-import { CONTACT } from '@/constants'
-=======
+import { CONTACT } from "@/constants";
+import locationsData from "@/data/locations.json";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { CONTACT } from "../../../src/constants";
-import locationsData from "../../../src/data/locations.json";
->>>>>>> Stashed changes
 
 interface CityHubProps {
   city: string;
