@@ -1,7 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
+import React from 'react';
+import Head from 'next/head';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import TreeDiagnostic from '@/tool/TreeDiagnostic';
+import { CONTACT } from '@/constants';
 import TreeDiagnostic from '@/tool/TreeDiagnostic';
 import { CONTACT } from '@/constants';
 
