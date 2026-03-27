@@ -66,3 +66,14 @@ export const BUSINESS_HOURS = {
   schedule: 'Mo-Su 07:00-21:00',
   display:  'Daily 7am - 9pm',
 } as const;
+
+/**
+ * Animated trust stats used in the Hero/stats strip.
+ * ⚠️  Fill in YEARS_IN_BUSINESS and TREES_SERVICED before launch —
+ *     they are not present in the existing source and must come from Andrew.
+ */
+export const STATS = [
+  { end: 1200, suffix: '+', label: 'Omaha homeowners served' },
+  { end: 500,  suffix: '+', label: 'Trees assessed & serviced' },
+  { end: 3,    suffix: '',  label: 'Years serving Omaha'       },
+] as const;
