@@ -26,8 +26,6 @@ const withSerwistConfig = async (
     swSrc: "src/sw.ts",
     swDest: "public/sw.js",
     reloadOnOnline: true,
-    // Disable in dev — Serwist doesn't support Turbopack's HMR
-    disable: process.env.NODE_ENV !== "production",
   })(config);
 };
 

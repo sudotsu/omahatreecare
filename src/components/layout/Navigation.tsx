@@ -57,8 +57,9 @@ export function Navigation() {
             <button
               className="font-medium text-sm transition-colors hover:opacity-70 flex items-center gap-1 h-full"
               style={{ color: COLORS.primary }}
-              aria-haspopup="true"
+              aria-haspopup="menu"
               aria-expanded={isServicesOpen}
+              onClick={() => setIsServicesOpen((v) => !v)}
             >
               Services
               <ChevronDown
@@ -111,6 +112,7 @@ export function Navigation() {
           onClick={toggleMenu}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
           style={{ color: "#3d3027" }}
         >
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -120,6 +122,7 @@ export function Navigation() {
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (
         <div
+          id="mobile-menu"
           className="md:hidden absolute top-full left-0 w-full shadow-lg p-6 flex flex-col space-y-4"
           style={{ backgroundColor: "#f8f6f1" }}
         >

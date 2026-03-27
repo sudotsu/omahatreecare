@@ -9,6 +9,8 @@ interface FloatingLabelInputProps
   error?: string;
   /** Required for <label htmlFor> and input id */
   id: string;
+  /** React 19: ref is a plain prop, no forwardRef needed */
+  ref?: React.Ref<HTMLInputElement>;
 }
 
 /**
@@ -34,7 +36,7 @@ export function FloatingLabelInput({
   className,
   required,
   ...rest
-}: FloatingLabelInputProps & { ref?: React.Ref<HTMLInputElement> }) {
+}: FloatingLabelInputProps) {
   return (
     <div className="relative">
       <input
