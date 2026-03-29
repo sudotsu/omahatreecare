@@ -48,10 +48,21 @@ export const SERVICE_AREAS: ServiceArea[] = [
   { type: 'City',  name: 'Ralston',    latitude: 41.2064, longitude: -96.0447, sameAs: 'https://en.wikipedia.org/wiki/Ralston,_Nebraska' },
 ];
 
+/**
+ * Brand color values for JS consumers (canvas, chart libs, dynamic style
+ * computations like Navigation scroll-state). CSS is the primary source of
+ * truth — these values are mirrored in src/app/globals.css @theme as
+ * --color-forest, --color-gold, etc. and consumed via Tailwind token classes.
+ * Do not use these to set inline hex values in JSX — use the Tailwind tokens.
+ */
 export const COLORS = {
-  primary:     '#52796f',
-  accent:      '#c1666b',
-  background:  '#f8f6f1',
+  forest:      '#11261B',  // --color-forest
+  forestDeep:  '#0d1a0f',  // --color-forest-deep
+  gold:        '#FFB800',  // --color-gold
+  cream:       '#F7F6F2',  // --color-cream
+  stone:       '#EDECEA',  // --color-stone
+  primary:     '#52796f',  // --color-primary (teal, legacy)
+  accent:      '#c1666b',  // --color-accent (terracotta)
   text:        '#3d3027',
   textLight:   '#6b5d54',
   textLighter: '#8b8175',
@@ -73,7 +84,7 @@ export const BUSINESS_HOURS = {
  *     they are not present in the existing source and must come from Andrew.
  */
 export const STATS = [
-  { end: 1200, suffix: '+', label: 'Omaha homeowners served' },
-  { end: 500,  suffix: '+', label: 'Trees assessed & serviced' },
-  { end: 3,    suffix: '',  label: 'Years serving Omaha'       },
+  { end: 1200, suffix: '+', label: 'Omaha Homes Served'  },
+  { end: 500,  suffix: '+', label: 'Trees Assessed'      },
+  { end: 3,    suffix: '',  label: 'Years in Omaha'      },
 ] as const;

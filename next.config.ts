@@ -2,7 +2,10 @@ import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 
 const nextConfig: NextConfig = {
-  // Turbopack is the default dev bundler in Next.js 16 — no flag needed.
+  turbopack: {
+    // Pin workspace root to THIS worktree so Turbopack doesn't scan the parent's node_modules too.
+    root: process.cwd(),
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "omahatreecare.com" },
