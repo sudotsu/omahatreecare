@@ -166,14 +166,14 @@ export default function HomePage() {
             {STATS.map((stat) => (
               <div
                 key={stat.label}
-                className="flex flex-col items-center px-6 text-center"
+                className="flex flex-col-reverse items-center px-6 text-center"
               >
-                <dd className="text-[clamp(2.4rem,4vw,3.5rem)] font-black leading-none tabular-nums text-[#f0ede8]">
-                  <NumberCounter end={stat.end} suffix={stat.suffix} />
-                </dd>
                 <dt className="mt-2 text-xs font-bold uppercase tracking-widest text-gold">
                   {stat.label}
                 </dt>
+                <dd className="text-[clamp(2.4rem,4vw,3.5rem)] font-black leading-none tabular-nums text-[#f0ede8]">
+                  <NumberCounter end={stat.end} suffix={stat.suffix} />
+                </dd>
               </div>
             ))}
           </dl>

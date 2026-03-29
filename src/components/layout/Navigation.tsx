@@ -79,7 +79,14 @@ export function Navigation() {
               style={{ color: linkColor }}
               aria-haspopup="menu"
               aria-expanded={isServicesOpen}
-              onClick={() => setIsServicesOpen((v) => !v)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setIsServicesOpen((v) => !v);
+                } else if (e.key === "Escape") {
+                  setIsServicesOpen(false);
+                }
+              }}
             >
               Services
               <ChevronDown

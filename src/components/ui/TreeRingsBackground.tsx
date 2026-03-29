@@ -88,9 +88,15 @@ export function TreeRingsBackground() {
       setLightFraction(Math.min(1, lightOverlap));
     };
 
-    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("scroll",            update, { passive: true });
+    window.addEventListener("resize",            update, { passive: true });
+    window.addEventListener("orientationchange", update, { passive: true });
     update();
-    return () => window.removeEventListener("scroll", update);
+    return () => {
+      window.removeEventListener("scroll",            update);
+      window.removeEventListener("resize",            update);
+      window.removeEventListener("orientationchange", update);
+    };
   }, []);
 
   return (
