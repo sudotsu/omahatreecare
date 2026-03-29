@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
-import { DM_Serif_Display } from "next/font/google";
 import Link from "next/link";
 import {
   TreeDeciduous,
@@ -17,14 +16,9 @@ import { NumberCounter } from "@/components/ui/NumberCounter";
 import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
 import { HazardAssessmentHeroCard } from "@/components/ui/HazardAssessmentHeroCard";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { dmSerif } from "@/lib/fonts";
 import { STATS } from "@/lib/constants";
 import { serviceIds, servicesData } from "@/data/services";
-
-const dmSerif = DM_Serif_Display({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Omaha Tree Care | Free Tree Health Diagnostic Tools",

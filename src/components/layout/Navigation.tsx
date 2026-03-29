@@ -1,16 +1,10 @@
 "use client";
 
-import { DM_Serif_Display } from "next/font/google";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { dmSerif } from "@/lib/fonts";
 import { CONTACT } from "@/lib/constants";
-
-const dmSerif = DM_Serif_Display({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
 
 const services = [
   { name: "Tree Removal",       slug: "tree-removal" },
@@ -33,13 +27,14 @@ export function Navigation() {
 
   const toggleMenu = () => setIsMenuOpen((v) => !v);
 
-  // Colors shift based on whether we're over the dark hero or a light section
+  // Colors shift based on whether we're over the dark hero or a light section.
+  // navBg uses rgba() transparency composition — kept as literals intentionally.
   const onDark = !scrolled;
-  const navBg       = scrolled ? "rgba(245,242,236,0.97)" : "rgba(10,20,11,0.45)";
-  const brandColor  = onDark ? "#f0ede8" : "#1a2e1c";
-  const subColor    = onDark ? "#FFB800" : "#52796f";
-  const linkColor   = onDark ? "#a8d4c8" : "#52796f";
-  const iconColor   = onDark ? "#f0ede8" : "#1a2e1c";
+  const navBg      = scrolled ? "rgba(245,242,236,0.97)" : "rgba(10,20,11,0.45)";
+  const brandColor = onDark ? "var(--color-cream-warm)" : "var(--color-forest)";
+  const subColor   = onDark ? "var(--color-gold)"       : "var(--color-primary)";
+  const linkColor  = onDark ? "var(--color-link-dark)"  : "var(--color-primary)";
+  const iconColor  = onDark ? "var(--color-cream-warm)" : "var(--color-forest)";
 
   return (
     <nav
