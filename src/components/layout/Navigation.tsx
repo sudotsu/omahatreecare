@@ -122,8 +122,7 @@ export function Navigation() {
 
           <a
             href={`tel:${CONTACT.phoneRaw}`}
-            className="rounded font-bold px-5 py-2.5 text-sm transition-all hover:-translate-y-0.5 hover:bg-white"
-            style={{ backgroundColor: "#FFB800", color: "#11261B" }}
+            className="rounded bg-gold px-5 py-2.5 text-sm font-bold text-forest transition-all hover:-translate-y-0.5 hover:bg-white"
           >
             {CONTACT.phone}
           </a>
@@ -177,9 +176,8 @@ export function Navigation() {
 
           <a
             href={`tel:${CONTACT.phoneRaw}`}
-            className="rounded py-3 text-center font-bold"
+            className="rounded bg-gold py-3 text-center font-bold text-forest"
             onClick={toggleMenu}
-            style={{ backgroundColor: "#FFB800", color: "#11261B" }}
           >
             {CONTACT.phone}
           </a>

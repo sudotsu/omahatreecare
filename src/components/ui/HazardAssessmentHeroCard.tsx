@@ -3,10 +3,10 @@ import { AlertTriangle, ArrowRight } from "lucide-react";
 
 export function HazardAssessmentHeroCard() {
   return (
-    <div className="bg-[#F7F6F2] text-slate-900 p-8 rounded-sm shadow-2xl border-t-8 border-[#FFB800]">
+    <div className="bg-cream text-slate-900 p-8 rounded-sm shadow-2xl border-t-8 border-gold">
       <div className="mb-6">
-        <h3 className="mb-2 flex items-center text-2xl font-bold text-[#11261B]">
-          <AlertTriangle size={24} className="mr-3 shrink-0 text-[#11261B]" />
+        <h3 className="mb-2 flex items-center text-2xl font-bold text-forest">
+          <AlertTriangle size={24} className="mr-3 shrink-0 text-forest" />
           Hazard Assessment Tool
         </h3>
         <p className="text-sm leading-relaxed text-slate-600">
@@ -36,7 +36,7 @@ export function HazardAssessmentHeroCard() {
 
       <Link
         href="/tools/hazard"
-        className="group flex w-full items-center justify-center rounded-sm bg-[#11261B] py-4 font-bold text-[#F7F6F2] transition-colors hover:bg-slate-800"
+        className="group flex w-full items-center justify-center rounded-sm bg-forest py-4 font-bold text-cream transition-colors hover:bg-slate-800"
       >
         <span>Start Hazard Assessment</span>
         <ArrowRight

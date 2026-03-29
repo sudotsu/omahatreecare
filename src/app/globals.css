@@ -5,13 +5,18 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* Brand palette — carried over from constants.js COLORS */
-  --color-primary:        #52796f;  /* Muted teal/green */
+  /* Brand palette */
+  --color-forest:         #11261B;  /* Primary dark green (hero, nav, card CTAs) */
+  --color-forest-deep:    #0d1a0f;  /* Deepest dark (stats bar, contact section) */
+  --color-gold:           #FFB800;  /* Accent gold (buttons, hover states, labels) */
+  --color-cream:          #F7F6F2;  /* Page background / hero card background */
+  --color-stone:          #EDECEA;  /* Services section background */
+  --color-primary:        #52796f;  /* Muted teal (legacy, kept for shadcn compat) */
   --color-primary-dark:   #3d5a54;
   --color-primary-light:  #84a98c;
   --color-accent:         #c1666b;  /* Terracotta/red for urgency */
-  --color-background:     #f8f6f1;  /* Warm cream */
-  --color-text:           #3d3027;  /* Dark brown */
+  --color-background:     #F7F6F2;
+  --color-text:           #3d3027;
   --color-text-light:     #6b5d54;
   --color-text-lighter:   #8b8175;
 

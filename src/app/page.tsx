@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { LucideIcon } from "lucide-react";
 import { DM_Serif_Display } from "next/font/google";
 import Link from "next/link";
 import {
@@ -48,7 +49,16 @@ export const metadata: Metadata = {
   },
 };
 
-const TOOLS = [
+interface Tool {
+  id: string;
+  label: string;
+  badge: string | null;
+  desc: string;
+  cta: string;
+  Icon: LucideIcon;
+}
+
+const TOOLS: Tool[] = [
   {
     id: "species",
     label: "Species Identifier",
@@ -89,7 +99,7 @@ const TOOLS = [
     cta: "See Estimates",
     Icon: DollarSign,
   },
-] as const;
+];
 
 export default function HomePage() {
   return (
@@ -100,24 +110,23 @@ export default function HomePage() {
       {/* ─── HERO — deep forest ─────────────────────────────────────────── */}
       <section
         id="section-hero"
-        className="relative overflow-hidden pb-16 pt-20 md:pb-24 md:pt-28"
-        style={{ background: "#11261B" }}
+        className="relative overflow-hidden bg-forest pb-16 pt-20 md:pb-24 md:pt-28"
       >
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-12">
             {/* Left: copy */}
             <div className="lg:col-span-6 flex flex-col items-start">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-sm font-bold text-white">
-                <Activity size={14} className="text-[#FFB800]" />
+                <Activity size={14} className="text-gold" />
                 Free Diagnostic Suite
               </div>
 
               <h1
-                className={`${dmSerif.className} text-[clamp(2.8rem,5.5vw,4.8rem)] leading-[1.05] tracking-tight text-[#F7F6F2]`}
+                className={`${dmSerif.className} text-[clamp(2.8rem,5.5vw,4.8rem)] leading-[1.05] tracking-tight text-cream`}
               >
                 Stop Guessing.{" "}
                 <br className="hidden sm:block" />
-                <span className="text-[#FFB800]">Know Your Risk.</span>
+                <span className="text-gold">Know Your Risk.</span>
               </h1>
 
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/70">
@@ -132,7 +141,7 @@ export default function HomePage() {
                     key={item}
                     className="flex items-center gap-2 text-sm font-medium text-white/80"
                   >
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-[#FFB800]" />
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-gold" />
                     {item}
                   </li>
                 ))}
@@ -150,8 +159,7 @@ export default function HomePage() {
       {/* ─── STATS — continue dark ──────────────────────────────────────── */}
       <section
         id="section-stats"
-        className="border-t border-white/5 py-16"
-        style={{ background: "#0d1a0f" }}
+        className="border-t border-white/5 bg-forest-deep py-16"
       >
         <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <dl className="grid grid-cols-3 divide-x divide-white/10">
@@ -163,7 +171,7 @@ export default function HomePage() {
                 <dd className="text-[clamp(2.4rem,4vw,3.5rem)] font-black leading-none tabular-nums text-[#f0ede8]">
                   <NumberCounter end={stat.end} suffix={stat.suffix} />
                 </dd>
-                <dt className="mt-2 text-xs font-bold uppercase tracking-widest text-[#FFB800]">
+                <dt className="mt-2 text-xs font-bold uppercase tracking-widest text-gold">
                   {stat.label}
                 </dt>
               </div>
@@ -173,7 +181,7 @@ export default function HomePage() {
       </section>
 
       {/* ─── TOOLS HUB ───────────────────────────────────────────────────── */}
-      <section id="section-tools" className="py-20" style={{ background: "#F7F6F2" }}>
+      <section id="section-tools" className="bg-cream py-20">
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-12 flex items-end justify-between border-b border-slate-200 pb-6">
             <div>
@@ -181,7 +189,7 @@ export default function HomePage() {
                 Diagnostic Library
               </span>
               <h2
-                className={`${dmSerif.className} text-[clamp(2rem,3.5vw,3rem)] text-[#11261B]`}
+                className={`${dmSerif.className} text-[clamp(2rem,3.5vw,3rem)] text-forest`}
               >
                 More Free Resources
               </h2>
@@ -193,10 +201,10 @@ export default function HomePage() {
               <Link
                 key={id}
                 href={`/tools/${id}`}
-                className="group flex h-full flex-col rounded-sm border border-slate-200 bg-white p-8 transition-colors hover:border-[#FFB800]"
+                className="group flex h-full flex-col rounded-sm border border-slate-200 bg-white p-8 transition-colors hover:border-gold"
               >
                 <div className="mb-6 flex items-start justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-slate-100 transition-colors group-hover:bg-[#FFB800] group-hover:text-[#11261B]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-slate-100 transition-colors group-hover:bg-gold group-hover:text-forest">
                     <Icon className="h-6 w-6" />
                   </div>
                   {badge && (
@@ -205,11 +213,11 @@ export default function HomePage() {
                     </span>
                   )}
                 </div>
-                <h3 className="mb-3 text-xl font-bold text-[#11261B]">{label}</h3>
+                <h3 className="mb-3 text-xl font-bold text-forest">{label}</h3>
                 <p className="mb-8 flex-1 text-sm leading-relaxed text-slate-600">
                   {desc}
                 </p>
-                <div className="flex items-center text-sm font-bold uppercase tracking-wider text-[#11261B]">
+                <div className="flex items-center text-sm font-bold uppercase tracking-wider text-forest">
                   <span>{cta}</span>
                   <ArrowRight
                     size={16}
@@ -223,7 +231,7 @@ export default function HomePage() {
       </section>
 
       {/* ─── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="section-services" className="py-20" style={{ background: "#EDECEA" }}>
+      <section id="section-services" className="bg-stone py-20">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#3d6b5e]">
@@ -246,15 +254,15 @@ export default function HomePage() {
                 <Link
                   key={id}
                   href={`/services/${id}`}
-                  className="group flex flex-col rounded-sm border border-slate-200 bg-white p-6 transition-colors hover:border-[#FFB800]"
+                  className="group flex flex-col rounded-sm border border-slate-200 bg-white p-6 transition-colors hover:border-gold"
                 >
-                  <h3 className="text-base font-bold text-[#11261B]">
+                  <h3 className="text-base font-bold text-forest">
                     {svc.title}
                   </h3>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
                     {svc.hero_sub}
                   </p>
-                  <div className="mt-4 flex items-center text-sm font-bold uppercase tracking-wider text-[#11261B]">
+                  <div className="mt-4 flex items-center text-sm font-bold uppercase tracking-wider text-forest">
                     <span>Learn More</span>
                     <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
                   </div>
@@ -266,10 +274,10 @@ export default function HomePage() {
       </section>
 
       {/* ─── CONTACT — back to dark forest ──────────────────────────────── */}
-      <section id="section-contact" className="py-20" style={{ background: "#0d1a0f" }}>
+      <section id="section-contact" className="bg-forest-deep py-20">
         <div className="relative z-10 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <div className="mb-10 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#FFB800]">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gold">
               Get in Touch
             </p>
             <h2
