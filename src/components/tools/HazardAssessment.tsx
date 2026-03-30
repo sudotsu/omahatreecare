@@ -97,7 +97,11 @@ export function HazardAssessment() {
       window.location.href = `sms:?body=${encodeURIComponent(message)}`
     } else {
       navigator.clipboard.writeText(message)
-      alert('Results copied to clipboard!')
+        .then(() => alert('Results copied to clipboard!'))
+        .catch((err) => {
+          console.error('Clipboard write failed:', err)
+          alert('Could not copy to clipboard. Please copy manually.')
+        })
     }
     setShareMenuOpen(false)
   }

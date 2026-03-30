@@ -1,3 +1,7 @@
-interface Window {
-  gtag?: (...args: unknown[]) => void
+export {}
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void
+  }
 }

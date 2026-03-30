@@ -312,11 +312,11 @@ export function CommonAilments() {
       {/* Ailment List */}
       {!selectedAilment && (
         <div className="space-y-3">
-          {filteredAilments.map((ailment, index) => {
+          {filteredAilments.map((ailment) => {
             const TypeIcon = getTypeIcon(ailment.type)
             return (
               <button
-                key={index}
+                key={ailment.name}
                 onClick={() => setSelectedAilment(ailment)}
                 className="w-full bg-white rounded-xl shadow-md hover:shadow-xl transition-all p-5 text-left group"
               >

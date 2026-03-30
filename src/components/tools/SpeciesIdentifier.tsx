@@ -1,7 +1,7 @@
 'use client'
 
 import { AlertCircle, Camera, CheckCircle, Info, Search, Upload, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CONTACT } from '@/lib/constants'
 
 interface Tree {
@@ -166,18 +166,29 @@ const getRiskIcon = (level: Tree['riskLevel']) => {
 export function SpeciesIdentifier() {
   const [searchTerm, setSearchTerm]           = useState('')
   const [selectedTree, setSelectedTree]       = useState<Tree | null>(null)
-  const [uploadedPhotos, setUploadedPhotos]   = useState<File[]>([])
+  const [uploadedPhotos, setUploadedPhotos]   = useState<{ file: File; url: string }[]>([])
   const [allowCommunityUse, setAllowCommunityUse] = useState(true)
   const [photoSubmitted, setPhotoSubmitted]   = useState(false)
+
+  useEffect(() => {
+    return () => {
+      uploadedPhotos.forEach(p => URL.revokeObjectURL(p.url))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? [])
     const valid = files.filter(f => f.type.startsWith('image/') && f.size <= 5 * 1024 * 1024)
-    setUploadedPhotos(prev => [...prev, ...valid].slice(0, 3))
+    const entries = valid.map(file => ({ file, url: URL.createObjectURL(file) }))
+    setUploadedPhotos(prev => [...prev, ...entries].slice(0, 3))
   }
 
   const removePhoto = (index: number) => {
-    setUploadedPhotos(prev => prev.filter((_, i) => i !== index))
+    setUploadedPhotos(prev => {
+      URL.revokeObjectURL(prev[index].url)
+      return prev.filter((_, i) => i !== index)
+    })
   }
 
   const submitCommunityPhoto = () => {
@@ -191,6 +202,7 @@ export function SpeciesIdentifier() {
     )
     window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`
     setPhotoSubmitted(true)
+    uploadedPhotos.forEach(p => URL.revokeObjectURL(p.url))
     setUploadedPhotos([])
   }
 
@@ -236,9 +248,9 @@ export function SpeciesIdentifier() {
           <div className="mb-4">
             <div className="grid grid-cols-3 gap-2 mb-3">
               {uploadedPhotos.map((photo, index) => (
-                <div key={index} className="relative group">
+                <div key={photo.url} className="relative group">
                   <img
-                    src={URL.createObjectURL(photo)}
+                    src={photo.url}
                     alt={`Tree photo ${index + 1}`}
                     className="w-full h-24 object-cover rounded-lg"
                   />
@@ -309,12 +321,12 @@ export function SpeciesIdentifier() {
       {/* Tree list */}
       {!selectedTree && (
         <div className="space-y-3">
-          {filteredTrees.map((tree, index) => {
+          {filteredTrees.map((tree) => {
             const RiskIcon = getRiskIcon(tree.riskLevel)
             const riskInfo = getRiskLabel(tree.riskLevel)
             return (
               <button
-                key={index}
+                key={tree.name}
                 onClick={() => setSelectedTree(tree)}
                 className="w-full bg-white rounded-xl shadow-md hover:shadow-xl transition-all p-5 text-left group"
               >

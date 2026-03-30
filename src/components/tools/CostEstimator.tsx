@@ -266,7 +266,7 @@ export function CostEstimator() {
                   <div className="text-sm font-normal text-green-100 mt-1">Often same-day quotes available</div>
                 </a>
                 <a
-                  href={`mailto:${CONTACT.email}?subject=Free%20Quote%20Request%20for%20${encodeURIComponent(selectedService.name)}&body=I'd%20like%20a%20quote%20for:%20${encodeURIComponent(selectedService.name)}%0A%0AMy%20address:%20%0AMy%20phone:%20%0ABest%20time%20to%20reach%20me:%20`}
+                  href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(`Free Quote Request for ${selectedService.name}`)}&body=${encodeURIComponent(`I'd like a quote for: ${selectedService.name}\n\nMy address: \nMy phone: \nBest time to reach me: `)}`}
                   className="block w-full px-6 py-4 bg-amber-700 text-white rounded-xl font-bold hover:bg-amber-800 transition-colors text-center"
                 >
                   Email for Free Written Quote

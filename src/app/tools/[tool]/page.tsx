@@ -15,6 +15,10 @@ const TOOL_MAP = {
 
 type ToolSlug = keyof typeof TOOL_MAP
 
+function isToolSlug(value: string): value is ToolSlug {
+  return value in TOOL_MAP
+}
+
 export function generateStaticParams() {
   return Object.keys(TOOL_MAP).map((tool) => ({ tool }))
 }
@@ -25,7 +29,7 @@ export default async function ToolPage({
   params: Promise<{ tool: string }>
 }) {
   const { tool } = await params
-  const Tool = TOOL_MAP[tool as ToolSlug]
-  if (!Tool) notFound()
+  if (!isToolSlug(tool)) notFound()
+  const Tool = TOOL_MAP[tool]
   return <Tool />
 }

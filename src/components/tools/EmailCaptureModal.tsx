@@ -2,11 +2,13 @@
 
 import emailjs from '@emailjs/browser'
 import { CheckCircle, Mail, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? ''
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? ''
 const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? ''
+
+const EMAILJS_CONFIGURED = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY)
 
 interface Props {
   isOpen: boolean
@@ -14,14 +16,22 @@ interface Props {
 }
 
 export default function EmailCaptureModal({ isOpen, onClose }: Props) {
-  const [email, setEmail]           = useState('')
+  const [email, setEmail]             = useState('')
   const [isSubmitting, setSubmitting] = useState(false)
-  const [isSuccess, setSuccess]     = useState(false)
+  const [isSuccess, setSuccess]       = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [])
 
   if (!isOpen) return null
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!EMAILJS_CONFIGURED) return
     setSubmitting(true)
 
     if (typeof window !== 'undefined' && window.gtag) {
@@ -51,7 +61,8 @@ export default function EmailCaptureModal({ isOpen, onClose }: Props) {
         window.gtag('event', 'generate_lead', { currency: 'USD', value: 1.0 })
       }
 
-      setTimeout(() => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => {
         onClose()
         setSuccess(false)
         setEmail('')
@@ -88,37 +99,46 @@ export default function EmailCaptureModal({ isOpen, onClose }: Props) {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
-                  />
-                </div>
+            {!EMAILJS_CONFIGURED ? (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-center text-sm text-amber-800">
+                Email sign-up is not available right now. To stay in touch, email us directly at{' '}
+                <a href="mailto:andrew@omahatreecare.com" className="font-semibold underline">
+                  andrew@omahatreecare.com
+                </a>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      required
+                      className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                    />
+                  </div>
+                </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3 px-6 rounded-lg transition"
-              >
-                {isSubmitting ? 'Subscribing...' : 'Get Tree Care Tips'}
-              </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3 px-6 rounded-lg transition"
+                >
+                  {isSubmitting ? 'Subscribing...' : 'Get Tree Care Tips'}
+                </button>
 
-              <p className="text-xs text-slate-500 text-center">
-                Free seasonal tips · No spam · Unsubscribe anytime
-              </p>
-            </form>
+                <p className="text-xs text-slate-500 text-center">
+                  Free seasonal tips · No spam · Unsubscribe anytime
+                </p>
+              </form>
+            )}
 
             <div className="mt-6 pt-6 border-t border-slate-200">
               <p className="text-sm font-semibold text-slate-700 mb-3">You&apos;ll receive:</p>
