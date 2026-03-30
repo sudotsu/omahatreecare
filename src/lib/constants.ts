@@ -84,7 +84,7 @@ export const BUSINESS_HOURS = {
  *     they are not present in the existing source and must come from Andrew.
  */
 export const STATS = [
-  { end: 1200, suffix: '+', label: 'Omaha Homes Served'  },
-  { end: 500,  suffix: '+', label: 'Trees Assessed'      },
-  { end: 3,    suffix: '',  label: 'Years in Omaha'      },
+  { end: 500,  suffix: '+', label: 'Trees Serviced'       },
+  { end: 3,    suffix: '+', label: 'Years in Omaha'       },
+  { end: 150,  suffix: '+', label: 'Risk Assessments Run' },
 ] as const;
