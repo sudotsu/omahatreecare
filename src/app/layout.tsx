@@ -20,18 +20,18 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(CONTACT.siteUrl),
   title: {
-    default: "Omaha Tree Care | Free Tree Diagnostic Tools",
-    template: "%s | Omaha Tree Care",
+    default: "Midwest Roots Tree Services | Omaha's Certified Arborist",
+    template: "%s | Midwest Roots Tree Services",
   },
   description:
-    "Free tree health diagnostic tools and expert care resources for Omaha homeowners. Hazard assessment, species ID, cost estimator, and more.",
+    "Midwest Roots Tree Services — certified arborist serving Omaha, Millard, Elkhorn, Papillion, Bellevue, and surrounding areas. Free tree assessments, expert removal, pruning, and health diagnostics.",
   keywords: [
-    "tree care omaha",
+    "tree service omaha",
     "tree removal omaha",
-    "tree trimming omaha",
-    "tree health assessment",
+    "certified arborist omaha",
+    "midwest roots tree services",
     "emerald ash borer omaha",
-    "winter tree prep omaha",
+    "tree trimming omaha",
   ],
   authors: [{ name: CONTACT.businessName }],
   creator: CONTACT.businessName,
@@ -41,24 +41,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: CONTACT.siteUrl,
-    siteName: "Omaha Tree Care",
-    title: "Omaha Tree Care | Free Tree Diagnostic Tools",
+    siteName: CONTACT.businessName,
+    title: "Midwest Roots Tree Services | Omaha's Certified Arborist",
     description:
-      "Free tree health diagnostic tools and expert care resources for Omaha homeowners.",
+      "Expert tree care for Omaha homeowners. Free diagnostic tools, hazard assessments, and professional service from a certified arborist.",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Omaha Tree Care — Free Diagnostic Tools",
+        alt: "Midwest Roots Tree Services — Omaha Tree Care",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Omaha Tree Care | Free Tree Diagnostic Tools",
+    title: "Midwest Roots Tree Services | Omaha's Certified Arborist",
     description:
-      "Free tree health diagnostic tools and expert care resources for Omaha homeowners.",
+      "Expert tree care for Omaha homeowners. Free assessments, professional removal, pruning, and diagnostics.",
     images: ["/images/og-image.jpg"],
     site: "@omahatree",
   },
