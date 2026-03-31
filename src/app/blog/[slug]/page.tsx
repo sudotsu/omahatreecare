@@ -30,14 +30,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year:  'numeric',
+  const [year, month, day] = iso.split('-').map(Number)
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
     month: 'long',
-    day:   'numeric',
-  })
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, month - 1, day)))
 }
 
-/** Render markdown-ish content: ## headings, **bold**, paragraphs */
+/** Render markdown-ish content: ## headings, **bold**, paragraphs, lists */
 function renderContent(content: string) {
   const paragraphs = content.trim().split(/\n\n+/)
   return paragraphs.map((block, i) => {
@@ -49,6 +51,32 @@ function renderContent(content: string) {
         <h2 key={i} className="text-2xl font-bold text-amber-900 mt-10 mb-4">
           {trimmed.slice(3)}
         </h2>
+      )
+    }
+
+    const lines = trimmed.split('\n')
+    const isOrderedList = lines.every(line => /^\d+\.\s+/.test(line))
+    const isUnorderedList = lines.every(line => line.startsWith('- '))
+
+    if (isOrderedList || isUnorderedList) {
+      const Tag = isOrderedList ? 'ol' : 'ul'
+      return (
+        <Tag key={i} className={`list-${isOrderedList ? 'decimal' : 'disc'} pl-6 mb-4 space-y-2 text-amber-800`}>
+          {lines.map((line, j) => {
+            const itemContent = isOrderedList ? line.replace(/^\d+\.\s+/, '') : line.slice(2)
+            const parts = itemContent.split(/(\*\*[^*]+\*\*)/)
+            return (
+              <li key={j} className="leading-relaxed">
+                {parts.map((part, k) => {
+                  if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={k} className="font-semibold text-amber-900">{part.slice(2, -2)}</strong>
+                  }
+                  return part
+                })}
+              </li>
+            )
+          })}
+        </Tag>
       )
     }
 

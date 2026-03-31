@@ -32,9 +32,13 @@ function toTitleCase(slug: string) {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { city, neighborhood } = await params
+  const isValid = allNeighborhoods.some(n => n.city === city && n.neighborhood === neighborhood)
+  if (!isValid) return {}
+
   const cityName = cityDisplay[city]
-  if (!cityName) return {}
-  const nd = neighborhoodData[neighborhood] ?? fallbackNeighborhoodData
+  const nd = neighborhoodData[neighborhood]
+  if (!nd) return {}
+
   const neighborhoodName = toTitleCase(neighborhood)
   return {
     title: `Tree Service in ${neighborhoodName}, ${cityName} NE | Midwest Roots`,
@@ -50,10 +54,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function NeighborhoodPage({ params }: PageProps) {
   const { city, neighborhood } = await params
-  const cityName = cityDisplay[city]
-  if (!cityName) notFound()
+  const isValid = allNeighborhoods.some(n => n.city === city && n.neighborhood === neighborhood)
+  if (!isValid) notFound()
 
-  const nd = neighborhoodData[neighborhood] ?? fallbackNeighborhoodData
+  const cityName = cityDisplay[city]
+  const nd = neighborhoodData[neighborhood]
+  if (!nd) notFound()
+
   const neighborhoodName = toTitleCase(neighborhood)
 
   return (

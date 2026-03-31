@@ -22,11 +22,13 @@ const categoryColors: Record<string, string> = {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year:  'numeric',
+  const [year, month, day] = iso.split('-').map(Number)
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
     month: 'long',
-    day:   'numeric',
-  })
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, month - 1, day)))
 }
 
 export default function BlogIndexPage() {

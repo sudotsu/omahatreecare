@@ -71,7 +71,7 @@ export default function AccessibilityPage() {
                 Call {CONTACT.phone}
               </a>
               <a
-                href={`mailto:${CONTACT.email}?subject=Accessibility Issue`}
+                href={`mailto:${CONTACT.email}?subject=${encodeURIComponent('Accessibility Issue')}`}
                 className="inline-flex items-center justify-center px-6 py-3 bg-white border-2 border-amber-300 text-amber-900 rounded-xl font-semibold hover:border-amber-500 transition-colors text-center"
               >
                 Email {CONTACT.email}

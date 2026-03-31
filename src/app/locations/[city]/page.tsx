@@ -25,46 +25,62 @@ const cityDisplay: Record<string, string> = {
   bennington: 'Bennington',
 }
 
-const cityOrdinances: Record<string, { title: string; text: string; contact: string }> = {
+const cityOrdinances: Record<string, { title: string; text: string; contact: string; source: string; reviewedAt: string }> = {
   omaha: {
     title: 'Omaha Tree Permit Rules',
     text: 'Street trees (between sidewalk and curb) are city property — homeowners can prune but cannot remove without City Forester approval. Private property trees have no permit requirement for removal. Historic districts like Dundee and Midtown may have additional HOA covenants.',
     contact: 'Omaha Public Works: (402) 444-5220',
+    source: 'https://publicworks.cityofomaha.org/forestry',
+    reviewedAt: '2026-03-31',
   },
   millard: {
     title: 'Millard Tree Permit Rules',
-    text: 'Millard is now part of Omaha — the same Omaha ordinances apply. Street trees require City Forester approval for removal; private property trees have no permit requirement.',
+    text: 'Millard is part of Omaha — the same Omaha ordinances apply. Street trees require City Forester approval for removal; private property trees have no permit requirement.',
     contact: 'Omaha Public Works: (402) 444-5220',
+    source: 'https://publicworks.cityofomaha.org/forestry',
+    reviewedAt: '2026-03-31',
   },
   elkhorn: {
     title: 'Elkhorn Tree Permit Rules',
-    text: 'Elkhorn is now part of Omaha — the same Omaha ordinances apply. Street trees require City Forester approval for removal; private property trees have no permit requirement.',
+    text: 'Elkhorn is part of Omaha — the same Omaha ordinances apply. Street trees require City Forester approval for removal; private property trees have no permit requirement.',
     contact: 'Omaha Public Works: (402) 444-5220',
+    source: 'https://publicworks.cityofomaha.org/forestry',
+    reviewedAt: '2026-03-31',
   },
   ralston: {
     title: 'Ralston Tree Permit Rules',
-    text: 'Ralston is now part of Omaha — the same Omaha ordinances apply. Street trees between the sidewalk and curb require City Forester approval; private property trees have no permit requirement.',
-    contact: 'Omaha Public Works: (402) 444-5220',
+    text: 'Ralston is an independent municipality with its own municipal code. Street trees require City approval for work. Private property trees generally do not require a permit for removal, but consultation with the City is recommended for large canopy trees.',
+    contact: 'Ralston City Hall: (402) 331-6674',
+    source: 'https://www.cityofralston.com/municipal-code',
+    reviewedAt: '2026-03-31',
   },
   gretna: {
     title: 'Gretna Tree Permit Rules',
     text: 'No permit is required to remove trees on private property in Gretna. Street tree work adjacent to city right-of-way requires city approval before any work begins.',
     contact: 'Gretna City Hall: (402) 332-4565',
+    source: 'https://www.gretnane.org/168/Public-Works',
+    reviewedAt: '2026-03-31',
   },
   papillion: {
     title: 'Papillion Tree Permit Rules',
     text: 'Papillion is a Tree City USA — street tree removal requires a permit from Public Works. Private property trees have no permit requirement for removal. Papillion takes street tree preservation seriously.',
     contact: 'Papillion Public Works: (402) 537-6900',
+    source: 'https://www.papillion.org/218/Public-Works',
+    reviewedAt: '2026-03-31',
   },
   bellevue: {
     title: 'Bellevue Tree Permit Rules',
     text: 'No permit is required for removing trees on private property in Bellevue. Trees in the easement area between the sidewalk and curb require city approval before removal.',
     contact: 'Bellevue City Hall: (402) 293-3000',
+    source: 'https://www.bellevue.net/departments/public-works',
+    reviewedAt: '2026-03-31',
   },
   bennington: {
     title: 'Bennington Tree Permit Rules',
-    text: 'Bennington follows Douglas County and City of Omaha guidelines as an annexed area. No local permit is required for private property tree removal.',
-    contact: 'Omaha Public Works: (402) 444-5220',
+    text: 'Bennington is an independent city with its own municipal standards. No local permit is required for private property tree removal, but trees in public right-of-ways are managed by the City.',
+    contact: 'Bennington City Hall: (402) 238-2375',
+    source: 'https://cityofbennington.com/ordinances/',
+    reviewedAt: '2026-03-31',
   },
 }
 
@@ -101,7 +117,7 @@ export default async function CityPage({ params }: PageProps) {
           <nav className="text-green-300 text-sm mb-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span className="mx-2">/</span>
-            <Link href="/locations/omaha" className="hover:text-white transition-colors">Locations</Link>
+            <span className="hover:text-green-300">Locations</span>
             <span className="mx-2">/</span>
             <span className="text-white">{display}</span>
           </nav>

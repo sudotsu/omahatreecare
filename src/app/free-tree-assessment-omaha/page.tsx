@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 }
 
 interface PageProps {
-  searchParams: Promise<{ zip?: string; service?: string }>
+  searchParams: Promise<{ zip?: string | string[]; service?: string | string[] }>
+}
+
+function getFirstParam(value: string | string[] | undefined): string | undefined {
+  return typeof value === 'string' ? value : Array.isArray(value) ? value[0] : undefined
 }
 
 export default async function FreeAssessmentPage({ searchParams }: PageProps) {
   const params = await searchParams
-  const zip = params.zip
-  const service = params.service
+  const zip = getFirstParam(params.zip)
+  const service = getFirstParam(params.service)
 
   const serviceLabel = service
     ? service

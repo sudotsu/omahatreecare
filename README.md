@@ -21,7 +21,7 @@ npm run lint
 
 ## Project structure
 
-```
+```text
 src/
 ├── app/
 │   ├── page.tsx                  # Homepage
@@ -55,7 +55,7 @@ src/
 
 Required in Vercel project settings (and `.env.local` for local dev):
 
-```
+```dotenv
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
@@ -69,12 +69,4 @@ The following routes are linked from the nav, footer, or tool CTAs but have no p
 
 | Route | Linked from |
 |-------|-------------|
-| `/tools` (index) | Nav ("Tools" link) |
-| `/contact` | HazardAssessment high/moderate risk CTAs |
-| `/free-tree-assessment-omaha` | FastQuoteWidget form submit |
-| `/services/tree-removal` | Nav, Footer, Homepage service cards |
-| `/services/tree-trimming` | Nav, Footer, Homepage service cards |
-| `/services/tree-health-assessment` | Nav, Footer, Homepage service cards |
 | `/services/winter-tree-prep` | Nav, Footer, Homepage service cards |
-| `/locations/[city]` | Footer (9 cities) |
-| `/accessibility` | Footer |
