@@ -4,6 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
 import { CONTACT } from "@/lib/constants";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -81,6 +82,7 @@ export default function RootLayout({
         <Navigation />
         <main className="flex-1">{children}</main>
         <Footer />
+        <SpeedInsights />
       </body>
     </html>
   );
