@@ -19,7 +19,7 @@ export default function ContactPage() {
   return (
     <div className="bg-[#f8f6f1] min-h-screen">
       {/* Header */}
-      <section className="bg-[#11261B] text-white py-16 px-6">
+      <section className="bg-[#11261B] text-white pt-24 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-4">No Pressure, Ever</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Get a Free Assessment</h1>
