@@ -13,7 +13,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { NumberCounter } from "@/components/ui/NumberCounter";
-import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
 import { HazardAssessmentHeroCard } from "@/components/ui/HazardAssessmentHeroCard";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { dmSerif } from "@/lib/fonts";
@@ -120,35 +119,32 @@ export default function HomePage() {
           background: "linear-gradient(155deg, #0d1a0f 0%, #11261B 55%, #1c3826 100%)",
         }}
       >
-        <TreeRingsBackground />
-
         {/* ── Hero copy ─────────────────────────────────────────────────── */}
-        <div className="relative z-10 mx-auto max-w-7xl px-5 pt-14 pb-8 sm:px-8 lg:pt-24 lg:pb-20">
+        <div className="relative z-10 mx-auto max-w-7xl px-5 pt-20 pb-8 sm:px-8 lg:pt-28 lg:pb-20">
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
 
             {/* Left: copy */}
             <div className="lg:col-span-6 flex flex-col items-start">
-              {/* Trust pill */}
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                Free · No Account · Omaha-Built
-              </div>
-
               <h1
                 className={`${dmSerif.className} text-[clamp(2.6rem,5.5vw,4.6rem)] leading-[1.08] tracking-tight text-[#f0ede8]`}
               >
-                Is Your Tree{" "}
+                Stop Guessing.{" "}
                 <br className="hidden sm:block" />
-                <span className="text-[#FFB800]">a Safety Risk?</span>
+                <span className="text-[#FFB800]">Know Your Risk.</span>
               </h1>
 
+              {/* Local trust pill — below H1 so headline hits first */}
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-white/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                Locally Owned · Serving Omaha &amp; the Metro
+              </div>
+
               <p className="mt-4 max-w-md text-base leading-relaxed text-white/65 lg:text-lg">
-                Five free arborist tools built for Omaha homeowners. Know your
-                risk, identify your tree, get real cost estimates — in minutes.
+                Identify tree species, assess storm hazards, and know what&apos;s safe to DIY. 100% free.
               </p>
 
-              {/* CTAs */}
-              <div className="mt-7 flex flex-wrap items-center gap-3">
+              {/* CTAs — equal weight: phone for "need it now", assessment for "not sure yet" */}
+              <div className="mt-7 flex flex-wrap gap-3">
                 <a
                   href={`tel:${CONTACT.phoneRaw}`}
                   className="inline-flex items-center gap-2.5 rounded-sm bg-[#FFB800] px-6 py-3.5 text-sm font-bold text-[#0d1a0f] transition-colors hover:bg-amber-300"
@@ -158,9 +154,9 @@ export default function HomePage() {
                 </a>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/70 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2.5 rounded-sm border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/20"
                 >
-                  Free Assessment <ChevronRight size={15} />
+                  Free Quote
                 </Link>
               </div>
 
@@ -189,8 +185,11 @@ export default function HomePage() {
         ─────────────────────────────────────────────────────────────────── */}
         <div className="relative z-10 lg:hidden">
           <div className="px-5 pb-1">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#FFB800]/70">
-              Diagnostic Tools
+            <p className="mb-4 text-sm leading-snug text-white/60">
+              Not sure if you need a professional?{" "}
+              <span className="text-white/85">
+                Our risk assessment uses ISA standards — 5 clicks, no sign-up.
+              </span>
             </p>
           </div>
           <div className="space-y-2.5 px-5 pb-8">
@@ -198,22 +197,22 @@ export default function HomePage() {
               <Link
                 key={id}
                 href={`/tools/${id}`}
-                className="group flex items-center gap-4 rounded-sm border border-white/10 bg-white/5 px-4 py-3.5 transition-colors hover:bg-white/10 active:bg-white/15"
+                className="group flex items-center gap-5 rounded-sm border border-white/10 bg-white/5 px-5 py-6 transition-colors hover:bg-white/10 active:bg-white/15"
               >
                 {/* Icon circle */}
-                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${iconBg}`}>
-                  <Icon className={`h-5 w-5 ${iconColor}`} />
+                <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ${iconBg}`}>
+                  <Icon className={`h-7 w-7 ${iconColor}`} />
                 </div>
 
                 {/* Text */}
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-bold text-[#f0ede8]">{label}</p>
-                  <p className="truncate text-xs text-white/50">{desc}</p>
+                  <p className="text-base font-bold text-[#f0ede8]">{label}</p>
+                  <p className="mt-1 text-sm leading-snug text-white/55">{desc}</p>
                 </div>
 
                 {/* Arrow */}
                 <ArrowRight
-                  size={15}
+                  size={16}
                   className="shrink-0 text-white/30 transition-transform group-hover:translate-x-0.5 group-hover:text-[#FFB800]"
                 />
               </Link>
@@ -252,7 +251,7 @@ export default function HomePage() {
                 Diagnostic Library
               </span>
               <h2 className={`${dmSerif.className} text-[clamp(1.8rem,3vw,2.6rem)] text-[#11261B]`}>
-                Free Arborist Tools
+                Homeowner Tools
               </h2>
             </div>
             <Link

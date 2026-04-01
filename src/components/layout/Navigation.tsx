@@ -51,13 +51,13 @@ export function Navigation() {
             className={`${dmSerif.className} text-2xl leading-none tracking-tight transition-colors duration-300`}
             style={{ color: brandColor }}
           >
-            Omaha Tree Care
+            Midwest Roots
           </span>
           <span
             className="text-[11px] font-semibold tracking-[0.12em] uppercase transition-colors duration-300"
             style={{ color: subColor }}
           >
-            Tools &amp; Resources
+            Tree Services
           </span>
         </Link>
 
