@@ -139,7 +139,7 @@ export default function HomePage() {
                 Locally Owned · Serving Omaha &amp; the Metro
               </div>
 
-              <p className="mt-4 max-w-md text-base leading-relaxed text-white/65 lg:text-lg">
+              <p className="mt-4 hidden sm:block max-w-md text-base leading-relaxed text-white/65 lg:text-lg">
                 Identify tree species, assess storm hazards, and know what&apos;s safe to DIY. 100% free.
               </p>
 
@@ -242,21 +242,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── TOOLS HUB — desktop + full listing ─────────────────────────── */}
-      <section id="section-tools" className="bg-[#F7F6F2] py-20">
+      {/* ─── TOOLS HUB — desktop only ────────────────────────────────────
+          Mobile users already see the tool strip in the hero above.
+          This full grid is for sm+ viewports only.
+      ──────────────────────────────────────────────────────────────────── */}
+      <section id="section-tools" className="hidden sm:block py-20" style={{ background: "linear-gradient(180deg, #1a1917 0%, #201e1b 100%)" }}>
         <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="mb-10 flex items-end justify-between border-b border-stone-200 pb-5">
+          <div className="mb-10 flex items-end justify-between border-b border-white/10 pb-5">
             <div>
-              <span className="mb-1.5 block text-xs font-bold uppercase tracking-[0.2em] text-stone-400">
-                Diagnostic Library
-              </span>
-              <h2 className={`${dmSerif.className} text-[clamp(1.8rem,3vw,2.6rem)] text-[#11261B]`}>
+              <h2 className={`${dmSerif.className} text-[clamp(1.8rem,3vw,2.6rem)] text-[#f0ede8]`}>
                 Homeowner Tools
               </h2>
             </div>
             <Link
               href="/tools"
-              className="hidden sm:flex items-center gap-1 text-sm font-semibold text-[#11261B]/70 hover:text-[#11261B] transition-colors"
+              className="hidden sm:flex items-center gap-1 text-sm font-semibold text-white/50 hover:text-[#FFB800] transition-colors"
             >
               View all <ChevronRight size={15} />
             </Link>
@@ -267,15 +267,15 @@ export default function HomePage() {
               <Link
                 key={id}
                 href={`/tools/${id}`}
-                className="group flex h-full flex-col rounded-sm border border-stone-200 bg-white p-7 transition-all hover:border-[#FFB800] hover:shadow-md cursor-pointer"
+                className="group flex h-full flex-col rounded-sm border border-white/10 bg-white/5 p-7 transition-all hover:border-[#FFB800]/60 hover:bg-white/10 cursor-pointer"
               >
                 {/* Large icon */}
                 <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-full ${iconBg} transition-transform group-hover:scale-105`}>
                   <Icon className={`h-7 w-7 ${iconColor}`} />
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-[#11261B]">{label}</h3>
-                <p className="mb-6 flex-1 text-sm leading-relaxed text-stone-500">{desc}</p>
-                <div className="flex items-center text-sm font-bold uppercase tracking-wider text-[#11261B]">
+                <h3 className="mb-2 text-lg font-bold text-[#f0ede8]">{label}</h3>
+                <p className="mb-6 flex-1 text-sm leading-relaxed text-white/55">{desc}</p>
+                <div className="flex items-center text-sm font-bold uppercase tracking-wider text-[#FFB800]">
                   <span>{cta}</span>
                   <ArrowRight size={15} className="ml-2 transition-transform group-hover:translate-x-1" />
                 </div>
