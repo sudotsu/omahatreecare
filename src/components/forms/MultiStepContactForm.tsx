@@ -60,6 +60,12 @@ interface ServiceOption {
   description: string;
 }
 
+interface MultiStepContactFormProps {
+  city?: string;
+  neighborhood?: string;
+  source?: string;
+}
+
 const SERVICES: ServiceOption[] = [
   { id: "Tree Removal", label: "Removal", icon: TreeDeciduous, description: "Safe removal of dead or hazardous trees." },
   { id: "Pruning / Trimming", label: "Pruning", icon: Scissors, description: "Structural pruning and canopy cleaning." },
@@ -69,7 +75,7 @@ const SERVICES: ServiceOption[] = [
   { id: "Other", label: "Not Sure", icon: HelpCircle, description: "General inquiry or custom tree care needs." },
 ];
 
-export function MultiStepContactForm() {
+export function MultiStepContactForm({ city, neighborhood, source }: MultiStepContactFormProps) {
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
@@ -123,7 +129,17 @@ export function MultiStepContactForm() {
 
     setIsSubmitting(true);
     try {
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, data, PUBLIC_KEY);
+      await emailjs.send(
+        SERVICE_ID, 
+        TEMPLATE_ID, 
+        {
+          ...data,
+          city: city ?? "Not specified",
+          neighborhood: neighborhood ?? "Not specified",
+          source: source ?? "Website Contact Form",
+        }, 
+        PUBLIC_KEY
+      );
       setSubmitStatus("success");
     } catch (err) {
       console.error("Submission error:", err);
