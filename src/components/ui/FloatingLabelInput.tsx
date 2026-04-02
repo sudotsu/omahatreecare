@@ -11,6 +11,8 @@ interface FloatingLabelInputProps
   id: string;
   /** React 19: ref is a plain prop, no forwardRef needed */
   ref?: React.Ref<HTMLInputElement>;
+  /** Optional class to adjust label inset when icons are present (e.g., 'left-12') */
+  labelInset?: string;
 }
 
 /**
@@ -35,6 +37,7 @@ export function FloatingLabelInput({
   ref,
   className,
   required,
+  labelInset,
   ...rest
 }: FloatingLabelInputProps) {
   return (
@@ -68,7 +71,8 @@ export function FloatingLabelInput({
         htmlFor={id}
         className={cn(
           // Floated (filled) state — default
-          "pointer-events-none absolute left-4 top-2 text-xs font-medium text-slate-600",
+          "pointer-events-none absolute top-2 text-xs font-medium text-slate-600",
+          labelInset || "left-4",
           "transition-all duration-200",
           // Empty + unfocused → push down to vertical center
           "peer-placeholder-shown:top-[1.05rem] peer-placeholder-shown:text-sm",

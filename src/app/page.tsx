@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { NumberCounter } from "@/components/ui/NumberCounter";
 import { HazardAssessmentHeroCard } from "@/components/ui/HazardAssessmentHeroCard";
-import { ContactForm } from "@/components/forms/ContactForm";
+import { MultiStepContactForm } from "@/components/forms/MultiStepContactForm";
 import { dmSerif } from "@/lib/fonts";
 import { CONTACT, STATS } from "@/lib/constants";
 import { serviceIds, servicesData } from "@/data/services";
@@ -325,23 +325,48 @@ export default function HomePage() {
       {/* ─── CONTACT ─────────────────────────────────────────────────────── */}
       <section
         id="section-contact"
-        className="py-20"
+        className="py-24 sm:py-32"
         style={{ background: "linear-gradient(160deg, #0d1a0f 0%, #11261B 100%)" }}
       >
-        <div className="relative z-10 mx-auto max-w-2xl px-5 sm:px-8">
-          <div className="mb-10 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#FFB800]">
-              Get in Touch
-            </p>
-            <h2 className={`${dmSerif.className} text-[clamp(2rem,3.5vw,2.8rem)] text-[#f0ede8]`}>
-              Get a Free Estimate
-            </h2>
-            <p className="mt-3 text-[#98bdb5]">
-              No obligation. Andrew responds within a few hours.
-            </p>
-          </div>
-          <div className="rounded-sm bg-white p-7 shadow-2xl sm:p-9">
-            <ContactForm />
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+            
+            {/* Copy Side */}
+            <div>
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#FFB800]">
+                Immediate Response
+              </p>
+              <h2 className={`${dmSerif.className} mb-6 text-[clamp(2.4rem,5vw,3.6rem)] leading-[1.1] text-[#f0ede8]`}>
+                Let&apos;s protect your <br />
+                <span className="text-[#FFB800]">Omaha roots.</span>
+              </h2>
+              <div className="space-y-6 text-lg text-white/70">
+                <p>
+                  Whether it&apos;s a hazardous removal or precision pruning, you deserve a proposal that respects your property and your budget.
+                </p>
+                <ul className="space-y-4">
+                  {[
+                    "Certified Arborist oversight on every job",
+                    "Fully insured & bonded for your protection",
+                    "Transparent, no-obligation written estimates"
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-[#FFB800]" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Form Side */}
+            <div className="relative">
+              <div className="absolute -inset-1 rounded-sm bg-gradient-to-tr from-[#FFB800]/20 to-transparent blur-2xl opacity-50" />
+              <div className="relative overflow-hidden rounded-sm bg-white shadow-2xl">
+                <MultiStepContactForm />
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

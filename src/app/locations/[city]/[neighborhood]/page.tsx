@@ -154,8 +154,8 @@ export default async function NeighborhoodPage({ params }: PageProps) {
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-amber-900 mb-2 text-center">Get a Free Assessment in {neighborhoodName}</h2>
           <p className="text-amber-700 text-center mb-8">Andrew will come out, look at your trees, and give you straight answers.</p>
-          <div className="bg-white border-2 border-amber-200 rounded-2xl p-8 shadow-sm">
-            <ContactForm />
+          <div className="relative overflow-hidden bg-white border-2 border-stone-200 rounded-2xl shadow-xl">
+            <MultiStepContactForm />
           </div>
         </div>
       </section>
