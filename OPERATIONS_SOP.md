@@ -7,8 +7,7 @@ and trust-first results.
 
 ### 1. External Research & Modern Standards
 - **Never guess on UI/UX or "best practices."**
-- Before implementing features, run a targeted google_web_search for current-year (2024–2025) trends,
-  psychological triggers (e.g., Labor Illusion), and high-conversion patterns.
+- Before implementing features, run a targeted `google_web_search` for current-year research or the latest available guidance on trends, psychological triggers (e.g., Labor Illusion), and high-conversion patterns.
 - Contrast internal project context with external modern standards to avoid "building yesterday's web."
 
 ### 2. Architectural Integrity vs. Surface Fixes

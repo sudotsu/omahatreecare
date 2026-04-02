@@ -35,14 +35,18 @@ const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
 const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "";
 
+const EMAILJS_CONFIGURED = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
+
 // ── Types & Schemas ─────────────────────────────────────────────────────────
 const schema = z.object({
   service_type: z.string().min(1, { message: "Please select a service." }),
   address:      z.string().optional(),
   message:      z.string().optional(),
-  user_name:    z.string().min(1, { message: "Name is required." }),
-  user_email:   z.string().email({ message: "Please enter a valid email." }),
-  user_phone:   z.string().min(10, { message: "Valid phone number is required." }),
+  user_name:    z.string().trim().min(1, { message: "Name is required." }).refine(val => val.length > 0, { message: "Name cannot be empty." }),
+  user_email:   z.string().trim().email({ message: "Please enter a valid email." }),
+  user_phone:   z.string()
+    .transform(val => val.replace(/\D/g, ""))
+    .refine(val => val.length >= 10, { message: "Please enter a valid 10-digit phone number." }),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -69,7 +73,7 @@ export function MultiStepContactForm() {
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isPreparing, setIsPreparing] = useState(false);
 
   const {
     register,
@@ -97,9 +101,9 @@ export function MultiStepContactForm() {
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
       if (step === 1) {
-        setIsAnalyzing(true);
+        setIsPreparing(true);
         setTimeout(() => {
-          setIsAnalyzing(false);
+          setIsPreparing(false);
           setStep(2);
         }, 800);
       } else {
@@ -111,6 +115,12 @@ export function MultiStepContactForm() {
   const prevStep = () => setStep((s) => (s - 1) as Step);
 
   const onSubmit = async (data: FormValues) => {
+    if (!EMAILJS_CONFIGURED) {
+      console.error("EmailJS is not configured. Check environment variables.");
+      setSubmitStatus("error");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await emailjs.send(SERVICE_ID, TEMPLATE_ID, data, PUBLIC_KEY);
@@ -161,7 +171,7 @@ export function MultiStepContactForm() {
       <div className="p-8 pt-10">
         {/* Header Section */}
         <div className="mb-8">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-primary">
+          <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-[#52796f]">
             Step {step} of 3
           </span>
           <h2 className={`${dmSerif.className} text-3xl text-forest`}>
@@ -171,7 +181,7 @@ export function MultiStepContactForm() {
           </h2>
           <p className="mt-2 text-sm text-stone-500">
             {step === 1 && "Select the primary service you're interested in."}
-            {step === 2 && "Property location and any specific details for Andrew."}
+            {step === 2 && "Details about your trees. Address is helpful but optional."}
             {step === 3 && "Secure contact information for your custom proposal."}
           </p>
         </div>
@@ -341,14 +351,15 @@ export function MultiStepContactForm() {
           </form>
         )}
 
-        {/* Labor Illusion Overlay */}
-        {isAnalyzing && (
+        {/* Preparation Overlay */}
+        {isPreparing && (
           <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm animate-fade-in">
-            <Loader2 className="mb-4 h-10 w-10 animate-spin text-primary" />
-            <p className="font-bold text-forest tracking-tight">Analyzing project scope...</p>
-            <p className="mt-1 text-xs text-stone-500">Preparing your guided consultation</p>
+            <Loader2 className="mb-4 h-10 w-10 animate-spin text-[#52796f]" />
+            <p className="font-bold text-forest tracking-tight">Preparing your estimate...</p>
+            <p className="mt-1 text-xs text-stone-500">Customizing the consultation for your needs</p>
           </div>
         )}
+
       </div>
     </div>
   );
