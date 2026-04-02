@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Phone, Mail, Clock, MapPin } from 'lucide-react'
-import { ContactForm } from '@/components/forms/ContactForm'
+import { MultiStepContactForm } from '@/components/forms/MultiStepContactForm'
 import { CONTACT, BUSINESS_HOURS } from '@/lib/constants'
 
 export const metadata: Metadata = {
@@ -126,13 +126,6 @@ export default function ContactPage() {
             <Link href="/tools" className="px-5 py-2 bg-white border-2 border-amber-200 text-amber-900 rounded-xl text-sm font-semibold hover:border-amber-400 transition-colors">
               All Diagnostic Tools
             </Link>
-          </div>
-        </div>
-      </section>
-    </div>
-  )
-}
- </Link>
           </div>
         </div>
       </section>

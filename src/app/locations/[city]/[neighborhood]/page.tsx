@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Phone, AlertTriangle, TreePine } from 'lucide-react'
 import { allNeighborhoods } from '@/data/locations'
 import { neighborhoodData, fallbackNeighborhoodData } from '@/data/neighborhoodData'
-import { ContactForm } from '@/components/forms/ContactForm'
+import { MultiStepContactForm } from '@/components/forms/MultiStepContactForm'
 import { CONTACT } from '@/lib/constants'
 
 interface PageProps {
