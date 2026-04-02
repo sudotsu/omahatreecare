@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Phone, Mail, Clock, MapPin } from 'lucide-react'
-import { ContactForm } from '@/components/forms/ContactForm'
+import { MultiStepContactForm } from '@/components/forms/MultiStepContactForm'
 import { CONTACT, BUSINESS_HOURS } from '@/lib/constants'
 
 export const metadata: Metadata = {
@@ -106,9 +106,8 @@ export default function ContactPage() {
           </div>
 
           {/* Right: form */}
-          <div className="bg-white rounded-2xl border-2 border-amber-200 p-8 shadow-sm">
-            <h2 className="text-2xl font-bold text-amber-900 mb-6">Send a Message</h2>
-            <ContactForm />
+          <div className="relative overflow-hidden rounded-2xl border-2 border-stone-200 bg-white shadow-xl">
+            <MultiStepContactForm source="Main Contact Page" />
           </div>
         </div>
       </section>
