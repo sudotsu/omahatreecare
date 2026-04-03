@@ -1,9 +1,11 @@
 export type RiskLevel = 'high' | 'moderate' | 'low';
+export type ThreatProfile = 'CRITICAL' | 'ELEVATED' | 'STANDARD';
 
 export interface TreeSpecies {
   name: string;
   scientificName: string;
   riskLevel: RiskLevel;
+  threatProfile: ThreatProfile;
   characteristics: string[];
   commonIssues: string[];
   strengths?: string[];
@@ -16,6 +18,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Ash Trees',
     scientificName: 'Fraxinus spp.',
     riskLevel: 'high',
+    threatProfile: 'CRITICAL',
     characteristics: ['Compound leaves (5-11 leaflets)', 'Opposite branching', 'Diamond-pattern bark'],
     commonIssues: [
       'Fatal Risk: 99% mortality if untreated due to Emerald Ash Borer (EAB)',
@@ -29,6 +32,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Silver Maple',
     scientificName: 'Acer saccharinum',
     riskLevel: 'high',
+    threatProfile: 'ELEVATED',
     characteristics: ['Deeply lobed leaves with silvery undersides', 'Fast growth', 'Shallow roots'],
     commonIssues: [
       'Weak wood prone to storm breakage',
@@ -36,13 +40,14 @@ export const treeDatabase: TreeSpecies[] = [
       'V-shaped branch unions split easily',
       'Short lifespan (60-80 years) with rapid decline'
     ],
-    maintenanceNotes: 'Requires regular pruning every 3-5 years. Monitor branch unions closely. Plan for eventual removal matures.',
+    maintenanceNotes: 'Requires regular pruning every 3-5 years. Monitor branch unions closely. Plan for eventual removal as tree matures.',
     size: '50-80 feet'
   },
   {
     name: 'Cottonwood',
     scientificName: 'Populus deltoides',
     riskLevel: 'high',
+    threatProfile: 'ELEVATED',
     characteristics: ['Large triangular leaves', 'Thick ridged bark', 'Massive size'],
     commonIssues: [
       'Brittle branches with frequent limb drop',
@@ -57,6 +62,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Bradford Pear',
     scientificName: 'Pyrus calleryana',
     riskLevel: 'high',
+    threatProfile: 'CRITICAL',
     characteristics: ['White spring flowers', 'Oval shape', 'Tight branching'],
     commonIssues: [
       'Weak branch attachments causing catastrophic splitting at 15-20 years',
@@ -70,6 +76,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Bur Oak',
     scientificName: 'Quercus macrocarpa',
     riskLevel: 'low',
+    threatProfile: 'STANDARD',
     characteristics: ['Large lobed leaves with "bur" on acorn cap', 'Massive spreading form', 'Thick bark'],
     commonIssues: [
       'Slow growth makes replacement difficult',
@@ -84,6 +91,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Red Oak',
     scientificName: 'Quercus rubra',
     riskLevel: 'low',
+    threatProfile: 'ELEVATED',
     characteristics: ['Pointed leaf lobes', 'Reddish fall color', 'Gray furrowed bark'],
     commonIssues: [
       'Oak wilt susceptibility (DO NOT prune April-July)',
@@ -97,6 +105,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Hackberry',
     scientificName: 'Celtis occidentalis',
     riskLevel: 'moderate',
+    threatProfile: 'STANDARD',
     characteristics: ['Warty bark', 'Elm-like leaves', 'Very adaptable'],
     commonIssues: [
       "Witches' broom (harmless but unsightly)",
@@ -110,6 +119,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Honeylocust',
     scientificName: 'Gleditsia triacanthos',
     riskLevel: 'moderate',
+    threatProfile: 'STANDARD',
     characteristics: ['Fine compound leaves', 'Delicate appearance', 'Thornless cultivars common'],
     commonIssues: [
       'Cankers can develop on stressed trees',
@@ -123,6 +133,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'American Elm (Resistant)',
     scientificName: 'Ulmus americana',
     riskLevel: 'moderate',
+    threatProfile: 'STANDARD',
     characteristics: ['Vase-shaped form', 'Saw-toothed leaves', 'Graceful branching'],
     commonIssues: [
       'Dutch Elm Disease in non-resistant varieties',
@@ -136,6 +147,7 @@ export const treeDatabase: TreeSpecies[] = [
     name: 'Kentucky Coffeetree',
     scientificName: 'Gymnocladus dioicus',
     riskLevel: 'low',
+    threatProfile: 'STANDARD',
     characteristics: ['Very large compound leaves', 'Thick rough bark', 'Unique winter silhouette'],
     commonIssues: [
       'Large pods create minor litter',
