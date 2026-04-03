@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation'
 import { CommonAilments } from '@/components/tools/CommonAilments'
 import { CostEstimator } from '@/components/tools/CostEstimator'
 import { DIYvsProGuide } from '@/components/tools/DIYvsProGuide'
-import { HazardAssessment } from '@/components/tools/HazardAssessment'
+import { PremiumHazardAssessment } from '@/components/tools/PremiumHazardAssessment'
 import { SpeciesIdentifier } from '@/components/tools/SpeciesIdentifier'
 
 const TOOL_MAP = {
-  hazard:   HazardAssessment,
+  hazard:   PremiumHazardAssessment,
   species:  SpeciesIdentifier,
   cost:     CostEstimator,
   diy:      DIYvsProGuide,
