@@ -14,6 +14,14 @@ const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
 const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "";
 
+const SERVICE_OPTIONS = [
+  "Tree Removal",
+  "Pruning / Trimming",
+  "Stump Grinding",
+  "Storm Damage",
+  "Plant Health / EAB",
+];
+
 // ── Zod schema ────────────────────────────────────────────────────────────────
 const schema = z.object({
   user_name:    z.string().min(1, { message: "Name is required." }),
@@ -81,9 +89,9 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
           user_name:    data.user_name,
           user_email:   data.user_email,
           user_phone:   data.user_phone,
-          service_type: data.service_type ?? "Not specified",
-          message:      data.message      ?? "No description provided",
-          address:      data.address      ?? "Not provided",
+          service_type: data.service_type?.trim() || "Not specified",
+          message:      data.message?.trim()      || "No description provided",
+          address:      data.address?.trim()      || "Not provided",
           // Include tracking data in payload
           source:       trackingData?.source       ?? "direct",
           city:         trackingData?.city         ?? "Not specified",
@@ -217,11 +225,12 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
             className="w-full rounded-lg border border-slate-300 px-4 py-2 transition-all focus:border-[#52796f] focus:ring-2 focus:ring-[#52796f]/20 focus:outline-none"
           >
             <option value="">I&apos;m not sure</option>
-            <option value="Tree Removal">Tree Removal</option>
-            <option value="Pruning / Trimming">Pruning / Trimming</option>
-            <option value="Stump Grinding">Stump Grinding</option>
-            <option value="Storm Damage">Storm Damage</option>
-            <option value="Plant Health / EAB">Plant Health Care</option>
+            {initialValues?.service_type && !SERVICE_OPTIONS.includes(initialValues.service_type) && (
+              <option value={initialValues.service_type}>{initialValues.service_type}</option>
+            )}
+            {SERVICE_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
           </select>
         </div>
 

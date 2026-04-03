@@ -164,7 +164,7 @@ const getRiskIcon = (level: Tree['riskLevel']) => {
   }
 }
 
-export function SpeciesIdentifier({ searchParams }: { searchParams?: Record<string, any> }) {
+export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParams?: Record<string, any> }) {
   const router = useRouter()
   const [searchTerm, setSearchTerm]           = useState('')
   const [selectedTree, setSelectedTree]       = useState<Tree | null>(null)

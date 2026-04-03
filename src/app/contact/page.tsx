@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Phone, Mail, Clock, MapPin } from 'lucide-react'
-import { ContactForm } from '@/components/forms/ContactForm'
 import { CONTACT, BUSINESS_HOURS } from '@/lib/constants'
 import { Suspense } from 'react'
 import { ContactFormWrapper } from './ContactFormWrapper'

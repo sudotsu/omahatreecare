@@ -18,7 +18,7 @@ import {
   FileText,
   Clock
 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { CONTACT } from "@/lib/constants";
 import { dmSerif } from "@/lib/fonts";
@@ -116,10 +116,13 @@ const getRiskLevel = (risk: number) => {
   return { ...base, ...ui };
 };
 
-export function PremiumHazardAssessment({ searchParams: _searchParams }: { searchParams?: Record<string, any> }) {
+export function PremiumHazardAssessment({ searchParams }: { searchParams?: Record<string, any> }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const speciesFromNav = searchParams.get("species");
+  
+  // Robust extraction from prop (handles both plain object and URLSearchParams-like)
+  const speciesFromNav = searchParams 
+    ? (typeof searchParams.get === 'function' ? searchParams.get('species') : searchParams.species)
+    : null;
 
   const [step, setStep] = useState(0);
   const [assessment, setAssessment] = useState<AssessmentState>({ likelihood: 0, consequence: 0, issues: [] });

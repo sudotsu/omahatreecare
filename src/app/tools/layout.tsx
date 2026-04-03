@@ -22,7 +22,7 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
             
             <div className="flex flex-col items-center text-center">
               <p className={`${dmSerif.className} text-xl leading-none text-forest`}>
-                Omaha Tree Care
+                {CONTACT.businessName}
               </p>
               <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-gold">
                 Tools & Resources

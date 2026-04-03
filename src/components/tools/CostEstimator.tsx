@@ -78,7 +78,6 @@ const ARCHETYPES: Archetype[] = [
 export function CostEstimator({ searchParams }: { searchParams?: Record<string, any> }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [selectedId, setSelectedId] = useState<string>("");
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -93,13 +92,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
 
   const handleSelect = (id: string) => {
     setSelectedId(id);
-    setIsAnalyzing(true);
-    
-    // Labor Illusion Pacing
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      setIsComplete(true);
-    }, 1400);
+    setIsComplete(true);
   };
 
   const reset = () => {
@@ -132,7 +125,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
               <div className="rounded-lg bg-white p-4 shadow-sm border border-stone-100">
                 <p className="text-xs font-bold uppercase tracking-wide text-stone-400">Arborist Note</p>
                 <p className="mt-1 text-xs leading-relaxed text-stone-600">
-                  Omaha market rates are currently affected by fuel costs and disposal fees. These ranges reflect 2024-2025 seasonal data.
+                  Pricing depends on tree health, exact location, and debris volume. These figures are illustrative ranges for Omaha residents.
                 </p>
               </div>
               <button 
@@ -211,23 +204,6 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
 
   return (
     <div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
-      {/* Labor Illusion Overlay */}
-      {isAnalyzing && (
-        <div 
-          className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm animate-fade-in text-center px-6"
-          role="status"
-          aria-busy="true"
-          aria-live="assertive"
-        >
-          <Loader2 className="mb-4 h-12 w-12 animate-spin text-gold" />
-          <div className="space-y-1">
-            <p className="text-xl font-bold tracking-tight text-forest">Preparing Estimate Ranges...</p>
-            <p className="text-sm text-stone-500 italic animate-pulse">Reviewing local archetype data</p>
-            <p className="text-xs text-stone-400 mt-4">Referencing Omaha market variables</p>
-          </div>
-        </div>
-      )}
-
       {/* Header */}
       <div className="relative border-b border-stone-100 p-8 pt-10">
         <div className="flex items-center gap-3">
@@ -240,7 +216,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
           </div>
         </div>
         <p className="mt-4 text-stone-500 leading-relaxed max-w-xl">
-          Select the operational archetype that best matches your tree care needs. We&apos;ll provide current Omaha market ranges.
+          Select the operational archetype that best matches your tree care needs. We&apos;ll provide illustrative Omaha market ranges.
         </p>
       </div>
 
