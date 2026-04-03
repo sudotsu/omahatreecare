@@ -20,12 +20,12 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
               <span className="text-sm font-bold uppercase tracking-wider">All Tools</span>
             </Link>
             
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center text-center">
               <p className={`${dmSerif.className} text-xl leading-none text-forest`}>
-                Midwest Roots
+                Omaha Tree Care
               </p>
               <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-gold">
-                Tree Services
+                Tools & Resources
               </p>
             </div>
 

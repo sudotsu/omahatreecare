@@ -26,19 +26,50 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
+// ── Types ────────────────────────────────────────────────────────────────────
+export interface ContactFormProps {
+  initialValues?: Partial<FormValues>;
+  trackingData?: {
+    source?: string;
+    city?: string;
+    neighborhood?: string;
+    risk?: string;
+    score?: string;
+    task?: string;
+    archetype?: string;
+    [key: string]: string | undefined;
+  };
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
-export function ContactForm() {
+export function ContactForm({ initialValues, trackingData }: ContactFormProps = {}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | "config_error" | null>(null);
+  const [missingKeys, setMissingKeys] = useState<string[]>([]);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  } = useForm<FormValues>({ 
+    resolver: zodResolver(schema),
+    defaultValues: initialValues
+  });
 
   const onSubmit = async (data: FormValues) => {
+    // Validate EmailJS Config
+    const missing = [];
+    if (!SERVICE_ID) missing.push("NEXT_PUBLIC_EMAILJS_SERVICE_ID");
+    if (!TEMPLATE_ID) missing.push("NEXT_PUBLIC_EMAILJS_TEMPLATE_ID");
+    if (!PUBLIC_KEY) missing.push("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
+
+    if (missing.length > 0) {
+      setMissingKeys(missing);
+      setSubmitStatus("config_error");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus(null);
 
@@ -53,6 +84,14 @@ export function ContactForm() {
           service_type: data.service_type ?? "Not specified",
           message:      data.message      ?? "No description provided",
           address:      data.address      ?? "Not provided",
+          // Include tracking data in payload
+          source:       trackingData?.source       ?? "direct",
+          city:         trackingData?.city         ?? "Not specified",
+          neighborhood: trackingData?.neighborhood ?? "Not specified",
+          risk_level:   trackingData?.risk         ?? "Not assessed",
+          risk_score:   trackingData?.score        ?? "N/A",
+          task_name:    trackingData?.task         ?? "Not specified",
+          archetype:    trackingData?.archetype    ?? "None",
         },
         PUBLIC_KEY
       );
@@ -100,6 +139,19 @@ export function ContactForm() {
             <p className="text-sm text-red-700">
               Something went wrong. Please call us at{" "}
               <strong>{CONTACT.phone}</strong>.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {submitStatus === "config_error" && (
+        <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
+          <div>
+            <h4 className="font-semibold text-red-900">Configuration Error</h4>
+            <p className="text-sm text-red-700">
+              Missing EmailJS configuration: <strong>{missingKeys.join(", ")}</strong>.
+              Please check your environment variables.
             </p>
           </div>
         </div>

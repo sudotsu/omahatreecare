@@ -101,7 +101,7 @@ export function Footer() {
               Free tree care resources and diagnostic tools for Omaha homeowners.
             </p>
             <div className="flex flex-col gap-2">
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 Built by{" "}
                 <a
                   href="https://midwestroots.info"
@@ -112,7 +112,7 @@ export function Footer() {
               </p>
               <Link
                 href="/accessibility"
-                className="text-xs hover:text-emerald-400 transition-colors inline-flex items-center gap-1 text-slate-500"
+                className="text-xs hover:text-emerald-400 transition-colors inline-flex items-center gap-1 text-slate-400"
               >
                 <ShieldCheck size={12} />
                 Accessibility Statement
@@ -122,7 +122,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
+        <div className="border-t border-slate-800 pt-6 text-center text-xs text-slate-400">
           <p>
             &copy; {new Date().getFullYear()} {CONTACT.businessName}. All rights reserved.
           </p>

@@ -1,34 +1,18 @@
-"use client";
+'use client'
 
-import { 
-  AlertTriangle, 
-  CheckCircle, 
-  Wrench, 
-  ArrowRight, 
-  ShieldCheck, 
-  ShieldAlert, 
-  Shield, 
-  Hammer, 
-  Construction,
-  Info,
-  ArrowLeft
-} from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { CONTACT } from "@/lib/constants";
-import { dmSerif } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
+import { AlertTriangle, CheckCircle, Wrench, ArrowRight } from 'lucide-react'
+import { CONTACT } from '@/lib/constants'
+import { useRouter } from 'next/navigation'
 
-type TaskCategory = 'safe-diy' | 'risky-diy' | 'professional-only';
+type TaskCategory = 'safe-diy' | 'risky-diy' | 'professional-only'
 
 interface Task {
-  name: string;
-  category: TaskCategory;
-  description: string;
-  safety: string[];
-  tools: string[];
-  whenToCall: string;
+  name: string
+  category: TaskCategory
+  description: string
+  safety: string[]
+  tools: string[]
+  whenToCall: string
 }
 
 const tasks: Task[] = [
@@ -188,160 +172,215 @@ const tasks: Task[] = [
     tools: [],
     whenToCall: 'When tree shows unusual symptoms, discoloration, or decline',
   },
-];
+]
 
-export function DIYvsProGuide() {
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TaskCategory>('professional-only');
-  const filteredTasks = tasks.filter(t => t.category === activeTab);
+export function DIYvsProGuide({ searchParams }: { searchParams?: Record<string, any> }) {
+  const router = useRouter()
+  const safeItems  = tasks.filter(t => t.category === 'safe-diy')
+  const riskyItems = tasks.filter(t => t.category === 'risky-diy')
+  const proItems   = tasks.filter(t => t.category === 'professional-only')
+
+  const handleProRequest = (taskName: string) => {
+    const params = new URLSearchParams({
+      source: 'diy_guide',
+      task: taskName
+    })
+    router.push(`/contact?${params.toString()}`)
+  }
 
   return (
-    <div className="max-w-4xl mx-auto px-4">
-      {/* Header */}
-      <div className="mb-12 text-center text-forest">
-        <h2 className={`${dmSerif.className} text-4xl mb-4`}>DIY vs Professional Guide</h2>
-        <p className="text-stone-500 max-w-2xl mx-auto text-lg">
-          Tree work is a high-liability operation. Use this guide to determine where your safety ends and expert intervention begins.
+    <div className="max-w-4xl mx-auto">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-amber-900 mb-3">DIY vs Professional Guide</h2>
+        <p className="text-amber-800 leading-relaxed mb-4">
+          Learn which tree care tasks you can safely do yourself and when to call a professional.
+          Your safety is the most important consideration.
         </p>
-      </div>
-
-      {/* Safety Alert Anchor */}
-      <div className="mb-12 relative overflow-hidden rounded-2xl bg-red-50 border border-red-100 p-8 shadow-sm">
-        <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
-          <div className="rounded-full bg-red-100 p-4 shrink-0">
-            <ShieldAlert className="w-10 h-10 text-red-600" />
-          </div>
-          <div>
-            <h3 className="text-xl font-bold text-red-900 mb-2">Zero-Tolerance Safety Baseline</h3>
-            <p className="text-red-800 leading-relaxed text-sm">
-              Medical bills and property damage costs are non-linear. If you lack the rigging equipment, insurance, or certified training for a task, **do not attempt it.** Professional expertise is a risk-mitigation investment.
+        <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4">
+          <div className="flex gap-3">
+            <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-900 font-medium">
+              <strong>Safety First:</strong> Tree work is inherently dangerous. If you have any doubt
+              about your ability to safely complete a task, <strong>do not attempt it.</strong> Medical bills and
+              property damage cost far more than hiring an expert.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="flex flex-wrap justify-center gap-2 mb-10">
-        {[
-          { id: 'professional-only', label: 'Pro Required', icon: ShieldAlert, color: 'text-red-600', activeBg: 'bg-red-600 border-red-600' },
-          { id: 'risky-diy', label: 'Risky DIY', icon: AlertTriangle, color: 'text-amber-600', activeBg: 'bg-amber-600 border-amber-600' },
-          { id: 'safe-diy', label: 'Safe for DIY', icon: ShieldCheck, color: 'text-emerald-600', activeBg: 'bg-emerald-600 border-emerald-600' },
-        ].map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as TaskCategory)}
-              className={cn(
-                "flex items-center gap-3 px-8 py-4 rounded-full font-bold text-sm border-2 transition-all shadow-sm",
-                isActive 
-                  ? `${tab.activeBg} text-white shadow-lg` 
-                  : "bg-white border-stone-100 text-stone-400 hover:border-gold hover:text-forest"
-              )}
-            >
-              <tab.icon size={18} />
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
+      {/* Safe DIY */}
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+            <CheckCircle className="w-6 h-6 text-green-600" />
+          </div>
+          <h3 className="text-2xl font-bold text-green-800">Safe for DIY</h3>
+        </div>
+        <div className="space-y-4">
+          {safeItems.map((task, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-md p-6 border-2 border-green-200">
+              <h4 className="text-xl font-bold text-amber-900 mb-2">{task.name}</h4>
+              <p className="text-amber-700 mb-4">{task.description}</p>
 
-      {/* Task List */}
-      <div className="space-y-6">
-        {filteredTasks.map((task, index) => (
-          <div key={index} className="animate-fade-in bg-white rounded-3xl border border-stone-100 shadow-xl overflow-hidden group hover:border-gold/30 transition-all">
-            <div className="p-8 md:p-10 flex flex-col md:flex-row gap-10">
-              
-              {/* Task Core */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  {activeTab === 'professional-only' && <ShieldAlert className="text-red-500" size={20} />}
-                  {activeTab === 'risky-diy' && <AlertTriangle className="text-amber-500" size={20} />}
-                  {activeTab === 'safe-diy' && <ShieldCheck className="text-emerald-500" size={20} />}
-                  <h4 className={`${dmSerif.className} text-2xl text-forest`}>{task.name}</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <h5 className="font-semibold text-green-800 mb-2">Safety Tips:</h5>
+                  <ul className="space-y-1 text-sm">
+                    {task.safety.map((tip, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-green-600">✓</span>
+                        <span className="text-amber-800">{tip}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <p className="text-stone-500 text-lg leading-relaxed mb-8">{task.description}</p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                {task.tools.length > 0 && (
                   <div>
-                    <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold mb-4">Operational Protocol</h5>
-                    <ul className="space-y-3">
-                      {task.safety.map((tip, i) => (
-                        <li key={i} className="flex items-start gap-3 text-sm text-stone-600">
-                          <div className={cn(
-                            "w-1.5 h-1.5 rounded-full mt-1.5 shrink-0",
-                            activeTab === 'professional-only' ? "bg-red-400" : 
-                            activeTab === 'risky-diy' ? "bg-amber-400" : "bg-emerald-400"
-                          )} />
-                          {tip}
+                    <h5 className="font-semibold text-green-800 mb-2">Tools Needed:</h5>
+                    <ul className="space-y-1 text-sm">
+                      {task.tools.map((tool, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <Wrench className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                          <span className="text-amber-800">{tool}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  
-                  {task.tools.length > 0 && (
-                    <div>
-                      <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold mb-4">Required Hardware</h5>
-                      <div className="flex flex-wrap gap-2">
-                        {task.tools.map((tool, i) => (
-                          <span key={i} className="px-3 py-1 bg-stone-50 border border-stone-100 rounded-md text-xs font-medium text-stone-500">
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Action Column */}
-              <div className="md:w-64 shrink-0 flex flex-col justify-between border-t md:border-t-0 md:border-l border-stone-100 pt-8 md:pt-0 md:pl-10">
-                <div>
-                  <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold mb-2">Liability Threshold</h5>
-                  <p className="text-sm font-bold text-forest leading-tight mb-6">
-                    {task.whenToCall}
-                  </p>
-                </div>
-                
-                {activeTab !== 'safe-diy' && (
-                  <button
-                    onClick={() => router.push(`/contact?source=diy_guide&task=${task.name}`)}
-                    className="w-full bg-forest text-white font-bold py-4 rounded-xl hover:bg-forest-deep transition-all flex items-center justify-center gap-2 shadow-md group-hover:bg-forest-deep"
-                  >
-                    Get Pro Quote <ArrowRight size={16} />
-                  </button>
                 )}
               </div>
+
+              <div className="mt-4 bg-blue-50 rounded-lg p-3">
+                <p className="text-sm text-blue-900">
+                  <strong>When to call a pro:</strong> {task.whenToCall}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Bottom Authority Card */}
-      <div className="mt-16 relative overflow-hidden rounded-3xl bg-white shadow-2xl border border-stone-100">
-        <TreeRingsBackground />
-        <div className="relative z-10 p-10 md:p-16 text-center">
-          <h3 className={`${dmSerif.className} text-4xl text-forest mb-6`}>Avoid the Risk of Uncertainty</h3>
-          <p className="text-stone-500 max-w-xl mx-auto mb-10 text-lg">
-            If you&apos;re debating between a ladder and an arborist, the decision is already made. We provide free advice to keep Omaha homeowners safe.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={`tel:${CONTACT.phoneRaw}`}
-              className="px-10 py-5 bg-gold text-forest font-bold rounded-full hover:bg-amber-400 transition-all shadow-lg flex items-center justify-center gap-2"
-            >
-              Call for Advice: {CONTACT.phone}
-            </a>
-            <button
-              onClick={() => router.push('/contact?source=diy_bottom')}
-              className="px-10 py-5 border-2 border-forest text-forest font-bold rounded-full hover:bg-forest hover:text-white transition-all flex items-center justify-center gap-2"
-            >
-              Request Free Walkthrough <ArrowRight size={18} />
-            </button>
+      {/* Risky DIY */}
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+            <AlertTriangle className="w-6 h-6 text-yellow-600" />
           </div>
+          <h3 className="text-2xl font-bold text-yellow-800">Proceed with Caution</h3>
+        </div>
+        <div className="space-y-4">
+          {riskyItems.map((task, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-md p-6 border-2 border-yellow-300">
+              <h4 className="text-xl font-bold text-amber-900 mb-2">{task.name}</h4>
+              <p className="text-amber-700 mb-4">{task.description}</p>
+
+              <div className="bg-yellow-50 rounded-lg p-4 mb-4">
+                <h5 className="font-semibold text-yellow-900 mb-2 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4" />
+                  Critical Safety Information:
+                </h5>
+                <ul className="space-y-1 text-sm">
+                  {task.safety.map((tip, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-yellow-600">⚠</span>
+                      <span className="text-yellow-900">{tip}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {task.tools.length > 0 && (
+                <div className="mb-4">
+                  <h5 className="font-semibold text-amber-900 mb-2">Required Equipment:</h5>
+                  <p className="text-sm text-amber-700">{task.tools.join(', ')}</p>
+                </div>
+              )}
+
+              <div className="bg-red-50 rounded-lg p-3">
+                <p className="text-sm text-red-900">
+                  <strong>When to call a pro:</strong> {task.whenToCall}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Professional Only */}
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+            <AlertTriangle className="w-6 h-6 text-red-600" />
+          </div>
+          <h3 className="text-2xl font-bold text-red-800">Professional Only — Do Not Attempt</h3>
+        </div>
+        <div className="space-y-4">
+          {proItems.map((task, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-md p-6 border-2 border-red-300">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                <div className="flex-1">
+                  <h4 className="text-xl font-bold text-amber-900 mb-2">{task.name}</h4>
+                  <p className="text-amber-700 mb-4">{task.description}</p>
+
+                  <div className="bg-red-50 rounded-lg p-4">
+                    <h5 className="font-semibold text-red-900 mb-2 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      Why This Must Be Done By Professionals:
+                    </h5>
+                    <ul className="space-y-2 text-sm">
+                      {task.safety.map((reason, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-red-600 text-lg">⛔</span>
+                          <span className="text-red-900">{reason}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-4 bg-blue-50 rounded-lg p-3">
+                    <p className="text-sm text-blue-900">
+                      <strong>What to do:</strong> {task.whenToCall}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex-shrink-0">
+                  <button
+                    onClick={() => handleProRequest(task.name)}
+                    className="flex w-full md:w-auto items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 font-bold text-white shadow-lg transition-all hover:bg-red-700 hover:scale-105 active:scale-95"
+                  >
+                    Request Professional Help
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom CTA */}
+      <div className="mt-8 bg-gradient-to-br from-amber-800 to-yellow-700 text-white rounded-2xl p-8">
+        <h3 className="text-2xl font-bold mb-4">Still Not Sure? Ask a Pro</h3>
+        <p className="text-amber-100 mb-6">
+          If you&apos;re uncertain whether a task is safe for DIY, err on the side of caution.
+          Free consultations are always available — we&apos;d rather answer your question than see you get hurt.
+        </p>
+        <div className="space-y-3">
+          <a
+            href={`tel:${CONTACT.phoneRaw}`}
+            className="block w-full px-6 py-4 bg-white text-amber-900 rounded-xl font-bold hover:bg-amber-50 transition-colors text-center"
+          >
+            Call Andrew: {CONTACT.phone}
+            <div className="text-sm font-normal text-amber-700 mt-1">Free advice, no obligation</div>
+          </a>
+          <a
+            href={`mailto:${CONTACT.email}?subject=Question%20About%20Tree%20Work%20-%20DIY%20vs%20Pro`}
+            className="block w-full px-6 py-3 bg-amber-900 text-white rounded-xl font-semibold hover:bg-amber-800 transition-colors text-center"
+          >
+            Email Your Question
+          </a>
         </div>
       </div>
     </div>
-  );
+  )
 }
