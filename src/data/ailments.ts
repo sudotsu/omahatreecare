@@ -1,10 +1,12 @@
 export type AilmentType = 'pest' | 'disease' | 'environmental';
 export type AilmentSeverity = 'critical' | 'serious' | 'moderate';
+export type ThreatProfile = 'CRITICAL' | 'ELEVATED' | 'STANDARD';
 
 export interface TreeAilment {
   name: string;
   type: AilmentType;
   severity: AilmentSeverity;
+  threatProfile: ThreatProfile;
   symptoms: string[];
   affectedSpecies: string[];
   treatment: string;
@@ -17,6 +19,7 @@ export const ailments: TreeAilment[] = [
     name: 'Emerald Ash Borer (EAB)',
     type: 'pest',
     severity: 'critical',
+    threatProfile: 'CRITICAL',
     symptoms: [
       'D-shaped exit holes in bark (1/8 inch)',
       'S-shaped larvae galleries under bark',
@@ -34,6 +37,7 @@ export const ailments: TreeAilment[] = [
     name: 'Oak Wilt',
     type: 'disease',
     severity: 'critical',
+    threatProfile: 'CRITICAL',
     symptoms: [
       'Rapid leaf browning from top down (red oaks)',
       'Leaves turn brown but stay attached',
@@ -51,6 +55,7 @@ export const ailments: TreeAilment[] = [
     name: 'Dutch Elm Disease',
     type: 'disease',
     severity: 'critical',
+    threatProfile: 'CRITICAL',
     symptoms: [
       'Wilting and yellowing of leaves on individual branches',
       'Brown streaking in sapwood',
@@ -68,6 +73,7 @@ export const ailments: TreeAilment[] = [
     name: 'Iron Chlorosis',
     type: 'environmental',
     severity: 'moderate',
+    threatProfile: 'STANDARD',
     symptoms: [
       'Yellowing leaves with green veins',
       'New growth most affected',
@@ -85,6 +91,7 @@ export const ailments: TreeAilment[] = [
     name: 'Fire Blight',
     type: 'disease',
     severity: 'serious',
+    threatProfile: 'ELEVATED',
     symptoms: [
       'Sudden browning of shoots and branches',
       'Branches curve into "shepherd\'s crook" shape',
@@ -96,12 +103,13 @@ export const ailments: TreeAilment[] = [
     affectedSpecies: ['Crabapple', 'Apple', 'Pear', 'Mountain Ash', 'Hawthorn'],
     treatment: 'Prune infected branches 12 inches below visible symptoms. Disinfect tools between cuts. Antibiotic sprays during bloom period (professional application).',
     prevention: 'Choose resistant varieties. Avoid excessive nitrogen fertilizer. Prune only when dry. Remove all infected material immediately.',
-    timing: 'Disease most active in warm, wet spring weather. Prune infected branches appear'
+    timing: 'Disease most active in warm, wet spring weather. Prune when infected branches appear'
   },
   {
     name: 'Apple Scab',
     type: 'disease',
     severity: 'moderate',
+    threatProfile: 'STANDARD',
     symptoms: [
       'Olive-green to brown spots on leaves',
       'Early leaf drop (defoliation)',
@@ -119,6 +127,7 @@ export const ailments: TreeAilment[] = [
     name: 'Bagworms',
     type: 'pest',
     severity: 'serious',
+    threatProfile: 'ELEVATED',
     symptoms: [
       'Cone-shaped bags (1-2 inches) hanging on branches',
       'Needle/leaf loss around bags',
@@ -136,6 +145,7 @@ export const ailments: TreeAilment[] = [
     name: 'Drought Stress',
     type: 'environmental',
     severity: 'moderate',
+    threatProfile: 'STANDARD',
     symptoms: [
       'Wilting or drooping leaves',
       'Leaf scorch (brown leaf edges)',
@@ -154,6 +164,7 @@ export const ailments: TreeAilment[] = [
     name: 'Winter Damage & Frost Cracks',
     type: 'environmental',
     severity: 'moderate',
+    threatProfile: 'STANDARD',
     symptoms: [
       'Vertical cracks in bark (southwest side most common)',
       'Bark splitting and peeling',
@@ -171,6 +182,7 @@ export const ailments: TreeAilment[] = [
     name: 'Verticillium Wilt',
     type: 'disease',
     severity: 'serious',
+    threatProfile: 'ELEVATED',
     symptoms: [
       'Wilting on one side or scattered branches',
       'Yellowing leaves that may turn brown',
@@ -188,6 +200,7 @@ export const ailments: TreeAilment[] = [
     name: 'Girdling Roots',
     type: 'environmental',
     severity: 'serious',
+    threatProfile: 'ELEVATED',
     symptoms: [
       'Gradual decline over years',
       'One-sided canopy thinning',

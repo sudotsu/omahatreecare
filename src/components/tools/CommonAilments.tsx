@@ -242,7 +242,7 @@ function getSeverityGradient(severity: Severity) {
   }
 }
 
-export function CommonAilments() {
+export function CommonAilments({ searchParams: _searchParams }: { searchParams?: Record<string, any> }) {
   const [selectedAilment, setSelectedAilment] = useState<Ailment | null>(null)
   const [filterType, setFilterType] = useState<AilmentType | 'all'>('all')
 

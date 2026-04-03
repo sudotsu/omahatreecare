@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation'
 import { CommonAilments } from '@/components/tools/CommonAilments'
 import { CostEstimator } from '@/components/tools/CostEstimator'
 import { DIYvsProGuide } from '@/components/tools/DIYvsProGuide'
-import { HazardAssessment } from '@/components/tools/HazardAssessment'
+import { PremiumHazardAssessment } from '@/components/tools/PremiumHazardAssessment'
 import { SpeciesIdentifier } from '@/components/tools/SpeciesIdentifier'
 
 const TOOL_MAP = {
-  hazard:   HazardAssessment,
+  hazard:   PremiumHazardAssessment,
   species:  SpeciesIdentifier,
   cost:     CostEstimator,
   diy:      DIYvsProGuide,
@@ -25,11 +25,14 @@ export function generateStaticParams() {
 
 export default async function ToolPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ tool: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
   const { tool } = await params
+  const resolvedSearchParams = await searchParams
   if (!isToolSlug(tool)) notFound()
   const Tool = TOOL_MAP[tool]
-  return <Tool />
+  return <Tool searchParams={resolvedSearchParams} />
 }

@@ -2,10 +2,6 @@ import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    // Pin workspace root to THIS worktree so Turbopack doesn't scan the parent's node_modules too.
-    root: process.cwd(),
-  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "omahatreecare.com" },
