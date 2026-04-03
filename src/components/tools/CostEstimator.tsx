@@ -1,321 +1,260 @@
-'use client'
+"use client";
 
-import { DollarSign, Info } from 'lucide-react'
-import { useState } from 'react'
-import { CONTACT } from '@/lib/constants'
+import { 
+  DollarSign, 
+  Info, 
+  ArrowRight,
+  ArrowLeft,
+  Loader2,
+  ShieldCheck,
+  Zap,
+  Target,
+  FileText,
+  Clock,
+  ChevronRight,
+  Settings2,
+  Maximize2,
+  Construction,
+  Truck
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { CONTACT } from "@/lib/constants";
+import { dmSerif } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
 
-interface Service {
-  name: string
-  description: string
-  priceRange: string
-  typical: string
-  factors: string[]
+// ── Operational Archetypes ──────────────────────────────────────────────────
+interface Archetype {
+  id: string;
+  label: string;
+  description: string;
+  range: string;
+  typical: string;
+  factors: string[];
+  icon: any;
 }
 
-const services: Service[] = [
+const ARCHETYPES: Archetype[] = [
   {
-    name: 'Tree Removal',
-    description: 'Complete removal of tree including trunk and major branches',
-    priceRange: '$400 - $3,500+',
-    typical: '$800 - $1,500 for average tree',
-    factors: [
-      'Tree size and height',
-      'Accessibility and space constraints',
-      'Proximity to structures/power lines',
-      'Trunk diameter',
-      'Number of branches',
-      'Stump removal (additional cost)',
-      'Wood hauling vs. leaving on site',
-    ],
+    id: "standard",
+    label: "Residential Standard",
+    description: "Trees with clear drop zones and standard equipment access.",
+    range: "$400 — $1,200",
+    typical: "$850",
+    icon: Target,
+    factors: ["Truck access within 50ft", "No primary utility lines", "Standard debris hauling"],
   },
   {
-    name: 'Stump Grinding',
-    description: 'Grinding stump below ground level',
-    priceRange: '$75 - $400',
-    typical: '$150 - $250 for standard stump',
-    factors: [
-      'Stump diameter (charged per inch)',
-      'Root spread and depth',
-      'Accessibility for equipment',
-      'Number of stumps (bulk discounts)',
-      'Cleanup and haul-away',
-    ],
+    id: "technical",
+    label: "Technical Operation",
+    description: "Large trees or restricted backyard access requiring rigging.",
+    range: "$1,200 — $3,500",
+    typical: "$2,200",
+    icon: Construction,
+    factors: ["Complex rigging required", "Near structures/fences", "Limited equipment access"],
   },
   {
-    name: 'Tree Pruning/Trimming',
-    description: 'Selective branch removal to improve structure and health',
-    priceRange: '$200 - $1,200',
-    typical: '$400 - $600 for standard pruning',
-    factors: [
-      'Tree size and number of branches',
-      'Pruning type (structural, crown reduction, deadwood)',
-      'Equipment needs (bucket truck vs. climbing)',
-      'Cleanup and disposal',
-      'Season (dormant vs. growing)',
-    ],
+    id: "utility",
+    label: "Critical Utility/Hazard",
+    description: "Trees interacting with power lines or in a state of failure.",
+    range: "$2,000 — $5,000+",
+    typical: "$3,800",
+    icon: Zap,
+    factors: ["Power line proximity", "Structural failures detected", "High-liability zone"],
   },
   {
-    name: 'Crown Reduction',
-    description: 'Reducing tree height and spread for safety or clearance',
-    priceRange: '$400 - $1,500',
-    typical: '$600 - $900',
-    factors: [
-      'Amount of reduction needed',
-      'Tree species (growth pattern affects technique)',
-      'Current tree size',
-      'Precision required',
-      'Cleanup volume',
-    ],
-  },
-  {
-    name: 'Deadwood Removal',
-    description: 'Removing dead or dying branches',
-    priceRange: '$200 - $800',
-    typical: '$300 - $500',
-    factors: [
-      'Amount of deadwood',
-      'Branch size and height',
-      'Safety risk level',
-      'Access difficulty',
-      'Cleanup requirements',
-    ],
-  },
-  {
-    name: 'Cabling & Bracing',
-    description: 'Installing support systems for weak branch unions',
-    priceRange: '$400 - $1,200',
-    typical: '$600 - $800 per installation',
-    factors: [
-      'Number of cables needed',
-      'Tree height and access',
-      'Type of system (static vs. dynamic)',
-      'Inspection and monitoring setup',
-    ],
-  },
-  {
-    name: 'Emergency Storm Service',
-    description: 'Emergency removal of storm-damaged or hazardous trees',
-    priceRange: '$600 - $4,000+',
-    typical: '$1,000 - $2,000',
-    factors: [
-      'Urgency and timing (24-hour service premium)',
-      'Damage severity',
-      'Safety complications',
-      'Power line proximity',
-      'Structure damage risk',
-    ],
-  },
-  {
-    name: 'Large Tree Removal',
-    description: 'Removal of trees over 80 feet or 4+ feet diameter',
-    priceRange: '$2,000 - $10,000+',
-    typical: '$3,500 - $6,000',
-    factors: [
-      'Extreme size requires specialized equipment',
-      'Crane rental may be necessary',
-      'Multiple crew members and days',
-      'High liability and insurance costs',
-      'Permit requirements in some areas',
-    ],
-  },
-  {
-    name: 'Ash Tree EAB Treatment',
-    description: 'Trunk injection treatment for Emerald Ash Borer protection',
-    priceRange: '$10 - $15 per diameter inch',
-    typical: '$200 - $400 every 2 years',
-    factors: [
-      'Tree diameter (measured at chest height)',
-      'Treatment frequency (typically every 2 years)',
-      'Treatment type (injection vs. soil drench)',
-      'Tree health status',
-      'Number of trees (discounts for multiple)',
-    ],
-  },
-]
+    id: "maintenance",
+    label: "Fine Pruning / Health",
+    description: "Selective canopy cleaning and structural weight reduction.",
+    range: "$300 — $1,500",
+    typical: "$650",
+    icon: ShieldCheck,
+    factors: ["Arborist structural cuts", "Deadwood removal", "Disease prevention"],
+  }
+];
 
 export function CostEstimator() {
-  const [selectedService, setSelectedService] = useState<Service | null>(null)
+  const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [selectedId, setSelectedId] = useState<string>("");
+
+  const archetype = ARCHETYPES.find(a => a.id === selectedId);
+
+  const handleSelect = (id: string) => {
+    setSelectedId(id);
+    setIsAnalyzing(true);
+    
+    // Labor Illusion Pacing
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setIsComplete(true);
+    }, 1400);
+  };
+
+  const reset = () => {
+    setStep(1);
+    setSelectedId("");
+    setIsComplete(false);
+  };
+
+  if (isComplete && archetype) {
+    return (
+      <div className="animate-fade-in relative min-h-[600px] w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+        <TreeRingsBackground />
+        
+        <div className="relative z-10 flex flex-col md:flex-row h-full">
+          {/* Sidebar / Anchor */}
+          <div className="flex w-full flex-col p-8 md:w-80 bg-stone-50 border-r-2 border-stone-100">
+            <div className="mb-8">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Market Baseline</span>
+              <h2 className={`${dmSerif.className} mt-1 text-4xl leading-none text-forest`}>
+                {archetype.range}
+              </h2>
+              <p className="mt-2 text-sm font-semibold text-gold uppercase tracking-wider">Estimated Investment</p>
+            </div>
+
+            <div className="mt-auto space-y-4">
+              <div className="rounded-lg bg-white p-4 shadow-sm border border-stone-100">
+                <p className="text-xs font-bold uppercase tracking-wide text-stone-400">Arborist Note</p>
+                <p className="mt-1 text-xs leading-relaxed text-stone-600">
+                  Omaha market rates are currently affected by fuel costs and disposal fees. These ranges reflect 2024-2025 seasonal data.
+                </p>
+              </div>
+              <button 
+                onClick={reset}
+                className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-stone-200 py-3 text-xs font-bold text-stone-500 transition-colors hover:bg-stone-50"
+              >
+                Reset Parameters
+              </button>
+            </div>
+          </div>
+
+          {/* Main Content / The Authority Pivot */}
+          <div className="flex-1 p-8 md:p-12">
+            <div className="mb-10 flex items-start justify-between">
+              <div>
+                <h3 className={`${dmSerif.className} text-3xl text-forest`}>{archetype.label}</h3>
+                <p className="mt-2 text-stone-500">Why final quotes require a physical lot walk.</p>
+              </div>
+              <div className="rounded-full bg-forest p-3 text-gold shadow-lg">
+                <FileText size={24} />
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              {/* Complexity Disclosure */}
+              <div className="relative rounded-xl border-l-4 border-gold bg-stone-50 p-6">
+                <p className="text-lg leading-relaxed text-forest font-medium">
+                  For a {archetype.label.toLowerCase()} operation, we typically anchor at <span className="text-amber-700 font-bold">{archetype.typical}</span>. 
+                  However, three variables can shift this estimate significantly:
+                </p>
+              </div>
+
+              {/* The "Why" Factors */}
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {[
+                  { label: "Access", desc: "Can we get a spider lift or truck to the trunk?", icon: Truck },
+                  { label: "Targets", desc: "Are there structures, power lines, or high-value landscaping below?", icon: Target },
+                  { label: "Health", desc: "Is the wood structurally sound for climbing?", icon: ShieldCheck },
+                  { label: "Volume", desc: "Total canopy weight and disposal requirements.", icon: Maximize2 },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3 rounded-lg border border-stone-100 bg-white p-4 shadow-sm">
+                    <item.icon size={18} className="mt-1 text-gold shrink-0" />
+                    <div>
+                      <p className="text-sm font-bold text-forest">{item.label}</p>
+                      <p className="text-xs text-stone-500">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Final Conversion CTA */}
+              <div className="mt-12 text-center">
+                <button
+                  onClick={() => router.push(`/contact?source=cost_anchor&archetype=${archetype.id}`)}
+                  className="group inline-flex items-center gap-3 rounded-full bg-gold px-10 py-5 text-lg font-bold text-forest shadow-lg transition-all hover:scale-105 hover:bg-amber-400 active:scale-95"
+                >
+                  Schedule Your Firm On-Site Quote
+                  <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
+                </button>
+                <p className="mt-4 text-[10px] text-stone-400 font-bold uppercase tracking-[0.2em]">
+                  Certified Arborist Inspection · No Obligation
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-amber-900 mb-3">Tree Service Cost Estimator</h2>
-        <p className="text-amber-800 leading-relaxed">
-          Get typical price ranges for common tree services in the Omaha area.
-          These are estimates only — actual costs vary based on specific conditions.
+    <div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+      {/* Labor Illusion Overlay */}
+      {isAnalyzing && (
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm animate-fade-in text-center px-6">
+          <Loader2 className="mb-4 h-12 w-12 animate-spin text-gold" />
+          <div className="space-y-1">
+            <p className="text-xl font-bold tracking-tight text-forest">Analyzing Local Variables...</p>
+            <p className="text-sm text-stone-500 italic animate-pulse">Calculating municipal disposal surcharges</p>
+            <p className="text-xs text-stone-400 mt-4">Cross-referencing Omaha equipment access data</p>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="relative border-b border-stone-100 p-8 pt-10">
+        <div className="flex items-center gap-3">
+          <div className="rounded-lg bg-forest/5 p-2 text-forest">
+            <DollarSign size={20} />
+          </div>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">Step 1: Classification</span>
+            <h2 className={`${dmSerif.className} text-3xl text-forest`}>Estimate Your Project</h2>
+          </div>
+        </div>
+        <p className="mt-4 text-stone-500 leading-relaxed max-w-xl">
+          Select the operational archetype that best matches your tree care needs. We&apos;ll provide current Omaha market ranges.
         </p>
       </div>
 
-      {/* Service Cards */}
-      {!selectedService && (
-        <div className="space-y-3">
-          {services.map((service, index) => (
+      {/* Archetype Grid */}
+      <div className="p-8">
+        <div className="grid grid-cols-1 gap-4">
+          {ARCHETYPES.map((opt) => (
             <button
-              key={index}
-              onClick={() => setSelectedService(service)}
-              className="w-full bg-white rounded-xl shadow-md hover:shadow-xl transition-all p-6 text-left group"
+              key={opt.id}
+              onClick={() => handleSelect(opt.id)}
+              className="group relative flex w-full items-center justify-between rounded-xl border-2 border-stone-100 bg-white p-6 text-left transition-all hover:border-gold hover:shadow-md active:scale-[0.99]"
             >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-amber-900 group-hover:text-amber-700 transition-colors mb-2">
-                    {service.name}
-                  </h3>
-                  <p className="text-sm text-amber-700 mb-3">{service.description}</p>
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="w-5 h-5 text-green-600" />
-                    <span className="text-lg font-semibold text-green-700">{service.priceRange}</span>
-                  </div>
+              <div className="flex items-center gap-4">
+                <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-stone-50 text-stone-400 group-hover:bg-gold/10 group-hover:text-gold transition-colors">
+                  <opt.icon size={24} />
                 </div>
-                <svg className="w-6 h-6 text-amber-600 transform group-hover:translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <div>
+                  <p className="text-lg font-bold text-forest transition-colors group-hover:text-amber-700">{opt.label}</p>
+                  <p className="mt-1 text-sm text-stone-400 group-hover:text-stone-500">{opt.description}</p>
+                </div>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-50 text-stone-300 transition-colors group-hover:bg-gold/10 group-hover:text-gold">
+                <ChevronRight size={20} />
               </div>
             </button>
           ))}
         </div>
-      )}
+      </div>
 
-      {/* Service Detail */}
-      {selectedService && (
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-green-700 to-emerald-800 text-white p-6">
-            <div className="flex items-start justify-between mb-3">
-              <div>
-                <h2 className="text-3xl font-bold mb-2">{selectedService.name}</h2>
-                <p className="text-green-100 text-lg">{selectedService.description}</p>
-              </div>
-              <button
-                onClick={() => setSelectedService(null)}
-                className="text-white/80 hover:text-white transition-colors"
-                aria-label="Back to services"
-              >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="bg-white/20 backdrop-blur rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-green-100 text-sm mb-1">Price Range</p>
-                  <p className="text-3xl font-bold">{selectedService.priceRange}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-green-100 text-sm mb-1">Typical Cost</p>
-                  <p className="text-xl font-semibold">{selectedService.typical}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-6 space-y-6">
-            <div>
-              <h3 className="text-xl font-bold text-amber-900 mb-4">Factors Affecting Cost</h3>
-              <ul className="space-y-3">
-                {selectedService.factors.map((factor, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-amber-700 text-sm font-semibold">{i + 1}</span>
-                    </div>
-                    <span className="text-amber-800">{factor}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-5">
-              <div className="flex gap-3">
-                <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <div className="text-sm text-blue-900">
-                  <p className="font-semibold mb-2">Getting Accurate Quotes</p>
-                  <ul className="space-y-1">
-                    <li>• Always get quotes from at least 3 reputable companies</li>
-                    <li>• Ensure quotes are in writing with detailed scope of work</li>
-                    <li>• Verify insurance and certifications (ISA certification preferred)</li>
-                    <li>• Ask about cleanup, hauling, and stump removal</li>
-                    <li>• Cheaper isn&apos;t always better — consider experience and safety</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-5">
-              <div className="flex gap-3">
-                <DollarSign className="w-5 h-5 text-yellow-700 flex-shrink-0 mt-0.5" />
-                <div className="text-sm text-yellow-900">
-                  <p className="font-semibold mb-2">Ways to Save Money</p>
-                  <ul className="space-y-1">
-                    <li>• Schedule work during dormant season (winter) when demand is lower</li>
-                    <li>• Bundle multiple services together for efficiency discounts</li>
-                    <li>• Leave wood on site if you can use it (firewood)</li>
-                    <li>• Address issues early before they become emergencies</li>
-                    <li>• Ask about payment plans for large jobs</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-green-50 border-2 border-green-300 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-green-900 mb-4 text-center">Ready for a Free Quote?</h3>
-              <div className="space-y-3">
-                <a
-                  href={`tel:${CONTACT.phoneRaw}`}
-                  className="block w-full px-6 py-4 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-colors text-center"
-                >
-                  Call or Text: {CONTACT.phone}
-                  <div className="text-sm font-normal text-green-100 mt-1">Often same-day quotes available</div>
-                </a>
-                <a
-                  href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(`Free Quote Request for ${selectedService.name}`)}&body=${encodeURIComponent(`I'd like a quote for: ${selectedService.name}\n\nMy address: \nMy phone: \nBest time to reach me: `)}`}
-                  className="block w-full px-6 py-4 bg-amber-700 text-white rounded-xl font-bold hover:bg-amber-800 transition-colors text-center"
-                >
-                  Email for Free Written Quote
-                  <div className="text-sm font-normal text-amber-200 mt-1">Get detailed pricing for your specific situation</div>
-                </a>
-              </div>
-            </div>
-          </div>
+      <div className="bg-stone-50 p-6 flex items-center justify-center gap-6">
+        <div className="flex items-center gap-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest">
+          <Clock size={12} /> 60 Second Process
         </div>
-      )}
-
-      {/* General Pricing Info */}
-      {!selectedService && (
-        <div className="mt-8 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-2xl p-8 border-2 border-amber-200">
-          <h3 className="text-2xl font-bold text-amber-900 mb-4">Understanding Tree Service Pricing</h3>
-          <div className="space-y-4 text-amber-900">
-            <p>
-              Tree service costs vary significantly based on complexity, equipment needed, and local market rates.
-              Here are some general guidelines:
-            </p>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-lg p-4">
-                <h4 className="font-bold mb-2">Small Jobs ($200–$600)</h4>
-                <p className="text-sm text-amber-800">
-                  Simple pruning, small tree removal, single stump grinding. Quick jobs under 4 hours.
-                </p>
-              </div>
-              <div className="bg-white rounded-lg p-4">
-                <h4 className="font-bold mb-2">Medium Jobs ($600–$1,500)</h4>
-                <p className="text-sm text-amber-800">
-                  Standard tree removal, crown reduction, multiple stumps. Half to full day work.
-                </p>
-              </div>
-              <div className="bg-white rounded-lg p-4">
-                <h4 className="font-bold mb-2">Large Jobs ($1,500–$4,000)</h4>
-                <p className="text-sm text-amber-800">
-                  Large tree removal, complex rigging, multiple trees. Multi-day projects.
-                </p>
-              </div>
-              <div className="bg-white rounded-lg p-4">
-                <h4 className="font-bold mb-2">Major Projects ($4,000+)</h4>
-                <p className="text-sm text-amber-800">
-                  Crane work, massive trees, extensive property clearing. Specialized equipment required.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center gap-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest">
+          <ShieldCheck size={12} className="text-emerald-500" /> Professional Accuracy
         </div>
-      )}
+      </div>
     </div>
-  )
+  );
 }

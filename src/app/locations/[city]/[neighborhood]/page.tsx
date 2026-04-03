@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Phone, AlertTriangle, TreePine } from 'lucide-react'
 import { allNeighborhoods } from '@/data/locations'
 import { neighborhoodData, fallbackNeighborhoodData } from '@/data/neighborhoodData'
-import { MultiStepContactForm } from '@/components/forms/MultiStepContactForm'
+import { ContactForm } from '@/components/forms/ContactForm'
 import { CONTACT } from '@/lib/constants'
 
 interface PageProps {
@@ -66,7 +66,7 @@ export default async function NeighborhoodPage({ params }: PageProps) {
   return (
     <div className="bg-[#f8f6f1] min-h-screen">
       {/* Hero */}
-      <section className="bg-[#11261B] text-white pt-24 pb-16 px-6">
+      <section className="bg-[#11261B] text-white py-16 px-6">
         <div className="max-w-4xl mx-auto">
           <nav className="text-green-300 text-sm mb-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
@@ -154,12 +154,8 @@ export default async function NeighborhoodPage({ params }: PageProps) {
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-amber-900 mb-2 text-center">Get a Free Assessment in {neighborhoodName}</h2>
           <p className="text-amber-700 text-center mb-8">Andrew will come out, look at your trees, and give you straight answers.</p>
-          <div className="relative overflow-hidden bg-white border-2 border-stone-200 rounded-2xl shadow-xl">
-            <MultiStepContactForm 
-              city={city} 
-              neighborhood={neighborhoodName} 
-              source={`Neighborhood Page: ${neighborhoodName}`} 
-            />
+          <div className="bg-white border-2 border-amber-200 rounded-2xl p-8 shadow-sm">
+            <ContactForm />
           </div>
         </div>
       </section>
