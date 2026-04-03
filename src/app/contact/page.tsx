@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { Phone, Mail, Clock, MapPin } from 'lucide-react'
 import { ContactForm } from '@/components/forms/ContactForm'
 import { CONTACT, BUSINESS_HOURS } from '@/lib/constants'
+import { Suspense } from 'react'
+import { ContactFormWrapper } from './ContactFormWrapper'
 
 export const metadata: Metadata = {
   title: 'Get a Free Tree Service Estimate | Midwest Roots Omaha',
@@ -15,7 +17,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
   return (
     <div className="bg-[#f8f6f1] min-h-screen">
       {/* Header */}
@@ -108,7 +110,9 @@ export default function ContactPage() {
           {/* Right: form */}
           <div className="bg-white rounded-2xl border-2 border-amber-200 p-8 shadow-sm">
             <h2 className="text-2xl font-bold text-amber-900 mb-6">Send a Message</h2>
-            <ContactForm />
+            <Suspense fallback={<div className="h-96 animate-pulse bg-slate-50 rounded-lg" />}>
+              <ContactFormWrapper />
+            </Suspense>
           </div>
         </div>
       </section>

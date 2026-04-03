@@ -1,7 +1,8 @@
 'use client'
 
-import { AlertTriangle, CheckCircle, Wrench } from 'lucide-react'
+import { AlertTriangle, CheckCircle, Wrench, ArrowRight } from 'lucide-react'
 import { CONTACT } from '@/lib/constants'
+import { useRouter } from 'next/navigation'
 
 type TaskCategory = 'safe-diy' | 'risky-diy' | 'professional-only'
 
@@ -173,10 +174,19 @@ const tasks: Task[] = [
   },
 ]
 
-export function DIYvsProGuide() {
+export function DIYvsProGuide({ searchParams }: { searchParams?: Record<string, any> }) {
+  const router = useRouter()
   const safeItems  = tasks.filter(t => t.category === 'safe-diy')
   const riskyItems = tasks.filter(t => t.category === 'risky-diy')
   const proItems   = tasks.filter(t => t.category === 'professional-only')
+
+  const handleProRequest = (taskName: string) => {
+    const params = new URLSearchParams({
+      source: 'diy_guide',
+      task: taskName
+    })
+    router.push(`/contact?${params.toString()}`)
+  }
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -191,7 +201,7 @@ export function DIYvsProGuide() {
             <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-red-900 font-medium">
               <strong>Safety First:</strong> Tree work is inherently dangerous. If you have any doubt
-              about your ability to safely complete a task, call a professional. Medical bills and
+              about your ability to safely complete a task, <strong>do not attempt it.</strong> Medical bills and
               property damage cost far more than hiring an expert.
             </p>
           </div>
@@ -306,28 +316,42 @@ export function DIYvsProGuide() {
         <div className="space-y-4">
           {proItems.map((task, index) => (
             <div key={index} className="bg-white rounded-xl shadow-md p-6 border-2 border-red-300">
-              <h4 className="text-xl font-bold text-amber-900 mb-2">{task.name}</h4>
-              <p className="text-amber-700 mb-4">{task.description}</p>
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                <div className="flex-1">
+                  <h4 className="text-xl font-bold text-amber-900 mb-2">{task.name}</h4>
+                  <p className="text-amber-700 mb-4">{task.description}</p>
 
-              <div className="bg-red-50 rounded-lg p-4">
-                <h5 className="font-semibold text-red-900 mb-2 flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5" />
-                  Why This Must Be Done By Professionals:
-                </h5>
-                <ul className="space-y-2 text-sm">
-                  {task.safety.map((reason, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-red-600 text-lg">⛔</span>
-                      <span className="text-red-900">{reason}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                  <div className="bg-red-50 rounded-lg p-4">
+                    <h5 className="font-semibold text-red-900 mb-2 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      Why This Must Be Done By Professionals:
+                    </h5>
+                    <ul className="space-y-2 text-sm">
+                      {task.safety.map((reason, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-red-600 text-lg">⛔</span>
+                          <span className="text-red-900">{reason}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-              <div className="mt-4 bg-blue-50 rounded-lg p-3">
-                <p className="text-sm text-blue-900">
-                  <strong>What to do:</strong> {task.whenToCall}
-                </p>
+                  <div className="mt-4 bg-blue-50 rounded-lg p-3">
+                    <p className="text-sm text-blue-900">
+                      <strong>What to do:</strong> {task.whenToCall}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex-shrink-0">
+                  <button
+                    onClick={() => handleProRequest(task.name)}
+                    className="flex w-full md:w-auto items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 font-bold text-white shadow-lg transition-all hover:bg-red-700 hover:scale-105 active:scale-95"
+                  >
+                    Request Professional Help
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
               </div>
             </div>
           ))}

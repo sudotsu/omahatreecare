@@ -25,11 +25,14 @@ export function generateStaticParams() {
 
 export default async function ToolPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ tool: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
   const { tool } = await params
+  const resolvedSearchParams = await searchParams
   if (!isToolSlug(tool)) notFound()
   const Tool = TOOL_MAP[tool]
-  return <Tool />
+  return <Tool searchParams={resolvedSearchParams} />
 }

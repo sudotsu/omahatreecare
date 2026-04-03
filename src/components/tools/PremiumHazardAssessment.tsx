@@ -18,12 +18,13 @@ import {
   FileText,
   Clock
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { CONTACT } from "@/lib/constants";
 import { dmSerif } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
+import { getRiskLevel as getBaseRiskLevel } from "@/data/hazard-criteria";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 interface AssessmentState {
@@ -102,18 +103,35 @@ const QUESTIONS: Question[] = [
 ];
 
 const getRiskLevel = (risk: number) => {
-  if (risk >= 9) return { level: "Extreme", color: "text-red-600", bg: "bg-red-50", border: "border-red-200", label: "Immediate Priority", action: "Action required within 0–14 days" };
-  if (risk >= 6) return { level: "High", color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-200", label: "High Priority", action: "Service recommended within 30–60 days" };
-  if (risk >= 3) return { level: "Moderate", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-200", label: "Regular Priority", action: "Maintenance recommended within 90 days" };
-  return { level: "Low", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Monitoring", action: "Monitor during regular seasonal visits" };
+  const base = getBaseRiskLevel(risk);
+  
+  const uiMapping: Record<string, { color: string; bg: string; border: string; label: string }> = {
+    'Extreme': { color: "text-red-600",    bg: "bg-red-50",    border: "border-red-200",    label: "Immediate Priority" },
+    'High':    { color: "text-orange-600", bg: "bg-orange-50", border: "border-orange-200", label: "High Priority" },
+    'Moderate':{ color: "text-amber-600",  bg: "bg-amber-50",  border: "border-amber-200",  label: "Regular Priority" },
+    'Low':     { color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Monitoring" },
+  };
+
+  const ui = uiMapping[base.level] || uiMapping['Low'];
+  return { ...base, ...ui };
 };
 
-export function PremiumHazardAssessment() {
+export function PremiumHazardAssessment({ searchParams: _searchParams }: { searchParams?: Record<string, any> }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const speciesFromNav = searchParams.get("species");
+
   const [step, setStep] = useState(0);
   const [assessment, setAssessment] = useState<AssessmentState>({ likelihood: 0, consequence: 0, issues: [] });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [selectedTree, setSelectedTree] = useState<string>(speciesFromNav || "");
+
+  useEffect(() => {
+    if (speciesFromNav) {
+      setSelectedTree(speciesFromNav);
+    }
+  }, [speciesFromNav]);
 
   const calculateRisk = () => assessment.likelihood * assessment.consequence;
 
@@ -223,7 +241,7 @@ export function PremiumHazardAssessment() {
               {/* Final CTA */}
               <div className="mt-12 text-center">
                 <button
-                  onClick={() => router.push(`/contact?risk=${risk.level.toLowerCase()}&score=${score}`)}
+                  onClick={() => router.push(`/contact?risk=${risk.level.toLowerCase()}&score=${score}&species=${encodeURIComponent(selectedTree)}&source=hazard_assessment`)}
                   className="group inline-flex items-center gap-3 rounded-full bg-gold px-10 py-5 text-lg font-bold text-forest shadow-lg transition-all hover:scale-105 hover:bg-amber-400 active:scale-95"
                 >
                   Request Professional Walkthrough

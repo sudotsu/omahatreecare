@@ -13,7 +13,15 @@ const services = [
   { name: "Winter Tree Prep",   slug: "winter-tree-prep" },
 ] as const;
 
-export function Navigation() {
+interface NavigationProps {
+  brandTitle?: string;
+  subTitle?: string;
+}
+
+export function Navigation({ 
+  brandTitle = "Midwest Roots", 
+  subTitle = "Tree Services" 
+}: NavigationProps) {
   const [scrolled, setScrolled]             = useState(false);
   const [isMenuOpen, setIsMenuOpen]         = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
@@ -51,13 +59,13 @@ export function Navigation() {
             className={`${dmSerif.className} text-2xl leading-none tracking-tight transition-colors duration-300`}
             style={{ color: brandColor }}
           >
-            Omaha Tree Care
+            {brandTitle}
           </span>
           <span
             className="text-[11px] font-semibold tracking-[0.12em] uppercase transition-colors duration-300"
             style={{ color: subColor }}
           >
-            Tools &amp; Resources
+            {subTitle}
           </span>
         </Link>
 

@@ -1,8 +1,9 @@
 'use client'
 
-import { AlertCircle, Camera, CheckCircle, Info, Search, Upload, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { AlertCircle, AlertTriangle, Camera, CheckCircle, Info, Search, Upload, X, ArrowRight } from 'lucide-react'
+import { useEffect, useState, useRef } from 'react'
 import { CONTACT } from '@/lib/constants'
+import { useRouter } from 'next/navigation'
 
 interface Tree {
   name: string
@@ -157,18 +158,77 @@ const getRiskColor = (level: Tree['riskLevel']) => {
 
 const getRiskIcon = (level: Tree['riskLevel']) => {
   switch (level) {
-    case 'high':     return AlertCircle
+    case 'high':     return AlertTriangle
     case 'low':      return CheckCircle
     default:         return Info
   }
 }
 
-export function SpeciesIdentifier() {
+export function SpeciesIdentifier({ searchParams }: { searchParams?: Record<string, any> }) {
+  const router = useRouter()
   const [searchTerm, setSearchTerm]           = useState('')
   const [selectedTree, setSelectedTree]       = useState<Tree | null>(null)
   const [uploadedPhotos, setUploadedPhotos]   = useState<{ file: File; url: string }[]>([])
   const [allowCommunityUse, setAllowCommunityUse] = useState(true)
   const [photoSubmitted, setPhotoSubmitted]   = useState(false)
+  const [isInterrupted, setIsInterrupted]     = useState(false)
+  
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  // Proper Focus Trap
+  useEffect(() => {
+    if (isInterrupted && dialogRef.current) {
+      const focusableElements = dialogRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      const firstElement = focusableElements[0] as HTMLElement
+      firstElement?.focus()
+
+      const handleTab = (e: KeyboardEvent) => {
+        if (e.key !== 'Tab') return
+        
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement
+        
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            lastElement.focus()
+            e.preventDefault()
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            firstElement.focus()
+            e.preventDefault()
+          }
+        }
+      }
+
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setIsInterrupted(false)
+      }
+
+      window.addEventListener('keydown', handleTab)
+      window.addEventListener('keydown', handleEscape)
+      return () => {
+        window.removeEventListener('keydown', handleTab)
+        window.removeEventListener('keydown', handleEscape)
+      }
+    }
+  }, [isInterrupted])
+
+  const handleStartAssessment = () => {
+    if (!selectedTree) return
+    if (selectedTree.riskLevel === 'high') {
+      setIsInterrupted(true)
+    } else {
+      router.push(`/tools/hazard?species=${encodeURIComponent(selectedTree.name)}`)
+    }
+  }
+
+  const proceedToAssessment = () => {
+    if (!selectedTree) return
+    setIsInterrupted(false)
+    router.push(`/tools/hazard?species=${encodeURIComponent(selectedTree.name)}`)
+  }
 
   useEffect(() => {
     return () => {
@@ -429,6 +489,19 @@ export function SpeciesIdentifier() {
               <p className="text-amber-800 leading-relaxed">{selectedTree.maintenanceNotes}</p>
             </div>
 
+            {/* Run Assessment CTA */}
+            <div className="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-6 text-center">
+              <h3 className="text-lg font-bold text-emerald-900 mb-2">Check This Tree for Hazards</h3>
+              <p className="text-sm text-emerald-800 mb-4">Run a guided diagnostic to check for structural defects and risk levels.</p>
+              <button
+                onClick={handleStartAssessment}
+                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-md"
+              >
+                Start Hazard Assessment
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
             {selectedTree.riskLevel === 'high' ? (
               <div className="bg-red-50 border-2 border-red-300 rounded-xl p-5">
                 <h3 className="text-lg font-bold text-red-900 mb-3 text-center">High-Risk Species — Get Expert Help</h3>
@@ -461,6 +534,64 @@ export function SpeciesIdentifier() {
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Interruption Overlay */}
+      {isInterrupted && selectedTree && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in"
+        >
+          {(() => {
+            const HighRiskIcon = getRiskIcon('high');
+            return (
+              <div 
+                ref={dialogRef}
+                role="alertdialog"
+                aria-modal="true"
+                aria-labelledby="interruption-title"
+                aria-describedby="interruption-desc"
+                className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl border-4 border-red-500"
+              >
+                <div className="flex items-center gap-3 mb-4 text-red-600">
+                  <HighRiskIcon size={32} strokeWidth={3} />
+                  <h3 id="interruption-title" className="text-2xl font-black uppercase tracking-tight">
+                    Critical Species Risk
+                  </h3>
+                </div>
+                
+                <p id="interruption-desc" className="text-stone-600 text-lg leading-relaxed mb-8">
+                  Because <strong>{selectedTree.name}</strong> is classified as a high-risk species in the Omaha area, 
+                  self-assessment results may be insufficient. <strong>CRITICAL:</strong> Structural failures in this species 
+                  are often sudden and catastrophic.
+                </p>
+
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={() => {
+                      setIsInterrupted(false);
+                      router.push(`/contact?source=species_interrupt&task=urgent_assessment&species=${encodeURIComponent(selectedTree.name)}`);
+                    }}
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    Request Urgent Professional Review
+                  </button>
+                  <button
+                    onClick={proceedToAssessment}
+                    className="w-full bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold py-3 px-6 rounded-xl transition-colors"
+                  >
+                    I Understand, Continue to Tool
+                  </button>
+                  <button
+                    onClick={() => setIsInterrupted(false)}
+                    className="w-full text-stone-400 text-xs font-bold uppercase tracking-widest mt-2 hover:text-stone-600 transition-colors"
+                  >
+                    Go Back
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       )}
     </div>

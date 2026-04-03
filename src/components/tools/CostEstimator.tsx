@@ -15,10 +15,11 @@ import {
   Settings2,
   Maximize2,
   Construction,
-  Truck
+  Truck,
+  type LucideIcon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CONTACT } from "@/lib/constants";
 import { dmSerif } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -32,7 +33,7 @@ interface Archetype {
   range: string;
   typical: string;
   factors: string[];
-  icon: any;
+  icon: LucideIcon;
 }
 
 const ARCHETYPES: Archetype[] = [
@@ -74,14 +75,21 @@ const ARCHETYPES: Archetype[] = [
   }
 ];
 
-export function CostEstimator() {
+export function CostEstimator({ searchParams }: { searchParams?: Record<string, any> }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [selectedId, setSelectedId] = useState<string>("");
+  const resultHeadingRef = useRef<HTMLHeadingElement>(null);
 
   const archetype = ARCHETYPES.find(a => a.id === selectedId);
+
+  useEffect(() => {
+    if (isComplete && resultHeadingRef.current) {
+      resultHeadingRef.current.focus();
+    }
+  }, [isComplete]);
 
   const handleSelect = (id: string) => {
     setSelectedId(id);
@@ -102,7 +110,11 @@ export function CostEstimator() {
 
   if (isComplete && archetype) {
     return (
-      <div className="animate-fade-in relative min-h-[600px] w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div 
+        className="animate-fade-in relative min-h-[600px] w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+        role="region"
+        aria-live="polite"
+      >
         <TreeRingsBackground />
         
         <div className="relative z-10 flex flex-col md:flex-row h-full">
@@ -136,7 +148,13 @@ export function CostEstimator() {
           <div className="flex-1 p-8 md:p-12">
             <div className="mb-10 flex items-start justify-between">
               <div>
-                <h3 className={`${dmSerif.className} text-3xl text-forest`}>{archetype.label}</h3>
+                <h3 
+                  ref={resultHeadingRef}
+                  tabIndex={-1}
+                  className={`${dmSerif.className} text-3xl text-forest outline-none`}
+                >
+                  {archetype.label}
+                </h3>
                 <p className="mt-2 text-stone-500">Why final quotes require a physical lot walk.</p>
               </div>
               <div className="rounded-full bg-forest p-3 text-gold shadow-lg">
@@ -195,12 +213,17 @@ export function CostEstimator() {
     <div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
       {/* Labor Illusion Overlay */}
       {isAnalyzing && (
-        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm animate-fade-in text-center px-6">
+        <div 
+          className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm animate-fade-in text-center px-6"
+          role="status"
+          aria-busy="true"
+          aria-live="assertive"
+        >
           <Loader2 className="mb-4 h-12 w-12 animate-spin text-gold" />
           <div className="space-y-1">
-            <p className="text-xl font-bold tracking-tight text-forest">Analyzing Local Variables...</p>
-            <p className="text-sm text-stone-500 italic animate-pulse">Calculating municipal disposal surcharges</p>
-            <p className="text-xs text-stone-400 mt-4">Cross-referencing Omaha equipment access data</p>
+            <p className="text-xl font-bold tracking-tight text-forest">Preparing Estimate Ranges...</p>
+            <p className="text-sm text-stone-500 italic animate-pulse">Reviewing local archetype data</p>
+            <p className="text-xs text-stone-400 mt-4">Referencing Omaha market variables</p>
           </div>
         </div>
       )}
