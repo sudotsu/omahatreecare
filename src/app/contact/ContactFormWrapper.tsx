@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { ContactForm } from "@/components/forms/ContactForm";
+import { MultiStepContactForm } from "@/components/forms/MultiStepContactForm";
 
 export function ContactFormWrapper() {
   const searchParams = useSearchParams();
@@ -20,10 +20,11 @@ export function ContactFormWrapper() {
     score:     searchParams.get("score")     || undefined,
     task:      searchParams.get("task")      || undefined,
     archetype: searchParams.get("archetype") || undefined,
+    species:   searchParams.get("species")   || undefined,
   };
 
   return (
-    <ContactForm 
+    <MultiStepContactForm 
       initialValues={initialValues} 
       trackingData={trackingData} 
     />

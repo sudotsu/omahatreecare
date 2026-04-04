@@ -42,7 +42,7 @@ const schema = z.object({
   service_type: z.string().min(1, { message: "Please select a service." }),
   address:      z.string().optional(),
   message:      z.string().optional(),
-  user_name:    z.string().trim().min(1, { message: "Name is required." }).refine(val => val.length > 0, { message: "Name cannot be empty." }),
+  user_name:    z.string().trim().min(1, { message: "Name is required." }),
   user_email:   z.string().trim().email({ message: "Please enter a valid email." }),
   user_phone:   z.string()
     .transform(val => val.replace(/\D/g, ""))
@@ -60,10 +60,19 @@ interface ServiceOption {
   description: string;
 }
 
-interface MultiStepContactFormProps {
-  city?: string;
-  neighborhood?: string;
-  source?: string;
+export interface MultiStepContactFormProps {
+  initialValues?: Partial<FormValues>;
+  trackingData?: {
+    source?: string;
+    city?: string;
+    neighborhood?: string;
+    risk?: string;
+    score?: string;
+    task?: string;
+    archetype?: string;
+    species?: string;
+    [key: string]: string | undefined;
+  };
 }
 
 const SERVICES: ServiceOption[] = [
@@ -75,10 +84,11 @@ const SERVICES: ServiceOption[] = [
   { id: "Other", label: "Not Sure", icon: HelpCircle, description: "General inquiry or custom tree care needs." },
 ];
 
-export function MultiStepContactForm({ city, neighborhood, source }: MultiStepContactFormProps) {
+export function MultiStepContactForm({ initialValues, trackingData }: MultiStepContactFormProps = {}) {
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | "config_error" | null>(null);
+  const [missingKeys, setMissingKeys] = useState<string[]>([]);
   const [isPreparing, setIsPreparing] = useState(false);
 
   const {
@@ -92,8 +102,12 @@ export function MultiStepContactForm({ city, neighborhood, source }: MultiStepCo
   } = useForm<FormValues>({ 
     resolver: zodResolver(schema),
     defaultValues: {
-      service_type: "",
-      message: "",
+      service_type: initialValues?.service_type || "",
+      address: initialValues?.address || "",
+      message: initialValues?.message || "",
+      user_name: initialValues?.user_name || "",
+      user_email: initialValues?.user_email || "",
+      user_phone: initialValues?.user_phone || "",
     }
   });
 
@@ -121,9 +135,15 @@ export function MultiStepContactForm({ city, neighborhood, source }: MultiStepCo
   const prevStep = () => setStep((s) => (s - 1) as Step);
 
   const onSubmit = async (data: FormValues) => {
-    if (!EMAILJS_CONFIGURED) {
-      console.error("EmailJS is not configured. Check environment variables.");
-      setSubmitStatus("error");
+    // Validate EmailJS Config
+    const missing = [];
+    if (!SERVICE_ID) missing.push("NEXT_PUBLIC_EMAILJS_SERVICE_ID");
+    if (!TEMPLATE_ID) missing.push("NEXT_PUBLIC_EMAILJS_TEMPLATE_ID");
+    if (!PUBLIC_KEY) missing.push("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
+
+    if (missing.length > 0) {
+      setMissingKeys(missing);
+      setSubmitStatus("config_error");
       return;
     }
 
@@ -133,10 +153,21 @@ export function MultiStepContactForm({ city, neighborhood, source }: MultiStepCo
         SERVICE_ID, 
         TEMPLATE_ID, 
         {
-          ...data,
-          city: city ?? "Not specified",
-          neighborhood: neighborhood ?? "Not specified",
-          source: source ?? "Website Contact Form",
+          user_name:    data.user_name.trim(),
+          user_email:   data.user_email.trim(),
+          user_phone:   data.user_phone, // already transformed
+          service_type: data.service_type?.trim() || "Not specified",
+          message:      data.message?.trim()      || "No description provided",
+          address:      data.address?.trim()      || "Not provided",
+          // Include tracking data in payload
+          city:         trackingData?.city         ?? "Not specified",
+          neighborhood: trackingData?.neighborhood ?? "Not specified",
+          source:       trackingData?.source       ?? "Website Contact Form",
+          risk_level:   trackingData?.risk         ?? "Not assessed",
+          risk_score:   trackingData?.score        ?? "N/A",
+          task_name:    trackingData?.task         ?? "Not specified",
+          archetype:    trackingData?.archetype    ?? "None",
+          species:      trackingData?.species      ?? "None",
         }, 
         PUBLIC_KEY
       );
@@ -211,10 +242,46 @@ export function MultiStepContactForm({ city, neighborhood, source }: MultiStepCo
           </div>
         )}
 
+        {submitStatus === "config_error" && (
+          <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
+            <p className="text-sm text-red-700">
+              Missing EmailJS configuration: <strong>{missingKeys.join(", ")}</strong>.
+            </p>
+          </div>
+        )}
+
         {/* Step 1: Service Selection */}
         {step === 1 && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {/* Inject dynamic initial value if not in standard list */}
+              {initialValues?.service_type && !SERVICES.find(s => s.id === initialValues.service_type) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setValue("service_type", initialValues.service_type as string);
+                    nextStep();
+                  }}
+                  className={cn(
+                    "group flex flex-col items-center rounded-xl border-2 p-4 transition-all hover:shadow-md",
+                    selectedService === initialValues.service_type 
+                      ? "border-gold bg-gold/5" 
+                      : "border-emerald-100 bg-emerald-50/30 hover:border-emerald-200"
+                  )}
+                >
+                  <div className={cn(
+                    "mb-3 rounded-full p-3 transition-colors",
+                    selectedService === initialValues.service_type ? "bg-gold text-forest" : "bg-emerald-50 text-emerald-600"
+                  )}>
+                    <HelpCircle size={24} />
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-tight text-center text-forest leading-tight">
+                    {initialValues.service_type}
+                  </span>
+                </button>
+              )}
+
               {SERVICES.map((s) => (
                 <button
                   key={s.id}
@@ -236,7 +303,7 @@ export function MultiStepContactForm({ city, neighborhood, source }: MultiStepCo
                   )}>
                     <s.icon size={24} />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-wide text-forest">{s.label}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-tight text-center text-forest leading-tight">{s.label}</span>
                 </button>
               ))}
             </div>

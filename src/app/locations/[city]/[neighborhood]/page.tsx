@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Phone, AlertTriangle, TreePine } from 'lucide-react'
 import { allNeighborhoods } from '@/data/locations'
 import { neighborhoodData, fallbackNeighborhoodData } from '@/data/neighborhoodData'
-import { ContactForm } from '@/components/forms/ContactForm'
+import { MultiStepContactForm } from '@/components/forms/MultiStepContactForm'
 import { CONTACT } from '@/lib/constants'
 
 interface PageProps {
@@ -155,7 +155,7 @@ export default async function NeighborhoodPage({ params }: PageProps) {
           <h2 className="text-2xl font-bold text-amber-900 mb-2 text-center">Get a Free Assessment in {neighborhoodName}</h2>
           <p className="text-amber-700 text-center mb-8">Andrew will come out, look at your trees, and give you straight answers.</p>
           <div className="bg-white border-2 border-amber-200 rounded-2xl p-8 shadow-sm">
-            <ContactForm 
+            <MultiStepContactForm 
               trackingData={{
                 city: cityName,
                 neighborhood: neighborhoodName,
