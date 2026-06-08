@@ -21,11 +21,11 @@ import { CONTACT, STATS } from "@/lib/constants";
 import { serviceIds, servicesData } from "@/data/services";
 
 export const metadata: Metadata = {
-  title: "Omaha Tree Service",
+  title: "Tree Hazard & Health Tools | Midwest Roots",
   description:
     "Free arborist diagnostic tools for Omaha homeowners. Assess hazards, identify tree species, get cost estimates. No account required.",
   openGraph: {
-    title: "Omaha Tree Service | Midwest Roots Tree Services",
+    title: "Tree Hazard & Health Tools | Midwest Roots",
     description:
       "Free arborist diagnostic tools for Omaha homeowners. Assess hazards, identify tree species, get cost estimates. No account required.",
     url: "https://omahatreecare.com",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Omaha Tree Care | Free Tree Health Diagnostic Tools",
+    title: "Tree Hazard & Health Tools | Midwest Roots",
     description:
       "Free arborist diagnostic tools for Omaha homeowners. No account required.",
     images: ["/images/og-image.jpg"],
