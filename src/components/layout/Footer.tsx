@@ -103,12 +103,9 @@ export function Footer() {
             <div className="flex flex-col gap-2">
               <p className="text-xs text-slate-400">
                 Built by{" "}
-                <a
-                  href="https://midwestroots.info"
-                  className="font-semibold hover:text-emerald-400 transition-colors text-emerald-500"
-                >
+                <span className="font-semibold text-slate-300">
                   {CONTACT.businessName}
-                </a>
+                </span>
               </p>
               <Link
                 href="/accessibility"
