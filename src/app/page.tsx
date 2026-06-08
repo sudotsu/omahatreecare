@@ -17,26 +17,26 @@ import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
 import { HazardAssessmentHeroCard } from "@/components/ui/HazardAssessmentHeroCard";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { dmSerif } from "@/lib/fonts";
-import { STATS } from "@/lib/constants";
+import { CONTACT, STATS } from "@/lib/constants";
 import { serviceIds, servicesData } from "@/data/services";
 
 export const metadata: Metadata = {
-  title: "Omaha Tree Care | Free Tree Health Diagnostic Tools",
+  title: "Tree Hazard & Health Tools | Midwest Roots",
   description:
     "Free arborist diagnostic tools for Omaha homeowners. Assess hazards, identify tree species, get cost estimates. No account required.",
   openGraph: {
-    title: "Omaha Tree Care | Free Tree Health Diagnostic Tools",
+    title: "Tree Hazard & Health Tools | Midwest Roots",
     description:
       "Free arborist diagnostic tools for Omaha homeowners. Assess hazards, identify tree species, get cost estimates. No account required.",
     url: "https://omahatreecare.com",
-    siteName: "Omaha Tree Care",
+    siteName: CONTACT.businessName,
     images: [{ url: "/images/og-image.jpg", width: 1200, height: 630 }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Omaha Tree Care | Free Tree Health Diagnostic Tools",
+    title: "Tree Hazard & Health Tools | Midwest Roots",
     description:
       "Free arborist diagnostic tools for Omaha homeowners. No account required.",
     images: ["/images/og-image.jpg"],
