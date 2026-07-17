@@ -30,6 +30,13 @@
       "description": "Identify common Omaha-area tree species",
       "url": "/tools/species",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Field Estimate",
+      "short_name": "Estimate",
+      "description": "Build and share a Midwest Roots field estimate",
+      "url": "/field-estimate",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

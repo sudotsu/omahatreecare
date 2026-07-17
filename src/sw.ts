@@ -19,7 +19,9 @@ const serwist = new Serwist({
     // ── Tool pages: CacheFirst (core offline use case) ──────────────────
     {
       matcher: ({ url }) =>
-        url.pathname === "/tools" || url.pathname.startsWith("/tools/"),
+        url.pathname === "/tools" ||
+        url.pathname.startsWith("/tools/") ||
+        url.pathname === "/field-estimate",
       handler: new CacheFirst({
         cacheName: "tools-pages",
         plugins: [],

@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "Permanent Marker";
+  src: url("/fonts/permanent-marker.ttf") format("truetype");
+  font-display: swap;
+}
+
+.app { min-height: 100vh; background: #e9e6df; color: #11261b; padding: 20px; }
+.appHeader { max-width: 1480px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: space-between; }
+.appHeader h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1; letter-spacing: -.04em; }
+.appHeader p { margin-top: 7px; color: #6b6f69; font-size: .82rem; }
+.appEyebrow { display: block; margin-bottom: 6px; color: #52796f; font-size: .68rem; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; }
+.iconButton { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid #d3d0c8; border-radius: 12px; background: #fff; color: #11261b; }
+.workspace { max-width: 1480px; margin: auto; display: grid; grid-template-columns: minmax(340px, 480px) minmax(620px, 1fr); gap: 24px; align-items: start; }
+.editor { border-radius: 18px; background: #f8f6f1; box-shadow: 0 14px 40px rgb(13 26 15 / 9%); overflow: hidden; }
+.formSection { padding: 24px; border-bottom: 1px solid #ddd9d0; }
+.sectionHeading { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+.sectionHeading > span { width: 28px; height: 28px; display: grid; place-items: center; flex: none; border-radius: 50%; background: #e8eee9; color: #52796f; font-size: .68rem; font-weight: 850; }
+.sectionHeading h2 { font-size: 1.12rem; line-height: 1.1; }
+.sectionHeading p { margin-top: 4px; color: #75766f; font-size: .78rem; }
+.formSection label { display: block; margin-top: 14px; color: #4b524d; font-size: .72rem; font-weight: 800; letter-spacing: .04em; }
+.formSection input, .formSection textarea { width: 100%; margin-top: 6px; border: 1px solid #cecac1; border-radius: 10px; background: #fff; color: #11261b; font: inherit; font-size: 16px; line-height: 1.4; padding: 12px 13px; outline: none; }
+.formSection input:focus, .formSection textarea:focus { border-color: #52796f; box-shadow: 0 0 0 3px rgb(82 121 111 / 15%); }
+.formSection textarea { resize: vertical; }
+.fieldGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.serviceList { display: grid; gap: 14px; margin-top: 18px; }
+.serviceEditor { padding: 16px; border: 1px solid #ddd9d0; border-radius: 13px; background: #fdfcf9; }
+.serviceEditorHeader { display: flex; align-items: center; justify-content: space-between; color: #52796f; font-size: .74rem; text-transform: uppercase; letter-spacing: .1em; }
+.serviceEditorHeader button { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: #8b4d4d; }
+.serviceEditorHeader button:disabled { opacity: .25; }
+.moneyInput { position: relative; }
+.moneyInput span { position: absolute; left: 13px; top: 18px; color: #52796f; font-size: 16px; }
+.moneyInput input { padding-left: 29px; }
+.addButton, .primaryButton, .secondaryButton { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 10px; padding: 10px 15px; font-weight: 800; }
+.addButton { width: 100%; margin-top: 14px; border: 1px dashed #9eb0a8; background: transparent; color: #315b4d; }
+.primaryButton { border: 1px solid #11261b; background: #11261b; color: white; }
+.secondaryButton { border: 1px solid #cbc8c0; background: #fff; color: #11261b; }
+.markerInput { font-family: "Permanent Marker", cursive !important; font-weight: 400 !important; letter-spacing: 0 !important; }
+.editorFooter { padding: 18px 24px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.editorFooter .primaryButton { grid-column: 1 / -1; }
+.mobileActions { display: none; }
+.previewPane { position: sticky; top: 18px; overflow: auto; }
+.estimate { width: 100%; max-width: 900px; margin: auto; background: #f8f6f1; box-shadow: 0 14px 40px rgb(13 26 15 / 12%); container-type: inline-size; }
+.estimateHeader { display: flex; justify-content: space-between; gap: 20px; padding: 30px 38px 26px; background: #0d1a0f; color: #f0ede8; border-bottom: 4px solid #ffb800; }
+.estimateHeader strong { display: block; font-family: Georgia, serif; font-size: 2rem; font-weight: 500; line-height: 1; }
+.estimateHeader span { display: block; margin-top: 7px; color: #ffb800; font-size: .62rem; font-weight: 850; letter-spacing: .17em; text-transform: uppercase; }
+.estimateHeader p { text-align: right; color: #d5ddd7; font-size: .7rem; line-height: 1.6; }
+.estimateBody { padding: 28px 38px; }
+.estimateIntro { display: grid; grid-template-columns: 1fr auto; gap: 30px; padding-bottom: 22px; border-bottom: 1px solid #dcd8cf; }
+.estimateIntro > div > span, .customerSummary span, .approval > span { color: #52796f; font-size: .58rem; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
+.estimateIntro h2 { margin: 6px 0 10px; font-family: Georgia, serif; font-size: 2rem; font-weight: 500; }
+.estimateIntro p { max-width: 500px; color: #62655f; font-size: .72rem; line-height: 1.55; }
+.estimateIntro dl { min-width: 190px; padding-left: 15px; border-left: 3px solid #ffb800; }
+.estimateIntro dl div { display: grid; grid-template-columns: 65px 1fr; gap: 10px; margin: 4px 0; }
+.estimateIntro dt { color: #73766f; font-size: .55rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.estimateIntro dd { font-size: .68rem; font-weight: 800; }
+.customerSummary { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; padding: 17px 0; }
+.customerSummary span { display: block; margin-bottom: 3px; }
+.customerSummary strong { font-size: .78rem; }
+.workPreview h3, .bottomDetails h3 { margin: 5px 0 12px; font-family: Georgia, serif; font-size: 1.2rem; font-weight: 500; }
+.previewLineItem { display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; padding: 12px 0; border-top: 1px solid #dcd8cf; }
+.previewLineItem > span { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: #f0ede8; color: #52796f; font-size: .58rem; font-weight: 850; }
+.previewLineItem strong { font-family: Georgia, serif; font-size: .82rem; }
+.previewLineItem p { margin-top: 3px; color: #666963; font-size: .63rem; line-height: 1.45; }
+.previewLineItem > b { font-size: .9rem; }
+.total { width: 310px; max-width: 100%; margin: 8px 0 22px auto; display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; background: #11261b; color: white; border-bottom: 3px solid #ffb800; }
+.total span { font-size: .6rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+.total strong { font-family: Georgia, serif; font-size: 1.45rem; font-weight: 500; }
+.bottomDetails { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; padding-top: 18px; border-top: 1px solid #dcd8cf; }
+.bottomDetails ul { padding-left: 14px; color: #666963; font-size: .58rem; line-height: 1.6; }
+.approval { padding: 15px; background: #f0ede8; border-left: 3px solid #52796f; }
+.approval strong { display: block; margin: 2px 0 5px; font-family: Georgia, serif; font-size: .86rem; }
+.approval p { color: #666963; font-size: .6rem; line-height: 1.45; }
+.approval i { display: block; margin-top: 15px; padding-top: 7px; border-top: 1px solid #aaa89f; color: #777970; font-size: .52rem; font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
+.personalNote { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; margin-top: 18px; }
+.personalNote > p { padding: 10px 14px; white-space: pre-line; background: white; border: 1px solid #e4e0d7; border-left: 4px solid #ffb800; box-shadow: 0 4px 13px rgb(13 26 15 / 6%); color: #1d2935; font-family: "Permanent Marker", cursive; font-size: .78rem; line-height: 1.35; transform: rotate(.5deg); }
+.personalNote > div { display: flex; align-items: center; gap: 8px; color: #11261b; font-family: "Permanent Marker", cursive; font-size: .58rem; line-height: 1.25; transform: rotate(-1.5deg); }
+.personalNote img { width: 55px; height: 55px; padding: 3px; background: white; border: 1px solid #dcd8cf; }
+.estimateBody footer { display: flex; justify-content: space-between; gap: 15px; margin-top: 16px; padding-top: 10px; border-top: 1px solid #dcd8cf; color: #777970; font-size: .5rem; }
+.previewModal { position: fixed; inset: 0; z-index: 100; overflow: auto; padding: 58px 8px 20px; background: rgb(13 26 15 / 92%); }
+.closePreview { position: fixed; top: 12px; right: 12px; z-index: 101; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 50%; background: white; color: #11261b; }
+.mobilePreviewPane { position: static; width: 900px; max-width: 100%; margin: auto; overflow: visible; }
+.loading { min-height: 100vh; display: grid; place-items: center; background: #f8f6f1; color: #52796f; }
+
+@container (max-width: 700px) {
+  .estimateHeader { padding: 20px; }
+  .estimateHeader strong { font-size: 1.4rem; }
+  .estimateHeader p { font-size: .55rem; }
+  .estimateBody { padding: 20px; }
+  .estimateIntro { grid-template-columns: 1fr; }
+  .customerSummary, .bottomDetails { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .app { padding: 14px; padding-bottom: 86px; }
+  .workspace { display: block; }
+  .previewPane:not(.mobilePreviewPane) { display: none; }
+  .mobileActions { position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 50; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border: 1px solid #d2cec5; border-radius: 14px; background: rgb(248 246 241 / 94%); box-shadow: 0 10px 30px rgb(13 26 15 / 22%); backdrop-filter: blur(12px); }
+}
+
+@media (max-width: 520px) {
+  .fieldGrid, .editorFooter { grid-template-columns: 1fr; }
+  .editorFooter .primaryButton { grid-column: auto; }
+  .formSection { padding: 20px 16px; }
+  .editorFooter { padding: 16px; }
+}
+
+@media print {
+  .app { min-height: 0; padding: 0; background: white; }
+  .appHeader, .editor, .mobileActions, .previewModal { display: none !important; }
+  .workspace { display: block; max-width: none; }
+  .previewPane { position: static; display: block !important; overflow: visible; }
+  .estimate { width: 8.5in; height: 11in; max-width: none; box-shadow: none; overflow: hidden; }
+  @page { size: letter; margin: 0; }
+}
