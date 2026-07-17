@@ -174,7 +174,7 @@ const tasks: Task[] = [
   },
 ]
 
-export function DIYvsProGuide({ searchParams }: { searchParams?: Record<string, any> }) {
+export function DIYvsProGuide({ searchParams }: { searchParams?: Record<string, unknown> }) {
   const router = useRouter()
   const safeItems  = tasks.filter(t => t.category === 'safe-diy')
   const riskyItems = tasks.filter(t => t.category === 'risky-diy')

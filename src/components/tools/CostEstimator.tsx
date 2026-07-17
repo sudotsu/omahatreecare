@@ -75,7 +75,7 @@ const ARCHETYPES: Archetype[] = [
   }
 ];
 
-export function CostEstimator({ searchParams }: { searchParams?: Record<string, any> }) {
+export function CostEstimator({ searchParams }: { searchParams?: Record<string, unknown> }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);

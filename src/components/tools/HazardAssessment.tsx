@@ -92,9 +92,9 @@ export function HazardAssessment() {
     const message = `Tree Risk Assessment Results:\n\nRisk Level: ${risk.level}\nRisk Score: ${riskScore}/16\nIssues: ${issuesList}\nRecommended Action: ${risk.action}\n\nGet your free assessment at ${CONTACT.siteUrl}/tools/hazard`
 
     if (method === 'email') {
-      window.location.href = `mailto:?subject=My%20Tree%20Risk%20Assessment%20Results&body=${encodeURIComponent(message)}`
+      window.location.assign(`mailto:?subject=My%20Tree%20Risk%20Assessment%20Results&body=${encodeURIComponent(message)}`)
     } else if (method === 'sms') {
-      window.location.href = `sms:?body=${encodeURIComponent(message)}`
+      window.location.assign(`sms:?body=${encodeURIComponent(message)}`)
     } else {
       navigator.clipboard.writeText(message)
         .then(() => alert('Results copied to clipboard!'))
