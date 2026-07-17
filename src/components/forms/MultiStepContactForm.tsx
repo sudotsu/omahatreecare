@@ -114,7 +114,7 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
   const nextStep = async () => {
     let fieldsToValidate: (keyof FormValues)[] = [];
     if (step === 1) fieldsToValidate = ["service_type"];
-    if (step === 2) fieldsToValidate = ["address"];
+    if (step === 2) fieldsToValidate = ["address", "message"];
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
@@ -151,8 +151,8 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
         SERVICE_ID, 
         TEMPLATE_ID, 
         {
-          user_name:    data.user_name.trim(),
-          user_email:   data.user_email.trim(),
+          user_name:    data.user_name,
+          user_email:   data.user_email,
           user_phone:   data.user_phone, // already transformed
           service_type: data.service_type?.trim() || "Not specified",
           message:      data.message?.trim()      || "No description provided",
@@ -331,9 +331,10 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
                 <MessageSquare className="absolute left-4 top-4 z-10 text-stone-400" size={18} />
                 <textarea
                   id="message"
+                  aria-label="Additional details"
                   placeholder="Additional details (e.g. 'Backyard oak near fence')"
                   rows={4}
-                  className="w-full rounded-lg border border-slate-300 pl-12 pr-4 py-4 text-sm transition-all focus:border-[#52796f] focus:ring-2 focus:ring-[#52796f]/20 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-300 pl-12 pr-4 py-4 text-sm transition-all focus:border-[#52796f] focus:ring-2 focus:ring-[#52796f]/20 focus:outline-hidden"
                   {...register("message")}
                 />
               </div>

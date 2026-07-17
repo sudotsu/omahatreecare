@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import styles from "./field-estimate.module.css";
 
 type ServiceItem = {
@@ -98,10 +98,40 @@ function markdownFor(estimate: Estimate, total: number) {
   return `# Midwest Roots Tree Services\n\n## Tree Service Estimate\n\n**Prepared for:** ${estimate.customerName || "Customer"}  \n**Service address:** ${estimate.serviceAddress || "Not provided"}  \n**Estimate:** ${estimate.estimateNumber}  \n**Issued:** ${displayDate(estimate.issued)}  \n**Valid for:** ${estimate.validDays || "30"} days\n\n${estimate.intro}\n\n## Recommended work\n\n${work}\n\n## Estimated total: ${money(String(total))}\n\n### A few important details\n\n- Pricing assumes normal access for our crew and equipment.\n- Normal job-site cleanup and listed debris removal are included.\n- Customer identifies private irrigation, lighting, and invisible fencing.\n- Any change in scope will be discussed and approved before the price changes.\n- Scheduling is weather-dependent; payment is due upon completion.\n\n> ${estimate.customerNote.replace(/\n/g, "  \n> ")}\n\nMidwest Roots Tree Services  \n(402) 812-3294 · andrew@omahatreecare.com  \nhttps://omahatreecare.com\n`;
 }
 
-function loadEstimate() {
+function isServiceItem(value: unknown): value is ServiceItem {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Record<string, unknown>;
+  return [item.id, item.title, item.description, item.amount].every(
+    (field) => typeof field === "string",
+  );
+}
+
+function isEstimate(value: unknown): value is Estimate {
+  if (!value || typeof value !== "object") return false;
+  const draft = value as Record<string, unknown>;
+  const stringFields = [
+    draft.estimateNumber,
+    draft.issued,
+    draft.validDays,
+    draft.customerName,
+    draft.serviceAddress,
+    draft.intro,
+    draft.customerNote,
+  ];
+  return (
+    stringFields.every((field) => typeof field === "string") &&
+    Array.isArray(draft.services) &&
+    draft.services.length > 0 &&
+    draft.services.every(isServiceItem)
+  );
+}
+
+function loadEstimate(): Estimate {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? (JSON.parse(stored) as Estimate) : defaultEstimate();
+    if (!stored) return defaultEstimate();
+    const parsed: unknown = JSON.parse(stored);
+    return isEstimate(parsed) ? parsed : defaultEstimate();
   } catch {
     return defaultEstimate();
   }
@@ -118,14 +148,67 @@ function FieldEstimateEditor() {
   const [estimate, setEstimate] = useState<Estimate>(loadEstimate);
   const [showPreview, setShowPreview] = useState(false);
   const [status, setStatus] = useState("Draft saves on this device");
+  const previewModalRef = useRef<HTMLDivElement>(null);
+  const previewTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(estimate));
-      setStatus(`Saved locally at ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(estimate));
+        setStatus(`Saved locally at ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`);
+      } catch {
+        setStatus("Draft was not saved — browser storage is unavailable or full");
+      }
     }, 250);
     return () => window.clearTimeout(timer);
   }, [estimate]);
+
+  useEffect(() => {
+    if (!showPreview) return;
+    const modal = previewModalRef.current;
+    if (!modal) return;
+    const previewTrigger = previewTriggerRef.current;
+
+    const focusable = () =>
+      Array.from(
+        modal.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+
+    focusable()[0]?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setShowPreview(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const elements = focusable();
+      if (elements.length === 0) {
+        event.preventDefault();
+        modal.focus();
+        return;
+      }
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    modal.addEventListener("keydown", handleKeyDown);
+    return () => {
+      modal.removeEventListener("keydown", handleKeyDown);
+      previewTrigger?.focus();
+    };
+  }, [showPreview]);
 
   const total = useMemo(
     () =>
@@ -221,7 +304,7 @@ function FieldEstimateEditor() {
       </header>
 
       <div className={styles.mobileActions}>
-        <button type="button" className={styles.secondaryButton} onClick={() => setShowPreview(true)}>
+        <button ref={previewTriggerRef} type="button" className={styles.secondaryButton} onClick={() => setShowPreview(true)}>
           <Eye size={18} /> Preview
         </button>
         <button type="button" className={styles.primaryButton} onClick={shareEstimate}>
@@ -315,7 +398,7 @@ function FieldEstimateEditor() {
       </div>
 
       {showPreview && (
-        <div className={styles.previewModal} role="dialog" aria-modal="true" aria-label="Estimate preview">
+        <div ref={previewModalRef} className={styles.previewModal} role="dialog" aria-modal="true" aria-label="Estimate preview" tabIndex={-1}>
           <button className={styles.closePreview} type="button" onClick={() => setShowPreview(false)} aria-label="Close preview"><X size={21} /></button>
           <EstimatePreview estimate={estimate} total={total} mobile />
         </div>

@@ -16,12 +16,20 @@ const serwist = new Serwist({
   clientsClaim: true,
   navigationPreload: true,
   runtimeCaching: [
+    // ── Field estimate: refresh online, retain the last working offline copy ──
+    {
+      matcher: ({ request, url }) =>
+        request.mode === "navigate" && url.pathname === "/field-estimate",
+      handler: new NetworkFirst({
+        cacheName: "field-estimate-page",
+        plugins: [],
+      }),
+    },
     // ── Tool pages: CacheFirst (core offline use case) ──────────────────
     {
       matcher: ({ url }) =>
         url.pathname === "/tools" ||
-        url.pathname.startsWith("/tools/") ||
-        url.pathname === "/field-estimate",
+        url.pathname.startsWith("/tools/"),
       handler: new CacheFirst({
         cacheName: "tools-pages",
         plugins: [],

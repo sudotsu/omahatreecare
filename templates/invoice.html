@@ -1,218 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice - Midwest Roots</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invoice | Midwest Roots</title>
+  <style>
+    @font-face { font-family: "Inter"; src: url("./assets/inter-400.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+    @font-face { font-family: "Inter"; src: url("./assets/inter-500.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+    @font-face { font-family: "Inter"; src: url("./assets/inter-600.ttf") format("truetype"); font-weight: 600; font-display: swap; }
+    @font-face { font-family: "Inter"; src: url("./assets/inter-700.ttf") format("truetype"); font-weight: 700; font-display: swap; }
+    @font-face { font-family: "Permanent Marker"; src: url("./assets/permanent-marker.ttf") format("truetype"); font-weight: 400; font-display: swap; }
 
-        @font-face {
-            font-family: 'Permanent Marker';
-            src: url('./assets/permanent-marker.ttf') format('truetype');
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-        }
+    :root { --ink: #1f2937; --muted: #6b7280; --line: #e5e7eb; --soft: #f9fafb; --gold: #fec31c; --forest: #11261b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f3f4f6; color: var(--ink); font-family: "Inter", Arial, sans-serif; font-size: 14px; }
+    .toolbar { position: sticky; top: 0; z-index: 10; display: flex; justify-content: center; align-items: center; gap: 16px; padding: 9px 16px; background: var(--ink); color: white; font-size: 13px; }
+    .toolbar button { border: 0; border-radius: 6px; padding: 7px 12px; background: var(--gold); color: var(--forest); font: inherit; font-weight: 700; cursor: pointer; }
+    .invoice { position: relative; width: min(8.5in, calc(100% - 24px)); margin: 2rem auto; padding: .5in; background: white; border-radius: 8px; box-shadow: 0 10px 25px rgb(0 0 0 / 10%); }
+    .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; margin-bottom: 24px; }
+    .brand { font-size: 30px; font-weight: 700; letter-spacing: -.04em; color: #111827; }
+    .contact { margin-top: 5px; color: #4b5563; font-size: 13px; line-height: 1.45; }
+    .invoice-meta { text-align: right; }
+    .invoice-meta h1 { margin: 0 0 8px; color: #e5e7eb; font-size: 36px; letter-spacing: .12em; line-height: 1; text-transform: uppercase; }
+    .meta-line { margin-top: 5px; font-size: 13px; }
+    .label { margin-right: 8px; color: #374151; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .bill-to { padding: 13px 0; border-block: 2px solid #f3f4f6; }
+    .bill-to h2 { margin: 0 0 12px; color: #9ca3af; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+    .bill-grid { width: 56%; display: grid; gap: 9px; }
+    .bill-row { display: grid; grid-template-columns: 118px 1fr; align-items: end; }
+    .bill-row > span:first-child { color: #374151; font-weight: 500; }
+    .editable-line { min-height: 21px; padding: 0 4px 2px; border-bottom: 1px solid #d1d5db; color: #111827; font-weight: 500; }
+    .project { margin: 15px 0 8px; font-size: 13px; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 8px 12px; background: var(--soft); border-bottom: 2px solid #e5e7eb; color: #6b7280; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; }
+    th:last-child, td:last-child { width: 125px; text-align: right; }
+    td { padding: 8px 12px; border-bottom: 1px solid #f3f4f6; color: #374151; font-size: 13px; line-height: 1.35; vertical-align: top; }
+    .service-title { color: #111827; font-weight: 600; }
+    .totals { width: 50%; margin: 16px 0 16px auto; }
+    .total-row { display: flex; justify-content: space-between; gap: 20px; padding: 5px 0; color: #4b5563; font-size: 13px; }
+    .total-row.grand { align-items: center; margin-top: 3px; padding: 9px 0; border-top: 2px solid #111827; color: #111827; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .total-row.grand strong { font-size: 20px; }
+    .terms { padding: 15px; background: var(--soft); border: 1px solid #e5e7eb; border-radius: 5px; }
+    .terms h3 { margin: 0 0 8px; color: #111827; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
+    .terms ul { margin: 0; padding: 0; list-style: none; color: #374151; font-size: 12px; }
+    .terms li { display: flex; gap: 8px; margin-top: 5px; }
+    .terms li::before { content: "▪"; color: #9ca3af; }
+    .bottom { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: end; margin-top: 14px; }
+    .note { padding: 11px 13px; background: white; border: 1px solid #f3f4f6; border-left: 4px solid var(--gold); box-shadow: 0 2px 6px rgb(0 0 0 / 5%); color: #1f2937; font-family: "Permanent Marker", "Comic Sans MS", cursive; font-size: 16px; line-height: 1.35; transform: rotate(.5deg); }
+    .qr { display: flex; flex-direction: column; align-items: center; color: var(--forest); font-family: "Permanent Marker", "Comic Sans MS", cursive; font-size: 16px; line-height: 1.15; text-align: center; transform: rotate(-2deg); }
+    .qr img { width: 68px; height: 68px; margin-top: 4px; padding: 4px; background: white; border: 1px solid #d1d5db; }
+    [contenteditable="true"] { border-radius: 2px; outline: none; }
+    [contenteditable="true"]:focus { background: #fff9df; box-shadow: 0 0 0 2px rgb(254 195 28 / 45%); }
+    .money-input { display: inline-block; min-width: 68px; text-align: right; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
+    @media (max-width: 650px) {
+      .invoice { width: 100%; margin: 0; padding: 24px 18px; border-radius: 0; box-shadow: none; }
+      .top { flex-direction: column; }
+      .invoice-meta { text-align: left; }
+      .bill-grid, .totals { width: 100%; }
+      .bottom { grid-template-columns: 1fr; }
+      .qr { justify-self: end; }
+    }
 
-        .font-handwriting {
-            font-family: 'Permanent Marker', 'Comic Sans MS', cursive;
-        }
-
-        .invoice-container {
-            max-width: 8.5in;
-            margin: 2rem auto;
-            padding: 0.5in;
-            background: white;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-radius: 0.5rem;
-            color: #1f2937;
-        }
-
-        /* Strictly enforced print rules for 1-page PDF */
-        @media print {
-            .print-hide { display: none !important; }
-            body {
-                background: white;
-                margin: 0;
-                padding: 0;
-            }
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            .invoice-container {
-                box-shadow: none;
-                margin: 0;
-                padding: 0.25in 0;
-                width: 100%;
-                max-width: 100%;
-                border-radius: 0;
-            }
-            @page { margin: 0.25in; size: letter portrait; }
-            table { page-break-inside: avoid; }
-            .avoid-break { page-break-inside: avoid; }
-        }
-
-        .brand-yellow { color: #fec31c; }
-        .bg-brand-yellow { background-color: #fec31c; }
-        .border-brand-yellow { border-color: #fec31c; }
-        .brand-red { color: #cc2028; }
-    </style>
+    @media print {
+      @page { size: letter portrait; margin: .25in; }
+      body { background: white; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .toolbar { display: none; }
+      .invoice { width: 100%; margin: 0; padding: .25in 0; border-radius: 0; box-shadow: none; }
+      table, tr, .top, .bill-to, .totals, .terms, .bottom { break-inside: avoid; page-break-inside: avoid; }
+    }
+  </style>
 </head>
-<body class="antialiased">
+<body>
+  <div class="toolbar">
+    <span>Tap highlighted text to edit. Amounts recalculate automatically.</span>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
 
-    <!-- Non-Printable Action Bar -->
-    <div class="print-hide bg-gray-800 text-white text-center py-2 flex justify-center items-center gap-4 sticky top-0 z-50">
-        <span class="text-sm font-medium">Press Ctrl+P (or Cmd+P) to Save as PDF. Set margins to None.</span>
-    </div>
+  <article class="invoice">
+    <header class="top">
+      <div>
+        <div class="brand">MIDWEST ROOTS</div>
+        <div class="contact">Omaha, NE<br><strong>402-812-3294</strong><br>andrew@omahatreecare.com<br>andrew@midwestroots.info</div>
+      </div>
+      <div class="invoice-meta">
+        <h1>Invoice</h1>
+        <div class="meta-line"><span class="label">Invoice #:</span><span data-bind="invoiceNumber" contenteditable="true"></span></div>
+        <div class="meta-line"><span class="label">Date:</span><span data-bind="date" contenteditable="true"></span></div>
+      </div>
+    </header>
 
-    <!-- Invoice Document -->
-    <div class="invoice-container relative">
+    <section class="bill-to">
+      <h2>Bill to</h2>
+      <div class="bill-grid">
+        <div class="bill-row"><span>Name:</span><span class="editable-line" data-bind="customer.name" contenteditable="true"></span></div>
+        <div class="bill-row"><span>Address:</span><span class="editable-line" data-bind="customer.address" contenteditable="true"></span></div>
+        <div class="bill-row"><span>City, State, ZIP:</span><span class="editable-line" data-bind="customer.cityStateZip" contenteditable="true"></span></div>
+      </div>
+    </section>
 
-        <!-- Header Section -->
-        <div class="flex justify-between items-start mb-6">
-            <div class="flex flex-col">
-                <div class="text-sm text-gray-600 leading-snug">
-                    <p class="font-black text-gray-900 text-3xl tracking-tight mb-1">MIDWEST ROOTS</p>
-                    <p>Omaha, NE</p>
-                    <p class="font-medium text-gray-800">402-812-3294</p>
-                    <p>andrew@omahatreecare.com</p>
-                    <p>andrew@midwestroots.info</p>
-                </div>
-            </div>
+    <div class="project"><span class="label">Project:</span><span data-bind="project" contenteditable="true"></span></div>
 
-            <div class="text-right">
-                <h1 class="text-4xl font-bold tracking-widest uppercase text-gray-200 mb-2">Invoice</h1>
-                <div class="flex flex-col gap-1 text-sm">
-                    <p><span class="font-semibold text-gray-800 uppercase tracking-wider text-xs mr-2">Invoice #:</span> <span class="text-gray-600">2026-102</span></p>
-                    <p><span class="font-semibold text-gray-800 uppercase tracking-wider text-xs mr-2">Date:</span> <span class="text-gray-600">April 21st, 2026</span></p>
-                </div>
-            </div>
-        </div>
+    <table>
+      <thead><tr><th>Description of services</th><th>Amount</th></tr></thead>
+      <tbody id="serviceRows"></tbody>
+    </table>
 
-        <!-- Bill To Section -->
-        <div class="border-t-2 border-b-2 border-gray-100 py-3 mb-4 flex justify-between avoid-break">
-            <div class="w-1/2">
-                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Bill To:</h2>
-                <div class="space-y-3 text-sm">
-                    <div class="flex items-end">
-                        <span class="w-16 font-medium text-gray-700">Name:</span>
-                        <div class="flex-1 border-b border-gray-300 pl-2 font-medium text-gray-900">Tanya Ackerman</div>
-                    </div>
-                    <div class="flex items-end">
-                        <span class="w-16 font-medium text-gray-700">Address:</span>
-                        <div class="flex-1 border-b border-gray-300 pl-2 font-medium text-gray-900">19807 Josephine Street</div>
-                    </div>
-                    <div class="flex items-end">
-                        <span class="w-32 font-medium text-gray-700">City, State, Zip:</span>
-                        <div class="flex-1 border-b border-gray-300 pl-2 font-medium text-gray-900">Gretna, NE 68028</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="totals">
+      <div class="total-row"><span>Standard Service Rate</span><span class="money-input" data-money="serviceRate" contenteditable="true"></span></div>
+      <div class="total-row grand"><span>Total Project Cost</span><strong data-output="total"></strong></div>
+    </section>
 
-        <!-- Services Section -->
-        <div class="mb-4">
-            <p class="font-bold text-gray-900 mb-2 text-sm">
-                <span class="text-gray-400 uppercase tracking-wider mr-2 text-xs">Project:</span>
-                Tree Removal & Stump Excavation
-            </p>
+    <section class="terms">
+      <h3>Terms &amp; boundaries</h3>
+      <ul>
+        <li><span><strong>Deposit:</strong> <span class="money-input" data-money="deposit" contenteditable="true"></span> down payment required to secure scheduling.</span></li>
+        <li><span><strong>Balance:</strong> Remaining <span data-output="balance"></span> due upon project completion and <strong>total customer satisfaction</strong>.</span></li>
+        <li><span><strong>Project Scope:</strong> <span data-bind="scope" contenteditable="true"></span></span></li>
+        <li><span>Please make checks payable to <strong>Andrew Warner</strong>. Digital (Venmo, Chime, PayPal) preferred.</span></li>
+      </ul>
+    </section>
 
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-50 text-gray-500 uppercase text-xs tracking-wider border-b-2 border-gray-200">
-                        <th class="py-2 px-3 font-bold rounded-tl">Description of Services</th>
-                        <th class="py-2 px-3 font-bold text-right rounded-tr w-32">Amount</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700 text-sm">
-                    <tr class="border-b border-gray-100">
-                        <td class="py-2 px-3 leading-snug">
-                            <span class="font-semibold text-gray-900">Tree Removals & Stump Extraction:</span> Complete removal of two (2) designated trees. Dig out and remove the root balls/stumps for both trees.
-                        </td>
-                        <td class="py-2 px-3 text-right font-medium text-gray-900 align-top">Included</td>
-                    </tr>
-                    <tr class="border-b border-gray-100">
-                        <td class="py-2 px-3 leading-snug">
-                            <span class="font-semibold text-gray-900">Additional Stump Extraction:</span> Dig out and remove one (1) additional pre-existing stump on the property.
-                        </td>
-                        <td class="py-2 px-3 text-right font-medium text-gray-900 align-top">Included</td>
-                    </tr>
-                    <tr class="border-b border-gray-100">
-                        <td class="py-2 px-3 leading-snug">
-                            <span class="font-semibold text-gray-900">Hauling & Disposal:</span> All wood, brush, and excavated stump debris processed and hauled off-site. General site cleanup of the work area.
-                        </td>
-                        <td class="py-2 px-3 text-right font-medium text-gray-900 align-top">Included</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <section class="bottom">
+      <div class="note" data-bind="customerNote" contenteditable="true"></div>
+      <div class="qr"><span>check out the new site<br>omahatreecare.com</span><img src="./assets/omahatreecare-qr.png" alt="Scan to visit OmahaTreeCare.com"></div>
+    </section>
+  </article>
 
-        <!-- Totals Section -->
-        <div class="flex justify-end mb-4 avoid-break">
-            <div class="w-1/2">
-                <div class="flex justify-between py-1 text-sm text-gray-600">
-                    <span>Standard Service Rate</span>
-                    <span class="text-gray-900 font-medium">$400.00</span>
-                </div>
-                <div class="flex justify-between items-center py-2 border-t-2 border-gray-900 mt-1">
-                    <span class="font-bold text-gray-900 uppercase tracking-wider text-sm">Total Project Cost</span>
-                    <span class="text-xl font-bold text-gray-900">$400.00</span>
-                </div>
-            </div>
-        </div>
+  <script>
+    const invoice = {
+      invoiceNumber: "SAMPLE-001",
+      date: "July 17, 2026",
+      customer: {
+        name: "Sample Customer",
+        address: "123 Example Street",
+        cityStateZip: "Omaha, NE 68102"
+      },
+      project: "Tree Removal & Stump Excavation",
+      services: [
+        { title: "Tree Removals & Stump Extraction", description: "Complete removal of two (2) designated trees. Dig out and remove the root balls/stumps for both trees.", amountLabel: "Included" },
+        { title: "Additional Stump Extraction", description: "Dig out and remove one (1) additional pre-existing stump on the property.", amountLabel: "Included" },
+        { title: "Hauling & Disposal", description: "All wood, brush, and excavated stump debris processed and hauled off-site. General site cleanup of the work area.", amountLabel: "Included" }
+      ],
+      serviceRate: 400,
+      deposit: 0,
+      scope: "Not responsible for unmarked underground utilities/sprinklers. Backfilling stump holes with topsoil is excluded unless specified.",
+      customerNote: "thanks for taking the time to walk the property with me\n— andrew"
+    };
 
-        <!-- Payment Terms & Footer -->
-        <div class="flex flex-col gap-3 mt-1 avoid-break">
+    const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 
-            <!-- Payment Terms Box -->
-            <div class="bg-gray-50 p-4 rounded border border-gray-200">
-                <h3 class="text-xs font-bold text-gray-900 mb-2 uppercase tracking-widest">Terms & Boundaries</h3>
-                <ul class="list-none space-y-1.5 text-sm text-gray-700">
-                    <li class="flex items-start">
-                        <span class="text-gray-400 mr-2">▪</span>
-                        <span><strong>Deposit:</strong> $0.00 Down Payment required to secure scheduling.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-gray-400 mr-2">▪</span>
-                        <span><strong>Balance:</strong> Remaining $400.00 due upon project completion and <strong>total customer satisfaction</strong>.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-gray-400 mr-2">▪</span>
-                        <span><strong>Project Scope:</strong> Not responsible for unmarked underground utilities/sprinklers. Backfilling stump holes with topsoil is excluded unless specified.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-gray-400 mr-2">▪</span>
-                        <span>Please make checks payable to <strong>Andrew Warner</strong>. Digital (Venmo, Chime, PayPal) preferred.</span>
-                    </li>
-                </ul>
-            </div>
+    function getPath(path) {
+      return path.split(".").reduce((value, key) => value[key], invoice);
+    }
 
-            <!-- Bottom Row: Thank You & QR Code -->
-            <div class="flex justify-between items-end gap-6 mt-1">
-                <!-- Personalized Thank You -->
-                <div class="w-2/3 border-l-4 border-brand-yellow bg-white p-3 shadow-sm rounded-r border-y border-r border-gray-100 transform rotate-1">
-                    <p class="font-handwriting text-gray-800 text-base leading-relaxed" contenteditable="true">
-                        thanks tanya! talk to you in a couple months
-                    </p>
-                </div>
+    function setPath(path, value) {
+      const keys = path.split(".");
+      const finalKey = keys.pop();
+      const target = keys.reduce((current, key) => current[key], invoice);
+      target[finalKey] = value;
+    }
 
-                <!-- QR Code Block -->
-                <div class="w-1/3 flex flex-col items-center justify-end transform -rotate-2 mb-1">
-                    <span class="font-handwriting text-lg mb-1 text-center leading-tight" style="color:#11261b">check out the new site<br>omahatreecare.com</span>
-                    <img src="./assets/omahatreecare-qr.png" alt="Scan to visit OmahaTreeCare.com" class="w-16 h-16 border border-gray-300 p-1 bg-white shadow-sm">
-                </div>
-            </div>
+    function parseMoney(value) {
+      const normalized = value.replace(/[^0-9.-]/g, "");
+      const amount = Number.parseFloat(normalized);
+      return Number.isFinite(amount) ? amount : null;
+    }
 
-        </div>
-    </div>
+    function recalculate() {
+      const total = invoice.serviceRate;
+      const balance = Math.max(total - invoice.deposit, 0);
+      document.querySelector('[data-output="total"]').textContent = currency.format(total);
+      document.querySelector('[data-output="balance"]').textContent = currency.format(balance);
+    }
 
+    function renderServices() {
+      const rows = document.getElementById("serviceRows");
+      rows.replaceChildren(...invoice.services.map((service, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td><span class="service-title" data-service="${index}" data-field="title" contenteditable="true"></span>: <span data-service="${index}" data-field="description" contenteditable="true"></span></td><td data-service="${index}" data-field="amountLabel" contenteditable="true"></td>`;
+        row.querySelectorAll("[data-service]").forEach((element) => {
+          element.textContent = service[element.dataset.field];
+          element.addEventListener("input", () => {
+            invoice.services[index][element.dataset.field] = element.textContent.trim();
+          });
+        });
+        return row;
+      }));
+    }
+
+    document.querySelectorAll("[data-bind]").forEach((element) => {
+      const path = element.dataset.bind;
+      element.textContent = getPath(path);
+      element.addEventListener("input", () => setPath(path, element.textContent.trim()));
+    });
+
+    document.querySelectorAll("[data-money]").forEach((element) => {
+      const key = element.dataset.money;
+      element.textContent = currency.format(invoice[key]);
+      element.addEventListener("input", () => {
+        const amount = parseMoney(element.textContent);
+        if (amount === null) {
+          element.setAttribute("aria-invalid", "true");
+          return;
+        }
+        element.removeAttribute("aria-invalid");
+        invoice[key] = amount;
+        recalculate();
+      });
+      element.addEventListener("blur", () => {
+        element.textContent = currency.format(invoice[key]);
+      });
+    });
+
+    renderServices();
+    recalculate();
+    window.addEventListener("beforeprint", recalculate);
+  </script>
 </body>
 </html>

@@ -112,7 +112,7 @@ export function HazardAssessment() {
     const issuesList = assessment.issues.length > 0 ? assessment.issues.join(', ') : 'No major issues identified'
     const subject = `Send me my tree risk assessment results (${risk.level} Risk)`
     const body    = `Hi, I just completed your tree risk assessment tool and got a ${risk.level} risk score (${riskScore}/16).\n\nIssues identified: ${issuesList}\n\nRecommended action: ${risk.action}\n\nCould you send me a copy of these results and provide any additional recommendations?`
-    window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.assign(`mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`)
   }
 
   const handleAnswer = (value: number, issues: string[] = [], isConsequence = false) => {
