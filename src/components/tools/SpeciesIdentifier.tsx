@@ -164,6 +164,11 @@ const getRiskIcon = (level: Tree['riskLevel']) => {
   }
 }
 
+/**
+ * Provides tree species identification, care information, photo-based identification requests, and hazard assessment navigation.
+ *
+ * @param searchParams - Optional route parameters accepted by the component.
+ */
 export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParams?: Record<string, unknown> }) {
   const router = useRouter()
   const [searchTerm, setSearchTerm]           = useState('')

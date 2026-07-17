@@ -75,6 +75,11 @@ const ARCHETYPES: Archetype[] = [
   }
 ];
 
+/**
+ * Guides users through selecting a tree care project type and reviewing an illustrative cost estimate.
+ *
+ * @param searchParams - Optional search parameters reserved for estimator context.
+ */
 export function CostEstimator({ searchParams }: { searchParams?: Record<string, unknown> }) {
   const router = useRouter();
   const [step, setStep] = useState(1);

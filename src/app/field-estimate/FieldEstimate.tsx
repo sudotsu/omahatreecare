@@ -34,11 +34,22 @@ type Estimate = {
 
 const STORAGE_KEY = "midwest-roots-field-estimate-v1";
 
+/**
+ * Formats a date as a local calendar date for use in a date input.
+ *
+ * @param date - The date to format
+ * @returns The date in `YYYY-MM-DD` format
+ */
 function dateInputValue(date = new Date()) {
   const offset = date.getTimezoneOffset();
   return new Date(date.getTime() - offset * 60_000).toISOString().slice(0, 10);
 }
 
+/**
+ * Creates a new estimate with the current date, default customer-facing text, and one service item.
+ *
+ * @returns A newly initialized estimate draft
+ */
 function defaultEstimate(): Estimate {
   const now = new Date();
   const stamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
@@ -63,6 +74,12 @@ function defaultEstimate(): Estimate {
   };
 }
 
+/**
+ * Formats a value as a whole-dollar USD currency string.
+ *
+ * @param value - The numeric value, optionally containing currency symbols or other non-numeric characters
+ * @returns The value formatted as USD without fractional digits
+ */
 function money(value: string) {
   const amount = Number.parseFloat(value.replace(/[^0-9.-]/g, "")) || 0;
   return new Intl.NumberFormat("en-US", {
@@ -72,6 +89,12 @@ function money(value: string) {
   }).format(amount);
 }
 
+/**
+ * Formats a date value for display.
+ *
+ * @param value - The date string to format.
+ * @returns The date formatted as “Month day, year”, or “Date not set” when no value is provided.
+ */
 function displayDate(value: string) {
   if (!value) return "Date not set";
   const date = new Date(`${value}T12:00:00`);
@@ -82,11 +105,24 @@ function displayDate(value: string) {
   }).format(date);
 }
 
+/**
+ * Creates a filesystem-safe estimate filename stem from a customer name.
+ *
+ * @param value - The source text used to create the filename stem
+ * @returns A lowercase, dash-separated filename stem prefixed with `midwest-roots-estimate-`
+ */
 function safeFileName(value: string) {
   const name = value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return `midwest-roots-estimate-${name || "draft"}`;
 }
 
+/**
+ * Generates a Markdown estimate containing customer details, recommended work, pricing, terms, and contact information.
+ *
+ * @param estimate - The estimate data to format.
+ * @param total - The calculated estimate total.
+ * @returns The formatted Markdown estimate.
+ */
 function markdownFor(estimate: Estimate, total: number) {
   const work = estimate.services
     .map(
@@ -98,6 +134,12 @@ function markdownFor(estimate: Estimate, total: number) {
   return `# Midwest Roots Tree Services\n\n## Tree Service Estimate\n\n**Prepared for:** ${estimate.customerName || "Customer"}  \n**Service address:** ${estimate.serviceAddress || "Not provided"}  \n**Estimate:** ${estimate.estimateNumber}  \n**Issued:** ${displayDate(estimate.issued)}  \n**Valid for:** ${estimate.validDays || "30"} days\n\n${estimate.intro}\n\n## Recommended work\n\n${work}\n\n## Estimated total: ${money(String(total))}\n\n### A few important details\n\n- Pricing assumes normal access for our crew and equipment.\n- Normal job-site cleanup and listed debris removal are included.\n- Customer identifies private irrigation, lighting, and invisible fencing.\n- Any change in scope will be discussed and approved before the price changes.\n- Scheduling is weather-dependent; payment is due upon completion.\n\n> ${estimate.customerNote.replace(/\n/g, "  \n> ")}\n\nMidwest Roots Tree Services  \n(402) 812-3294 · andrew@omahatreecare.com  \nhttps://omahatreecare.com\n`;
 }
 
+/**
+ * Determines whether a value has the required fields of a service item.
+ *
+ * @param value - The value to validate.
+ * @returns `true` if the value contains string `id`, `title`, `description`, and `amount` fields, `false` otherwise.
+ */
 function isServiceItem(value: unknown): value is ServiceItem {
   if (!value || typeof value !== "object") return false;
   const item = value as Record<string, unknown>;
@@ -106,6 +148,12 @@ function isServiceItem(value: unknown): value is ServiceItem {
   );
 }
 
+/**
+ * Determines whether a value is a valid estimate.
+ *
+ * @param value - The value to validate.
+ * @returns `true` if the value contains valid estimate fields and at least one valid service item, `false` otherwise.
+ */
 function isEstimate(value: unknown): value is Estimate {
   if (!value || typeof value !== "object") return false;
   const draft = value as Record<string, unknown>;
@@ -126,6 +174,11 @@ function isEstimate(value: unknown): value is Estimate {
   );
 }
 
+/**
+ * Loads the saved estimate draft or creates a default estimate when no valid draft is available.
+ *
+ * @returns The persisted estimate, or a new default estimate if loading or validation fails.
+ */
 function loadEstimate(): Estimate {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -139,11 +192,21 @@ function loadEstimate(): Estimate {
 
 const subscribeToHydration = () => () => undefined;
 
+/**
+ * Renders the field estimate editor after client-side hydration.
+ *
+ * @returns The estimate editor or a loading message while hydration is pending.
+ */
 export function FieldEstimate() {
   const hydrated = useSyncExternalStore(subscribeToHydration, () => true, () => false);
   return hydrated ? <FieldEstimateEditor /> : <div className={styles.loading}>Opening your saved estimate…</div>;
 }
 
+/**
+ * Renders the interactive field estimate editor and preview.
+ *
+ * @returns The estimate editor interface with persistence, preview, download, and sharing controls.
+ */
 function FieldEstimateEditor() {
   const [estimate, setEstimate] = useState<Estimate>(loadEstimate);
   const [showPreview, setShowPreview] = useState(false);
@@ -407,6 +470,14 @@ function FieldEstimateEditor() {
   );
 }
 
+/**
+ * Displays a customer-facing estimate preview.
+ *
+ * @param estimate - The estimate details and service items to display
+ * @param total - The calculated estimated total
+ * @param mobile - Whether to use the mobile preview layout
+ * @returns The rendered estimate preview
+ */
 function EstimatePreview({ estimate, total, mobile = false }: { estimate: Estimate; total: number; mobile?: boolean }) {
   return (
     <aside className={`${styles.previewPane} ${mobile ? styles.mobilePreviewPane : ""}`} aria-label="Customer estimate preview">

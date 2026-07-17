@@ -76,6 +76,9 @@ function getRiskLevel(risk: number) {
   return           { level: 'Low',          color: 'green',  action: 'Monitor during regular visits' }
 }
 
+/**
+ * Guides users through a tree hazard assessment and presents, saves, or shares the resulting risk evaluation.
+ */
 export function HazardAssessment() {
   const router = useRouter()
   const [step, setStep]             = useState(0)

@@ -82,6 +82,12 @@ const SERVICES: ServiceOption[] = [
   { id: "Other", label: "Not Sure", icon: HelpCircle, description: "General inquiry or custom tree care needs." },
 ];
 
+/**
+ * Renders a three-step contact and estimate request form.
+ *
+ * @param initialValues - Optional values used to prefill the form.
+ * @param trackingData - Optional metadata included with the estimate request.
+ */
 export function MultiStepContactForm({ initialValues, trackingData }: MultiStepContactFormProps = {}) {
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);

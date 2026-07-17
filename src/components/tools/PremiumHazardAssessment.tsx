@@ -117,6 +117,11 @@ const getRiskLevel = (risk: number) => {
   return { ...base, ...ui };
 };
 
+/**
+ * Guides users through a tree hazard assessment and displays a diagnostic report with recommended next steps.
+ *
+ * @param searchParams - Optional navigation parameters used to preselect the tree species.
+ */
 export function PremiumHazardAssessment({
   searchParams,
 }: {

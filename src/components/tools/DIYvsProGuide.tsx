@@ -174,6 +174,11 @@ const tasks: Task[] = [
   },
 ]
 
+/**
+ * Displays guidance for choosing between DIY and professional tree care.
+ *
+ * @param searchParams - Optional query parameters associated with the guide.
+ */
 export function DIYvsProGuide({ searchParams }: { searchParams?: Record<string, unknown> }) {
   const router = useRouter()
   const safeItems  = tasks.filter(t => t.category === 'safe-diy')
