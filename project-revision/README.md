@@ -3,10 +3,10 @@
 **Project:** sudotsu/omahatreecare  
 **Teardown revision:** `3909e4efed404566a1b2fac3490ee9e0103a64a9`  
 **Implementation start:** `b1f3c8867c8512e1e84be1c00648b86d46bc0084`  
-**Implementation endpoint:** `e9211475e7aff21a4391d248e96d9fb1f130f546`  
+**Implementation endpoint:** `40e922fef7d4d726d781ad869e8815ff56b70a40`  
 **Revision status:** `partial`  
 **Review convergence:** `passed`  
-**Merge readiness:** `not-ready`  
+**Merge readiness:** `ready`  
 **Release readiness:** `not-ready`
 
 ## Start here
@@ -23,7 +23,8 @@
 
 | Disposition | Count |
 | --- | ---: |
-| `blocked` | 11 |
+| `blocked` | 10 |
+| `deferred` | 1 |
 | `implemented` | 13 |
 | `retained` | 1 |
 
@@ -37,7 +38,7 @@
 - **CONV-003 — Complete controlled production lead-delivery and routing verification:** approval `approved`, disposition `blocked` — Production provider/account/destination evidence is unavailable; only local labeled acceptance, duplicate, failure, and redaction behavior was exercised.
 - **PROD-002 — Calibrate and truthfully present cost-estimator ranges:** approval `approved`, disposition `blocked` — Owner approved broad numeric planning ranges without blocking on missing job data; UI is truthful now, but original calibration/source/back-test criteria remain unavailable.
 - **SEC-002 — Add and verify application security headers and lead-form abuse controls:** approval `approved`, disposition `blocked` — Application CSP/frame/referrer/permissions/content-type headers and server size/schema/honeypot/idempotency/rate controls were added, but distributed production abuse behavior, HSTS, provider quotas, and deployed responses remain external.
-- **TECH-001 — Extract a tenant-neutral tool kernel before embedding or licensing:** approval `approved`, disposition `blocked` — A bounded default Midwest Roots configuration and pure tested hazard/lead rules exist, duplicated unused datasets were removed, but all five interactive rule sets are not yet extracted into a tenant-neutral router-free kernel.
+- **TECH-001 — Extract a tenant-neutral tool kernel before embedding or licensing:** approval `deferred`, disposition `deferred` — The bounded Midwest Roots configuration boundary is complete for the repaired local site. Full extraction of all five tool rule sets into tenant-neutral, router-free kernels is explicitly deferred until before a managed-embed pilot or broader productization; the repository is not represented as tenant-neutral or licensing-ready.
 - **PWA-001 — Decide whether offline/installable PWA behavior is a supported promise:** approval `approved`, disposition `blocked` — Serwist, service worker source/dependencies, both install manifests, and metadata links were removed; one-release cleanup unregisters workers/deletes caches, but deployed stale-client proof is external.
 - **OPS-002 — Establish the production lead operations runbook and ownership model:** approval `approved`, disposition `blocked` — A complete executable public runbook structure exists, but private backup owner/destinations/provider accounts and production drills cannot be completed without owner operational access.
 
@@ -46,8 +47,8 @@
 | State | Value |
 | --- | --- |
 | Committed | `verified` |
-| Pushed | `verified` |
-| Pull request updated | `verified` |
+| Pushed | `unverified` |
+| Pull request updated | `unverified` |
 | Merged | `not-performed` |
 
 ## Interpretation

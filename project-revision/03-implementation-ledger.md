@@ -35,12 +35,12 @@
 - **Revalidation:** confirmed
 - **Disposition:** implemented
 - **Sequence:** 3
-- **Reason:** Browser EmailJS was replaced by a server-owned schema, durable file-backed receipt/idempotency store, pending queue state, authenticated delivery attempt, and fail-closed UI.
-- **Files changed:** src/app/api/leads/route.ts | src/lib/leads/schema.ts | src/lib/leads/store.ts | src/lib/leads/client.ts | src/components/forms/ContactForm.tsx | src/components/forms/MultiStepContactForm.tsx | src/components/forms/FastQuoteWidget.tsx | src/app/free-tree-assessment-omaha/page.tsx | package.json | package-lock.json
-- **Acceptance results:** Submission has a stable receipt ID => passed => 201 response and persisted UUID receipt verified locally. | Duplicate requests are idempotent => passed => Same idempotency key returned the same receipt with duplicate=true; Vitest covers durable duplicate lookup. | Provider outage produces queued/retry or explicit failure => passed => Accepted record remains delivery=pending on absent/failed webhook with operator signal; missing durable store returns homeowner-safe 503. | No provider key is shipped to browsers => passed => @emailjs/browser and NEXT_PUBLIC EmailJS configuration were removed; delivery token is server-only.
-- **Verification:** 9 Vitest tests | local 201/200 duplicate/503/413 fault checks | typecheck | build | Playwright defining journeys
-- **Notes:** Production durable storage and retry scheduling remain release configuration gates, not hidden success claims.
-- **Revision record digest:** sha256:98e0ee99766a77185a9c6eda1d1f71cb5f1738648ff57a7789ace41aa2a7a616
+- **Reason:** Browser EmailJS was replaced by a server-owned schema and storage interface. Production now requires PostgreSQL through DATABASE_URL, with an atomic unique idempotency digest, durable receipt/payload/attribution/lifecycle fields, pending delivery, and fail-closed UI; filesystem storage remains local/test only.
+- **Files changed:** src/app/api/leads/route.ts | src/lib/leads/schema.ts | src/lib/leads/store.ts | src/lib/leads/store-contract.ts | src/lib/leads/store-filesystem.ts | src/lib/leads/store-postgres.ts | src/lib/leads/client.ts | src/components/forms/ContactForm.tsx | src/components/forms/MultiStepContactForm.tsx | src/components/forms/FastQuoteWidget.tsx | src/app/free-tree-assessment-omaha/page.tsx | migrations/001_create_lead_records.sql | README.md | OPERATIONS_SOP.md | package.json | package-lock.json
+- **Acceptance results:** Submission has a stable receipt ID => passed => The PostgreSQL adapter inserts a UUID receipt before success and returns the stored row; focused adapter and local filesystem tests passed. A deployed database receipt remains unverified under CONV-003. | Duplicate requests are idempotent => passed => The migration uniquely constrains the SHA-256 key digest and the adapter uses INSERT ON CONFLICT inside a short transaction; sequential and eight-way concurrent adapter tests returned one receipt. | Provider outage produces queued/retry or explicit failure => passed => Accepted records remain delivery=pending after absent/failed webhook delivery; unavailable or missing production persistence returns homeowner-safe 503 with no receipt. | No provider key is shipped to browsers => passed => @emailjs/browser and NEXT_PUBLIC EmailJS configuration were removed; delivery token is server-only.
+- **Verification:** 15 Vitest tests including PostgreSQL success, atomic duplicate, concurrency, persistence failure, delivery failure, missing-production-config, and filesystem behavior | Playwright production missing-database 503 regression | typecheck | build | migration and full storage-path source review
+- **Notes:** Production persistence is implemented but not operationally verified: the owner must provision PostgreSQL, apply the migration, configure a server-only DATABASE_URL, and exercise deployed acceptance/concurrency/failure paths. Automated pending-delivery retry remains a release gate.
+- **Revision record digest:** sha256:5195a20f24f918fd0290710f95f448d1c197124148fe8deb656c4ca903629aa9
 
 ## SEC-001 — Patch the pinned Next.js release and verify advisory applicability
 
@@ -51,10 +51,10 @@
 - **Sequence:** 4
 - **Reason:** Next.js was patched from 16.2.1 to 16.2.6, clearing applicable high/critical direct production advisories.
 - **Files changed:** package.json | package-lock.json
-- **Acceptance results:** npm audit has no applicable high/critical production advisory => passed => Final npm audit --omit=dev reports four moderate findings and zero high/critical. | Build and defining workflows pass on patched version => passed => 60-page Next 16.2.6 production build and three Playwright defining tests passed.
-- **Verification:** npm audit --omit=dev | npm run build | npm run test:e2e
-- **Notes:** Next's nested PostCSS advisory remains moderate and has no nonbreaking upstream resolution in the installed release.
-- **Revision record digest:** sha256:a598c59cb1e062c7940a096878a093eb8b205728e086ca0969a234f2a7f4d192
+- **Acceptance results:** npm audit has no applicable high/critical production advisory => passed => Final full npm audit reports zero vulnerabilities after resolving the nested PostCSS override and nonbreaking development transitive updates. | Build and defining workflows pass on patched version => passed => 60-route Next 16.2.6 production build and five Playwright tests passed.
+- **Verification:** npm audit: zero vulnerabilities | npm run build | npm run test:e2e
+- **Notes:** None
+- **Revision record digest:** sha256:991165d331d21134c5b89bde123b4708f825b801fdebb97d5aba50a288691dfd
 
 ## TEST-001 — Add automated coverage for scoring, routing, metadata, and lead acceptance
 
@@ -63,12 +63,12 @@
 - **Revalidation:** confirmed
 - **Disposition:** implemented
 - **Sequence:** 5
-- **Reason:** Vitest characterization/failure coverage, production-server Playwright journeys, and a pull-request quality workflow were added without weakening the unsafe historical contract.
-- **Files changed:** src/data/hazard-criteria.test.ts | src/lib/leads/leads.test.ts | tests/e2e/homeowner-tools.spec.ts | playwright.config.ts | .github/workflows/quality.yml | package.json | package-lock.json | .gitignore
-- **Acceptance results:** Characterization coverage captures the false-receipt, active hazard scoring, current range selection, and photo-mailto behavior before risky replacement => passed => Retained teardown evidence established historical behaviors; regression tests now prove direct GET containment, scoring thresholds, broad range UI, and manual mail without a file input. | CI runs deterministic tests for five tools and the lead lifecycle => passed => Quality workflow runs Vitest plus production Playwright; local Playwright exercised all five tool routes. | Tests cover invalid, boundary, failure, duplicate, and mobile navigation paths => passed => Schema size/contact boundaries, no-store 503, duplicate receipt, oversize 413, mobile menu/skip/overflow passed. | No test weakens or normalizes an unsafe or misleading current contract => passed => Tests assert false receipt absent, hazard uncertainty present, dangerous vehicle-pull copy absent, and photo picker absent.
-- **Verification:** npm test: 9 passed | npm run test:e2e: 3 passed | workflow syntax inspected
-- **Notes:** Firefox/WebKit and real AT stay under A11Y-001 rather than being overstated as CI coverage.
-- **Revision record digest:** sha256:912e4d35f0c06a816778161527515407acd0427bbd1b5bd0b31eb3ee60c4190f
+- **Reason:** Vitest characterization/failure coverage, PostgreSQL adapter concurrency/failure tests, production-server Playwright journeys, and a pull-request quality workflow were added without weakening the unsafe historical contract.
+- **Files changed:** src/data/hazard-criteria.test.ts | src/lib/leads/leads.test.ts | src/lib/leads/store-postgres.test.ts | tests/e2e/homeowner-tools.spec.ts | playwright.config.ts | .github/workflows/quality.yml | package.json | package-lock.json | .gitignore
+- **Acceptance results:** Characterization coverage captures the false-receipt, active hazard scoring, current range selection, and photo-mailto behavior before risky replacement => passed => Retained teardown evidence established historical behaviors; regression tests now prove direct GET containment, scoring thresholds, broad range UI, and manual mail without a file input. | CI runs deterministic tests for five tools and the lead lifecycle => passed => Quality workflow runs Vitest plus production Playwright; 15 local unit/adapter tests and five Playwright tests exercise all five tool routes and the lead boundary. | Tests cover invalid, boundary, failure, duplicate, and mobile navigation paths => passed => Schema size/contact boundaries, atomic sequential/eight-way concurrent duplicates, persistence and delivery failure, production missing-config 503, mobile menu/skip/overflow passed. | No test weakens or normalizes an unsafe or misleading current contract => passed => Tests assert false receipt absent, hazard uncertainty present, dangerous vehicle-pull copy absent, and photo picker absent.
+- **Verification:** npm test: 15 passed | npm run test:e2e: 5 passed | workflow syntax inspected
+- **Notes:** PostgreSQL tests use a deterministic adapter fake and source-reviewed migration; a deployed database exercise remains CONV-003 evidence. Firefox/WebKit and real AT stay under A11Y-001.
+- **Revision record digest:** sha256:c96487c4297be654ab7678f43a5ebb328c72f01b461b52fd52315c2222f5a753
 
 ## TRUST-002 — Substantiate or replace non-ISA authority, insurance, guarantee, statistics, and response claims
 
@@ -296,17 +296,17 @@
 
 ## TECH-001 — Extract a tenant-neutral tool kernel before embedding or licensing
 
-- **Approval:** approved
+- **Approval:** deferred
 - **Teardown verification state:** source-only
-- **Revalidation:** blocked
-- **Disposition:** blocked
+- **Revalidation:** changed
+- **Disposition:** deferred
 - **Sequence:** 22
-- **Reason:** A bounded default Midwest Roots configuration and pure tested hazard/lead rules exist, duplicated unused datasets were removed, but all five interactive rule sets are not yet extracted into a tenant-neutral router-free kernel.
+- **Reason:** The bounded Midwest Roots configuration boundary is complete for the repaired local site. Full extraction of all five tool rule sets into tenant-neutral, router-free kernels is explicitly deferred until before a managed-embed pilot or broader productization; the repository is not represented as tenant-neutral or licensing-ready.
 - **Files changed:** None
 - **Acceptance results:** Owner records build-boundary-now or defer-until-local-stability; commercialization remains a separate PROD-001 decision => passed => Owner selected boundary now and separately deferred commercialization. | No tool kernel imports Midwest Roots constants or Next router => blocked => Pure hazard/lead modules meet this, but species/DIY/ailment/cost rules remain embedded in UI adapters that import routing/business context. | Rules are pure and covered by boundary tests => blocked => Hazard and lead rules are pure/tested; equivalent extraction/tests for all remaining tools are incomplete. | Tenant adapter owns branding, locale, leads, analytics, and disclosures => passed => siteConfig separates identity, routing/retention, service areas, pricing status, analytics, tool copy, authority, and feature flags with Midwest Roots defaults.
 - **Verification:** configuration source review | dependency/import search | hazard/lead tests
-- **Notes:** No tenancy, billing, generalized SaaS, or managed-embed runtime was added.
-- **Revision record digest:** sha256:3224f78320bcd727dd58bab9d5c8da72458068037cd08d78a8b6cfbb84945e89
+- **Notes:** The deferred extraction is a productization prerequisite, not a merge blocker for the local Midwest Roots website. No tenancy, billing, generalized SaaS, or managed-embed runtime was added.
+- **Revision record digest:** sha256:3a22e3b973e4debe13c8d0a8795313432fd876e58ce80681322568ea597be2f4
 
 ## PWA-001 — Decide whether offline/installable PWA behavior is a supported promise
 
@@ -379,8 +379,8 @@
 - **Status:** fixed
 - **Reason:** The initial npm test glob loaded Playwright specs in Vitest; the unit script now excludes tests/e2e and each runner passes independently.
 - **Files changed:** package.json
-- **Verification:** npm test passed 9 tests | npm run test:e2e passed 3 tests
-- **Convergence record digest:** sha256:a4805d39f6dea035ac03ce037bf4c4daeea6d9b4ea3b5dd9dc2f6e511d977590
+- **Verification:** final npm test passed 15 tests | final npm run test:e2e passed 5 tests
+- **Convergence record digest:** sha256:391df424628a43a7c4817b9e384e12e2f9a884dfd25d4ca3c6e45b107f241a67
 
 ### REV-004 — Species and location surfaces retained unsupported certainty and service claims
 
@@ -389,5 +389,25 @@
 - **Status:** fixed
 - **Reason:** Species entries still presented unsupported mortality, lifespan, treatment, and tree-level risk certainty; location pages asserted neighborhood conditions, free assessment, permit handling, and equipment knowledge without evidence. The surfaces now use bounded concern language, property-specific planning, municipal confirmation, and estimate-scope wording.
 - **Files changed:** src/components/tools/SpeciesIdentifier.tsx | src/components/tools/DIYvsProGuide.tsx | src/app/locations/[city]/[neighborhood]/page.tsx | src/app/locations/[city]/page.tsx | src/data/services.ts | tests/e2e/homeowner-tools.spec.ts
-- **Verification:** typecheck passed | Vitest 9 tests passed | lint passed with 23 warnings and no errors | Playwright 4 tests passed in installed Chrome | production build passed with 60 routes | full product diff reviewed
-- **Convergence record digest:** sha256:612db991f21efd2f69f6e5346e6c2851df64697ef173f1ba3ca311e411b94b05
+- **Verification:** typecheck passed | Vitest 15 tests passed | lint passed with 21 warnings and no errors | Playwright 5 tests passed in installed Chrome | production build passed with 60 routes | full product diff reviewed
+- **Convergence record digest:** sha256:3346e5d83a257ea326feb18652b14897840c52565ccdf0d2b4cdd29a3002a5a2
+
+### REV-005 — Nested PostCSS remained on an advised release
+
+- **Source:** full dependency audit and lockfile review
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The prior scoped override did not affect Next's nested PostCSS 8.4.31. A root override now resolves every installed copy to the audited direct PostCSS release, and nonbreaking development transitive updates clear the remaining low advisory.
+- **Files changed:** package.json | package-lock.json
+- **Verification:** npm ls postcss | npm audit: zero vulnerabilities | clean npm ci | production build passed
+- **Convergence record digest:** sha256:8c99c4516d4067fa4264a8d77c76fe81b1a2ee7fa1a6aceebd06cee2f8b7dd64
+
+### REV-006 — Production browser harness masked missing durable-store configuration
+
+- **Source:** lead failure-path and test-harness review
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The production-server Playwright harness previously injected a filesystem lead directory, so it could not prove fail-closed behavior for an unconfigured deployment. The harness no longer injects ephemeral storage and now asserts HTTP 503, no receipt, and phone fallback when DATABASE_URL is absent.
+- **Files changed:** playwright.config.ts | tests/e2e/homeowner-tools.spec.ts
+- **Verification:** Playwright production missing-database regression passed | five total Playwright tests passed
+- **Convergence record digest:** sha256:5a6f82410ed17d41a804c48ce8afaa4dc51ce4feb3f5564cf451ef56867173bc

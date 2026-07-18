@@ -4,9 +4,9 @@
   "teardown_path": "project-teardown",
   "teardown_audited_revision": "3909e4efed404566a1b2fac3490ee9e0103a64a9",
   "implementation_start_revision": "b1f3c8867c8512e1e84be1c00648b86d46bc0084",
-  "implementation_end_revision": "e9211475e7aff21a4391d248e96d9fb1f130f546",
+  "implementation_end_revision": "40e922fef7d4d726d781ad869e8815ff56b70a40",
   "revision_status": "partial",
-  "generated_at": "2026-07-18T04:28:00-05:00",
+  "generated_at": "2026-07-18T10:39:00-05:00",
   "existing_work_reconciled": true,
   "findings": [
     {
@@ -33,37 +33,37 @@
     },
     {
       "id": "CONV-002", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 3,
-      "reason": "Browser EmailJS was replaced by a server-owned schema, durable file-backed receipt/idempotency store, pending queue state, authenticated delivery attempt, and fail-closed UI.",
-      "files_changed": ["src/app/api/leads/route.ts", "src/lib/leads/schema.ts", "src/lib/leads/store.ts", "src/lib/leads/client.ts", "src/components/forms/ContactForm.tsx", "src/components/forms/MultiStepContactForm.tsx", "src/components/forms/FastQuoteWidget.tsx", "src/app/free-tree-assessment-omaha/page.tsx", "package.json", "package-lock.json"],
+      "reason": "Browser EmailJS was replaced by a server-owned schema and storage interface. Production now requires PostgreSQL through DATABASE_URL, with an atomic unique idempotency digest, durable receipt/payload/attribution/lifecycle fields, pending delivery, and fail-closed UI; filesystem storage remains local/test only.",
+      "files_changed": ["src/app/api/leads/route.ts", "src/lib/leads/schema.ts", "src/lib/leads/store.ts", "src/lib/leads/store-contract.ts", "src/lib/leads/store-filesystem.ts", "src/lib/leads/store-postgres.ts", "src/lib/leads/client.ts", "src/components/forms/ContactForm.tsx", "src/components/forms/MultiStepContactForm.tsx", "src/components/forms/FastQuoteWidget.tsx", "src/app/free-tree-assessment-omaha/page.tsx", "migrations/001_create_lead_records.sql", "README.md", "OPERATIONS_SOP.md", "package.json", "package-lock.json"],
       "acceptance_results": [
-        {"criterion": "Submission has a stable receipt ID", "status": "passed", "evidence": "201 response and persisted UUID receipt verified locally."},
-        {"criterion": "Duplicate requests are idempotent", "status": "passed", "evidence": "Same idempotency key returned the same receipt with duplicate=true; Vitest covers durable duplicate lookup."},
-        {"criterion": "Provider outage produces queued/retry or explicit failure", "status": "passed", "evidence": "Accepted record remains delivery=pending on absent/failed webhook with operator signal; missing durable store returns homeowner-safe 503."},
+        {"criterion": "Submission has a stable receipt ID", "status": "passed", "evidence": "The PostgreSQL adapter inserts a UUID receipt before success and returns the stored row; focused adapter and local filesystem tests passed. A deployed database receipt remains unverified under CONV-003."},
+        {"criterion": "Duplicate requests are idempotent", "status": "passed", "evidence": "The migration uniquely constrains the SHA-256 key digest and the adapter uses INSERT ON CONFLICT inside a short transaction; sequential and eight-way concurrent adapter tests returned one receipt."},
+        {"criterion": "Provider outage produces queued/retry or explicit failure", "status": "passed", "evidence": "Accepted records remain delivery=pending after absent/failed webhook delivery; unavailable or missing production persistence returns homeowner-safe 503 with no receipt."},
         {"criterion": "No provider key is shipped to browsers", "status": "passed", "evidence": "@emailjs/browser and NEXT_PUBLIC EmailJS configuration were removed; delivery token is server-only."}
       ],
-      "verification": ["9 Vitest tests", "local 201/200 duplicate/503/413 fault checks", "typecheck", "build", "Playwright defining journeys"], "notes": ["Production durable storage and retry scheduling remain release configuration gates, not hidden success claims."]
+      "verification": ["15 Vitest tests including PostgreSQL success, atomic duplicate, concurrency, persistence failure, delivery failure, missing-production-config, and filesystem behavior", "Playwright production missing-database 503 regression", "typecheck", "build", "migration and full storage-path source review"], "notes": ["Production persistence is implemented but not operationally verified: the owner must provision PostgreSQL, apply the migration, configure a server-only DATABASE_URL, and exercise deployed acceptance/concurrency/failure paths. Automated pending-delivery retry remains a release gate."]
     },
     {
       "id": "SEC-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 4,
       "reason": "Next.js was patched from 16.2.1 to 16.2.6, clearing applicable high/critical direct production advisories.",
       "files_changed": ["package.json", "package-lock.json"],
       "acceptance_results": [
-        {"criterion": "npm audit has no applicable high/critical production advisory", "status": "passed", "evidence": "Final npm audit --omit=dev reports four moderate findings and zero high/critical."},
-        {"criterion": "Build and defining workflows pass on patched version", "status": "passed", "evidence": "60-page Next 16.2.6 production build and three Playwright defining tests passed."}
+        {"criterion": "npm audit has no applicable high/critical production advisory", "status": "passed", "evidence": "Final full npm audit reports zero vulnerabilities after resolving the nested PostCSS override and nonbreaking development transitive updates."},
+        {"criterion": "Build and defining workflows pass on patched version", "status": "passed", "evidence": "60-route Next 16.2.6 production build and five Playwright tests passed."}
       ],
-      "verification": ["npm audit --omit=dev", "npm run build", "npm run test:e2e"], "notes": ["Next's nested PostCSS advisory remains moderate and has no nonbreaking upstream resolution in the installed release."]
+      "verification": ["npm audit: zero vulnerabilities", "npm run build", "npm run test:e2e"], "notes": []
     },
     {
       "id": "TEST-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 5,
-      "reason": "Vitest characterization/failure coverage, production-server Playwright journeys, and a pull-request quality workflow were added without weakening the unsafe historical contract.",
-      "files_changed": ["src/data/hazard-criteria.test.ts", "src/lib/leads/leads.test.ts", "tests/e2e/homeowner-tools.spec.ts", "playwright.config.ts", ".github/workflows/quality.yml", "package.json", "package-lock.json", ".gitignore"],
+      "reason": "Vitest characterization/failure coverage, PostgreSQL adapter concurrency/failure tests, production-server Playwright journeys, and a pull-request quality workflow were added without weakening the unsafe historical contract.",
+      "files_changed": ["src/data/hazard-criteria.test.ts", "src/lib/leads/leads.test.ts", "src/lib/leads/store-postgres.test.ts", "tests/e2e/homeowner-tools.spec.ts", "playwright.config.ts", ".github/workflows/quality.yml", "package.json", "package-lock.json", ".gitignore"],
       "acceptance_results": [
         {"criterion": "Characterization coverage captures the false-receipt, active hazard scoring, current range selection, and photo-mailto behavior before risky replacement", "status": "passed", "evidence": "Retained teardown evidence established historical behaviors; regression tests now prove direct GET containment, scoring thresholds, broad range UI, and manual mail without a file input."},
-        {"criterion": "CI runs deterministic tests for five tools and the lead lifecycle", "status": "passed", "evidence": "Quality workflow runs Vitest plus production Playwright; local Playwright exercised all five tool routes."},
-        {"criterion": "Tests cover invalid, boundary, failure, duplicate, and mobile navigation paths", "status": "passed", "evidence": "Schema size/contact boundaries, no-store 503, duplicate receipt, oversize 413, mobile menu/skip/overflow passed."},
+        {"criterion": "CI runs deterministic tests for five tools and the lead lifecycle", "status": "passed", "evidence": "Quality workflow runs Vitest plus production Playwright; 15 local unit/adapter tests and five Playwright tests exercise all five tool routes and the lead boundary."},
+        {"criterion": "Tests cover invalid, boundary, failure, duplicate, and mobile navigation paths", "status": "passed", "evidence": "Schema size/contact boundaries, atomic sequential/eight-way concurrent duplicates, persistence and delivery failure, production missing-config 503, mobile menu/skip/overflow passed."},
         {"criterion": "No test weakens or normalizes an unsafe or misleading current contract", "status": "passed", "evidence": "Tests assert false receipt absent, hazard uncertainty present, dangerous vehicle-pull copy absent, and photo picker absent."}
       ],
-      "verification": ["npm test: 9 passed", "npm run test:e2e: 3 passed", "workflow syntax inspected"], "notes": ["Firefox/WebKit and real AT stay under A11Y-001 rather than being overstated as CI coverage."]
+      "verification": ["npm test: 15 passed", "npm run test:e2e: 5 passed", "workflow syntax inspected"], "notes": ["PostgreSQL tests use a deterministic adapter fake and source-reviewed migration; a deployed database exercise remains CONV-003 evidence. Firefox/WebKit and real AT stay under A11Y-001."]
     },
     {
       "id": "TRUST-002", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 6,
@@ -255,8 +255,8 @@
       "verification": ["local response header capture", "413/503/duplicate checks", "schema/store tests"], "notes": ["Security files are attributed to CONV-002/SEC-001 while deployed verification remains blocked."]
     },
     {
-      "id": "TECH-001", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 22,
-      "reason": "A bounded default Midwest Roots configuration and pure tested hazard/lead rules exist, duplicated unused datasets were removed, but all five interactive rule sets are not yet extracted into a tenant-neutral router-free kernel.",
+      "id": "TECH-001", "approval": "deferred", "revalidation": "changed", "disposition": "deferred", "sequence": 22,
+      "reason": "The bounded Midwest Roots configuration boundary is complete for the repaired local site. Full extraction of all five tool rule sets into tenant-neutral, router-free kernels is explicitly deferred until before a managed-embed pilot or broader productization; the repository is not represented as tenant-neutral or licensing-ready.",
       "files_changed": [],
       "acceptance_results": [
         {"criterion": "Owner records build-boundary-now or defer-until-local-stability; commercialization remains a separate PROD-001 decision", "status": "passed", "evidence": "Owner selected boundary now and separately deferred commercialization."},
@@ -264,7 +264,7 @@
         {"criterion": "Rules are pure and covered by boundary tests", "status": "blocked", "evidence": "Hazard and lead rules are pure/tested; equivalent extraction/tests for all remaining tools are incomplete."},
         {"criterion": "Tenant adapter owns branding, locale, leads, analytics, and disclosures", "status": "passed", "evidence": "siteConfig separates identity, routing/retention, service areas, pricing status, analytics, tool copy, authority, and feature flags with Midwest Roots defaults."}
       ],
-      "verification": ["configuration source review", "dependency/import search", "hazard/lead tests"], "notes": ["No tenancy, billing, generalized SaaS, or managed-embed runtime was added."]
+      "verification": ["configuration source review", "dependency/import search", "hazard/lead tests"], "notes": ["The deferred extraction is a productization prerequisite, not a merge blocker for the local Midwest Roots website. No tenancy, billing, generalized SaaS, or managed-embed runtime was added."]
     },
     {
       "id": "PWA-001", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 23,
@@ -302,15 +302,17 @@
   "convergence_findings": [
     {"id": "REV-001", "title": "Rendered homepage retained unsupported authority and response claims", "source": "Playwright rendered-DOM adversarial review", "severity": "high", "status": "fixed", "reason": "The first browser snapshot exposed professional-arborist, exact-safety, since-2023, and two-hour callback claims missed by the initial scan; all were replaced with bounded wording.", "files_changed": ["src/app/page.tsx", "src/components/ui/HazardAssessmentHeroCard.tsx", "src/components/forms/ContactForm.tsx"], "verification": ["repeat material-claim scan", "Playwright three-test pass"]},
     {"id": "REV-002", "title": "Failed acceptance could leave an empty idempotency lock", "source": "manual lead-store fault and concurrency review", "severity": "medium", "status": "fixed", "reason": "An error after exclusive key creation could leave an empty key and make future duplicates fail indefinitely; failure now removes the lock and concurrent empty locks fail safely.", "files_changed": ["src/lib/leads/store.ts", "src/lib/leads/leads.test.ts"], "verification": ["Vitest store suite passed", "local 503 and duplicate checks passed"]},
-    {"id": "REV-003", "title": "Vitest discovered Playwright specifications", "source": "full-suite verification", "severity": "medium", "status": "fixed", "reason": "The initial npm test glob loaded Playwright specs in Vitest; the unit script now excludes tests/e2e and each runner passes independently.", "files_changed": ["package.json"], "verification": ["npm test passed 9 tests", "npm run test:e2e passed 3 tests"]},
-    {"id": "REV-004", "title": "Species and location surfaces retained unsupported certainty and service claims", "source": "current-head material-claim and rendered-route review", "severity": "high", "status": "fixed", "reason": "Species entries still presented unsupported mortality, lifespan, treatment, and tree-level risk certainty; location pages asserted neighborhood conditions, free assessment, permit handling, and equipment knowledge without evidence. The surfaces now use bounded concern language, property-specific planning, municipal confirmation, and estimate-scope wording.", "files_changed": ["src/components/tools/SpeciesIdentifier.tsx", "src/components/tools/DIYvsProGuide.tsx", "src/app/locations/[city]/[neighborhood]/page.tsx", "src/app/locations/[city]/page.tsx", "src/data/services.ts", "tests/e2e/homeowner-tools.spec.ts"], "verification": ["typecheck passed", "Vitest 9 tests passed", "lint passed with 23 warnings and no errors", "Playwright 4 tests passed in installed Chrome", "production build passed with 60 routes", "full product diff reviewed"]}
+    {"id": "REV-003", "title": "Vitest discovered Playwright specifications", "source": "full-suite verification", "severity": "medium", "status": "fixed", "reason": "The initial npm test glob loaded Playwright specs in Vitest; the unit script now excludes tests/e2e and each runner passes independently.", "files_changed": ["package.json"], "verification": ["final npm test passed 15 tests", "final npm run test:e2e passed 5 tests"]},
+    {"id": "REV-004", "title": "Species and location surfaces retained unsupported certainty and service claims", "source": "current-head material-claim and rendered-route review", "severity": "high", "status": "fixed", "reason": "Species entries still presented unsupported mortality, lifespan, treatment, and tree-level risk certainty; location pages asserted neighborhood conditions, free assessment, permit handling, and equipment knowledge without evidence. The surfaces now use bounded concern language, property-specific planning, municipal confirmation, and estimate-scope wording.", "files_changed": ["src/components/tools/SpeciesIdentifier.tsx", "src/components/tools/DIYvsProGuide.tsx", "src/app/locations/[city]/[neighborhood]/page.tsx", "src/app/locations/[city]/page.tsx", "src/data/services.ts", "tests/e2e/homeowner-tools.spec.ts"], "verification": ["typecheck passed", "Vitest 15 tests passed", "lint passed with 21 warnings and no errors", "Playwright 5 tests passed in installed Chrome", "production build passed with 60 routes", "full product diff reviewed"]},
+    {"id": "REV-005", "title": "Nested PostCSS remained on an advised release", "source": "full dependency audit and lockfile review", "severity": "medium", "status": "fixed", "reason": "The prior scoped override did not affect Next's nested PostCSS 8.4.31. A root override now resolves every installed copy to the audited direct PostCSS release, and nonbreaking development transitive updates clear the remaining low advisory.", "files_changed": ["package.json", "package-lock.json"], "verification": ["npm ls postcss", "npm audit: zero vulnerabilities", "clean npm ci", "production build passed"]},
+    {"id": "REV-006", "title": "Production browser harness masked missing durable-store configuration", "source": "lead failure-path and test-harness review", "severity": "medium", "status": "fixed", "reason": "The production-server Playwright harness previously injected a filesystem lead directory, so it could not prove fail-closed behavior for an unconfigured deployment. The harness no longer injects ephemeral storage and now asserts HTTP 503, no receipt, and phone fallback when DATABASE_URL is absent.", "files_changed": ["playwright.config.ts", "tests/e2e/homeowner-tools.spec.ts"], "verification": ["Playwright production missing-database regression passed", "five total Playwright tests passed"]}
   ],
   "final_state": {
     "artifact_relationship": "artifact-only-descendant",
     "review_convergence": "passed",
     "blocking_convergence_findings": 0,
-    "merge_readiness": "not-ready",
+    "merge_readiness": "ready",
     "release_readiness": "not-ready",
-    "delivery": {"committed": "verified", "pushed": "verified", "pull_request_updated": "verified", "merged": "not-performed"}
+    "delivery": {"committed": "verified", "pushed": "unverified", "pull_request_updated": "unverified", "merged": "not-performed"}
   }
 }

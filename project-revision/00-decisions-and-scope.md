@@ -18,7 +18,7 @@ Implementation mode applies to `sudotsu/omahatreecare`, using validated handoff 
 | A11Y-001 | approved | Repair structural semantics; real AT/device evidence remains gated. |
 | SEC-001 | approved | Patch direct high/critical production advisories. |
 | AN-001 | approved | Accepted record is truth; analytics is attribution only; use supplied qualification definition. |
-| TECH-001 | approved | Build bounded configuration after foundations; no SaaS/tenancy/billing. |
+| TECH-001 | deferred | Keep the completed bounded Midwest Roots configuration; defer full five-tool tenant-neutral kernel extraction until before a managed-embed pilot or broader productization. |
 | PROD-001 | approved | Stabilize locally, then define one paid managed-embed pilot only. |
 | TEST-001 | approved | Characterization/regression coverage before and alongside risky changes. |
 | PWA-001 | approved | Remove install/offline/cache/update support and stale control. |
@@ -38,4 +38,4 @@ All five homeowner tools, their interaction depth, hazard scoring and urgency, O
 
 ## Blocked evidence and authority boundaries
 
-No active ISA-certified arborist is attributed to Midwest Roots. Production store/delivery configuration, destination receipt, duplicate/failure drill, private backup owner, deployed headers, stale deployed service-worker clearance, Search Console/query evidence, representative redacted job calibration, independent safety/biological review, non-Chromium interaction, real device, NVDA/VoiceOver, and external PR/CI review cannot be fabricated. They remain release gates. This revision is not legal, safety, or professional certification evidence.
+No active ISA-certified arborist is attributed to Midwest Roots. Production database provisioning and migration, deployed persistence/delivery/duplicate/failure proof, destination receipt, retry automation, private backup owner, deployed headers, stale deployed service-worker clearance, Search Console/query evidence, representative redacted job calibration, independent safety/biological review, non-Chromium interaction, real device, and NVDA/VoiceOver cannot be fabricated. They remain release gates. The completed configuration boundary is sufficient for the local site; full tenant-neutral tool extraction remains required before a managed embed or broader productization. This revision is not legal, safety, or professional certification evidence.
