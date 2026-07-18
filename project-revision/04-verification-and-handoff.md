@@ -1,7 +1,7 @@
 # Verification and handoff
 
 **Revision status:** partial
-**Implementation endpoint:** 36308f5ce92b7c97334f31b39e4a1521a76d49be
+**Implementation endpoint:** e9211475e7aff21a4391d248e96d9fb1f130f546
 **Artifact relationship:** artifact-only-descendant
 **Review convergence:** passed
 **Manual adversarial review:** completed
@@ -11,8 +11,8 @@
 **Merge readiness:** not-ready
 **Release readiness:** not-ready
 **Committed:** verified
-**Pushed:** verified
-**Pull request updated:** verified
+**Pushed:** unverified
+**Pull request updated:** unverified
 **Merged:** not-performed
 **Revision validator status:** passed
 
@@ -21,9 +21,9 @@
 - Teardown validator: passed before implementation.
 - `npm run typecheck`: passed on Next 16.2.6.
 - `npm test`: 9 Vitest tests passed after excluding Playwright specs from the unit runner.
-- `npm run lint`: passed with 24 warnings; no errors. Warnings are existing/low-risk unused symbols plus React Compiler opting out around react-hook-form.
+- `npm run lint`: passed with 23 warnings; no errors. Warnings are existing/low-risk unused symbols plus React Compiler opting out around react-hook-form.
 - `npm run build`: passed; 60 static/dynamic route outputs generated.
-- `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/google-chrome npm run test:e2e -- --reporter=line`: 3 passed, covering direct-GET false receipt, five defining tool journeys, mobile navigation, skip focus, and 390px overflow.
+- `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/google-chrome npm run test:e2e`: 4 passed, covering direct-GET false receipt, five defining tool journeys, bounded species/location claims, mobile navigation, skip focus, and 390px overflow. The first attempt without the executable-path environment variable failed before test execution because Playwright's bundled browser was absent; rerunning against installed Chrome passed.
 - Local API: labeled placeholder acceptance `201`, exact duplicate `200` with same receipt, missing durable store `503`, oversized payload `413`; test record was unqualified and stayed local under `/tmp`.
 - Headers: local production response contained CSP with `frame-ancestors 'none'`, Referrer-Policy, Permissions-Policy, X-Content-Type-Options, and X-Frame-Options. Deployed HSTS is blocked.
 - Security: `npm audit --omit=dev` has zero high/critical and four moderate findings in Next's nested PostCSS; upstream nonbreaking fix was unavailable.
@@ -32,7 +32,7 @@
 
 ## Review-source coverage
 
-Manual review covered the full baseline-to-product-endpoint diff, form→API→schema→store→delivery interaction, all public claim scans, PWA removal, configuration, tests, and documentation. Rendered Chrome review found and fixed `REV-001`; store fault review found/fixed `REV-002`; full-suite review found/fixed `REV-003`. Draft PR #83 was read at head `4f929351…`: no submitted reviews, Vercel's comment reported the omahatreecare preview building, Quality was in progress, Vercel Preview Comments passed, and an unrelated winter-defense status passed. No pending source is claimed passed.
+Manual review covered the full baseline-to-product-endpoint diff, form→API→schema→store→delivery interaction, public claim scans, PWA removal, configuration, tests, and documentation. Rendered Chrome review found and fixed `REV-001`; store fault review found/fixed `REV-002`; full-suite review found/fixed `REV-003`; current-head species/location review found and fixed `REV-004`. Draft PR #83 was read at head `ec4afcc…`: no submitted reviews; Quality, Vercel preview, and preview-comment checks passed; CodeRabbit skipped review because the PR is draft. These external facts must be refreshed after the next push.
 
 ## Baseline reconciliation
 
@@ -42,7 +42,7 @@ The implementation start tree was clean. The three paths historically described 
 
 | Path | Classification | Finding IDs | Baseline relationship | Rationale |
 | --- | --- | --- | --- | --- |
-| `.github/workflows/quality.yml`, `playwright.config.ts`, `tests/e2e/homeowner-tools.spec.ts` | approved-finding | TEST-001 | New | Deterministic CI and defining browser journeys. |
+| `.github/workflows/quality.yml`, `playwright.config.ts`, `tests/e2e/homeowner-tools.spec.ts` | convergence-fix | TEST-001 REV-004 | New and extended | Deterministic CI, defining browser journeys, and claim regressions. |
 | `.gitignore` | preserved-existing-work | TEST-001 | Baseline file extended | Preserves all existing ignores and excludes Playwright output. |
 | `package.json`, `package-lock.json` | approved-finding | CONV-002 SEC-001 TEST-001 REV-003 | Modified | Remove browser providers/PWA, patch Next, add tests. |
 | `README.md`, `OPERATIONS_SOP.md` | approved-finding | PRIV-001 OPS-001 AN-001 PROD-001 | Replaced obsolete docs | Current setup, truth boundaries, lifecycle, drills, pilot gates. |
@@ -56,16 +56,16 @@ The implementation start tree was clean. The three paths historically described 
 | `src/app/free-tree-assessment-omaha/page.tsx` | approved-finding | CONV-002 | Modified | Direct GET is not a receipt. |
 | `src/app/privacy/page.tsx`, `src/components/layout/Footer.tsx` | approved-finding | PRIV-001 UX-002 | New/modified | Collection and manual-photo terms. |
 | `src/components/tools/PremiumHazardAssessment.tsx`, `src/data/hazard-criteria.ts`, `src/components/ui/HazardAssessmentHeroCard.tsx` | approved-finding | SAFE-001 TRUST-002 REV-001 | Modified | Preserve scoring/depth with self-reported conservative language. |
-| `src/components/tools/SpeciesIdentifier.tsx` | approved-finding | PRIV-001 UX-002 CONTENT-002 | Modified | Manual email and matching uncertainty. |
-| `src/components/tools/CommonAilments.tsx`, `src/components/tools/CostEstimator.tsx`, `src/components/tools/DIYvsProGuide.tsx`, `src/components/tools/EmailCaptureModal.tsx` | approved-finding | CONTENT-002 | Modified | Bounded authority, safety, range, and conversion behavior. |
+| `src/components/tools/SpeciesIdentifier.tsx` | convergence-fix | PRIV-001 UX-002 CONTENT-002 REV-004 | Modified | Manual email, matching uncertainty, and bounded species concern language. |
+| `src/components/tools/CommonAilments.tsx`, `src/components/tools/CostEstimator.tsx`, `src/components/tools/DIYvsProGuide.tsx`, `src/components/tools/EmailCaptureModal.tsx` | convergence-fix | CONTENT-002 REV-004 | Modified | Bounded authority, safety, range, and conversion behavior. |
 | `src/components/tools/HazardAssessment.tsx`, `src/data/ailments.ts`, `src/data/cost-ranges.ts`, `src/data/diy-guide.ts`, `src/data/species.ts` | approved-finding | CONTENT-002 | Deleted after usage search | Dormant duplicate implementation/data; active five tools preserved. |
 | `src/components/tools/ToolAnalytics.tsx`, `src/app/tools/[tool]/page.tsx` | approved-finding | AN-001 SEO-001 | New/modified | PII-free funnel events and per-tool metadata/H1. |
 | `src/lib/site-config.ts`, `src/lib/constants.ts` | approved-finding | PROD-001 TRUST-001 | New/modified | Bounded Midwest Roots default configuration. |
 | `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/tools/page.tsx`, `src/app/tools/layout.tsx` | approved-finding | TRUST-001 TRUST-002 SEO-001 CONTENT-002 REV-001 | Modified | Global truth, metadata, semantics, counts and tool framing. |
 | `src/app/blog/page.tsx`, `src/app/blog/[slug]/page.tsx`, `src/data/blog/posts.ts` | approved-finding | TRUST-001 TRUST-002 SEO-001 | Modified | Remove first-party credential and unsupported treatment/performance authority. |
-| `src/app/services/[service]/page.tsx`, `src/data/services.ts` | approved-finding | TRUST-001 TRUST-002 SEO-001 CONTENT-002 | Modified | Bounded service inquiry language and metadata. |
-| `src/app/locations/[city]/page.tsx` | approved-finding | SEO-001 | Modified | Prevent title duplication. |
-| `src/app/locations/[city]/[neighborhood]/page.tsx` | preserved-existing-work | TRUST-002 SEO-001 | Baseline local work preserved | Narrow credential/authority copy without removing useful route content. |
+| `src/app/services/[service]/page.tsx`, `src/data/services.ts` | convergence-fix | TRUST-001 TRUST-002 SEO-001 CONTENT-002 REV-004 | Modified | Bounded service inquiry, weather-risk language, and metadata. |
+| `src/app/locations/[city]/page.tsx` | convergence-fix | SEO-001 REV-004 | Modified | Prevent title duplication and remove unsupported permit/service claims. |
+| `src/app/locations/[city]/[neighborhood]/page.tsx` | convergence-fix | TRUST-002 SEO-001 REV-004 | Baseline local work preserved | Preserve routes while replacing unsupported neighborhood assertions with property-specific planning guidance. |
 | `src/data/neighborhoodData.ts` | approved-finding | TRUST-002 | Modified | Remove credential implication. |
 | `src/app/contact/page.tsx`, `src/app/accessibility/page.tsx`, `src/app/free-tree-assessment-omaha/page.tsx` | approved-finding | TRUST-002 SEO-001 CONV-002 | Modified | Honest metadata, accessibility gate, and conversion language. |
 | `tsconfig.json` | approved-finding | OPS-001 | Modified | Exclude archived deprecated implementation after browser EmailJS dependency removal. |
@@ -90,8 +90,8 @@ The implementation start tree was clean. The three paths historically described 
 | src/app/free-tree-assessment-omaha/page.tsx | approved-finding | CONV-002 | Revised | Remove false GET receipt. |
 | src/app/globals.css | approved-finding | OPS-001 | Revised | Remove retired package import. |
 | src/app/layout.tsx | approved-finding | TRUST-001 SEO-001 | Revised | Global metadata, skip link, cleanup. |
-| src/app/locations/[city]/[neighborhood]/page.tsx | preserved-existing-work | TRUST-002 SEO-001 | Revised baseline | Preserve local content; narrow claims. |
-| src/app/locations/[city]/page.tsx | approved-finding | SEO-001 | Revised | Unique title. |
+| src/app/locations/[city]/[neighborhood]/page.tsx | convergence-fix | TRUST-002 SEO-001 REV-004 | Revised baseline | Preserve routes; replace unsupported assertions. |
+| src/app/locations/[city]/page.tsx | convergence-fix | SEO-001 REV-004 | Revised | Unique title and bounded permit/service wording. |
 | src/app/page.tsx | approved-finding | TRUST-002 SEO-001 CONTENT-002 REV-001 | Revised | Truthful homepage. |
 | src/app/privacy/page.tsx | approved-finding | PRIV-001 UX-002 | New | Privacy policy. |
 | src/app/services/[service]/page.tsx | approved-finding | SEO-001 | Revised | Unique title. |
@@ -105,11 +105,11 @@ The implementation start tree was clean. The three paths historically described 
 | src/components/layout/Footer.tsx | approved-finding | PRIV-001 | Revised | Privacy link. |
 | src/components/tools/CommonAilments.tsx | approved-finding | CONTENT-002 | Revised | Educational uncertainty. |
 | src/components/tools/CostEstimator.tsx | approved-finding | CONTENT-002 | Revised | Broad planning ranges. |
-| src/components/tools/DIYvsProGuide.tsx | approved-finding | CONTENT-002 | Revised | Conservative taxonomy. |
+| src/components/tools/DIYvsProGuide.tsx | convergence-fix | CONTENT-002 REV-004 | Revised | Conservative taxonomy and bounded safety wording. |
 | src/components/tools/EmailCaptureModal.tsx | approved-finding | CONTENT-002 | Revised | Remove unsupported subscription/health claim. |
 | src/components/tools/HazardAssessment.tsx | approved-finding | CONTENT-002 | Deleted unused | Remove dormant duplicate. |
 | src/components/tools/PremiumHazardAssessment.tsx | approved-finding | SAFE-001 | Revised | Conservative active screening. |
-| src/components/tools/SpeciesIdentifier.tsx | approved-finding | PRIV-001 UX-002 CONTENT-002 | Revised | Manual photo email and uncertainty. |
+| src/components/tools/SpeciesIdentifier.tsx | convergence-fix | PRIV-001 UX-002 CONTENT-002 REV-004 | Revised | Manual photo email, uncertainty, and bounded species claims. |
 | src/components/tools/ToolAnalytics.tsx | approved-finding | AN-001 | New | PII-free funnel events. |
 | src/components/ui/HazardAssessmentHeroCard.tsx | approved-finding | TRUST-002 SAFE-001 REV-001 | Revised | Bounded urgency. |
 | src/data/ailments.ts | approved-finding | CONTENT-002 | Deleted unused | Remove duplicate data. |
@@ -118,7 +118,7 @@ The implementation start tree was clean. The three paths historically described 
 | src/data/diy-guide.ts | approved-finding | CONTENT-002 | Deleted unused | Remove duplicate data. |
 | src/data/hazard-criteria.test.ts | approved-finding | TEST-001 SAFE-001 | New | Threshold coverage. |
 | src/data/hazard-criteria.ts | approved-finding | SAFE-001 | Revised | Pure screening terminology. |
-| src/data/services.ts | approved-finding | TRUST-001 TRUST-002 CONTENT-002 | Revised | Bounded services. |
+| src/data/services.ts | convergence-fix | TRUST-001 TRUST-002 CONTENT-002 REV-004 | Revised | Bounded services and weather-risk claims. |
 | src/data/species.ts | approved-finding | CONTENT-002 | Deleted unused | Remove duplicate data. |
 | src/lib/constants.ts | approved-finding | TRUST-001 | Revised | Remove unsupported signals. |
 | src/lib/leads/client.ts | approved-finding | CONV-002 | New | Client/server boundary. |
@@ -127,7 +127,7 @@ The implementation start tree was clean. The three paths historically described 
 | src/lib/leads/store.ts | approved-finding | CONV-002 AN-001 REV-002 | New | Durable acceptance and delivery state. |
 | src/lib/site-config.ts | approved-finding | PROD-001 | New | Bounded default configuration. |
 | src/sw.ts | approved-finding | OPS-001 | Deleted | PWA removal. |
-| tests/e2e/homeowner-tools.spec.ts | approved-finding | TEST-001 | New | Defining workflows. |
+| tests/e2e/homeowner-tools.spec.ts | convergence-fix | TEST-001 REV-004 | New and extended | Defining workflows and claim regressions. |
 | tsconfig.json | approved-finding | OPS-001 | Revised | Exclude archived dependency-bound code. |
 
 ## Limitations and blocked evidence
@@ -136,7 +136,7 @@ The revision remains partial and not merge-ready because TECH-001 has incomplete
 
 ## Delivery state
 
-Product code is committed at `36308f5ce92b7c97334f31b39e4a1521a76d49be`; artifact commit `4f929351c2af52df8bbf8ff8128e77cd676833d1` was pushed on `codex/project-revision-midwest-roots`, and draft PR #83 was created and read back at that head. CI and the omahatreecare preview were pending at the read. Nothing is merged, deployed to production, migrated, published, or released.
+Product code is committed at `e9211475e7aff21a4391d248e96d9fb1f130f546`. The new product and refreshed artifacts are not yet verified on the remote or draft PR #83 at this artifact state. Nothing is merged, deployed to production, migrated, published, or released.
 
 ## Validator result
 

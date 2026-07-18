@@ -381,3 +381,13 @@
 - **Files changed:** package.json
 - **Verification:** npm test passed 9 tests | npm run test:e2e passed 3 tests
 - **Convergence record digest:** sha256:a4805d39f6dea035ac03ce037bf4c4daeea6d9b4ea3b5dd9dc2f6e511d977590
+
+### REV-004 — Species and location surfaces retained unsupported certainty and service claims
+
+- **Source:** current-head material-claim and rendered-route review
+- **Severity:** high
+- **Status:** fixed
+- **Reason:** Species entries still presented unsupported mortality, lifespan, treatment, and tree-level risk certainty; location pages asserted neighborhood conditions, free assessment, permit handling, and equipment knowledge without evidence. The surfaces now use bounded concern language, property-specific planning, municipal confirmation, and estimate-scope wording.
+- **Files changed:** src/components/tools/SpeciesIdentifier.tsx | src/components/tools/DIYvsProGuide.tsx | src/app/locations/[city]/[neighborhood]/page.tsx | src/app/locations/[city]/page.tsx | src/data/services.ts | tests/e2e/homeowner-tools.spec.ts
+- **Verification:** typecheck passed | Vitest 9 tests passed | lint passed with 23 warnings and no errors | Playwright 4 tests passed in installed Chrome | production build passed with 60 routes | full product diff reviewed
+- **Convergence record digest:** sha256:612db991f21efd2f69f6e5346e6c2851df64697ef173f1ba3ca311e411b94b05

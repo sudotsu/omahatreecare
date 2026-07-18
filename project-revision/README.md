@@ -3,7 +3,7 @@
 **Project:** sudotsu/omahatreecare  
 **Teardown revision:** `3909e4efed404566a1b2fac3490ee9e0103a64a9`  
 **Implementation start:** `b1f3c8867c8512e1e84be1c00648b86d46bc0084`  
-**Implementation endpoint:** `36308f5ce92b7c97334f31b39e4a1521a76d49be`  
+**Implementation endpoint:** `e9211475e7aff21a4391d248e96d9fb1f130f546`  
 **Revision status:** `partial`  
 **Review convergence:** `passed`  
 **Merge readiness:** `not-ready`  
@@ -46,8 +46,8 @@
 | State | Value |
 | --- | --- |
 | Committed | `verified` |
-| Pushed | `verified` |
-| Pull request updated | `verified` |
+| Pushed | `unverified` |
+| Pull request updated | `unverified` |
 | Merged | `not-performed` |
 
 ## Interpretation

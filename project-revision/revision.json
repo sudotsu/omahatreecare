@@ -4,9 +4,9 @@
   "teardown_path": "project-teardown",
   "teardown_audited_revision": "3909e4efed404566a1b2fac3490ee9e0103a64a9",
   "implementation_start_revision": "b1f3c8867c8512e1e84be1c00648b86d46bc0084",
-  "implementation_end_revision": "36308f5ce92b7c97334f31b39e4a1521a76d49be",
+  "implementation_end_revision": "e9211475e7aff21a4391d248e96d9fb1f130f546",
   "revision_status": "partial",
-  "generated_at": "2026-07-17T22:20:00-05:00",
+  "generated_at": "2026-07-18T04:28:00-05:00",
   "existing_work_reconciled": true,
   "findings": [
     {
@@ -302,7 +302,8 @@
   "convergence_findings": [
     {"id": "REV-001", "title": "Rendered homepage retained unsupported authority and response claims", "source": "Playwright rendered-DOM adversarial review", "severity": "high", "status": "fixed", "reason": "The first browser snapshot exposed professional-arborist, exact-safety, since-2023, and two-hour callback claims missed by the initial scan; all were replaced with bounded wording.", "files_changed": ["src/app/page.tsx", "src/components/ui/HazardAssessmentHeroCard.tsx", "src/components/forms/ContactForm.tsx"], "verification": ["repeat material-claim scan", "Playwright three-test pass"]},
     {"id": "REV-002", "title": "Failed acceptance could leave an empty idempotency lock", "source": "manual lead-store fault and concurrency review", "severity": "medium", "status": "fixed", "reason": "An error after exclusive key creation could leave an empty key and make future duplicates fail indefinitely; failure now removes the lock and concurrent empty locks fail safely.", "files_changed": ["src/lib/leads/store.ts", "src/lib/leads/leads.test.ts"], "verification": ["Vitest store suite passed", "local 503 and duplicate checks passed"]},
-    {"id": "REV-003", "title": "Vitest discovered Playwright specifications", "source": "full-suite verification", "severity": "medium", "status": "fixed", "reason": "The initial npm test glob loaded Playwright specs in Vitest; the unit script now excludes tests/e2e and each runner passes independently.", "files_changed": ["package.json"], "verification": ["npm test passed 9 tests", "npm run test:e2e passed 3 tests"]}
+    {"id": "REV-003", "title": "Vitest discovered Playwright specifications", "source": "full-suite verification", "severity": "medium", "status": "fixed", "reason": "The initial npm test glob loaded Playwright specs in Vitest; the unit script now excludes tests/e2e and each runner passes independently.", "files_changed": ["package.json"], "verification": ["npm test passed 9 tests", "npm run test:e2e passed 3 tests"]},
+    {"id": "REV-004", "title": "Species and location surfaces retained unsupported certainty and service claims", "source": "current-head material-claim and rendered-route review", "severity": "high", "status": "fixed", "reason": "Species entries still presented unsupported mortality, lifespan, treatment, and tree-level risk certainty; location pages asserted neighborhood conditions, free assessment, permit handling, and equipment knowledge without evidence. The surfaces now use bounded concern language, property-specific planning, municipal confirmation, and estimate-scope wording.", "files_changed": ["src/components/tools/SpeciesIdentifier.tsx", "src/components/tools/DIYvsProGuide.tsx", "src/app/locations/[city]/[neighborhood]/page.tsx", "src/app/locations/[city]/page.tsx", "src/data/services.ts", "tests/e2e/homeowner-tools.spec.ts"], "verification": ["typecheck passed", "Vitest 9 tests passed", "lint passed with 23 warnings and no errors", "Playwright 4 tests passed in installed Chrome", "production build passed with 60 routes", "full product diff reviewed"]}
   ],
   "final_state": {
     "artifact_relationship": "artifact-only-descendant",
@@ -310,6 +311,6 @@
     "blocking_convergence_findings": 0,
     "merge_readiness": "not-ready",
     "release_readiness": "not-ready",
-    "delivery": {"committed": "verified", "pushed": "verified", "pull_request_updated": "verified", "merged": "not-performed"}
+    "delivery": {"committed": "verified", "pushed": "unverified", "pull_request_updated": "unverified", "merged": "not-performed"}
   }
 }
