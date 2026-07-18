@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Phone, Mail, Clock, MapPin } from 'lucide-react'
-import { CONTACT, BUSINESS_HOURS } from '@/lib/constants'
+import { Phone, Mail, MapPin } from 'lucide-react'
+import { CONTACT } from '@/lib/constants'
 import { Suspense } from 'react'
 import { ContactFormWrapper } from './ContactFormWrapper'
 
 export const metadata: Metadata = {
-  title: 'Get a Free Tree Service Estimate | Midwest Roots Omaha',
-  description: 'Contact Andrew at Midwest Roots Tree Services for a free, no-pressure tree assessment. Call, email, or fill out the form — we respond same day.',
+  title: 'Request a Tree-Service Estimate',
+  description: 'Contact Midwest Roots Tree Services about an Omaha-area tree-service need by phone, email, or the estimate-request form.',
   alternates: { canonical: `${CONTACT.siteUrl}/contact` },
   openGraph: {
     title: 'Contact Midwest Roots Tree Services',
-    description: 'Free on-site tree assessment — no obligation. Serving Omaha and surrounding areas.',
+    description: 'Share a tree-service need and receive a receipt after Midwest Roots safely accepts the request.',
     url: `${CONTACT.siteUrl}/contact`,
   },
 }
@@ -22,10 +22,10 @@ export default async function ContactPage() {
       {/* Header */}
       <section className="bg-[#11261B] text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-4">No Pressure, Ever</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Get a Free Assessment</h1>
+          <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-4">Local Tree-Service Requests</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Request an Estimate</h1>
           <p className="text-lg text-green-100 max-w-2xl mx-auto">
-            Andrew does every initial assessment himself — no junior crew members, no sales pitches. Just an honest look at your trees.
+            Describe the service you need. A receipt appears only after the first-party system safely accepts your contact details.
           </p>
         </div>
       </section>
@@ -66,16 +66,6 @@ export default async function ContactPage() {
 
               <div className="flex items-center gap-4">
                 <div className="flex-shrink-0 w-12 h-12 bg-[#11261B] rounded-xl flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-amber-400" />
-                </div>
-                <div>
-                  <p className="text-sm text-amber-700 font-medium">Hours</p>
-                  <p className="text-xl font-bold text-amber-900">{BUSINESS_HOURS.display}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-[#11261B] rounded-xl flex items-center justify-center">
                   <MapPin className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
@@ -91,16 +81,16 @@ export default async function ContactPage() {
               <h3 className="font-bold text-amber-900 mb-4">What Happens Next</h3>
               <ol className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                  <p className="text-amber-800 text-sm">Andrew responds within a few hours — usually same day.</p>
+                  <span className="shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                  <p className="text-amber-800 text-sm">Response timing depends on current workload and service availability.</p>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                  <p className="text-amber-800 text-sm">He schedules a free on-site walk-through at your convenience.</p>
+                  <span className="shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                  <p className="text-amber-800 text-sm">Midwest Roots confirms service fit, availability, and whether an on-site estimate is appropriate.</p>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                  <p className="text-amber-800 text-sm">You get an honest assessment and transparent quote — zero pressure to hire.</p>
+                  <span className="shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                  <p className="text-amber-800 text-sm">The written estimate should identify the proposed service scope; diagnosis and formal risk assessment are separate professional services.</p>
                 </li>
               </ol>
             </div>
@@ -128,7 +118,7 @@ export default async function ContactPage() {
               Cost Estimator
             </Link>
             <Link href="/tools" className="px-5 py-2 bg-white border-2 border-amber-200 text-amber-900 rounded-xl text-sm font-semibold hover:border-amber-400 transition-colors">
-              All Diagnostic Tools
+              All Homeowner Tools
             </Link>
           </div>
         </div>

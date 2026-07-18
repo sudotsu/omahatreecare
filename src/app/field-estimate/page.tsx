@@ -5,7 +5,6 @@ export const metadata: Metadata = {
   title: "Field Estimate",
   description: "Private, local-first estimate builder for Midwest Roots Tree Services.",
   robots: { index: false, follow: false, nocache: true },
-  manifest: "/field-estimate-manifest.json",
 };
 
 export default function FieldEstimatePage() {

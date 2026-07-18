@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Phone, AlertTriangle, TreePine } from 'lucide-react'
 import { allNeighborhoods } from '@/data/locations'
-import { neighborhoodData, fallbackNeighborhoodData } from '@/data/neighborhoodData'
+import { neighborhoodData } from '@/data/neighborhoodData'
 import { MultiStepContactForm } from '@/components/forms/MultiStepContactForm'
 import { CONTACT } from '@/lib/constants'
 
@@ -41,12 +41,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const neighborhoodName = toTitleCase(neighborhood)
   return {
-    title: `Tree Service in ${neighborhoodName}, ${cityName} NE | Midwest Roots`,
-    description: `Expert tree care in ${neighborhoodName}. ${nd.meta_snippet} Free assessment from Midwest Roots — your local certified arborist.`,
+    title: `Tree Service in ${neighborhoodName}, ${cityName} NE`,
+    description: `Tree-service planning information for ${neighborhoodName}. Contact Midwest Roots to confirm service fit, access, and availability.`,
     alternates: { canonical: `${CONTACT.siteUrl}/locations/${city}/${neighborhood}` },
     openGraph: {
       title: `Tree Service in ${neighborhoodName}, ${cityName} | Midwest Roots`,
-      description: `${nd.meta_snippet} Free on-site assessment.`,
+      description: `Planning considerations for tree work in ${neighborhoodName}. Service fit and availability are confirmed directly.`,
       url: `${CONTACT.siteUrl}/locations/${city}/${neighborhood}`,
     },
   }
@@ -75,10 +75,10 @@ export default async function NeighborhoodPage({ params }: PageProps) {
             <span className="mx-2">/</span>
             <span className="text-white">{neighborhoodName}</span>
           </nav>
-          <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-3">{nd.vibe}</p>
+          <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-3">Service-area planning</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Tree Service in {neighborhoodName}</h1>
           <p className="text-lg text-green-100 max-w-2xl">
-            Hyper-local tree care for {neighborhoodName}, {cityName}. We know your trees, your soil, and your neighborhood risks.
+            Start with the tree, nearby targets, access route, utilities, and cleanup needs at your {neighborhoodName} property. This page does not claim neighborhood-wide tree or soil conditions.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <a
@@ -92,7 +92,7 @@ export default async function NeighborhoodPage({ params }: PageProps) {
               href="/contact"
               className="inline-flex items-center justify-center px-8 py-4 bg-white/10 text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-colors"
             >
-              Free Assessment
+              Request an Estimate
             </Link>
           </div>
         </div>
@@ -100,20 +100,20 @@ export default async function NeighborhoodPage({ params }: PageProps) {
 
       {/* Why this neighborhood is unique */}
       <section className="max-w-4xl mx-auto px-6 py-14">
-        <h2 className="text-2xl font-bold text-amber-900 mb-8">Why {neighborhoodName} Is Different</h2>
+        <h2 className="text-2xl font-bold text-amber-900 mb-8">What to note before requesting tree work</h2>
 
         <div className="grid md:grid-cols-2 gap-5 mb-8">
           <div className="bg-white border-2 border-amber-200 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <TreePine className="w-5 h-5 text-[#11261B]" />
-              <h3 className="font-bold text-amber-900">Dominant Trees</h3>
+              <h3 className="font-bold text-amber-900">Tree and targets</h3>
             </div>
-            <p className="text-amber-800 leading-relaxed">{nd.dominant_trees}</p>
+            <p className="text-amber-800 leading-relaxed">Share the species if known, approximate size, visible changes, and anything beneath or beside the tree. The homeowner tools can help organize observations but do not diagnose the tree.</p>
           </div>
 
           <div className="bg-white border-2 border-amber-200 rounded-2xl p-6 shadow-sm">
-            <h3 className="font-bold text-amber-900 mb-3">Common Issues Here</h3>
-            <p className="text-amber-800 leading-relaxed">{nd.common_issues}</p>
+            <h3 className="font-bold text-amber-900 mb-3">Access and work area</h3>
+            <p className="text-amber-800 leading-relaxed">Note gates, alleys, slopes, fences, parked vehicles, overhead or buried utilities, and the preferred debris plan. Equipment and service availability are confirmed after site review.</p>
           </div>
         </div>
 
@@ -122,8 +122,8 @@ export default async function NeighborhoodPage({ params }: PageProps) {
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-bold text-red-800 mb-2">Local Risk Factor</h3>
-              <p className="text-red-700 leading-relaxed">{nd.local_risk}</p>
+              <h3 className="font-bold text-red-800 mb-2">Immediate safety boundary</h3>
+              <p className="text-red-700 leading-relaxed">Keep clear of hanging limbs, uprooting, active failure, or utility contact. Call emergency services for immediate danger and the utility for line conflicts; do not work beneath the affected tree.</p>
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default async function NeighborhoodPage({ params }: PageProps) {
           {[
             { slug: 'tree-removal', name: 'Tree Removal', desc: 'Large, hazardous, and tight-access removals' },
             { slug: 'tree-trimming', name: 'Pruning & Deadwooding', desc: 'Structural pruning, no topping — ever' },
-            { slug: 'tree-health-assessment', name: 'Free Health Assessment', desc: 'Honest expert opinion, zero pressure' },
+            { slug: 'tree-health-assessment', name: 'Tree-Service Walk-Through', desc: 'Discuss visible concerns and estimate next steps' },
             { slug: 'winter-tree-prep', name: 'Winter Storm Prep', desc: 'Weight reduction before ice season' },
           ].map(({ slug, name, desc }) => (
             <Link
@@ -152,8 +152,8 @@ export default async function NeighborhoodPage({ params }: PageProps) {
       {/* Inline contact form */}
       <section className="bg-amber-50 border-t-2 border-amber-200 py-14 px-6">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-amber-900 mb-2 text-center">Get a Free Assessment in {neighborhoodName}</h2>
-          <p className="text-amber-700 text-center mb-8">Andrew will come out, look at your trees, and give you straight answers.</p>
+          <h2 className="text-2xl font-bold text-amber-900 mb-2 text-center">Request an On-Site Estimate in {neighborhoodName}</h2>
+          <p className="text-amber-700 text-center mb-8">Describe the work you are considering. Midwest Roots will confirm service fit, availability, and what the estimate can cover.</p>
           <div className="bg-white border-2 border-amber-200 rounded-2xl p-8 shadow-sm">
             <MultiStepContactForm
               trackingData={{

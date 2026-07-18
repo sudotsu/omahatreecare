@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = postsBySlug[slug]
   if (!post) return {}
   return {
-    title: `${post.title} | Midwest Roots Tree Blog`,
+    title: post.title,
     description: post.excerpt,
     alternates: { canonical: `${CONTACT.siteUrl}/blog/${slug}` },
     openGraph: {
@@ -145,7 +145,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6">
             <p className="font-bold text-amber-900 mb-1">About the Author</p>
             <p className="text-amber-800 text-sm leading-relaxed">
-              Andrew is the owner of Midwest Roots Tree Services and a certified arborist based in Omaha, Nebraska. He has been working with Omaha&apos;s trees for over three years and specializes in hazardous removal and tree health diagnostics.{' '}
+              Andrew is the owner of Midwest Roots Tree Services in Omaha, Nebraska. The articles provide general homeowner education and are not professional diagnoses or substitutes for an on-site assessment.{' '}
               <Link href="/contact" className="underline hover:text-amber-900 transition-colors">
                 Schedule a free assessment.
               </Link>

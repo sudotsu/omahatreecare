@@ -15,7 +15,8 @@ export function FastQuoteWidget() {
     const params = new URLSearchParams();
     if (zip) params.set("zip", zip);
     if (service) params.set("service", service);
-    router.push(`/free-tree-assessment-omaha?${params.toString()}`);
+    params.set("source", "fast_quote");
+    router.push(`/contact?${params.toString()}`);
   }
 
   return (

@@ -9,6 +9,7 @@ export function ContactFormWrapper() {
   // Extract params for initial form values
   const initialValues = {
     service_type: searchParams.get("task") || searchParams.get("service") || "",
+    address: searchParams.get("zip") || "",
   };
 
   // Extract params for tracking/analytics
@@ -21,6 +22,7 @@ export function ContactFormWrapper() {
     task:      searchParams.get("task")      || undefined,
     archetype: searchParams.get("archetype") || undefined,
     species:   searchParams.get("species")   || undefined,
+    zip:       searchParams.get("zip")       || undefined,
   };
 
   return (

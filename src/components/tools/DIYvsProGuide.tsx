@@ -19,14 +19,14 @@ const tasks: Task[] = [
   {
     name: 'Small Branch Pruning (under 2" diameter)',
     category: 'safe-diy',
-    description: 'Removing small branches at ground level or with a ladder',
+    description: 'Removing small branches reachable from stable ground only',
     safety: [
       'Use proper pruning shears or hand saw',
       'Make clean cuts at the branch collar',
       'Never cut branches above your head',
-      'Use a stable ladder with someone to spot you',
+      'Stop if the work cannot be completed while standing on stable ground',
     ],
-    tools: ['Hand pruners', 'Loppers', 'Hand saw', 'Sturdy ladder', 'Safety glasses'],
+    tools: ['Hand pruners', 'Loppers', 'Hand saw', 'Safety glasses'],
     whenToCall: 'If branches are near power lines or over 10 feet high',
   },
   {
@@ -53,7 +53,7 @@ const tasks: Task[] = [
       "Don't create \"volcano mulching\" against trunk",
     ],
     tools: ['Wheelbarrow', 'Rake', 'Mulch'],
-    whenToCall: 'Never — this is always safe to DIY',
+    whenToCall: 'Stop if the root flare is hidden, the trunk is damaged, the site is unstable, or you are unsure how much mulch to remove',
   },
   {
     name: 'Watering & Basic Care',
@@ -70,55 +70,55 @@ const tasks: Task[] = [
   },
   {
     name: 'Medium Branch Pruning (2-4" diameter)',
-    category: 'risky-diy',
+    category: 'professional-only',
     description: 'Pruning larger branches that require more skill',
     safety: [
-      'Use three-cut method to prevent bark tearing',
-      'Never use a chainsaw from a ladder',
-      'Wear proper safety equipment',
-      'Be aware of branch spring and tension',
+      'Large limbs can swing, split, or remain under hidden tension',
+      'Do not use a chainsaw, ladder, or overhead cutting tool',
+      'Keep people away from the work zone',
+      'Arrange an appropriately equipped service provider',
     ],
-    tools: ['Pole saw', 'Bow saw', 'Safety equipment', 'Chainsaw (if experienced)'],
-    whenToCall: "If branches are over head height, near power lines, or you're uncomfortable",
+    tools: [],
+    whenToCall: 'Keep clear of the work area and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Small Stump Removal',
-    category: 'risky-diy',
+    category: 'professional-only',
     description: 'Removing stumps under 10 inches diameter',
     safety: [
-      'Excavate around stump to expose roots',
-      'Cut major roots with saw or axe',
-      'Pull stump with vehicle only if safe and clear',
-      'Rental stump grinders are powerful and dangerous',
+      'Do not pull a stump with a vehicle',
+      'Do not operate a rental grinder without appropriate training',
+      'Roots may conflict with buried utilities',
+      'Request a site-specific removal method',
     ],
-    tools: ['Shovel', 'Axe', 'Root saw', 'Stump grinder rental (advanced)'],
-    whenToCall: "For stumps over 10\", near utilities, or if uncomfortable with equipment",
+    tools: [],
+    whenToCall: 'Keep clear of the stump and arrange an appropriately equipped, qualified stump-service provider',
   },
   {
     name: 'Small Dead Tree Removal (under 15 feet)',
-    category: 'risky-diy',
+    category: 'professional-only',
     description: 'Removing small dead trees with open space to fall',
     safety: [
       'Dead trees are unpredictable and brittle',
-      'Ensure clear fall zone 2x tree height',
-      'Use proper felling techniques',
-      'Plan escape route 45° from fall direction',
+      'Do not cut, pull, or fell a dead tree yourself',
+      'Keep people and pets out of reach of the tree',
+      'Arrange an on-site work plan',
     ],
-    tools: ['Chainsaw', 'Wedges', 'Rope', 'Safety gear'],
-    whenToCall: 'If any structures, fences, or obstacles in fall zone, or tree is leaning',
+    tools: [],
+    whenToCall: 'Keep clear of the dead tree and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Any Work Over 20 Feet High',
     category: 'professional-only',
     description: 'Pruning, removal, or any work requiring climbing or bucket truck',
     safety: [
-      'Falls from height are the #1 cause of tree work fatalities',
-      'Professional arborists have specialized training and equipment',
-      'Insurance rarely covers homeowner tree work injuries',
+      'Falls and falling material can cause severe injury during elevated tree work',
+      'Specialized training, access systems, and equipment are required',
+      'Confirm the service provider’s insurance and work scope directly',
       'Difficult to judge branch weight and direction of fall from ground',
     ],
     tools: [],
-    whenToCall: 'Always call a professional — never attempt high tree work yourself',
+    whenToCall: 'Keep clear of elevated tree work and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Trees Near Power Lines',
@@ -128,10 +128,10 @@ const tasks: Task[] = [
       'Electricity can arc through trees and tools',
       'Even "de-energized" lines can be deadly',
       'Special training and equipment required',
-      'Your utility company may provide free trimming service',
+      'The utility can explain its responsibility and the safe next step for the specific line',
     ],
     tools: [],
-    whenToCall: 'Always — contact utility company first, then professional tree service',
+    whenToCall: 'Keep clear, contact the utility first, and arrange an appropriately equipped, qualified provider only as the utility directs',
   },
   {
     name: 'Large Tree Removal (over 15 feet)',
@@ -140,11 +140,11 @@ const tasks: Task[] = [
     safety: [
       'Requires rigging, ropes, and advanced felling techniques',
       'Unpredictable forces can cause serious injury or property damage',
-      'Professionals have liability insurance',
+      'Confirm the selected provider’s insurance and equipment directly',
       'Heavy equipment may be needed for large trees',
     ],
     tools: [],
-    whenToCall: 'Always — tree removal is extremely dangerous and complex',
+    whenToCall: 'Keep clear of the tree and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Storm-Damaged Trees',
@@ -157,7 +157,7 @@ const tasks: Task[] = [
       'Root balls can flip back when cutting',
     ],
     tools: [],
-    whenToCall: 'Always — storm damage creates hidden dangers only pros can handle safely',
+    whenToCall: 'Keep clear and contact emergency services, the utility, or an appropriately equipped, qualified tree-service provider as the situation requires',
   },
   {
     name: 'Disease Diagnosis & Treatment',
@@ -167,10 +167,10 @@ const tasks: Task[] = [
       'Misdiagnosis can lead to wrong treatment and wasted money',
       'Some diseases require quarantine procedures',
       'Treatment timing is critical for effectiveness',
-      'Certified arborists can save trees that homeowners might remove unnecessarily',
+      'An independently credentialed professional can help distinguish treatable problems from removal cases',
     ],
     tools: [],
-    whenToCall: 'When tree shows unusual symptoms, discoloration, or decline',
+    whenToCall: 'Keep clear of dead or hanging parts and arrange an appropriately qualified plant-health professional before treatment',
   },
 ]
 
@@ -368,7 +368,7 @@ export function DIYvsProGuide({ searchParams }: { searchParams?: Record<string, 
         <h3 className="text-2xl font-bold mb-4">Still Not Sure? Ask a Pro</h3>
         <p className="text-amber-100 mb-6">
           If you&apos;re uncertain whether a task is safe for DIY, err on the side of caution.
-          Free consultations are always available — we&apos;d rather answer your question than see you get hurt.
+          Contact Midwest Roots to discuss service fit and current availability, or seek an independently credentialed professional for safety-sensitive assessment.
         </p>
         <div className="space-y-3">
           <a
@@ -376,7 +376,7 @@ export function DIYvsProGuide({ searchParams }: { searchParams?: Record<string, 
             className="block w-full px-6 py-4 bg-white text-amber-900 rounded-xl font-bold hover:bg-amber-50 transition-colors text-center"
           >
             Call Andrew: {CONTACT.phone}
-            <div className="text-sm font-normal text-amber-700 mt-1">Free advice, no obligation</div>
+            <div className="text-sm font-normal text-amber-700 mt-1">Service fit and availability confirmed after contact</div>
           </a>
           <a
             href={`mailto:${CONTACT.email}?subject=Question%20About%20Tree%20Work%20-%20DIY%20vs%20Pro`}

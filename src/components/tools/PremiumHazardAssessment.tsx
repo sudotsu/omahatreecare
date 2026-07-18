@@ -20,7 +20,7 @@ import {
   type LucideIcon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CONTACT } from "@/lib/constants";
 import { dmSerif } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -58,10 +58,10 @@ const QUESTIONS: Question[] = [
     description: "Look for decay, mushrooms, or structural instability at the base.",
     icon: Search,
     options: [
-      { text: "Stable & Healthy", subtext: "No visible defects or decay", value: 1, issues: [] },
-      { text: "Minor Irregularity", subtext: "Small cracks or slight lean", value: 2, issues: ["Minor structural defects"] },
-      { text: "Visible Decay", subtext: "Cavities, large cracks, or fungi", value: 3, issues: ["Significant structural defects"] },
-      { text: "Severe Instability", subtext: "Lifting soil or major splits", value: 4, issues: ["Severe structural damage", "Root decay indicators"] },
+      { text: "None of These Signs", subtext: "No covered warning sign noticed", value: 1, issues: [] },
+      { text: "Minor Irregularity", subtext: "Small cracks or slight lean", value: 2, issues: ["You reported small cracks or a slight lean"] },
+      { text: "Cavities, Cracks, or Fungi", subtext: "One or more of these signs is visible", value: 3, issues: ["You reported cavities, large cracks, or fungi"] },
+      { text: "Lifting Soil or Major Splits", subtext: "One or more severe signs is visible", value: 4, issues: ["You reported lifting soil or major splits", "You reported signs near the root area"] },
     ],
   },
   {
@@ -70,10 +70,10 @@ const QUESTIONS: Question[] = [
     description: "Assess deadwood and branch attachment strength.",
     icon: Zap,
     options: [
-      { text: "Strong Structure", subtext: "Full foliage, no major deadwood", value: 1, issues: [] },
+      { text: "None of These Signs", subtext: "Full foliage and no major deadwood noticed", value: 1, issues: [] },
       { text: "Occasional Deadwood", subtext: "A few small dead branches", value: 2, issues: ["Dead branches present"] },
-      { text: "Weak Unions", subtext: "Co-dominant stems or major deadwood", value: 3, issues: ["Multiple dead branches", "Weak branch unions"] },
-      { text: "Critical Failures", subtext: "Major splits or hanging limbs", value: 4, issues: ["Large dead limbs (widow makers)", "Major storm damage"] },
+      { text: "Co-dominant Stems or Deadwood", subtext: "These visible signs may need assessment", value: 3, issues: ["You reported multiple dead branches", "You reported co-dominant stems"] },
+      { text: "Major Splits or Hanging Limbs", subtext: "Keep away from the affected area", value: 4, issues: ["You reported large dead or hanging limbs", "You reported major splits or storm damage"] },
     ],
   },
   {
@@ -137,6 +137,9 @@ export function PremiumHazardAssessment({
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [selectedTree, setSelectedTree] = useState<string>(speciesFromNav || "");
+  const resultHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => { if (isComplete) resultHeadingRef.current?.focus(); }, [isComplete]);
 
   const calculateRisk = () => assessment.likelihood * assessment.consequence;
 
@@ -178,16 +181,16 @@ export function PremiumHazardAssessment({
     const score = calculateRisk();
 
     return (
-      <div className="animate-fade-in relative min-h-[600px] w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div data-tool-result="true" className="animate-fade-in relative min-h-[600px] w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl">
         <TreeRingsBackground />
         
         <div className="relative z-10 flex flex-col md:flex-row h-full">
           {/* Sidebar / Summary */}
           <div className={cn("flex w-full flex-col p-8 md:w-80", risk.bg, risk.border, "border-r-2")}>
             <div className="mb-8">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Official Result</span>
-              <h2 className={`${dmSerif.className} mt-1 text-4xl leading-none ${risk.color}`}>{risk.level} Risk</h2>
-              <p className="mt-2 text-sm font-semibold text-stone-600">Calculated Score: {score}/16</p>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Preliminary Screening Result</span>
+              <h2 ref={resultHeadingRef} tabIndex={-1} className={`${dmSerif.className} mt-1 text-4xl leading-none outline-none ${risk.color}`}>{risk.level} Urgency</h2>
+              <p className="mt-2 text-sm font-semibold text-stone-600">Screening score: {score}/16 from your answers</p>
             </div>
 
             <div className="mt-auto space-y-4">
@@ -208,8 +211,8 @@ export function PremiumHazardAssessment({
           <div className="flex-1 p-8 md:p-12">
             <div className="mb-10 flex items-start justify-between">
               <div>
-                <h3 className={`${dmSerif.className} text-3xl text-forest`}>Diagnostic Report</h3>
-                <p className="mt-2 text-stone-500">Based on Omaha ISA risk-reduction standards.</p>
+                <h3 className={`${dmSerif.className} text-3xl text-forest`}>Homeowner Screening Summary</h3>
+                <p className="mt-2 text-stone-500">Based only on the visible signs and nearby targets you reported.</p>
               </div>
               <div className="rounded-full bg-forest p-3 text-gold">
                 <FileText size={24} />
@@ -220,18 +223,18 @@ export function PremiumHazardAssessment({
               {/* Narrative Summary */}
               <div className="relative rounded-xl border-l-4 border-gold bg-stone-50 p-6">
                 <p className="text-lg leading-relaxed text-forest">
-                  Your assessment indicates a <span className="font-bold">{risk.level.toLowerCase()} level of urgency</span>. 
-                  {score >= 9 ? " Immediate structural failures are possible. We recommend restricting access to the area immediately." : 
-                   score >= 6 ? " Significant defects were identified that require professional remediation to prevent failure." :
-                   score >= 3 ? " While not urgent, there are indicators of stress that should be addressed to preserve the tree's health." :
-                   " Your tree appears structurally sound and healthy for the current season."}
+                  Your answers place this screening in the <span className="font-bold">{risk.level.toLowerCase()} urgency range</span>.
+                  {score >= 9 ? " You reported severe warning signs near a possible target. Keep people and pets away, do not work beneath the tree, and contact an appropriate tree-service professional; call emergency services or the utility when there is immediate danger or contact with utility lines." :
+                   score >= 6 ? " You reported warning signs that may indicate significant defects. Avoid the affected area and arrange an on-site assessment before attempting work." :
+                   score >= 3 ? " You reported signs worth monitoring or discussing during an on-site assessment; this questionnaire cannot determine their cause or severity." :
+                   " Your answers did not reveal the major warning signs covered by this screening. That does not establish structural soundness or replace an on-site assessment."}
                 </p>
               </div>
 
               {/* Identified Issues */}
               {assessment.issues.length > 0 && (
                 <div>
-                  <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-stone-400 text-center">Specific Factors Identified</h4>
+                  <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-stone-400 text-center">Signs You Reported</h4>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {assessment.issues.map((issue, i) => (
                       <div key={i} className="flex items-center gap-3 rounded-lg border border-stone-100 bg-white p-4 shadow-sm">
@@ -246,6 +249,7 @@ export function PremiumHazardAssessment({
               {/* Final CTA */}
               <div className="mt-12 text-center">
                 <button
+                  data-lead-cta="true"
                   onClick={() => router.push(`/contact?risk=${risk.level.toLowerCase()}&score=${score}&species=${encodeURIComponent(selectedTree)}&source=hazard_assessment`)}
                   className="group inline-flex items-center gap-3 rounded-full bg-gold px-10 py-5 text-lg font-bold text-forest shadow-lg transition-all hover:scale-105 hover:bg-amber-400 active:scale-95"
                 >
@@ -271,7 +275,7 @@ export function PremiumHazardAssessment({
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm animate-fade-in">
           <Loader2 className="mb-4 h-12 w-12 animate-spin text-gold" />
           <p className="text-xl font-bold tracking-tight text-forest">{step === QUESTIONS.length - 1 ? "Finalizing Report..." : "Processing response..."}</p>
-          <p className="mt-1 text-stone-500 italic">Consulting ISA risk-reduction standards</p>
+          <p className="mt-1 text-stone-500 italic">Applying the screening rules to your answers</p>
         </div>
       )}
 
@@ -329,7 +333,7 @@ export function PremiumHazardAssessment({
       <div className="bg-stone-50 p-6 flex items-center justify-center gap-6">
         <div className="flex items-center gap-2 text-xs font-semibold text-stone-400 uppercase tracking-widest">
           <ShieldCheck size={14} className="text-emerald-500" />
-          Certified Method
+          Preliminary homeowner screening · Not an on-site assessment
         </div>
         <div className="flex items-center gap-2 text-xs font-semibold text-stone-400 uppercase tracking-widest">
           <Clock size={14} />

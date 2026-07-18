@@ -58,20 +58,20 @@ const ARCHETYPES: Archetype[] = [
   {
     id: "utility",
     label: "Critical Utility/Hazard",
-    description: "Trees interacting with power lines or in a state of failure.",
+    description: "Unusual or high-risk work that requires an on-site review; contact the utility first for line conflicts.",
     range: "$2,000 — $5,000+",
     typical: "$3,800",
     icon: Zap,
-    factors: ["Power line proximity", "Structural failures detected", "High-liability zone"],
+    factors: ["Power line proximity", "Warning signs reported", "Restricted work zone"],
   },
   {
     id: "maintenance",
     label: "Fine Pruning / Health",
-    description: "Selective canopy cleaning and structural weight reduction.",
+    description: "Selective canopy cleaning or pruning after the work scope is confirmed.",
     range: "$300 — $1,500",
     typical: "$650",
     icon: ShieldCheck,
-    factors: ["Arborist structural cuts", "Deadwood removal", "Disease prevention"],
+    factors: ["Tree size", "Deadwood volume", "Access and disposal"],
   }
 ];
 
@@ -108,7 +108,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
 
   if (isComplete && archetype) {
     return (
-      <div 
+      <div data-tool-result="true"
         className="animate-fade-in relative min-h-[600px] w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl"
         role="region"
         aria-live="polite"
@@ -119,18 +119,18 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
           {/* Sidebar / Anchor */}
           <div className="flex w-full flex-col p-8 md:w-80 bg-stone-50 border-r-2 border-stone-100">
             <div className="mb-8">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Market Baseline</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Broad Planning Range</span>
               <h2 className={`${dmSerif.className} mt-1 text-4xl leading-none text-forest`}>
                 {archetype.range}
               </h2>
-              <p className="mt-2 text-sm font-semibold text-gold uppercase tracking-wider">Estimated Investment</p>
+              <p className="mt-2 text-sm font-semibold text-gold uppercase tracking-wider">Not a quote</p>
             </div>
 
             <div className="mt-auto space-y-4">
               <div className="rounded-lg bg-white p-4 shadow-sm border border-stone-100">
-                <p className="text-xs font-bold uppercase tracking-wide text-stone-400">Arborist Note</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-stone-400">Range limits</p>
                 <p className="mt-1 text-xs leading-relaxed text-stone-600">
-                  Pricing depends on tree health, exact location, and debris volume. These figures are illustrative ranges for Omaha residents.
+                  These uncalibrated planning ranges exclude permits, utility coordination, emergency response, specialized equipment, and hidden site conditions. An on-site estimate may fall outside them.
                 </p>
               </div>
               <button 
@@ -164,8 +164,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
               {/* Complexity Disclosure */}
               <div className="relative rounded-xl border-l-4 border-gold bg-stone-50 p-6">
                 <p className="text-lg leading-relaxed text-forest font-medium">
-                  For a {archetype.label.toLowerCase()} operation, we typically anchor at <span className="text-amber-700 font-bold">{archetype.typical}</span>. 
-                  However, three variables can shift this estimate significantly:
+                  This category is only a starting range, not a personalized calculation. These factors can move the final price substantially:
                 </p>
               </div>
 
@@ -174,7 +173,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
                 {[
                   { label: "Access", desc: "Can we get a spider lift or truck to the trunk?", icon: Truck },
                   { label: "Targets", desc: "Are there structures, power lines, or high-value landscaping below?", icon: Target },
-                  { label: "Health", desc: "Is the wood structurally sound for climbing?", icon: ShieldCheck },
+                  { label: "Condition", desc: "Do visible warning signs change the safe work method?", icon: ShieldCheck },
                   { label: "Volume", desc: "Total canopy weight and disposal requirements.", icon: Maximize2 },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3 rounded-lg border border-stone-100 bg-white p-4 shadow-sm">
@@ -190,14 +189,15 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
               {/* Final Conversion CTA */}
               <div className="mt-12 text-center">
                 <button
+                  data-lead-cta="true"
                   onClick={() => router.push(`/contact?source=cost_anchor&archetype=${archetype.id}`)}
                   className="group inline-flex items-center gap-3 rounded-full bg-gold px-10 py-5 text-lg font-bold text-forest shadow-lg transition-all hover:scale-105 hover:bg-amber-400 active:scale-95"
                 >
-                  Schedule Your Firm On-Site Quote
+                  Request an On-Site Estimate
                   <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
                 </button>
                 <p className="mt-4 text-[10px] text-stone-400 font-bold uppercase tracking-[0.2em]">
-                  Certified Arborist Inspection · No Obligation
+                  Final scope and availability are confirmed on site
                 </p>
               </div>
             </div>
@@ -221,7 +221,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
           </div>
         </div>
         <p className="mt-4 text-stone-500 leading-relaxed max-w-xl">
-          Select the operational archetype that best matches your tree care needs. We&apos;ll provide illustrative Omaha market ranges.
+          Select the category that best matches your need. The broad ranges are planning aids only and have not yet been calibrated against a representative Midwest Roots job dataset.
         </p>
       </div>
 
@@ -256,7 +256,7 @@ export function CostEstimator({ searchParams }: { searchParams?: Record<string, 
           <Clock size={12} /> 60 Second Process
         </div>
         <div className="flex items-center gap-2 text-[10px] font-bold text-stone-400 uppercase tracking-widest">
-          <ShieldCheck size={12} className="text-emerald-500" /> Professional Accuracy
+          <ShieldCheck size={12} className="text-emerald-500" /> Broad range · On-site estimate required
         </div>
       </div>
     </div>

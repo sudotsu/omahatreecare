@@ -1,41 +1,55 @@
-﻿# Operations & Project Integrity SOP (Standard Operating Procedure)
+# Midwest Roots Lead Operations Runbook
 
-This document mandates the workflow for all tasks in this project. Adherence ensures high-quality, consistent,
-and trust-first results.
+## Ownership and access
 
-## The Core Lifecycle: "Search -> Architect -> Propagate"
+- System owner: Midwest Roots owner.
+- Backup owner: must be explicitly named before production release.
+- Authorized access: owner and explicitly authorized operators only. Review access whenever an operator joins, leaves, or changes role, and at least quarterly.
+- Production PostgreSQL provider/project, migration owner, application role, delivery provider/account, destination inbox, alert destination, and escalation contact must be recorded in the private operations system; never put credentials here.
 
-### 1. External Research & Modern Standards
-- **Never guess on UI/UX or "best practices."**
-- Before implementing features, run a targeted `google_web_search` for current-year research or the latest available guidance on trends, psychological triggers (e.g., Labor Illusion), and high-conversion patterns.
-- Contrast internal project context with external modern standards to avoid "building yesterday's web."
+## Acceptance, qualification, and analytics
 
-### 2. Architectural Integrity vs. Surface Fixes
-- **Root-Cause Solving:** If a component has a bug or needs a new feature, do not apply a local hack or inline
-  override.
-- **Component Evolution:** Modify the underlying component (in src/components/ui/) to support the new case
-  elegantly (e.g., adding labelInset rather than hardcoding margins). This makes the entire codebase stronger.
+The first-party record returned by `/api/leads` is the receipt source of truth. A qualified lead has a valid return contact method, plausible tree-service need, reasonable service-area fit, successful server acceptance, and is not a labeled test, obvious spam, or duplicate. Analytics supports attribution only. Event names are `tool_start`, `tool_complete`, and `tool_cta`; events include the tool slug and no contact data.
 
-### 3. Site-Wide Consistency (Proactive Discovery)
-- **Concept Over File:** When modifying a "global concept" (like "The Contact Form" or "The Hero Section"), use
-  grep_search to find every instance of that concept across the entire site.
-- **Synchronized Updates:** Do not wait for a directive to fix related files. Proactively propose (or execute if
-  safe) a synchronized update to ensure a unified brand/user experience.
+## Daily handling
 
-### 4. Philosophical Alignment (Value-First UX)
-- **Trust-First Design:** Prioritize building trust before data collection.
-- **Voluntary Information:** Defer requirements (like "Property Address") where possible. We owe the user proof
-  of authority and value *before* they owe us their data.
-- **Micro-copy Harmony:** All UI text must reflect this trust-first approach (e.g., "Address is helpful but
-  optional" rather than "Required").
+1. Review accepted records and pending delivery states.
+2. Reconcile duplicate receipt IDs before contacting anyone.
+3. Confirm that any downstream destination has the complete request and receipt ID.
+4. Escalate a growing pending queue or acceptance failures to the owner; do not show success for a failed write.
 
-### 5. Versioned Retirement (The Deprecated Folder)
-- **Archive by Version:** Move retired versions of core files to /deprecated/ and rename them (e.g.,
-  ContactForm.v1.tsx).
-- **Proof of Improvement:** We keep "entire change versions" (v1, v2, v3) for comparison and proof of growth.
-- **Maintenance:** Follow the /deprecated/CLEANUP_POLICY.md for periodic pruning.
+## Labeled test-lead drill
 
----
+Use exactly `PROJECT TEARDOWN TEST — DO NOT CONTACT` in the name or message and obvious placeholder contact data. Submit one test per distinct transport, not duplicates for coverage. Record timestamp, route/source, server receipt, downstream provider acknowledgment, destination, received fields, attribution, and duplicate count without copying secrets or customer data. Labeled tests must remain excluded from qualified-lead reporting.
 
-*This SOP is an "Active Directive." If a task can be done "faster" by ignoring this SOP, but "better" by
-following it—always choose better.
+## Provider-outage drill
+
+In a non-production or controlled environment, disable downstream delivery while leaving durable first-party storage available. Verify that the request receives a stable receipt, remains `pending`, and creates an operator-visible structured signal. Then disable the durable store and verify the homeowner receives a safe failure with the phone fallback and no success receipt. Record recovery steps and prove pending records are delivered once after restoration.
+
+## PostgreSQL deployment and persistence drill
+
+1. Provision a Postgres-compatible database and transaction-pooled TLS connection string supported by the Vercel runtime.
+2. Run `psql "$DATABASE_URL" --set ON_ERROR_STOP=1 --file migrations/001_create_lead_records.sql` once with a migration role. Do not run migrations from request handling.
+3. Create or select a separate application role with `USAGE` on `public` and only `SELECT`, `INSERT`, and `UPDATE` on `public.lead_records`.
+4. Set server-only `DATABASE_URL` and `LEAD_STORAGE_ADAPTER=postgres` for the intended Vercel environment. Do not configure `LEAD_STORE_DIR` as a production fallback.
+5. Submit one labeled lead and confirm the response receipt matches the persisted row. Verify the idempotency digest is stored, not the raw key; payload and attribution are present; qualification and `pending` delivery state are correct; and the retention deadline is later than acceptance.
+6. Submit the same idempotency key sequentially and concurrently. Confirm one row, one receipt, one first acceptance, and duplicate responses for the rest.
+7. Disable database access and verify HTTP 503, no receipt, redacted failure logging, and the phone fallback. Restore access before continuing.
+8. Disable downstream delivery while keeping Postgres available. Confirm acceptance succeeds and delivery stays `pending`. Resend duplicate API submissions with the same original client idempotency key and confirm they return the original receipt without another lead row. Separately retry webhook delivery with `receiptId` as the delivery idempotency key and confirm the destination receives it once.
+9. Record the exact deployment, database, migration identifier, timestamps, and sanitized results in the private operations system.
+
+## Retention, deletion, and access requests
+
+Unconverted first-party leads are deleted or anonymized after 12 months. Converted customer records may follow a separate documented business-record policy. For a deletion request, verify the requester through a safe channel, locate records by receipt/contact details, record the action without retaining unnecessary data, delete or anonymize across the first-party store and downstream processors, and confirm completion. Document any active-customer, dispute, security, or other legitimate hold and review it rather than retaining indefinitely.
+
+## Incident, rollback, and provider rotation
+
+- Acceptance failure: preserve the fail-closed response and phone fallback; investigate `DATABASE_URL`, TLS/pooler reachability, migration state, application-role privileges, and database availability.
+- Delivery backlog: keep accepted records, stop claiming routed delivery, alert the owner, restore the provider, and replay idempotently.
+- Spam burst: preserve accessible ordinary use, inspect redacted rate-limit signals, and adjust controls only with regression tests.
+- Credential exposure: revoke/rotate in the provider, update private deployment configuration, redeploy, and confirm old credentials fail.
+- Rollback: roll back executable code only when the previous version preserves safe acceptance; never roll back to browser-only EmailJS or the false receipt path.
+
+## Release gates
+
+Release remains blocked until the PostgreSQL migration and Vercel configuration are applied and exercised; production delivery is configured; a backup owner and private destinations are named; controlled acceptance/delivery/failure/concurrent-duplicate tests pass; deployed security headers are captured; stale service-worker control is cleared; safety and biological content receive appropriate independent professional review; and defining journeys receive real-device, non-Chromium, and NVDA or VoiceOver coverage.

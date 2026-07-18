@@ -1,14 +1,6 @@
 'use client'
 
-import emailjs from '@emailjs/browser'
-import { CheckCircle, Mail, X } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-
-const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? ''
-const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? ''
-const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? ''
-
-const EMAILJS_CONFIGURED = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY)
+import { CheckCircle, X } from 'lucide-react'
 
 interface Props {
   isOpen: boolean
@@ -16,63 +8,7 @@ interface Props {
 }
 
 export default function EmailCaptureModal({ isOpen, onClose }: Props) {
-  const [email, setEmail]             = useState('')
-  const [isSubmitting, setSubmitting] = useState(false)
-  const [isSuccess, setSuccess]       = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
-  }, [])
-
   if (!isOpen) return null
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!EMAILJS_CONFIGURED) return
-    setSubmitting(true)
-
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'email_capture', {
-        event_category: 'lead_generation',
-        event_label: 'low_risk_email',
-        value: 1,
-      })
-    }
-
-    const templateParams = {
-      from_name:    'Low Risk Lead (Email Capture)',
-      user_phone:   'N/A (Email Opt-in)',
-      user_address: 'N/A',
-      message:      `User signed up for seasonal tips via the Low Risk Modal. Email: ${email}`,
-      urgency:      'low',
-      page_source:  'low_risk_email_modal',
-      from_email:   email,
-    }
-
-    try {
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
-      setSubmitting(false)
-      setSuccess(true)
-
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'generate_lead', { currency: 'USD', value: 1.0 })
-      }
-
-      if (timerRef.current) clearTimeout(timerRef.current)
-      timerRef.current = setTimeout(() => {
-        onClose()
-        setSuccess(false)
-        setEmail('')
-      }, 2000)
-    } catch (error) {
-      console.error('EmailJS error:', error)
-      setSubmitting(false)
-      alert('Subscription failed. Please try again or email us directly.')
-    }
-  }
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -85,88 +21,41 @@ export default function EmailCaptureModal({ isOpen, onClose }: Props) {
           <X className="w-6 h-6" />
         </button>
 
-        {!isSuccess ? (
           <>
             <div className="text-center mb-6">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-10 h-10 text-green-600" />
               </div>
               <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                Great News! Your Tree Looks Healthy
+                Your Answers Did Not Flag Major Warning Signs
               </h2>
               <p className="text-slate-600">
-                Want to keep it that way? Get seasonal care tips delivered to your inbox.
+                This screening is limited to what you reported and does not establish that the tree is structurally sound.
               </p>
             </div>
 
-            {!EMAILJS_CONFIGURED ? (
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-center text-sm text-amber-800">
-                Email sign-up is not available right now. To stay in touch, email us directly at{' '}
-                <a href="mailto:andrew@omahatreecare.com" className="font-semibold underline">
-                  andrew@omahatreecare.com
-                </a>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@example.com"
-                      required
-                      className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3 px-6 rounded-lg transition"
-                >
-                  {isSubmitting ? 'Subscribing...' : 'Get Tree Care Tips'}
-                </button>
-
-                <p className="text-xs text-slate-500 text-center">
-                  Free seasonal tips · No spam · Unsubscribe anytime
-                </p>
-              </form>
-            )}
+            <a href="/contact?source=low_risk_screening" className="block w-full rounded-lg bg-emerald-600 px-6 py-3 text-center font-semibold text-white hover:bg-emerald-700">
+              Ask About Ongoing Tree Care
+            </a>
 
             <div className="mt-6 pt-6 border-t border-slate-200">
-              <p className="text-sm font-semibold text-slate-700 mb-3">You&apos;ll receive:</p>
+              <p className="text-sm font-semibold text-slate-700 mb-3">Topics you can discuss:</p>
               <ul className="space-y-2 text-sm text-slate-600">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>Spring pruning reminders (optimal timing for Omaha trees)</span>
+                  <span>Seasonal pruning timing for the tree and site</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>Winter storm prep checklist (before the ice hits)</span>
+                  <span>Winter storm preparation considerations</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>EAB updates and ash tree protection tips</span>
+                  <span>Ash-tree concerns and current on-site options</span>
                 </li>
               </ul>
             </div>
           </>
-        ) : (
-          <div className="text-center py-8">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-12 h-12 text-green-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">You&apos;re All Set!</h3>
-            <p className="text-slate-600">Check your inbox for a confirmation email.</p>
-          </div>
-        )}
       </div>
     </div>
   )

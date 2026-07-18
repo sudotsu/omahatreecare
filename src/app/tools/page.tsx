@@ -4,12 +4,12 @@ import { AlertTriangle, BookOpen, DollarSign, Leaf, Wrench } from 'lucide-react'
 import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Free Tree Diagnostic Tools | Midwest Roots Omaha',
-  description: 'Five free tools to assess tree risk, identify species, estimate costs, and diagnose diseases — built for Omaha homeowners by a certified arborist.',
+  title: 'Five Free Tree-Care Tools',
+  description: 'Five free screening and planning tools for tree hazards, species matching, costs, DIY decisions, and common ailments.',
   alternates: { canonical: `${CONTACT.siteUrl}/tools` },
   openGraph: {
-    title: 'Free Tree Diagnostic Tools | Midwest Roots',
-    description: 'Assess risk, identify species, estimate costs, and diagnose diseases — free.',
+    title: 'Five Free Tree-Care Tools | Midwest Roots',
+    description: 'Screen warning signs, compare species, plan costs, and explore common tree problems.',
     url: `${CONTACT.siteUrl}/tools`,
   },
 }
@@ -58,7 +58,7 @@ const tools = [
     icon: BookOpen,
     color: 'text-purple-700',
     bg: 'bg-purple-50 border-purple-200',
-    cta: 'Diagnose My Tree',
+    cta: 'Explore Possible Causes',
   },
 ]
 
@@ -69,9 +69,9 @@ export default function ToolsIndexPage() {
       <section className="bg-[#11261B] text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-4">Free Resources</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Tree Diagnostic Tools</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Tree Screening & Planning Tools</h1>
           <p className="text-lg text-green-100 max-w-2xl mx-auto">
-            Built for Omaha homeowners by a certified arborist. No email required, no upsell — just honest information about your trees.
+            Built for Omaha homeowners. No account required—just practical questions, bounded guidance, and clear next steps.
           </p>
         </div>
       </section>

@@ -6,6 +6,7 @@ import { Navigation } from "@/components/layout/Navigation";
 import { CONTACT, SERVICE_AREAS } from "@/lib/constants";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import { ServiceWorkerCleanup } from "@/components/ServiceWorkerCleanup";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -22,15 +23,14 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(CONTACT.siteUrl),
   title: {
-    default: "Midwest Roots Tree Services | Omaha's Certified Arborist",
+    default: "Midwest Roots Tree Services | Omaha Tree Care",
     template: "%s | Midwest Roots Tree Services",
   },
   description:
-    "Midwest Roots Tree Services — certified arborist serving Omaha, Millard, Elkhorn, Papillion, Bellevue, and surrounding areas. Free tree assessments, expert removal, pruning, and health diagnostics.",
+    "Midwest Roots Tree Services provides local tree-service estimates and homeowner screening tools for Omaha and nearby communities.",
   keywords: [
     "tree service omaha",
     "tree removal omaha",
-    "certified arborist omaha",
     "midwest roots tree services",
     "emerald ash borer omaha",
     "tree trimming omaha",
@@ -44,9 +44,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: CONTACT.siteUrl,
     siteName: CONTACT.businessName,
-    title: "Midwest Roots Tree Services | Omaha's Certified Arborist",
+    title: "Midwest Roots Tree Services | Omaha Tree Care",
     description:
-      "Expert tree care for Omaha homeowners. Free diagnostic tools, hazard assessments, and professional service from a certified arborist.",
+      "Local tree service and preliminary homeowner screening tools for Omaha-area properties.",
     images: [
       {
         url: "/images/og-image.jpg",
@@ -58,13 +58,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Midwest Roots Tree Services | Omaha's Certified Arborist",
+    title: "Midwest Roots Tree Services | Omaha Tree Care",
     description:
-      "Expert tree care for Omaha homeowners. Free assessments, professional removal, pruning, and diagnostics.",
+      "Local tree service, planning guidance, and homeowner screening tools for Omaha-area properties.",
     images: ["/images/og-image.jpg"],
     site: "@omahatree",
   },
-  manifest: "/manifest.json",
   icons: {
     icon: [
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
@@ -96,12 +95,6 @@ const localBusinessSchema = {
     latitude: CONTACT.latitude,
     longitude: CONTACT.longitude,
   },
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-    opens: "07:00",
-    closes: "21:00",
-  },
   areaServed: SERVICE_AREAS.map((area) => ({
     "@type": area.type === "City" ? "City" : "Place",
     name: area.name,
@@ -116,15 +109,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={geist.variable}>
       <body className="flex min-h-screen flex-col bg-[#f8f6f1] text-[#3d3027] antialiased">
+        <a href="#main-content" className="fixed left-4 top-4 z-[100] -translate-y-24 rounded bg-white px-4 py-2 font-bold text-forest shadow focus:translate-y-0">Skip to main content</a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
         <Navigation />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer />
         <SpeedInsights />
         <Analytics />
+        <ServiceWorkerCleanup />
       </body>
     </html>
   );

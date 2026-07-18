@@ -4,8 +4,8 @@ import { posts } from '@/data/blog/posts'
 import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Tree Care Blog | Midwest Roots Tree Services',
-  description: 'Educational tree care articles for Omaha homeowners — EAB treatment, Iron Chlorosis, Bradford Pear failures, ice storm prep, and more. Written by a certified arborist.',
+  title: 'Tree Care Blog',
+  description: 'Educational tree-care articles for Omaha homeowners covering common pests, symptoms, pruning questions, and storm preparation.',
   alternates: { canonical: `${CONTACT.siteUrl}/blog` },
   openGraph: {
     title: 'Tree Care Blog | Midwest Roots',
@@ -37,7 +37,7 @@ export default function BlogIndexPage() {
       {/* Header */}
       <section className="bg-[#11261B] text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-4">Written by a Certified Arborist</p>
+          <p className="text-amber-400 font-semibold uppercase tracking-widest text-sm mb-4">Educational Omaha Tree-Care Articles</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Tree Care Blog</h1>
           <p className="text-lg text-green-100 max-w-2xl mx-auto">
             Real information about the trees in your Omaha yard — EAB, soil problems, structural failures, storm prep. No generic filler.
@@ -91,7 +91,7 @@ export default function BlogIndexPage() {
               href="/tools"
               className="px-8 py-4 bg-white border-2 border-amber-300 text-amber-900 rounded-xl font-semibold hover:border-amber-500 transition-colors text-center"
             >
-              Try the Diagnostic Tools
+              Try the Homeowner Tools
             </Link>
           </div>
         </div>

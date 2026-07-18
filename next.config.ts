@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
-import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
-
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: process.cwd(),
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "omahatreecare.com" },
@@ -10,24 +9,17 @@ const nextConfig: NextConfig = {
   },
   // Consistent canonical URLs — no trailing slash
   trailingSlash: false,
+  async headers() {
+    return [{
+      source: "/:path*",
+      headers: [
+        { key: "Content-Security-Policy", value: "default-src 'self'; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com; connect-src 'self' https://vitals.vercel-insights.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" },
+        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "X-Frame-Options", value: "DENY" },
+      ],
+    }];
+  },
 };
-
-// Serwist wraps the config to inject the service-worker plugin.
-// Skip in dev so the SW doesn't interfere with Turbopack HMR.
-const withSerwistConfig = async (
-  phase: string,
-  config: NextConfig
-): Promise<NextConfig> => {
-  if (phase === PHASE_DEVELOPMENT_SERVER) return config;
-
-  const { default: withSerwist } = await import("@serwist/next");
-  return withSerwist({
-    swSrc: "src/sw.ts",
-    swDest: "public/sw.js",
-    reloadOnOnline: true,
-  })(config);
-};
-
-export default async function config(phase: string) {
-  return withSerwistConfig(phase, nextConfig);
-}
+export default nextConfig;

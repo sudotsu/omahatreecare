@@ -11,7 +11,6 @@ import {
   Scissors,
   Hammer,
   Zap,
-  Leaf,
   HelpCircle,
   MapPin,
   MessageSquare,
@@ -21,19 +20,16 @@ import {
   ShieldCheck,
   LucideIcon
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { FloatingLabelInput } from "@/components/ui/FloatingLabelInput";
 import { CONTACT } from "@/lib/constants";
-import emailjs from "@emailjs/browser";
+import { submitLead } from "@/lib/leads/client";
 import { cn } from "@/lib/utils";
 import { dmSerif } from "@/lib/fonts";
 
 // ── Env vars ────────────────────────────────────────────────────────────────
-const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
-const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
-const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "";
 
 // ── Types & Schemas ─────────────────────────────────────────────────────────
 const schema = z.object({
@@ -74,11 +70,10 @@ export interface MultiStepContactFormProps {
 }
 
 const SERVICES: ServiceOption[] = [
-  { id: "Tree Removal", label: "Removal", icon: TreeDeciduous, description: "Safe removal of dead or hazardous trees." },
-  { id: "Pruning / Trimming", label: "Pruning", icon: Scissors, description: "Structural pruning and canopy cleaning." },
+  { id: "Tree Removal", label: "Removal", icon: TreeDeciduous, description: "Request a site-specific removal estimate." },
+  { id: "Pruning / Trimming", label: "Pruning", icon: Scissors, description: "Request a pruning estimate and work scope." },
   { id: "Stump Grinding", label: "Stumps", icon: Hammer, description: "Full removal of unsightly tree stumps." },
-  { id: "Storm Damage", label: "Emergency", icon: Zap, description: "Rapid response for storm-damaged trees." },
-  { id: "Plant Health / EAB", label: "Health", icon: Leaf, description: "Emerald Ash Borer and disease treatments." },
+  { id: "Storm Damage", label: "Storm Damage", icon: Zap, description: "Describe storm damage; availability is confirmed after contact." },
   { id: "Other", label: "Not Sure", icon: HelpCircle, description: "General inquiry or custom tree care needs." },
 ];
 
@@ -91,9 +86,15 @@ const SERVICES: ServiceOption[] = [
 export function MultiStepContactForm({ initialValues, trackingData }: MultiStepContactFormProps = {}) {
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | "config_error" | null>(null);
-  const [missingKeys, setMissingKeys] = useState<string[]>([]);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [receiptId, setReceiptId] = useState("");
+  const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
   const [isPreparing, setIsPreparing] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (submitStatus === "success") successRef.current?.focus();
+  }, [submitStatus]);
 
   const {
     register,
@@ -139,42 +140,19 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
   const prevStep = () => setStep((s) => (s - 1) as Step);
 
   const onSubmit = async (data: FormValues) => {
-    // Validate EmailJS Config
-    const missing = [];
-    if (!SERVICE_ID) missing.push("NEXT_PUBLIC_EMAILJS_SERVICE_ID");
-    if (!TEMPLATE_ID) missing.push("NEXT_PUBLIC_EMAILJS_TEMPLATE_ID");
-    if (!PUBLIC_KEY) missing.push("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
-
-    if (missing.length > 0) {
-      setMissingKeys(missing);
-      setSubmitStatus("config_error");
-      return;
-    }
-
     setIsSubmitting(true);
     try {
-      await emailjs.send(
-        SERVICE_ID, 
-        TEMPLATE_ID, 
-        {
+      const result = await submitLead({
           user_name:    data.user_name,
           user_email:   data.user_email,
-          user_phone:   data.user_phone, // already transformed
+          user_phone:   data.user_phone,
           service_type: data.service_type?.trim() || "Not specified",
           message:      data.message?.trim()      || "No description provided",
           address:      data.address?.trim()      || "Not provided",
-          // Include tracking data in payload
-          city:         trackingData?.city         ?? "Not specified",
-          neighborhood: trackingData?.neighborhood ?? "Not specified",
           source:       trackingData?.source       ?? "Website Contact Form",
-          risk_level:   trackingData?.risk         ?? "Not assessed",
-          risk_score:   trackingData?.score        ?? "N/A",
-          task_name:    trackingData?.task         ?? "Not specified",
-          archetype:    trackingData?.archetype    ?? "None",
-          species:      trackingData?.species      ?? "None",
-        }, 
-        PUBLIC_KEY
-      );
+          attribution: Object.fromEntries(Object.entries(trackingData ?? {}).filter((entry): entry is [string, string] => Boolean(entry[1]))),
+        }, idempotencyKey);
+      setReceiptId(result.receiptId!);
       setSubmitStatus("success");
     } catch (err) {
       console.error("Submission error:", err);
@@ -187,19 +165,20 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
   // ── Success State ──────────────────────────────────────────────────────────
   if (submitStatus === "success") {
     return (
-      <div className="animate-fade-in flex flex-col items-center py-12 px-6 text-center">
+      <div ref={successRef} role="status" tabIndex={-1} className="animate-fade-in flex flex-col items-center py-12 px-6 text-center outline-none focus-visible:ring-2 focus-visible:ring-emerald-700">
         <div className="mb-6 rounded-full bg-emerald-100 p-4">
           <CheckCircle className="h-12 w-12 text-emerald-600" />
         </div>
         <h3 className={`${dmSerif.className} mb-3 text-3xl text-forest`}>Estimate Request Sent</h3>
         <p className="mb-8 max-w-sm text-stone-600">
-          Thanks for choosing Midwest Roots. Andrew is reviewing your details and will call you within a few hours.
+          Your request was safely accepted. Keep receipt <strong>{receiptId}</strong> for reference; response timing depends on current workload.
         </p>
         <button
           onClick={() => {
             setSubmitStatus(null);
             setStep(1);
             reset();
+            setIdempotencyKey(crypto.randomUUID());
           }}
           className="font-bold text-forest hover:underline"
         >
@@ -233,7 +212,7 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
           <p className="mt-2 text-sm text-stone-500">
             {step === 1 && "Select the primary service you're interested in."}
             {step === 2 && "Details about your trees. Address is helpful but optional."}
-            {step === 3 && "Secure contact information for your custom proposal."}
+            {step === 3 && "Contact information so we can respond to your request."}
           </p>
         </div>
 
@@ -242,15 +221,6 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
             <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
             <p className="text-sm text-red-700">
               Something went wrong. Please call us at <strong>{CONTACT.phone}</strong>.
-            </p>
-          </div>
-        )}
-
-        {submitStatus === "config_error" && (
-          <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
-            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
-            <p className="text-sm text-red-700">
-              Missing EmailJS configuration: <strong>{missingKeys.join(", ")}</strong>.
             </p>
           </div>
         )}
@@ -434,8 +404,9 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
             </div>
             
             <p className="text-center text-[10px] text-stone-400 uppercase tracking-widest font-bold">
-              Secure Submission · Omaha Certified Arborist
+              Saved by our first-party request system · Privacy terms apply
             </p>
+            <p className="text-center text-xs text-stone-500"><a className="underline" href="/privacy">Read the privacy and 12-month lead-retention terms</a></p>
           </form>
         )}
 
