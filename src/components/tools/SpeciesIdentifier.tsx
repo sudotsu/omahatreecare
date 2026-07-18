@@ -23,11 +23,11 @@ const treeDatabase: Tree[] = [
     riskLevel: 'high',
     characteristics: ['Compound leaves (5–11 leaflets)', 'Opposite branching', 'Diamond-pattern bark'],
     commonIssues: [
-      'Fatal Risk: 99% mortality if untreated due to Emerald Ash Borer (EAB)',
-      'Rapid decline: 2–4 years from infestation to death',
-      'Extremely brittle wood when dead = extreme hazard',
+      'Emerald ash borer can cause severe decline and death in untreated ash',
+      'Decline can progress quickly after symptoms become visible',
+      'Dead ash branches can become brittle and hazardous',
     ],
-    maintenanceNotes: 'Remove all untreated ash unless active EAB treatment program in place. Treatment requires trunk injections every 2 years ($10–15 per diameter inch). Treatment must start BEFORE infestation for best results.',
+    maintenanceNotes: 'If you suspect emerald ash borer, avoid choosing treatment or removal from this guide alone. Ask a qualified plant-health professional to confirm the tree, condition, treatment window, and current options on site.',
     size: '50–80 feet',
   },
   {
@@ -37,11 +37,11 @@ const treeDatabase: Tree[] = [
     characteristics: ['Deeply lobed leaves with silvery undersides', 'Fast growth', 'Shallow roots'],
     commonIssues: [
       'Weak wood prone to storm breakage',
-      'Aggressive surface roots damage sidewalks/foundations',
+      'Surface roots may conflict with lawns, walks, or nearby hardscape',
       'V-shaped branch unions split easily',
-      'Short lifespan (60–80 years) with rapid decline',
+      'Fast growth and included bark can create maintenance concerns',
     ],
-    maintenanceNotes: 'Requires regular pruning every 3–5 years. Monitor branch unions closely. Plan for eventual removal at maturity.',
+    maintenanceNotes: 'Watch for included bark, storm damage, and dead branches. Pruning needs and timing depend on the individual tree and site.',
     size: '50–80 feet',
   },
   {
@@ -53,9 +53,9 @@ const treeDatabase: Tree[] = [
       'Brittle branches with frequent limb drop',
       'Aggressive roots seek water lines',
       'Large dead branches ("widow makers")',
-      'Short lifespan for size (70–100 years)',
+      'Large mature size can make failures consequential near targets',
     ],
-    maintenanceNotes: 'Keep away from structures. Regular dead-wooding is essential for safety.',
+    maintenanceNotes: 'Consider mature size, nearby targets, access, and visible deadwood when planning an on-site review.',
     size: '70–100+ feet',
   },
   {
@@ -64,11 +64,11 @@ const treeDatabase: Tree[] = [
     riskLevel: 'high',
     characteristics: ['White spring flowers', 'Oval shape', 'Tight branching'],
     commonIssues: [
-      'Weak branch attachments causing catastrophic splitting at 15–20 years',
+      'Tight branch unions can split during wind or ice events',
       'All branches emerge at similar angle creating structural weakness',
       'Ice/wind storms cause total failures',
     ],
-    maintenanceNotes: 'Remove proactively before maturity. Do not plant new Bradford Pears.',
+    maintenanceNotes: 'Inspect branch unions and storm damage. Whether pruning or removal is appropriate depends on the individual tree and nearby targets.',
     size: '30–50 feet',
   },
   {
@@ -79,10 +79,10 @@ const treeDatabase: Tree[] = [
     commonIssues: [
       'Slow growth makes replacement difficult',
       'Iron chlorosis on alkaline soils (but more tolerant than pin oak)',
-      'Oak wilt (rare but fatal)',
+      'Oak wilt is a serious regional disease to rule out when symptoms fit',
     ],
-    strengths: ['Extremely long-lived (200–300 years)', 'Very strong wood', 'Drought-tolerant'],
-    maintenanceNotes: 'Preserve when possible. Prune ONLY October–March (outside oak wilt season). Deep root fertilization helps with chlorosis.',
+    strengths: ['Long-lived when well-sited', 'Strong mature form', 'Tolerates many dry sites'],
+    maintenanceNotes: 'Preserve healthy mature trees when practical. Confirm current local oak-wilt precautions and any chlorosis treatment with a qualified professional before work.',
     size: '70–80 feet spread',
   },
   {
@@ -95,7 +95,7 @@ const treeDatabase: Tree[] = [
       'Iron chlorosis on alkaline soils',
     ],
     strengths: ['Fast-growing for an oak', 'Strong wood', 'Beautiful fall color'],
-    maintenanceNotes: 'Prune ONLY October–March. Monitor for oak wilt symptoms (rapid leaf browning from top down).',
+    maintenanceNotes: 'Monitor unusual canopy browning and confirm current local oak-wilt precautions before pruning or treatment.',
     size: '60–75 feet',
   },
   {
@@ -105,7 +105,7 @@ const treeDatabase: Tree[] = [
     characteristics: ['Warty bark', 'Elm-like leaves', 'Very adaptable'],
     commonIssues: ["Witches' broom (harmless but unsightly)", 'Occasionally develops co-dominant stems'],
     strengths: ['Extremely tough', 'Wind-resistant', 'Drought-tolerant'],
-    maintenanceNotes: 'Low-maintenance tree. Excellent ash replacement option.',
+    maintenanceNotes: 'Often considered for difficult urban sites, but cultivar, mature size, utilities, and site conditions still matter.',
     size: '40–60 feet',
   },
   {
@@ -115,7 +115,7 @@ const treeDatabase: Tree[] = [
     characteristics: ['Fine compound leaves', 'Delicate appearance', 'Thornless cultivars common'],
     commonIssues: ['Cankers can develop on stressed trees', 'Occasional branch dieback'],
     strengths: ['Drought-tolerant', 'Filtered shade', 'Clean fall cleanup'],
-    maintenanceNotes: 'Standard maintenance. Good urban tree choice.',
+    maintenanceNotes: 'Often used in urban sites. Check cultivar, mature size, cankers, and branch condition for the specific tree.',
     size: '30–70 feet',
   },
   {
@@ -125,7 +125,7 @@ const treeDatabase: Tree[] = [
     characteristics: ['Vase-shaped form', 'Saw-toothed leaves', 'Graceful branching'],
     commonIssues: ['Dutch Elm Disease in non-resistant varieties', 'Elm leaf beetle'],
     strengths: ['Classic form', 'Rapid growth', 'Disease-resistant cultivars available'],
-    maintenanceNotes: 'Choose resistant cultivars like "Valley Forge". Regular monitoring for DED symptoms.',
+    maintenanceNotes: 'When planting, compare locally appropriate disease-resistant cultivars. Existing trees with suspicious decline need confirmation rather than identification from this guide alone.',
     size: '60–80 feet',
   },
   {
@@ -134,17 +134,17 @@ const treeDatabase: Tree[] = [
     riskLevel: 'low',
     characteristics: ['Very large compound leaves', 'Thick rough bark', 'Unique winter silhouette'],
     commonIssues: ['Large pods create minor litter', 'Slow to leaf out in spring'],
-    strengths: ['Extremely tough', 'No major pests', 'Adaptable to urban conditions'],
-    maintenanceNotes: 'Excellent ash replacement. Native Midwest species. Very low maintenance.',
+    strengths: ['Tolerates many urban conditions', 'Few commonly reported serious pest issues', 'Distinctive mature form'],
+    maintenanceNotes: 'A possible regional planting option when its mature size and site needs fit; confirm cultivar and placement before planting.',
     size: '60–75 feet',
   },
 ]
 
 const getRiskLabel = (level: Tree['riskLevel']) => {
   switch (level) {
-    case 'high':     return { text: 'High Risk' }
-    case 'moderate': return { text: 'Moderate Risk' }
-    case 'low':      return { text: 'Low Risk' }
+    case 'high':     return { text: 'More concerns to review' }
+    case 'moderate': return { text: 'Some concerns to review' }
+    case 'low':      return { text: 'Fewer listed concerns' }
   }
 }
 
@@ -322,7 +322,7 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
           {filteredTrees.length === 0 && (
             <div className="text-center py-12 text-amber-700">
               <p className="text-lg font-medium mb-2">No trees found for &quot;{searchTerm}&quot;</p>
-              <p className="text-sm">Try uploading a photo above for expert identification.</p>
+              <p className="text-sm">Use the manual email instructions above if you want to send photos for a follow-up conversation.</p>
             </div>
           )}
         </div>

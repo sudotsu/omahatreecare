@@ -53,7 +53,7 @@ const tasks: Task[] = [
       "Don't create \"volcano mulching\" against trunk",
     ],
     tools: ['Wheelbarrow', 'Rake', 'Mulch'],
-    whenToCall: 'Never — this is always safe to DIY',
+    whenToCall: 'Stop if the root flare is hidden, the trunk is damaged, the site is unstable, or you are unsure how much mulch to remove',
   },
   {
     name: 'Watering & Basic Care',
@@ -112,7 +112,7 @@ const tasks: Task[] = [
     category: 'professional-only',
     description: 'Pruning, removal, or any work requiring climbing or bucket truck',
     safety: [
-      'Falls from height are the #1 cause of tree work fatalities',
+      'Falls and falling material can cause severe injury during elevated tree work',
       'Specialized training, access systems, and equipment are required',
       'Confirm the service provider’s insurance and work scope directly',
       'Difficult to judge branch weight and direction of fall from ground',
@@ -128,7 +128,7 @@ const tasks: Task[] = [
       'Electricity can arc through trees and tools',
       'Even "de-energized" lines can be deadly',
       'Special training and equipment required',
-      'Your utility company may provide free trimming service',
+      'The utility can explain its responsibility and the safe next step for the specific line',
     ],
     tools: [],
     whenToCall: 'Always — contact utility company first, then professional tree service',
@@ -157,7 +157,7 @@ const tasks: Task[] = [
       'Root balls can flip back when cutting',
     ],
     tools: [],
-    whenToCall: 'Always — storm damage creates hidden dangers only pros can handle safely',
+    whenToCall: 'Keep clear and contact emergency services, the utility, or an appropriately equipped tree professional as the situation requires',
   },
   {
     name: 'Disease Diagnosis & Treatment',

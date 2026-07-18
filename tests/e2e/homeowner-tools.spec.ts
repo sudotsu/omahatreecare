@@ -23,6 +23,8 @@ test("all five homeowner tools retain defining interactions", async ({ page }) =
   await page.goto("/tools/species");
   await expect(page.getByRole("link", { name: "Open Email Draft" })).toBeVisible();
   await expect(page.locator("input[type=file]")).toHaveCount(0);
+  await expect(page.getByText("Fatal Risk: 99% mortality", { exact: false })).toHaveCount(0);
+  await expect(page.getByText("More concerns to review", { exact: true }).first()).toBeVisible();
 
   await page.goto("/tools/diy");
   await expect(page.getByText("Professional Only — Do Not Attempt")).toBeVisible();
@@ -32,6 +34,16 @@ test("all five homeowner tools retain defining interactions", async ({ page }) =
   await page.getByRole("button", { name: /Emerald Ash Borer/ }).click();
   await expect(page.getByText(/does not identify or diagnose/i)).toBeVisible();
   await expect(page.getByText(/Do not treat from this entry alone/i)).toBeVisible();
+});
+
+test("location pages avoid unsupported neighborhood and permit promises", async ({ page }) => {
+  await page.goto("/locations/omaha/dundee");
+  await expect(page.getByText(/does not claim neighborhood-wide tree or soil conditions/i)).toBeVisible();
+  await expect(page.getByText(/we know your trees/i)).toHaveCount(0);
+
+  await page.goto("/locations/omaha");
+  await expect(page.getByText(/confirm current requirements with the municipality/i)).toBeVisible();
+  await expect(page.getByText(/handle all permit coordination/i)).toHaveCount(0);
 });
 
 test("mobile navigation and skip link remain available", async ({ page }) => {

@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Phone, MapPin, Shield } from 'lucide-react'
 import { locations, cities } from '@/data/locations'
-import { neighborhoodData, fallbackNeighborhoodData } from '@/data/neighborhoodData'
 import { CONTACT } from '@/lib/constants'
 
 interface PageProps {
@@ -90,11 +89,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!display) return {}
   return {
     title: `Tree Service in ${display}, NE`,
-    description: `Expert tree removal, pruning, and health assessment in ${display}, Nebraska. Serving all neighborhoods. Free on-site assessment — call Midwest Roots.`,
+    description: `Tree-service planning and estimate requests for ${display}, Nebraska. Contact Midwest Roots to confirm service fit and availability.`,
     alternates: { canonical: `${CONTACT.siteUrl}/locations/${city}` },
     openGraph: {
       title: `Tree Service in ${display}, NE | Midwest Roots`,
-      description: `Professional tree care for ${display} homeowners. Free assessment.`,
+      description: `Tree-service planning for ${display} homeowners. Service fit and availability are confirmed directly.`,
       url: `${CONTACT.siteUrl}/locations/${city}`,
     },
   }
@@ -127,7 +126,7 @@ export default async function CityPage({ params }: PageProps) {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Tree Service in {display}, NE</h1>
           <p className="text-lg text-green-100 max-w-2xl">
-            Serving all {display} neighborhoods — from routine pruning to hazardous removals. Free on-site assessment, no pressure.
+            Request pruning, removal, or other tree-service work in {display}. Service area, equipment, timing, and scope are confirmed for each property.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <a
@@ -141,7 +140,7 @@ export default async function CityPage({ params }: PageProps) {
               href="/contact"
               className="inline-flex items-center justify-center px-8 py-4 bg-white/10 text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-colors"
             >
-              Free Assessment
+              Request an Estimate
             </Link>
           </div>
         </div>
@@ -150,11 +149,10 @@ export default async function CityPage({ params }: PageProps) {
       {/* Neighborhood Grid */}
       <section className="max-w-4xl mx-auto px-6 py-14">
         <h2 className="text-2xl font-bold text-amber-900 mb-2">Neighborhoods We Serve in {display}</h2>
-        <p className="text-amber-700 mb-8">Each neighborhood has unique tree challenges. Click yours for hyper-local information.</p>
+        <p className="text-amber-700 mb-8">Use these pages to prepare property-specific access, target, utility, and cleanup details. Neighborhood-wide tree and soil claims remain unverified.</p>
 
         <div className="grid sm:grid-cols-2 gap-4">
           {neighborhoods.map(slug => {
-            const nd = neighborhoodData[slug] ?? fallbackNeighborhoodData
             const displayName = slug
               .split('-')
               .map(w => w.charAt(0).toUpperCase() + w.slice(1))
@@ -166,8 +164,8 @@ export default async function CityPage({ params }: PageProps) {
                 className="bg-white border-2 border-amber-200 rounded-2xl p-5 hover:border-amber-400 hover:shadow-md transition-all group"
               >
                 <h3 className="font-bold text-amber-900 group-hover:text-[#11261B] transition-colors mb-1">{displayName}</h3>
-                <p className="text-xs text-amber-600 font-medium uppercase tracking-wide mb-2">{nd.vibe}</p>
-                <p className="text-amber-700 text-sm leading-snug">{nd.meta_snippet}</p>
+                <p className="text-xs text-amber-600 font-medium uppercase tracking-wide mb-2">Property-specific planning</p>
+                <p className="text-amber-700 text-sm leading-snug">Prepare access, target, utility, and cleanup details before requesting an estimate.</p>
               </Link>
             )
           })}
@@ -182,9 +180,9 @@ export default async function CityPage({ params }: PageProps) {
               <Shield className="w-6 h-6 text-[#11261B] flex-shrink-0" />
               <h2 className="text-xl font-bold text-amber-900">{ordinance.title}</h2>
             </div>
-            <p className="text-amber-800 leading-relaxed mb-4">{ordinance.text}</p>
+            <p className="text-amber-800 leading-relaxed mb-4">Permit and right-of-way requirements can change and depend on the exact property and work. Confirm current requirements with the municipality before authorizing work.</p>
             <p className="text-sm font-semibold text-amber-700">{ordinance.contact}</p>
-            <p className="text-xs text-amber-600 mt-2">We handle all permit coordination and city notifications on your behalf.</p>
+            <p className="text-xs text-amber-600 mt-2">Source link last reviewed {ordinance.reviewedAt}; confirm its current guidance directly. Any permit coordination included in Midwest Roots&apos; scope must be stated in the written estimate.</p>
           </div>
         </section>
       )}
