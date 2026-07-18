@@ -1,7 +1,7 @@
 # Verification and handoff
 
 **Revision status:** partial
-**Implementation endpoint:** 40e922fef7d4d726d781ad869e8815ff56b70a40
+**Implementation endpoint:** 44e9f45399f8269abbc4d5a47dc150558ab56325
 **Artifact relationship:** artifact-only-descendant
 **Review convergence:** passed
 **Manual adversarial review:** completed
@@ -11,8 +11,8 @@
 **Merge readiness:** ready
 **Release readiness:** not-ready
 **Committed:** verified
-**Pushed:** verified
-**Pull request updated:** verified
+**Pushed:** unverified
+**Pull request updated:** unverified
 **Merged:** not-performed
 **Revision validator status:** passed
 
@@ -21,10 +21,10 @@
 - Teardown validator: passed against the validated handoff.
 - `npm ci`: passed from the committed lockfile; 512 packages installed and audit reported zero vulnerabilities.
 - `npm run typecheck`: passed on Next 16.2.6.
-- `npm test`: 15 Vitest tests passed across hazard behavior, filesystem storage, production configuration, PostgreSQL acceptance/idempotency/concurrency/failure, and delivery failure.
+- `npm test`: 24 Vitest tests passed across hazard behavior, request streaming, client failure parsing, filesystem storage/finalization, production configuration, PostgreSQL acceptance/idempotency/concurrency/failure, acknowledgement timeout, and delivery failure.
 - `npm run lint`: passed with 21 warnings and no errors. The warnings are pre-existing low-risk unused-symbol and React Compiler/react-hook-form notices.
 - `npm run build`: passed; 60 route outputs generated.
-- `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/google-chrome npm run test:e2e`: five tests passed, including all five homeowner tools, direct-GET false-receipt containment, bounded species/location content, mobile navigation/focus/overflow, and production missing-`DATABASE_URL` HTTP 503 with no receipt and phone fallback.
+- `npm run test:e2e`: six tests passed in installed Playwright Chromium, including all five homeowner tools, direct-GET false-receipt containment, bounded species/location content, receipt focus/status behavior, mobile navigation/focus/overflow, and production missing-`DATABASE_URL` HTTP 503 with no receipt and phone fallback.
 - `npm audit`: passed with zero vulnerabilities. `npm ls postcss` resolves the prior nested advised copy to the audited root override.
 - PostgreSQL migration: schema and adapter were source-reviewed, but no database server or production credentials were available and no migration was applied. Production persistence is implemented, not operationally verified.
 - Browser/platform: installed Chrome exercised responsive journeys. Firefox, WebKit, real devices, NVDA, and VoiceOver remain external evidence gates.
@@ -32,7 +32,7 @@
 
 ## Review-source coverage
 
-Manual review covered the full `b1f3c8867c8512e1e84be1c00648b86d46bc0084..40e922fef7d4d726d781ad869e8815ff56b70a40` product diff and repeated current-head review after the last product change. It traced form → API → schema → storage selection → PostgreSQL transaction/unique constraint → pending delivery, plus configuration, tools, claims, PWA removal, tests, migration, dependency graph, and operations documentation. `REV-001` through `REV-006` are fixed; no critical, high, or medium convergence finding remains open. At pushed artifact head `17815a4ff7dd19f0dbf7fb092a2b4f0f66c83a94`, GitHub Quality, both Vercel deployments, Vercel Preview Comments, and the draft-only CodeRabbit status passed; PR #83 remained draft with no submitted review. The exact final delivery-only descendant is recorded in the PR's mutable metadata after its push because a commit cannot contain its own hash.
+Manual review covered the full `b1f3c8867c8512e1e84be1c00648b86d46bc0084..44e9f45399f8269abbc4d5a47dc150558ab56325` product diff and repeated current-head review after the last product change. It traced form → streamed API boundary → schema → storage selection → PostgreSQL transaction/unique constraint → pending delivery, plus configuration, tools, claims, scoped PWA cleanup, tests, migration, dependency graph, workflow, and operations documentation. `REV-001` through `REV-025` have dispositions: 24 fixed and one invalid generated-artifact lead; no critical, high, or medium convergence finding remains open. GitHub and Vercel status will be refreshed after this artifact commit is pushed to draft PR #83.
 
 ## Baseline reconciliation
 
@@ -42,9 +42,9 @@ The implementation start tree was clean. The three historically identified paths
 
 | Path | Classification | Finding IDs | Baseline relationship | Rationale |
 | --- | --- | --- | --- | --- |
-| .github/workflows/quality.yml | approved-finding | TEST-001 | New | CI quality workflow. |
+| .github/workflows/quality.yml | convergence-fix | TEST-001 REV-025 | New then hardened | CI quality workflow with bounded permissions, concurrency, and pinned actions. |
 | .gitignore | preserved-existing-work | TEST-001 | Extended baseline | Preserve existing ignores and exclude generated Playwright output. |
-| OPERATIONS_SOP.md | approved-finding | CONV-002 PRIV-001 OPS-001 AN-001 | Revised | Durable-store deployment, retention, delivery, and failure drills. |
+| OPERATIONS_SOP.md | convergence-fix | CONV-002 PRIV-001 OPS-001 AN-001 REV-007 | Revised | Durable-store deployment, retention, delivery, idempotency, and failure drills. |
 | README.md | approved-finding | CONV-002 PRIV-001 OPS-001 AN-001 PROD-001 | Revised | Exact PostgreSQL setup, least privilege, and bounded productization status. |
 | migrations/001_create_lead_records.sql | approved-finding | CONV-002 | New | PostgreSQL receipt, digest, lifecycle, payload, attribution, and retention schema. |
 | next.config.ts | approved-finding | OPS-001 | Revised | PWA removal and application headers. |
@@ -54,35 +54,35 @@ The implementation start tree was clean. The three historically identified paths
 | public/field-estimate-manifest.json | approved-finding | OPS-001 | Deleted | Approved PWA removal. |
 | public/manifest.json | approved-finding | OPS-001 | Deleted | Approved PWA removal. |
 | src/app/accessibility/page.tsx | approved-finding | SEO-001 | Revised | Accurate metadata and external-evidence boundary. |
-| src/app/api/leads/route.ts | approved-finding | CONV-002 | New | Server-owned acceptance and safe failure response. |
+| src/app/api/leads/route.ts | convergence-fix | CONV-002 REV-009 REV-010 | New then corrected | Server-owned acceptance with bounded abuse and streamed request handling. |
 | src/app/blog/[slug]/page.tsx | approved-finding | TRUST-001 SEO-001 | Revised | Truthful author authority and metadata. |
 | src/app/blog/page.tsx | approved-finding | TRUST-001 SEO-001 | Revised | Truthful authority and metadata. |
 | src/app/contact/ContactFormWrapper.tsx | preserved-existing-work | AN-001 | Extended baseline | Preserve query prefill and add ZIP attribution. |
-| src/app/contact/page.tsx | approved-finding | TRUST-002 SEO-001 | Revised | Honest claims and metadata. |
+| src/app/contact/page.tsx | convergence-fix | TRUST-002 SEO-001 REV-011 | Revised | Honest claims, metadata, and current utility classes. |
 | src/app/field-estimate/page.tsx | approved-finding | OPS-001 | Revised | Remove install manifest while preserving the tool. |
-| src/app/free-tree-assessment-omaha/page.tsx | approved-finding | CONV-002 | Revised | Remove false GET receipt. |
+| src/app/free-tree-assessment-omaha/page.tsx | convergence-fix | CONV-002 REV-011 | Revised | Remove false GET receipt and use current utility classes. |
 | src/app/globals.css | approved-finding | OPS-001 | Revised | Remove retired PWA package style import. |
 | src/app/layout.tsx | approved-finding | TRUST-001 SEO-001 | Revised | Global metadata, skip link, and stale-worker cleanup. |
 | src/app/locations/[city]/[neighborhood]/page.tsx | convergence-fix | TRUST-002 SEO-001 REV-004 | Revised baseline | Preserve routes and replace unsupported local assertions. |
 | src/app/locations/[city]/page.tsx | convergence-fix | SEO-001 REV-004 | Revised | Unique title and bounded permit/service wording. |
 | src/app/page.tsx | convergence-fix | TRUST-002 SEO-001 CONTENT-002 REV-001 | Revised | Truthful homepage framing. |
-| src/app/privacy/page.tsx | approved-finding | PRIV-001 UX-002 | New | Retention/access terms and manual-photo privacy boundary. |
+| src/app/privacy/page.tsx | convergence-fix | PRIV-001 UX-002 REV-012 | New then corrected | Retention/access terms, manual-photo privacy boundary, canonical metadata, and standard framing. |
 | src/app/services/[service]/page.tsx | approved-finding | SEO-001 | Revised | Unique service metadata. |
-| src/app/tools/[tool]/page.tsx | approved-finding | SEO-001 AN-001 | Revised | Tool metadata, H1, and analytics. |
+| src/app/tools/[tool]/page.tsx | convergence-fix | SEO-001 AN-001 REV-013 | Revised | Tool metadata with absolute canonicals, H1, and analytics. |
 | src/app/tools/layout.tsx | approved-finding | TRUST-001 | Revised | Truthful authority and semantics. |
 | src/app/tools/page.tsx | approved-finding | TRUST-001 SEO-001 CONTENT-002 | Revised | Accurate tool hub. |
-| src/components/ServiceWorkerCleanup.tsx | approved-finding | OPS-001 | New | Remove stale registrations and caches. |
-| src/components/forms/ContactForm.tsx | convergence-fix | CONV-002 TRUST-002 PRIV-001 CONTENT-002 REV-001 | Revised | First-party acceptance and truthful form state. |
+| src/components/ServiceWorkerCleanup.tsx | convergence-fix | OPS-001 REV-016 | New then corrected | Versioned, scoped cleanup for retired registrations and caches. |
+| src/components/forms/ContactForm.tsx | convergence-fix | CONV-002 TRUST-002 PRIV-001 CONTENT-002 REV-001 REV-014 | Revised | First-party acceptance and accessible truthful form state. |
 | src/components/forms/FastQuoteWidget.tsx | approved-finding | CONV-002 | Revised dormant path | Route into the accepted contact flow. |
-| src/components/forms/MultiStepContactForm.tsx | approved-finding | CONV-002 TRUST-002 PRIV-001 CONTENT-002 | Revised | First-party acceptance and bounded service copy. |
-| src/components/layout/Footer.tsx | approved-finding | PRIV-001 | Revised | Privacy link. |
+| src/components/forms/MultiStepContactForm.tsx | convergence-fix | CONV-002 TRUST-002 PRIV-001 CONTENT-002 REV-014 | Revised | First-party acceptance, bounded service copy, and accessible receipt focus. |
+| src/components/layout/Footer.tsx | convergence-fix | PRIV-001 REV-015 | Revised | Next.js privacy link. |
 | src/components/tools/CommonAilments.tsx | approved-finding | CONTENT-002 | Revised | Educational uncertainty. |
 | src/components/tools/CostEstimator.tsx | approved-finding | CONTENT-002 | Revised | Broad planning ranges and exclusions. |
-| src/components/tools/DIYvsProGuide.tsx | convergence-fix | CONTENT-002 REV-004 | Revised | Conservative taxonomy and bounded safety wording. |
-| src/components/tools/EmailCaptureModal.tsx | approved-finding | CONTENT-002 | Revised | Remove unsupported subscription/health claim. |
+| src/components/tools/DIYvsProGuide.tsx | convergence-fix | CONTENT-002 REV-004 REV-017 | Revised | Conservative taxonomy and unconditional professional-only safety wording. |
+| src/components/tools/EmailCaptureModal.tsx | convergence-fix | CONTENT-002 REV-018 | Revised | Remove unsupported subscription, reminder, and health claims. |
 | src/components/tools/HazardAssessment.tsx | approved-finding | CONTENT-002 | Deleted unused | Remove dormant duplicate while preserving the active hazard tool. |
 | src/components/tools/PremiumHazardAssessment.tsx | approved-finding | SAFE-001 | Revised | Conservative self-reported screening. |
-| src/components/tools/SpeciesIdentifier.tsx | convergence-fix | PRIV-001 UX-002 CONTENT-002 REV-004 | Revised | Manual photo email and bounded matching language. |
+| src/components/tools/SpeciesIdentifier.tsx | convergence-fix | PRIV-001 UX-002 CONTENT-002 REV-004 REV-019 | Revised | Manual photo email and bounded matching/concern language. |
 | src/components/tools/ToolAnalytics.tsx | approved-finding | AN-001 | New | PII-free funnel events. |
 | src/components/ui/HazardAssessmentHeroCard.tsx | convergence-fix | TRUST-002 SAFE-001 REV-001 | Revised | Bounded urgency and authority. |
 | src/data/ailments.ts | approved-finding | CONTENT-002 | Deleted unused | Remove duplicate data. |
@@ -94,17 +94,20 @@ The implementation start tree was clean. The three historically identified paths
 | src/data/services.ts | convergence-fix | TRUST-001 TRUST-002 CONTENT-002 REV-004 | Revised | Bounded service and weather-risk claims. |
 | src/data/species.ts | approved-finding | CONTENT-002 | Deleted unused | Remove duplicate data. |
 | src/lib/constants.ts | approved-finding | TRUST-001 | Revised | Remove unsupported authority signals. |
-| src/lib/leads/client.ts | approved-finding | CONV-002 | New | Browser/server acceptance boundary. |
-| src/lib/leads/leads.test.ts | convergence-fix | TEST-001 REV-002 | New then extended | Local adapter, qualification, configuration, and delivery-failure tests. |
-| src/lib/leads/schema.ts | approved-finding | CONV-002 AN-001 | New | Server validation and qualification. |
+| src/lib/leads/client.ts | convergence-fix | CONV-002 REV-020 | New then corrected | Browser/server acceptance boundary with stable malformed-response errors. |
+| src/lib/leads/client.test.ts | convergence-fix | TEST-001 REV-020 | New | HTML and empty failure-response regressions. |
+| src/lib/leads/leads.test.ts | convergence-fix | TEST-001 REV-002 REV-021 REV-022 REV-023 | New then extended | Local adapter, qualification, omitted-contact, configuration, and finalization-failure tests. |
+| src/lib/leads/route-handler.test.ts | convergence-fix | TEST-001 REV-009 REV-010 | New | Trusted identity, TTL expiry, and streamed request-boundary regressions. |
+| src/lib/leads/route-handler.ts | convergence-fix | CONV-002 REV-009 REV-010 | New | Bounded route dependencies, TTL limiter, and streamed request parsing. |
+| src/lib/leads/schema.ts | convergence-fix | CONV-002 AN-001 REV-021 REV-022 | New then corrected | Server validation and bounded nearby qualification. |
 | src/lib/leads/store-contract.ts | approved-finding | CONV-002 | New | Reusable storage contract and record construction. |
-| src/lib/leads/store-filesystem.ts | approved-finding | CONV-002 | New | Local-development and deterministic-test adapter only. |
-| src/lib/leads/store-postgres.test.ts | approved-finding | TEST-001 | New | PostgreSQL acceptance, duplicate, concurrency, and persistence-failure coverage. |
-| src/lib/leads/store-postgres.ts | approved-finding | CONV-002 | New | Production PostgreSQL adapter with atomic idempotency. |
+| src/lib/leads/store-filesystem.ts | convergence-fix | CONV-002 REV-023 | New then corrected | Local/test adapter with safe finalization cleanup. |
+| src/lib/leads/store-postgres.test.ts | convergence-fix | TEST-001 REV-024 | New then extended | PostgreSQL acceptance, duplicate, concurrency, persistence-failure, and acknowledgement-timeout coverage. |
+| src/lib/leads/store-postgres.ts | convergence-fix | CONV-002 REV-024 | New then corrected | Production PostgreSQL adapter with atomic idempotency and bounded acknowledgement transaction. |
 | src/lib/leads/store.ts | convergence-fix | CONV-002 AN-001 REV-002 | New then corrected | Fail-closed environment selection and pending/acknowledged delivery. |
 | src/lib/site-config.ts | approved-finding | PROD-001 | New | Bounded Midwest Roots default configuration. |
 | src/sw.ts | approved-finding | OPS-001 | Deleted | Approved PWA removal. |
-| tests/e2e/homeowner-tools.spec.ts | convergence-fix | TEST-001 REV-004 REV-006 | New then extended | Defining workflows, claim regressions, and production missing-store behavior. |
+| tests/e2e/homeowner-tools.spec.ts | convergence-fix | TEST-001 REV-004 REV-006 REV-014 REV-019 | New then extended | Defining workflows, focus/status and species-language regressions, and production missing-store behavior. |
 | tsconfig.json | approved-finding | OPS-001 | Revised | Exclude archived dependency-bound code. |
 | project-revision/* | revision-artifact | None | Artifact-only descendant | Canonical record, generated views, decisions, plan, and handoff; it does not move the product-code endpoint. |
 
@@ -114,7 +117,7 @@ The local Midwest Roots revision is merge-ready because the durable production a
 
 ## Delivery state
 
-Product code is committed at `40e922fef7d4d726d781ad869e8815ff56b70a40`; artifact commit `17815a4ff7dd19f0dbf7fb092a2b4f0f66c83a94` and the product endpoint were pushed on `codex/project-revision-midwest-roots`, and draft PR #83 plus its GitHub/Vercel checks were read successfully at that head. This final artifact-only descendant changes delivery evidence only; its exact final hash is recorded in the PR after push. Nothing is merged, deployed to production, migrated, published, or released.
+Product code is committed at `44e9f45399f8269abbc4d5a47dc150558ab56325` on `codex/project-revision-midwest-roots`. This artifact-only descendant changes revision evidence only. Push, draft PR #83 refresh, and GitHub/Vercel status are intentionally marked unverified until the commit exists remotely. Nothing is merged, deployed to production, migrated, published, or released.
 
 ## Validator result
 

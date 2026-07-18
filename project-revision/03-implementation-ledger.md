@@ -36,11 +36,11 @@
 - **Disposition:** implemented
 - **Sequence:** 3
 - **Reason:** Browser EmailJS was replaced by a server-owned schema and storage interface. Production now requires PostgreSQL through DATABASE_URL, with an atomic unique idempotency digest, durable receipt/payload/attribution/lifecycle fields, pending delivery, and fail-closed UI; filesystem storage remains local/test only.
-- **Files changed:** src/app/api/leads/route.ts | src/lib/leads/schema.ts | src/lib/leads/store.ts | src/lib/leads/store-contract.ts | src/lib/leads/store-filesystem.ts | src/lib/leads/store-postgres.ts | src/lib/leads/client.ts | src/components/forms/ContactForm.tsx | src/components/forms/MultiStepContactForm.tsx | src/components/forms/FastQuoteWidget.tsx | src/app/free-tree-assessment-omaha/page.tsx | migrations/001_create_lead_records.sql | README.md | OPERATIONS_SOP.md | package.json | package-lock.json
+- **Files changed:** src/app/api/leads/route.ts | src/lib/leads/route-handler.ts | src/lib/leads/schema.ts | src/lib/leads/store.ts | src/lib/leads/store-contract.ts | src/lib/leads/store-filesystem.ts | src/lib/leads/store-postgres.ts | src/lib/leads/client.ts | src/components/forms/ContactForm.tsx | src/components/forms/MultiStepContactForm.tsx | src/components/forms/FastQuoteWidget.tsx | src/app/free-tree-assessment-omaha/page.tsx | migrations/001_create_lead_records.sql | README.md | OPERATIONS_SOP.md | package.json | package-lock.json
 - **Acceptance results:** Submission has a stable receipt ID => passed => The PostgreSQL adapter inserts a UUID receipt before success and returns the stored row; focused adapter and local filesystem tests passed. A deployed database receipt remains unverified under CONV-003. | Duplicate requests are idempotent => passed => The migration uniquely constrains the SHA-256 key digest and the adapter uses INSERT ON CONFLICT inside a short transaction; sequential and eight-way concurrent adapter tests returned one receipt. | Provider outage produces queued/retry or explicit failure => passed => Accepted records remain delivery=pending after absent/failed webhook delivery; unavailable or missing production persistence returns homeowner-safe 503 with no receipt. | No provider key is shipped to browsers => passed => @emailjs/browser and NEXT_PUBLIC EmailJS configuration were removed; delivery token is server-only.
-- **Verification:** 15 Vitest tests including PostgreSQL success, atomic duplicate, concurrency, persistence failure, delivery failure, missing-production-config, and filesystem behavior | Playwright production missing-database 503 regression | typecheck | build | migration and full storage-path source review
+- **Verification:** 24 Vitest tests including PostgreSQL success, atomic duplicate, concurrency, persistence failure, delivery failure, missing-production-config, filesystem finalization cleanup, bounded request streaming, and stable client errors | Playwright production missing-database 503 regression | typecheck | build | migration and full storage-path source review
 - **Notes:** Production persistence is implemented but not operationally verified: the owner must provision PostgreSQL, apply the migration, configure a server-only DATABASE_URL, and exercise deployed acceptance/concurrency/failure paths. Automated pending-delivery retry remains a release gate.
-- **Revision record digest:** sha256:5195a20f24f918fd0290710f95f448d1c197124148fe8deb656c4ca903629aa9
+- **Revision record digest:** sha256:eb19384ef9a7bd19d941ac37aeb7db6ceda119ccf9fdaee2dfb198e573e7dd7e
 
 ## SEC-001 — Patch the pinned Next.js release and verify advisory applicability
 
@@ -51,10 +51,10 @@
 - **Sequence:** 4
 - **Reason:** Next.js was patched from 16.2.1 to 16.2.6, clearing applicable high/critical direct production advisories.
 - **Files changed:** package.json | package-lock.json
-- **Acceptance results:** npm audit has no applicable high/critical production advisory => passed => Final full npm audit reports zero vulnerabilities after resolving the nested PostCSS override and nonbreaking development transitive updates. | Build and defining workflows pass on patched version => passed => 60-route Next 16.2.6 production build and five Playwright tests passed.
+- **Acceptance results:** npm audit has no applicable high/critical production advisory => passed => Final full npm audit reports zero vulnerabilities after resolving the nested PostCSS override and nonbreaking development transitive updates. | Build and defining workflows pass on patched version => passed => 60-route Next 16.2.6 production build and six Playwright tests passed.
 - **Verification:** npm audit: zero vulnerabilities | npm run build | npm run test:e2e
 - **Notes:** None
-- **Revision record digest:** sha256:991165d331d21134c5b89bde123b4708f825b801fdebb97d5aba50a288691dfd
+- **Revision record digest:** sha256:c3d78b3a0884a640b179bde318c465ffc0268d892d9dffbccf11fd7fc669354d
 
 ## TEST-001 — Add automated coverage for scoring, routing, metadata, and lead acceptance
 
@@ -64,11 +64,11 @@
 - **Disposition:** implemented
 - **Sequence:** 5
 - **Reason:** Vitest characterization/failure coverage, PostgreSQL adapter concurrency/failure tests, production-server Playwright journeys, and a pull-request quality workflow were added without weakening the unsafe historical contract.
-- **Files changed:** src/data/hazard-criteria.test.ts | src/lib/leads/leads.test.ts | src/lib/leads/store-postgres.test.ts | tests/e2e/homeowner-tools.spec.ts | playwright.config.ts | .github/workflows/quality.yml | package.json | package-lock.json | .gitignore
-- **Acceptance results:** Characterization coverage captures the false-receipt, active hazard scoring, current range selection, and photo-mailto behavior before risky replacement => passed => Retained teardown evidence established historical behaviors; regression tests now prove direct GET containment, scoring thresholds, broad range UI, and manual mail without a file input. | CI runs deterministic tests for five tools and the lead lifecycle => passed => Quality workflow runs Vitest plus production Playwright; 15 local unit/adapter tests and five Playwright tests exercise all five tool routes and the lead boundary. | Tests cover invalid, boundary, failure, duplicate, and mobile navigation paths => passed => Schema size/contact boundaries, atomic sequential/eight-way concurrent duplicates, persistence and delivery failure, production missing-config 503, mobile menu/skip/overflow passed. | No test weakens or normalizes an unsafe or misleading current contract => passed => Tests assert false receipt absent, hazard uncertainty present, dangerous vehicle-pull copy absent, and photo picker absent.
-- **Verification:** npm test: 15 passed | npm run test:e2e: 5 passed | workflow syntax inspected
+- **Files changed:** src/data/hazard-criteria.test.ts | src/lib/leads/leads.test.ts | src/lib/leads/client.test.ts | src/lib/leads/route-handler.test.ts | src/lib/leads/store-postgres.test.ts | tests/e2e/homeowner-tools.spec.ts | playwright.config.ts | .github/workflows/quality.yml | package.json | package-lock.json | .gitignore
+- **Acceptance results:** Characterization coverage captures the false-receipt, active hazard scoring, current range selection, and photo-mailto behavior before risky replacement => passed => Retained teardown evidence established historical behaviors; regression tests now prove direct GET containment, scoring thresholds, broad range UI, and manual mail without a file input. | CI runs deterministic tests for five tools and the lead lifecycle => passed => Quality workflow runs Vitest plus production Playwright; 24 local unit/adapter tests and six Playwright tests exercise all five tool routes and the lead boundary. | Tests cover invalid, boundary, failure, duplicate, and mobile navigation paths => passed => Schema size/contact boundaries, atomic sequential/eight-way concurrent duplicates, persistence and delivery failure, production missing-config 503, mobile menu/skip/overflow passed. | No test weakens or normalizes an unsafe or misleading current contract => passed => Tests assert false receipt absent, hazard uncertainty present, dangerous vehicle-pull copy absent, and photo picker absent.
+- **Verification:** npm test: 24 passed | npm run test:e2e: 6 passed | workflow permissions, concurrency, and pinned action revisions inspected
 - **Notes:** PostgreSQL tests use a deterministic adapter fake and source-reviewed migration; a deployed database exercise remains CONV-003 evidence. Firefox/WebKit and real AT stay under A11Y-001.
-- **Revision record digest:** sha256:c96487c4297be654ab7678f43a5ebb328c72f01b461b52fd52315c2222f5a753
+- **Revision record digest:** sha256:cb85b8d342244cfc74d7803090ced98a38db99dab05856199307cd855f1bd797
 
 ## TRUST-002 — Substantiate or replace non-ISA authority, insurance, guarantee, statistics, and response claims
 
@@ -287,12 +287,12 @@
 - **Revalidation:** blocked
 - **Disposition:** blocked
 - **Sequence:** 21
-- **Reason:** Application CSP/frame/referrer/permissions/content-type headers and server size/schema/honeypot/idempotency/rate controls were added, but distributed production abuse behavior, HSTS, provider quotas, and deployed responses remain external.
+- **Reason:** Application CSP/frame/referrer/permissions/content-type headers and server size/schema/honeypot/idempotency/rate controls were added. The application limiter is now TTL-bounded and uses Vercel-controlled client metadata, while deployment-wide abuse behavior, HSTS, provider quotas, and deployed responses remain external.
 - **Files changed:** None
-- **Acceptance results:** Automated duplicate/burst tests are bounded and produce observable operator signals without blocking ordinary accessible use => blocked => Duplicate test and in-process 8/10-minute burst boundary exist; distributed production behavior/alert routing is unverified. | Production responses verify the approved CSP, frame-ancestors or equivalent, Referrer-Policy, Permissions-Policy, X-Content-Type-Options, and HSTS where TLS ownership permits => blocked => Local production server captured all except HSTS; deployed TLS-owned response capture is unavailable. | Lead payload size, schema, idempotency, and logging/redaction boundaries have failure-path tests => passed => Vitest and HTTP checks cover contact/size/idempotency/no-store; structured logs omit contact fields. | Provider-side protections and quotas are documented but not treated as substitutes for application controls => blocked => Runbook states application boundaries; actual selected provider quota/protection is not configured or known.
-- **Verification:** local response header capture | 413/503/duplicate checks | schema/store tests
-- **Notes:** Security files are attributed to CONV-002/SEC-001 while deployed verification remains blocked.
-- **Revision record digest:** sha256:4191d90696e97d607094944755ba9d450b7e568d2298b2796d748467035f646a
+- **Acceptance results:** Automated duplicate/burst tests are bounded and produce observable operator signals without blocking ordinary accessible use => blocked => Atomic duplicate tests and a bounded per-instance 8/10-minute TTL window using Vercel-controlled identity exist; deployment-wide WAF behavior and alert routing are unverified. | Production responses verify the approved CSP, frame-ancestors or equivalent, Referrer-Policy, Permissions-Policy, X-Content-Type-Options, and HSTS where TLS ownership permits => blocked => Local production server captured all except HSTS; deployed TLS-owned response capture is unavailable. | Lead payload size, schema, idempotency, and logging/redaction boundaries have failure-path tests => passed => Vitest and HTTP checks cover streamed encoded-byte limits, invalid Content-Length, contact validation, idempotency, and no-store behavior; structured logs omit contact fields. | Provider-side protections and quotas are documented but not treated as substitutes for application controls => blocked => Runbook states application boundaries; actual selected provider quota/protection is not configured or known.
+- **Verification:** local response header capture | streamed 413/invalid-length/503/duplicate checks | schema/store/rate-boundary tests
+- **Notes:** Security files are attributed to CONV-002/SEC-001 and convergence findings while deployed WAF/header verification remains blocked. No distributed rate-limit service was added.
+- **Revision record digest:** sha256:b0a24620cc0a085217adbd97d31ad2f7d71dbadaa8b4332c04017a1abf2f62dc
 
 ## TECH-001 — Extract a tenant-neutral tool kernel before embedding or licensing
 
@@ -315,12 +315,12 @@
 - **Revalidation:** blocked
 - **Disposition:** blocked
 - **Sequence:** 23
-- **Reason:** Serwist, service worker source/dependencies, both install manifests, and metadata links were removed; one-release cleanup unregisters workers/deletes caches, but deployed stale-client proof is external.
+- **Reason:** Serwist, service worker source/dependencies, both install manifests, and metadata links were removed; versioned one-release cleanup targets only the retired /sw.js registrations and known Serwist/runtime caches, but deployed stale-client proof is external.
 - **Files changed:** None
 - **Acceptance results:** Decision recorded => passed => Owner explicitly chose remove PWA installation/offline/cache/update complexity. | If retained, install/offline/update tested in supported browsers; if removed, no stale registrations remain => blocked => New build has no SW registration/output and cleanup runs in Chrome; deployed /sw.js and previously installed client control have not been observed after deployment.
-- **Verification:** Serwist/manifest/source scan | production build | Chrome cleanup component render
-- **Notes:** PWA changes are attributed to OPS-001/CONTENT-002 while production stale-control clearance remains a release gate.
-- **Revision record digest:** sha256:f05cfbde9f8808d203e6fe81befe56f67278c80336afbfb31210f31575c56e9a
+- **Verification:** Serwist 9.5.7 cache-name source and retired sw.ts cache review | Serwist/manifest/source scan | production build | Chrome cleanup component render
+- **Notes:** PWA changes are attributed to OPS-001/CONTENT-002 and REV-016 while production stale-control clearance remains a release gate.
+- **Revision record digest:** sha256:8d5b2f8d972a4ce531bea6fc9524160e960b86f3dfcef57d71242606919b941c
 
 ## PROD-001 — Choose and validate the tool commercialization model before platform work
 
@@ -379,8 +379,8 @@
 - **Status:** fixed
 - **Reason:** The initial npm test glob loaded Playwright specs in Vitest; the unit script now excludes tests/e2e and each runner passes independently.
 - **Files changed:** package.json
-- **Verification:** final npm test passed 15 tests | final npm run test:e2e passed 5 tests
-- **Convergence record digest:** sha256:391df424628a43a7c4817b9e384e12e2f9a884dfd25d4ca3c6e45b107f241a67
+- **Verification:** final npm test passed 24 tests | final npm run test:e2e passed 6 tests
+- **Convergence record digest:** sha256:1b648493feb75bd745fd6f4898d9db5369e0f773c4204f2cb946fdd87f58a57b
 
 ### REV-004 — Species and location surfaces retained unsupported certainty and service claims
 
@@ -389,8 +389,8 @@
 - **Status:** fixed
 - **Reason:** Species entries still presented unsupported mortality, lifespan, treatment, and tree-level risk certainty; location pages asserted neighborhood conditions, free assessment, permit handling, and equipment knowledge without evidence. The surfaces now use bounded concern language, property-specific planning, municipal confirmation, and estimate-scope wording.
 - **Files changed:** src/components/tools/SpeciesIdentifier.tsx | src/components/tools/DIYvsProGuide.tsx | src/app/locations/[city]/[neighborhood]/page.tsx | src/app/locations/[city]/page.tsx | src/data/services.ts | tests/e2e/homeowner-tools.spec.ts
-- **Verification:** typecheck passed | Vitest 15 tests passed | lint passed with 21 warnings and no errors | Playwright 5 tests passed in installed Chrome | production build passed with 60 routes | full product diff reviewed
-- **Convergence record digest:** sha256:3346e5d83a257ea326feb18652b14897840c52565ccdf0d2b4cdd29a3002a5a2
+- **Verification:** typecheck passed | Vitest 24 tests passed | lint passed with 21 warnings and no errors | Playwright 6 tests passed in installed Chrome | production build passed with 60 routes | full product diff reviewed
+- **Convergence record digest:** sha256:96ff035ed378acc8a548de6eb27445080d27bb8792e905b9239a891676dbf349
 
 ### REV-005 — Nested PostCSS remained on an advised release
 
@@ -409,5 +409,195 @@
 - **Status:** fixed
 - **Reason:** The production-server Playwright harness previously injected a filesystem lead directory, so it could not prove fail-closed behavior for an unconfigured deployment. The harness no longer injects ephemeral storage and now asserts HTTP 503, no receipt, and phone fallback when DATABASE_URL is absent.
 - **Files changed:** playwright.config.ts | tests/e2e/homeowner-tools.spec.ts
-- **Verification:** Playwright production missing-database regression passed | five total Playwright tests passed
-- **Convergence record digest:** sha256:5a6f82410ed17d41a804c48ce8afaa4dc51ce4feb3f5564cf451ef56867173bc
+- **Verification:** Playwright production missing-database regression passed | six total Playwright tests passed
+- **Convergence record digest:** sha256:c75fd71f05b45fd9498b83f93a948e1adae0cc543a16fdead69c31550ed19684
+
+### REV-007 — Operations drill conflated client and delivery idempotency keys
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The drill now reuses the original client key only for duplicate API submissions and reserves receiptId for the separate delivery retry.
+- **Files changed:** OPERATIONS_SOP.md
+- **Verification:** runbook-to-source idempotency review | documentation diff inspection
+- **Convergence record digest:** sha256:251c70349e25d0315e5423fcfc5482da99b89fbb63319780cdec894b35b871ee
+
+### REV-008 — Generated convergence headings were reported as a hierarchy jump
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** low
+- **Status:** invalid
+- **Reason:** The installed project-revision renderer and validator require the exact generated # Convergence findings followed by ### REV-* hierarchy. Manually changing the generated ledger would violate the canonical artifact contract.
+- **Files changed:** None
+- **Verification:** installed render_revision_views.py source review | installed validate_revision.py heading contract review
+- **Convergence record digest:** sha256:ca05e4a49e7bd06fac8585008f90c8c3d0954ecd6b2b136b1f89e6ef5cf1b5e5
+
+### REV-009 — Lead rate-limit state was unbounded and trusted caller-controlled forwarding data
+
+- **Source:** CodeRabbit inline review on PR #83 and owner scope correction
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The existing per-instance limiter is now a bounded 1,000-key TTL map with expiry/oldest eviction, deterministic time injection, and Vercel-controlled x-vercel-forwarded-for identity. A new distributed subsystem was intentionally not invented; deployment-wide WAF enforcement remains SEC-002 evidence.
+- **Files changed:** src/lib/leads/route-handler.ts | src/lib/leads/route-handler.test.ts | src/app/api/leads/route.ts
+- **Verification:** trusted-header and expiry unit test | Vercel request-header documentation review | full TypeScript and Playwright suites
+- **Convergence record digest:** sha256:6796acfad89a28a90033eec7ec30374c6df45071231514b3778756e14b639817
+
+### REV-010 — Lead route buffered unbounded encoded request bodies
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The route now validates Content-Length, streams encoded bytes through a 16 KiB boundary, cancels on overflow, rejects invalid UTF-8/JSON safely, and never calls request.text().
+- **Files changed:** src/lib/leads/route-handler.ts | src/lib/leads/route-handler.test.ts | src/app/api/leads/route.ts
+- **Verification:** oversized chunked UTF-8 regression | invalid Content-Length regression | typecheck and production build
+- **Convergence record digest:** sha256:fe7986a487e8480087362efcdb3ab4bf270ba73340bc852fcff2c97d0ed9027c
+
+### REV-011 — Two pages retained deprecated Tailwind shrink utilities
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** low
+- **Status:** fixed
+- **Reason:** The six identified numbered-step elements now use shrink-0 with no layout or content change.
+- **Files changed:** src/app/contact/page.tsx | src/app/free-tree-assessment-omaha/page.tsx
+- **Verification:** focused source scan | production build
+- **Convergence record digest:** sha256:063598b27b8b2da966b5c5b5cbfd3ed8c05149652910c697624e767514f3f408
+
+### REV-012 — Privacy page lacked absolute canonical metadata and standard page framing
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** low
+- **Status:** fixed
+- **Reason:** The page now uses CONTACT.siteUrl for canonical/Open Graph URLs and the established warm background and dark header while retaining its privacy content.
+- **Files changed:** src/app/privacy/page.tsx
+- **Verification:** metadata source review | production build
+- **Convergence record digest:** sha256:299b0029871c158c0ac62a343b24a059910652e5a96962c993f9fbfc6a620e6a
+
+### REV-013 — Tool canonicals were relative rather than absolute
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** low
+- **Status:** fixed
+- **Reason:** Valid tool metadata now prefixes each canonical with CONTACT.siteUrl without changing titles, descriptions, or invalid-slug behavior.
+- **Files changed:** src/app/tools/[tool]/page.tsx
+- **Verification:** metadata source review | 60-route production build
+- **Convergence record digest:** sha256:9114d88636154f1d6da974deaa4c012549eeb86aaacfe05f143331be1e99b210
+
+### REV-014 — Accepted lead confirmations did not receive focus or status semantics
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** Both form success containers are programmatically focusable, receive focus after acceptance, and expose one role=status announcement.
+- **Files changed:** src/components/forms/ContactForm.tsx | src/components/forms/MultiStepContactForm.tsx | tests/e2e/homeowner-tools.spec.ts
+- **Verification:** Playwright focus and single-status regression for both forms | React hooks and accessibility review
+- **Convergence record digest:** sha256:c8208815aac8e89cf245a90939f8a9d3f438334c3431756bb6a212519fa54b95
+
+### REV-015 — Footer privacy navigation used a raw internal anchor
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** low
+- **Status:** fixed
+- **Reason:** The existing Next.js Link import now renders the privacy link with unchanged href, styling, and text.
+- **Files changed:** src/components/layout/Footer.tsx
+- **Verification:** component source review | production build
+- **Convergence record digest:** sha256:7e7ca7555a069dd4231b5f124fd329fbc317d16bf104bb5d906441b25e7193f1
+
+### REV-016 — Retired PWA cleanup was broad and repeated on every mount
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** Cleanup is version-guarded, targets only /sw.js registrations and cache names created by the retired Serwist 9.5.7 configuration, records completion only after both chains succeed, and handles all rejection paths.
+- **Files changed:** src/components/ServiceWorkerCleanup.tsx
+- **Verification:** retired src/sw.ts cache review | Serwist 9.5.7 package-source cache-name review | production build
+- **Convergence record digest:** sha256:c9005fa6f6212a8ed4079da642597363dd95f37dcecd13e2030ea6ad326f6ec4
+
+### REV-017 — Professional-only task copy retained conditional DIY implications
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** Every professional-only entry now unconditionally says to keep clear and arrange an appropriately equipped, qualified provider, including stump and small dead-tree work.
+- **Files changed:** src/components/tools/DIYvsProGuide.tsx
+- **Verification:** all professional-only whenToCall values reviewed | Playwright DIY journey
+- **Convergence record digest:** sha256:36086e7bc11fb24503045e47cfa8b98f7fcb5f1c4951680ba954854aa78212cd
+
+### REV-018 — Contact modal promised reminders and updates without collecting email
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The section now lists topics a homeowner can discuss and makes no promise of email delivery or future messages.
+- **Files changed:** src/components/tools/EmailCaptureModal.tsx
+- **Verification:** modal copy source review | unsupported-claim scan
+- **Convergence record digest:** sha256:594a60cab4f242265395587557727c6eb1862c7f78e142d996edce05e68d2b14
+
+### REV-019 — Species concern metadata was presented as definitive hazard risk
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** Concern metadata is separated from hazard assessment; the interruption denies tree-level hazard or failure prediction and hands off to preliminary screening or an on-site review inquiry without critical/catastrophic claims.
+- **Files changed:** src/components/tools/SpeciesIdentifier.tsx | tests/e2e/homeowner-tools.spec.ts
+- **Verification:** Playwright high-concern species dialog regression | risk-certainty source scan | all-five tool journey
+- **Convergence record digest:** sha256:5114ad095791897f660db85889cd1a91226e35dd366571aaa9a7a13e0b7f6b5e
+
+### REV-020 — Lead client threw unstable errors for empty or non-JSON failures
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** Response parsing now tolerates empty, HTML, null, and non-object bodies while retaining receipt validation and server-error fallback behavior.
+- **Files changed:** src/lib/leads/client.ts | src/lib/leads/client.test.ts
+- **Verification:** HTML 502 regression | empty 503 regression | 24-test Vitest pass
+- **Convergence record digest:** sha256:6c104958ff6389f3a90c9480e31764d8519b89875f456397b08ad2df4f6f220d
+
+### REV-021 — Standalone NE token misclassified remote directional addresses as nearby
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** Nearby classification now uses recognized Omaha-metro city names or bounded Nebraska ZIPs, while preserving the explicit missing-address behavior.
+- **Files changed:** src/lib/leads/schema.ts | src/lib/leads/leads.test.ts
+- **Verification:** Seattle NE negative regression | Omaha city and Nebraska ZIP positive regressions | missing-address regression
+- **Convergence record digest:** sha256:0e2208908b2e92bb9022deef78fee199622e8897f56d6cc001f1e215d3fd1073
+
+### REV-022 — Request schema rejected email-only leads when phone was omitted
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** user_phone now defaults to an empty value before normalization, while provided-phone validation and cross-field return-contact requirements remain unchanged.
+- **Files changed:** src/lib/leads/schema.ts | src/lib/leads/leads.test.ts
+- **Verification:** omitted-phone email-only regression | schema contact-boundary suite
+- **Convergence record digest:** sha256:70dfa94bbfc28d726c697a55a77bacd5d8f5ab222e7183c64c0ccd4cb2af7ae0
+
+### REV-023 — Filesystem key-finalization failure could orphan a new lead record
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The adapter tracks whether this call created the record and removes only its new record/key artifacts on finalization failure, preserving any pre-existing UUID-collision record.
+- **Files changed:** src/lib/leads/store-filesystem.ts | src/lib/leads/leads.test.ts
+- **Verification:** injected key-finalization failure regression | filesystem deterministic-adapter suite
+- **Convergence record digest:** sha256:0ff4c9f806811ae1394fdedf8d7d8ec4794f6c002bb4aef23acd0ad01dbdab3a
+
+### REV-024 — Delivery acknowledgement lacked transaction-scoped timeout protection
+
+- **Source:** CodeRabbit inline review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** Acknowledgement update and fallback lookup now run in one transaction after SET LOCAL statement_timeout = 5s, with commit, rollback, and unconditional client release.
+- **Files changed:** src/lib/leads/store-postgres.ts | src/lib/leads/store-postgres.test.ts
+- **Verification:** stalled acknowledgement timeout regression | rollback and client-release assertions | PostgreSQL adapter suite
+- **Convergence record digest:** sha256:a82c13fb566f96648c17b80e0c7c968fd9cb854747dd6589c9f1012e7be45883
+
+### REV-025 — Quality workflow used broad default permissions and mutable action tags
+
+- **Source:** CodeRabbit outside-diff review on PR #83
+- **Severity:** medium
+- **Status:** fixed
+- **Reason:** The workflow now declares read-all permissions, cancels superseded branch runs, and pins checkout/setup-node to the verified v4.2.2/v4.4.0 commit SHAs without changing CI steps.
+- **Files changed:** .github/workflows/quality.yml
+- **Verification:** workflow source inspection | action tag SHA verification | local equivalent quality suite
+- **Convergence record digest:** sha256:92be1c955452cea27aba1e9c6b050dc00858e4aa632529048fbe492924edbf56
