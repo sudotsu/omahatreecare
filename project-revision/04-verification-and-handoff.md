@@ -11,8 +11,8 @@
 **Merge readiness:** ready
 **Release readiness:** not-ready
 **Committed:** verified
-**Pushed:** unverified
-**Pull request updated:** unverified
+**Pushed:** verified
+**Pull request updated:** verified
 **Merged:** not-performed
 **Revision validator status:** passed
 
@@ -32,7 +32,7 @@
 
 ## Review-source coverage
 
-Manual review covered the full `b1f3c8867c8512e1e84be1c00648b86d46bc0084..40e922fef7d4d726d781ad869e8815ff56b70a40` product diff and repeated current-head review after the last product change. It traced form → API → schema → storage selection → PostgreSQL transaction/unique constraint → pending delivery, plus configuration, tools, claims, PWA removal, tests, migration, dependency graph, and operations documentation. `REV-001` through `REV-006` are fixed; no critical, high, or medium convergence finding remains open. Draft PR #83, GitHub checks, and Vercel preview status are refreshed after the final artifact push and recorded in the PR's mutable metadata because the final artifact commit cannot contain its own hash.
+Manual review covered the full `b1f3c8867c8512e1e84be1c00648b86d46bc0084..40e922fef7d4d726d781ad869e8815ff56b70a40` product diff and repeated current-head review after the last product change. It traced form → API → schema → storage selection → PostgreSQL transaction/unique constraint → pending delivery, plus configuration, tools, claims, PWA removal, tests, migration, dependency graph, and operations documentation. `REV-001` through `REV-006` are fixed; no critical, high, or medium convergence finding remains open. At pushed artifact head `17815a4ff7dd19f0dbf7fb092a2b4f0f66c83a94`, GitHub Quality, both Vercel deployments, Vercel Preview Comments, and the draft-only CodeRabbit status passed; PR #83 remained draft with no submitted review. The exact final delivery-only descendant is recorded in the PR's mutable metadata after its push because a commit cannot contain its own hash.
 
 ## Baseline reconciliation
 
@@ -114,7 +114,7 @@ The local Midwest Roots revision is merge-ready because the durable production a
 
 ## Delivery state
 
-Product code is committed at `40e922fef7d4d726d781ad869e8815ff56b70a40`. Artifact commits are descendants only and do not alter that endpoint. This pre-push artifact records the new push and PR update as unverified; a final delivery-only artifact update follows successful push and PR inspection. Nothing is merged, deployed to production, migrated, published, or released.
+Product code is committed at `40e922fef7d4d726d781ad869e8815ff56b70a40`; artifact commit `17815a4ff7dd19f0dbf7fb092a2b4f0f66c83a94` and the product endpoint were pushed on `codex/project-revision-midwest-roots`, and draft PR #83 plus its GitHub/Vercel checks were read successfully at that head. This final artifact-only descendant changes delivery evidence only; its exact final hash is recorded in the PR after push. Nothing is merged, deployed to production, migrated, published, or released.
 
 ## Validator result
 

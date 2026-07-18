@@ -6,7 +6,7 @@
   "implementation_start_revision": "b1f3c8867c8512e1e84be1c00648b86d46bc0084",
   "implementation_end_revision": "40e922fef7d4d726d781ad869e8815ff56b70a40",
   "revision_status": "partial",
-  "generated_at": "2026-07-18T10:39:00-05:00",
+  "generated_at": "2026-07-18T10:38:40-05:00",
   "existing_work_reconciled": true,
   "findings": [
     {
@@ -313,6 +313,6 @@
     "blocking_convergence_findings": 0,
     "merge_readiness": "ready",
     "release_readiness": "not-ready",
-    "delivery": {"committed": "verified", "pushed": "unverified", "pull_request_updated": "unverified", "merged": "not-performed"}
+    "delivery": {"committed": "verified", "pushed": "verified", "pull_request_updated": "verified", "merged": "not-performed"}
   }
 }
