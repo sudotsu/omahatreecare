@@ -214,7 +214,7 @@ export const fallbackNeighborhoodData: NeighborhoodData = {
   vibe: 'Professional Tree Care',
   dominant_trees: 'mature shade trees and ornamental species',
   common_issues: 'storm safety assessment and seasonal pruning',
-  local_risk: 'Weather patterns and tree health require regular monitoring by certified arborists.',
+  local_risk: 'Weather patterns and visible tree changes are worth monitoring; uncertain or safety-sensitive conditions may warrant an independently credentialed assessment.',
   meta_snippet: 'Professional tree service and arborist consultations.',
   geo: { lat: 41.2565, lng: -95.9345 },
 }

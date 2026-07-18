@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CheckCircle, Phone, Clock } from 'lucide-react'
-import { CONTACT, BUSINESS_HOURS } from '@/lib/constants'
+import { Phone } from 'lucide-react'
+import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Free Tree Assessment Request Received | Midwest Roots Omaha',
-  description: 'Your free tree assessment request has been received. Andrew will contact you within a few hours to schedule your on-site visit.',
+  title: 'Finish Your Tree-Service Request',
+  description: 'Complete the contact form so Midwest Roots can safely receive your tree-service request.',
   alternates: { canonical: `${CONTACT.siteUrl}/free-tree-assessment-omaha` },
   openGraph: {
-    title: 'Assessment Request Received | Midwest Roots',
-    description: 'We got your request. Andrew will be in touch shortly.',
+    title: 'Request an Estimate | Midwest Roots',
+    description: 'Complete the contact form so Midwest Roots can receive your request.',
     url: `${CONTACT.siteUrl}/free-tree-assessment-omaha`,
   },
   robots: { index: false, follow: true },
@@ -40,14 +40,9 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
       {/* Hero */}
       <section className="bg-[#11261B] text-white py-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-amber-400 rounded-full flex items-center justify-center">
-              <CheckCircle className="w-8 h-8 text-[#11261B]" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Request Received!</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Finish Your Estimate Request</h1>
           <p className="text-lg text-green-100 max-w-xl mx-auto">
-            Andrew will reach out within a few hours to confirm your free on-site assessment.
+            ZIP code and service preference alone do not send a request. Add a valid contact method in the contact form.
           </p>
         </div>
       </section>
@@ -81,24 +76,24 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
           <div className="flex items-start gap-4">
             <span className="flex-shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
             <div>
-              <p className="font-semibold text-amber-900">Andrew reviews your request</p>
-              <p className="text-amber-700 text-sm mt-1">Usually within a few hours. He&apos;ll look up your address and mentally prep before calling.</p>
+              <p className="font-semibold text-amber-900">Complete the contact form</p>
+              <p className="text-amber-700 text-sm mt-1">A receipt appears only after our server safely accepts your request.</p>
             </div>
           </div>
 
           <div className="flex items-start gap-4">
             <span className="flex-shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
             <div>
-              <p className="font-semibold text-amber-900">You get a call to schedule</p>
-              <p className="text-amber-700 text-sm mt-1">He picks a time that works for you — evenings and weekends included.</p>
+              <p className="font-semibold text-amber-900">Keep the receipt ID</p>
+              <p className="text-amber-700 text-sm mt-1">It identifies the accepted record if you need to follow up.</p>
             </div>
           </div>
 
           <div className="flex items-start gap-4">
             <span className="flex-shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
             <div>
-              <p className="font-semibold text-amber-900">Free on-site walk-through</p>
-              <p className="text-amber-700 text-sm mt-1">Andrew comes out, looks at your trees, gives you straight answers. Zero pressure — if your tree is fine, he&apos;ll tell you.</p>
+              <p className="font-semibold text-amber-900">Midwest Roots reviews the request</p>
+              <p className="text-amber-700 text-sm mt-1">Scheduling and on-site estimating depend on the job, location, and current availability.</p>
             </div>
           </div>
         </div>
@@ -114,10 +109,7 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
               <Phone className="w-4 h-4" />
               {CONTACT.phone}
             </a>
-            <div className="flex items-center gap-2 text-amber-700 text-sm">
-              <Clock className="w-4 h-4 flex-shrink-0" />
-              <span>{BUSINESS_HOURS.display}</span>
-            </div>
+            <p className="text-sm text-amber-700">Call to confirm current availability.</p>
           </div>
         </div>
       </section>

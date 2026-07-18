@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { CONTACT } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Accessibility Statement | Midwest Roots Tree Services',
+  title: 'Accessibility Statement',
   description: 'Midwest Roots Tree Services is committed to making our website accessible to all users. Learn about our accessibility standards and how to report issues.',
   alternates: { canonical: `${CONTACT.siteUrl}/accessibility` },
   openGraph: {
@@ -54,7 +54,7 @@ export default function AccessibilityPage() {
           <div>
             <h2 className="text-2xl font-bold text-amber-900 mb-3">Known Limitations</h2>
             <p className="text-amber-800 leading-relaxed">
-              Some of our interactive diagnostic tools contain complex interfaces that may not be fully accessible in all screen reader environments. We are actively working to improve these.
+              Some interactive screening tools contain complex interfaces that may not yet be fully accessible in every screen reader. Real NVDA or VoiceOver verification remains a release gate.
             </p>
           </div>
 

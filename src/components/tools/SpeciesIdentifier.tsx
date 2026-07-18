@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertCircle, AlertTriangle, Camera, CheckCircle, Info, Search, Upload, X, ArrowRight } from 'lucide-react'
+import { AlertCircle, AlertTriangle, Camera, CheckCircle, Info, Search, ArrowRight } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
 import { CONTACT } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
@@ -173,9 +173,6 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
   const router = useRouter()
   const [searchTerm, setSearchTerm]           = useState('')
   const [selectedTree, setSelectedTree]       = useState<Tree | null>(null)
-  const [uploadedPhotos, setUploadedPhotos]   = useState<{ file: File; url: string }[]>([])
-  const [allowCommunityUse, setAllowCommunityUse] = useState(true)
-  const [photoSubmitted, setPhotoSubmitted]   = useState(false)
   const [isInterrupted, setIsInterrupted]     = useState(false)
   
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -235,42 +232,6 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
     router.push(`/tools/hazard?species=${encodeURIComponent(selectedTree.name)}`)
   }
 
-  useEffect(() => {
-    return () => {
-      uploadedPhotos.forEach(p => URL.revokeObjectURL(p.url))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? [])
-    const valid = files.filter(f => f.type.startsWith('image/') && f.size <= 5 * 1024 * 1024)
-    const entries = valid.map(file => ({ file, url: URL.createObjectURL(file) }))
-    setUploadedPhotos(prev => [...prev, ...entries].slice(0, 3))
-  }
-
-  const removePhoto = (index: number) => {
-    setUploadedPhotos(prev => {
-      URL.revokeObjectURL(prev[index].url)
-      return prev.filter((_, i) => i !== index)
-    })
-  }
-
-  const submitCommunityPhoto = () => {
-    if (uploadedPhotos.length === 0) return
-    const speciesLabel = selectedTree ? selectedTree.name : 'Unknown species'
-    const subject = encodeURIComponent(`Tree Photo Submission – ${speciesLabel}`)
-    const body    = encodeURIComponent(
-      `Hi Andrew,\n\nI'd like help identifying my tree${selectedTree ? ` (I think it may be ${selectedTree.name})` : ''}.\n\n` +
-      (allowCommunityUse ? 'You can add my photos to the community database (anonymous).\n\n' : '') +
-      `Please reply with your species ID and any care recommendations.\n\nThanks!`
-    )
-    window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`
-    setPhotoSubmitted(true)
-    uploadedPhotos.forEach(p => URL.revokeObjectURL(p.url))
-    setUploadedPhotos([])
-  }
-
   const filteredTrees = treeDatabase.filter(
     t =>
       t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -295,78 +256,21 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-bold text-emerald-900 mb-1">
-              Can&apos;t Find Your Tree? Upload a Photo
+              Can&apos;t Find Your Tree? Email Photos Manually
             </h3>
             <p className="text-sm text-emerald-800">
-              Email Andrew photos of leaves, bark, or the full tree and get an expert ID within 24 hours.
+              This website does not upload or attach files. Open an email draft, then attach clear photos of the leaves, bark, and full tree yourself before sending.
             </p>
           </div>
         </div>
 
-        {photoSubmitted && (
-          <div className="mb-4 p-4 bg-green-100 border border-green-300 rounded-lg text-green-800 text-sm font-medium">
-            Email draft opened — attach your photos and send!
-          </div>
-        )}
-
-        {uploadedPhotos.length > 0 && (
-          <div className="mb-4">
-            <div className="grid grid-cols-3 gap-2 mb-3">
-              {uploadedPhotos.map((photo, index) => (
-                <div key={photo.url} className="relative group">
-                  <img
-                    src={photo.url}
-                    alt={`Tree photo ${index + 1}`}
-                    className="w-full h-24 object-cover rounded-lg"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removePhoto(index)}
-                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ))}
-            </div>
-            <label className="flex items-start gap-3 mb-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={allowCommunityUse}
-                onChange={(e) => setAllowCommunityUse(e.target.checked)}
-                className="mt-1 w-4 h-4 text-emerald-600 rounded"
-              />
-              <span className="text-sm text-emerald-900">
-                <strong>Help the community!</strong> Allow us to add your photos to our species database (anonymous).
-              </span>
-            </label>
-            <button
-              onClick={submitCommunityPhoto}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
-            >
-              <Upload className="w-5 h-5" />
-              Email Photos for Expert ID
-            </button>
-            <p className="text-xs text-emerald-700 mt-2 text-center">
-              Andrew will reply within 24 hours with species ID and care recommendations
-            </p>
-          </div>
-        )}
-
-        {uploadedPhotos.length < 3 && (
-          <label className="block cursor-pointer">
-            <div className="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-white rounded-lg p-6 text-center transition">
-              <Upload className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-              <p className="text-sm text-emerald-800 font-medium mb-1">
-                {uploadedPhotos.length === 0
-                  ? 'Upload tree photos'
-                  : `Add ${3 - uploadedPhotos.length} more photo${3 - uploadedPhotos.length === 1 ? '' : 's'}`}
-              </p>
-              <p className="text-xs text-emerald-600">JPG, PNG up to 5MB · Max 3 photos</p>
-            </div>
-            <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} className="hidden" />
-          </label>
-        )}
+        <a
+          href={`mailto:${CONTACT.email}?subject=${encodeURIComponent('Tree photo question')}&body=${encodeURIComponent('Please attach your photos to this email before sending. Include the property area, what changed, and when you first noticed it. Do not send sensitive documents. Photo reuse is not granted by sending this email.')}`}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700"
+        >
+          <Camera className="h-5 w-5" /> Open Email Draft
+        </a>
+        <p className="mt-2 text-center text-xs text-emerald-700">Opening a draft does not send anything. You must attach the files and press Send in your email app. Identification and response timing are not guaranteed.</p>
       </div>
 
       {/* Search */}
@@ -497,7 +401,7 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
             {/* Run Assessment CTA */}
             <div className="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-6 text-center">
               <h3 className="text-lg font-bold text-emerald-900 mb-2">Check This Tree for Hazards</h3>
-              <p className="text-sm text-emerald-800 mb-4">Run a guided diagnostic to check for structural defects and risk levels.</p>
+              <p className="text-sm text-emerald-800 mb-4">Run a preliminary screening based on the warning signs you can see.</p>
               <button
                 onClick={handleStartAssessment}
                 className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-md"

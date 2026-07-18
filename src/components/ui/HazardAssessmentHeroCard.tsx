@@ -30,7 +30,7 @@ export function HazardAssessmentHeroCard() {
         <div className="flex items-center text-sm">
           <div className="mr-3 h-3 w-3 shrink-0 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" />
           <span className="w-16 font-bold">RED</span>
-          <span className="text-slate-600">Critical. Contact a pro within 3–7 days.</span>
+          <span className="text-slate-600">Severe reported signs. Keep clear and seek prompt on-site help.</span>
         </div>
       </div>
 

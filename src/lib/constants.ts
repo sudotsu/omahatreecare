@@ -1,23 +1,25 @@
+import { siteConfig } from "./site-config";
+
 /**
  * Site-wide constants — TypeScript port of src/constants.js
  */
 
 export const CONTACT = {
-  phone:           '(402) 812-3294',
-  phoneRaw:        '+14028123294',
-  email:           'andrew@omahatreecare.com',
-  businessName:    'Midwest Roots Tree Services',
-  siteUrl:         'https://omahatreecare.com',
+  phone:           siteConfig.business.phone,
+  phoneRaw:        siteConfig.business.phoneRaw,
+  email:           siteConfig.business.email,
+  businessName:    siteConfig.business.name,
+  siteUrl:         siteConfig.business.siteUrl,
 
-  address:         '5634 Corby St # 1, Omaha, NE 68104-4128',
-  streetAddress:   '5634 Corby St # 1',
-  addressLocality: 'Omaha',
-  addressRegion:   'NE',
-  postalCode:      '68104-4128',
-  addressCountry:  'US',
+  address:         siteConfig.business.address,
+  streetAddress:   siteConfig.business.streetAddress,
+  addressLocality: siteConfig.business.addressLocality,
+  addressRegion:   siteConfig.business.addressRegion,
+  postalCode:      siteConfig.business.postalCode,
+  addressCountry:  siteConfig.business.addressCountry,
 
-  latitude:        41.28431,
-  longitude:       -96.00133,
+  latitude:        siteConfig.business.latitude,
+  longitude:       siteConfig.business.longitude,
 
   socialProfiles: [
     'https://x.com/omahatree',
@@ -69,8 +71,8 @@ export const COLORS = {
 } as const;
 
 export const TRUST_SIGNALS = {
-  certification:      'Certified Arborist Standards',
-  certificationShort: 'ISA Certified',
+  certification:      'Homeowner-focused tree care guidance',
+  certificationShort: 'Local tree care',
 } as const;
 
 export const BUSINESS_HOURS = {
@@ -78,8 +80,4 @@ export const BUSINESS_HOURS = {
   display:  'Daily 7am - 9pm',
 } as const;
 
-export const STATS = [
-  { end: 500,  suffix: '+', label: 'Trees Serviced'       },
-  { end: 3,    suffix: '+', label: 'Years in Omaha'       },
-  { end: 150,  suffix: '+', label: 'Risk Assessments Run' },
-] as const;
+export const STATS = [] as const;

@@ -43,14 +43,14 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 md:py-16 md:px-6">
+      <div className="container mx-auto px-4 py-8 md:py-16 md:px-6">
         {children}
-      </main>
+      </div>
 
       {/* Integrated Footer */}
       <footer className="border-t border-stone-200 bg-white py-16">
         <div className="container mx-auto px-4 text-center md:px-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Need Professional Expert Care?</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Need On-Site Tree Service?</p>
           <h2 className={`${dmSerif.className} mt-4 text-3xl text-forest md:text-4xl`}>
             Let&apos;s protect your property.
           </h2>
@@ -71,7 +71,7 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
           </div>
           
           <p className="mt-12 text-[10px] font-medium uppercase tracking-widest text-stone-400">
-            Certified Arborist · Licensed & Insured · Serving Omaha
+            Preliminary homeowner guidance · Local service requests · Serving the Omaha area
           </p>
         </div>
       </footer>

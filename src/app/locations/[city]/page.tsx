@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const display = cityDisplay[city]
   if (!display) return {}
   return {
-    title: `Tree Service in ${display}, NE | Midwest Roots`,
+    title: `Tree Service in ${display}, NE`,
     description: `Expert tree removal, pruning, and health assessment in ${display}, Nebraska. Serving all neighborhoods. Free on-site assessment — call Midwest Roots.`,
     alternates: { canonical: `${CONTACT.siteUrl}/locations/${city}` },
     openGraph: {

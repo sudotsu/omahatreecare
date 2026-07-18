@@ -51,7 +51,7 @@ The Nebraska Forest Service and Omaha Public Works both have resources on EAB tr
 
 ## What to Do Right Now
 
-1. **Identify whether you have an Ash.** Ash trees have compound leaves (7-11 leaflets per stem), opposite branching, and diamond-shaped bark ridges. If you're not sure, a certified arborist can confirm in minutes.
+1. **Check whether you may have an Ash.** Ash trees commonly have compound leaves, opposite branching, and diamond-pattern bark. A photo guide is not conclusive; use an independently credentialed professional when the identification affects treatment or removal.
 
 2. **Check for symptoms.** Look for D-shaped exit holes, vertical bark cracks, crown dieback from the top, or heavy woodpecker activity. Even one D-hole is a red flag.
 
@@ -100,7 +100,7 @@ None of these are fast, and none are permanent. They require consistent applicat
 
 ## What Professional Trunk Injection Does
 
-The most effective treatment is trunk injection of chelated iron directly into the tree's vascular system — bypassing the soil chemistry problem entirely. A certified arborist drills small ports into the trunk at the base and injects an iron solution under pressure. Within a few weeks, the tree greens up noticeably.
+Professional treatment options may include trunk injection, but suitability, product choice, timing, and expected response depend on the confirmed cause and tree condition. Seek an independently credentialed plant-health professional before treating.
 
 A single trunk injection typically lasts 2-3 years in Pin Oaks. It costs $150-$400 depending on tree size. For a tree that's already large and declining, this is often worth it. For a tree that's severely chlorotic and losing significant crown, the economics start to shift toward replacement.
 
@@ -215,7 +215,7 @@ Beyond topping bids, watch for these warning signs:
 
 **Spike use on live trees.** Climbing spikes drive into the wood and leave wounds at every step. They're appropriate for tree removal (where wound closure doesn't matter) and completely inappropriate on any live tree that's being pruned. Ask any company you're considering whether they use spikes. If they say yes for pruning work, pass.
 
-**No credentials.** A certified arborist has passed an exam from the International Society of Arboriculture (ISA) and follows ANSI A300 pruning standards. Ask for credentials. A legitimate company will provide them. Anyone with a chainsaw and a truck can offer tree service.
+**Unverifiable qualifications.** Ask who will assess the tree, what credential or training they rely on, how you can verify it, and what written work specification will guide the crew. A company should distinguish its service experience from any independent professional credential.
 
 **Price alone.** The cheapest bid usually reflects the cheapest work. Tree work requires training, proper equipment, and liability insurance. If a bid is dramatically lower than others, find out why.
 
@@ -225,11 +225,11 @@ If your concern is that a tree has grown too large — overhanging the house, bl
 
 Crown reduction makes cuts back to lateral branches that are at least 1/3 the diameter of the limb being removed. This preserves branch collars, maintains the tree's natural form, and distributes the reduction across many smaller cuts rather than a few large stubs. The result is a shorter, smaller tree that can close its wounds and remain structurally sound.
 
-Done correctly by a certified arborist, crown reduction can reduce a tree's height by 20-30% without the decay, water sprout problems, and structural liability that topping creates. It costs more than topping — skilled work always does — but it actually solves the problem rather than creating a bigger one 10 years later.
+Appropriate crown-reduction work is different from indiscriminate topping. The suitable amount and cut locations depend on species, structure, condition, and objectives, so substantial reduction should be specified by an independently qualified professional.
 
 ## What to Do If Your Tree Was Already Topped
 
-If you have a topped tree, the damage is done, but it can be managed. A certified arborist can assess which water sprouts to remove and which to allow to develop as permanent replacement limbs — a process called "restorative pruning." Over 10-15 years of careful management, some topped trees can be structurally rehabilitated.
+If a tree has been topped, an independently credentialed professional can assess whether staged restorative pruning is appropriate. Outcomes and timelines vary, and some trees may not be good candidates.
 
 If the tree has significant decay in the stub areas, structural assessment (including resistance testing for internal decay) will tell you whether the tree has a viable future or whether removal is the safer long-term choice.
 
@@ -265,7 +265,7 @@ Long, heavy branches on trees with weak union structure — Bradford Pears, Silv
 
 **Topped trees of any species** — the water sprouts that grow after topping are weakly attached and among the first things to fail in ice events.
 
-**Green Ash** — trees in late-stage EAB infestation lose structural integrity rapidly. A tree that looks like it's standing but is 40-50% dead inside can drop entire sections under ice load.
+**Green Ash** — advanced decline can make branches and stems brittle. Keep clear of hanging or failing wood and obtain an on-site assessment rather than estimating internal condition from appearance alone.
 
 ## What Proactive Deadwooding Actually Costs
 

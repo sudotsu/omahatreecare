@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const neighborhoodName = toTitleCase(neighborhood)
   return {
-    title: `Tree Service in ${neighborhoodName}, ${cityName} NE | Midwest Roots`,
-    description: `Expert tree care in ${neighborhoodName}. ${nd.meta_snippet} Free assessment from Midwest Roots — your local certified arborist.`,
+    title: `Tree Service in ${neighborhoodName}, ${cityName} NE`,
+    description: `Tree-service information for ${neighborhoodName}. ${nd.meta_snippet} Contact Midwest Roots to confirm service fit and availability.`,
     alternates: { canonical: `${CONTACT.siteUrl}/locations/${city}/${neighborhood}` },
     openGraph: {
       title: `Tree Service in ${neighborhoodName}, ${cityName} | Midwest Roots`,
@@ -134,7 +134,7 @@ export default async function NeighborhoodPage({ params }: PageProps) {
           {[
             { slug: 'tree-removal', name: 'Tree Removal', desc: 'Large, hazardous, and tight-access removals' },
             { slug: 'tree-trimming', name: 'Pruning & Deadwooding', desc: 'Structural pruning, no topping — ever' },
-            { slug: 'tree-health-assessment', name: 'Free Health Assessment', desc: 'Honest expert opinion, zero pressure' },
+            { slug: 'tree-health-assessment', name: 'Tree-Service Walk-Through', desc: 'Discuss visible concerns and estimate next steps' },
             { slug: 'winter-tree-prep', name: 'Winter Storm Prep', desc: 'Weight reduction before ice season' },
           ].map(({ slug, name, desc }) => (
             <Link

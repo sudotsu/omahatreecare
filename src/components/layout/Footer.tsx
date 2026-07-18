@@ -98,7 +98,7 @@ export function Footer() {
               About This Site
             </h4>
             <p className="text-sm mb-3 text-slate-400">
-              Free tree care resources and diagnostic tools for Omaha homeowners.
+              Free tree-care resources and preliminary screening tools for Omaha homeowners. <a href="/privacy" className="underline">Privacy</a>
             </p>
             <div className="flex flex-col gap-2">
               <p className="text-xs text-slate-400">

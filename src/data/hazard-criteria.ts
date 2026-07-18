@@ -1,5 +1,5 @@
 /**
- * Hazard assessment data — ISA Tree Risk Assessment framework
+ * Pure scoring thresholds for the preliminary homeowner hazard screening.
  * Risk score = likelihood × consequence (max 4 × 4 = 16)
  */
 

@@ -1,6 +1,5 @@
 "use client";
 
-import emailjs from "@emailjs/browser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle, Loader2, Send } from "lucide-react";
 import { useState } from "react";
@@ -8,18 +7,16 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { FloatingLabelInput } from "@/components/ui/FloatingLabelInput";
 import { CONTACT } from "@/lib/constants";
+import { submitLead } from "@/lib/leads/client";
 
 // ── Env vars (Next.js public prefix) ─────────────────────────────────────────
-const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "";
-const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
-const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "";
 
 const SERVICE_OPTIONS = [
   "Tree Removal",
   "Pruning / Trimming",
   "Stump Grinding",
   "Storm Damage",
-  "Plant Health / EAB",
+  "Other / Not Sure",
 ];
 
 // ── Zod schema ────────────────────────────────────────────────────────────────
@@ -52,8 +49,9 @@ export interface ContactFormProps {
 // ── Component ─────────────────────────────────────────────────────────────────
 export function ContactForm({ initialValues, trackingData }: ContactFormProps = {}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | "config_error" | null>(null);
-  const [missingKeys, setMissingKeys] = useState<string[]>([]);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [receiptId, setReceiptId] = useState("");
+  const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
 
   const {
     register,
@@ -66,47 +64,25 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
   });
 
   const onSubmit = async (data: FormValues) => {
-    // Validate EmailJS Config
-    const missing = [];
-    if (!SERVICE_ID) missing.push("NEXT_PUBLIC_EMAILJS_SERVICE_ID");
-    if (!TEMPLATE_ID) missing.push("NEXT_PUBLIC_EMAILJS_TEMPLATE_ID");
-    if (!PUBLIC_KEY) missing.push("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
-
-    if (missing.length > 0) {
-      setMissingKeys(missing);
-      setSubmitStatus("config_error");
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitStatus(null);
 
     try {
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        {
+      const result = await submitLead({
           user_name:    data.user_name,
           user_email:   data.user_email,
           user_phone:   data.user_phone,
           service_type: data.service_type?.trim() || "Not specified",
           message:      data.message?.trim()      || "No description provided",
           address:      data.address?.trim()      || "Not provided",
-          // Include tracking data in payload
           source:       trackingData?.source       ?? "direct",
-          city:         trackingData?.city         ?? "Not specified",
-          neighborhood: trackingData?.neighborhood ?? "Not specified",
-          risk_level:   trackingData?.risk         ?? "Not assessed",
-          risk_score:   trackingData?.score        ?? "N/A",
-          task_name:    trackingData?.task         ?? "Not specified",
-          archetype:    trackingData?.archetype    ?? "None",
-        },
-        PUBLIC_KEY
-      );
+          attribution: Object.fromEntries(Object.entries(trackingData ?? {}).filter((entry): entry is [string, string] => Boolean(entry[1]))),
+        }, idempotencyKey);
+      setReceiptId(result.receiptId!);
       setSubmitStatus("success");
       reset();
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Lead submission error:", err);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -122,10 +98,10 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
         </div>
         <h3 className="mb-2 text-2xl font-bold text-green-900">Message Received</h3>
         <p className="mb-6 text-green-800">
-          We have your contact info. We will call you shortly to discuss the details.
+          Your request was safely accepted. Receipt: <strong>{receiptId}</strong>. Response timing depends on current workload.
         </p>
         <button
-          onClick={() => setSubmitStatus(null)}
+          onClick={() => { setSubmitStatus(null); setIdempotencyKey(crypto.randomUUID()); }}
           className="font-semibold text-green-700 hover:underline"
         >
           Send another message
@@ -152,20 +128,8 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
         </div>
       )}
 
-      {submitStatus === "config_error" && (
-        <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
-          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
-          <div>
-            <h4 className="font-semibold text-red-900">Configuration Error</h4>
-            <p className="text-sm text-red-700">
-              Missing EmailJS configuration: <strong>{missingKeys.join(", ")}</strong>.
-              Please check your environment variables.
-            </p>
-          </div>
-        </div>
-      )}
-
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+        <p className="text-sm text-slate-600">By submitting, you ask Midwest Roots to respond to this request. <a className="underline" href="/privacy">Read the privacy and 12-month lead-retention terms.</a></p>
 
         {/* Row 1: Name + Phone */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -266,7 +230,7 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
           ) : (
             <>
               <Send className="h-5 w-5" />
-              Get My Free Estimate
+              Request an Estimate
             </>
           )}
         </button>

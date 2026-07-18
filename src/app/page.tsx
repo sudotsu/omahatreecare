@@ -9,25 +9,23 @@ import {
   DollarSign,
   CheckCircle2,
   ArrowRight,
-  ChevronRight,
   Activity,
 } from "lucide-react";
-import { NumberCounter } from "@/components/ui/NumberCounter";
 import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
 import { HazardAssessmentHeroCard } from "@/components/ui/HazardAssessmentHeroCard";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { dmSerif } from "@/lib/fonts";
-import { CONTACT, STATS } from "@/lib/constants";
+import { CONTACT } from "@/lib/constants";
 import { serviceIds, servicesData } from "@/data/services";
 
 export const metadata: Metadata = {
-  title: "Tree Hazard & Health Tools | Midwest Roots",
+  title: "Tree Hazard & Health Tools",
   description:
-    "Free arborist diagnostic tools for Omaha homeowners. Assess hazards, identify tree species, get cost estimates. No account required.",
+    "Five free tree-care screening and planning tools for Omaha homeowners. No account required.",
   openGraph: {
     title: "Tree Hazard & Health Tools | Midwest Roots",
     description:
-      "Free arborist diagnostic tools for Omaha homeowners. Assess hazards, identify tree species, get cost estimates. No account required.",
+      "Five free tree-care screening and planning tools for Omaha homeowners. No account required.",
     url: "https://omahatreecare.com",
     siteName: CONTACT.businessName,
     images: [{ url: "/images/og-image.jpg", width: 1200, height: 630 }],
@@ -38,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tree Hazard & Health Tools | Midwest Roots",
     description:
-      "Free arborist diagnostic tools for Omaha homeowners. No account required.",
+      "Five free tree-care screening and planning tools for Omaha homeowners. No account required.",
     images: ["/images/og-image.jpg"],
   },
 };
@@ -55,9 +53,9 @@ interface Tool {
 const TOOLS: Tool[] = [
   {
     id: "species",
-    label: "Species Identifier",
-    badge: "24+ Profiles",
-    desc: "Identify your exact tree species. Access comprehensive data on specific risks, structural tendencies, and specialized care needs for trees in the Omaha region.",
+    label: "Species Matching Guide",
+    badge: "10 Profiles",
+    desc: "Compare visible characteristics with ten common Omaha-area tree profiles, including care topics and warning signs. A match is not a confirmed identification.",
     cta: "Access Directory",
     Icon: TreeDeciduous,
   },
@@ -65,7 +63,7 @@ const TOOLS: Tool[] = [
     id: "diy",
     label: "DIY vs. Professional",
     badge: null,
-    desc: "Don't risk injury. Uses the traffic-light system to explicitly define what tasks are safe for homeowners (Green), what is risky (Yellow), and what requires heavy equipment (Red).",
+    desc: "Compare ground-based homeowner tasks with clear stop conditions and work that requires appropriately equipped help.",
     cta: "View Guide",
     Icon: Wrench,
   },
@@ -73,8 +71,8 @@ const TOOLS: Tool[] = [
     id: "ailments",
     label: "Common Diseases",
     badge: null,
-    desc: "Diagnose spotting, early leaf drop, and bark issues. Cross-reference your symptoms against the most active pests and fungal diseases currently spreading in Nebraska.",
-    cta: "Start Diagnosis",
+    desc: "Compare spotting, early leaf drop, and bark issues with common educational references, then learn when an on-site assessment is warranted.",
+    cta: "Explore Possible Causes",
     Icon: Bug,
   },
   {
@@ -112,7 +110,7 @@ export default function HomePage() {
             <div className="lg:col-span-6 flex flex-col items-start">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-sm font-bold text-white">
                 <Activity size={14} className="text-gold" />
-                Free Diagnostic Suite
+                Five Free Homeowner Tools
               </div>
 
               <h1
@@ -124,9 +122,9 @@ export default function HomePage() {
               </h1>
 
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/70">
-                Use our professional arborist tools to identify your tree
-                species, assess storm damage hazards, and know exactly what is
-                safe to DIY.
+                Use five homeowner tools to compare tree characteristics,
+                screen reported warning signs, plan broad costs, and recognize
+                when an on-site or independently credentialed review is appropriate.
               </p>
 
               <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2.5">
@@ -150,37 +148,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── STATS — continue dark ──────────────────────────────────────── */}
-      <section
-        id="section-stats"
-        className="border-t border-white/5 bg-forest-deep py-16"
-      >
-        <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <dl className="grid grid-cols-3 divide-x divide-white/10">
-            {STATS.map((stat) => (
-              <div
-                key={stat.label}
-                className="flex flex-col-reverse items-center px-6 text-center"
-              >
-                <dt className="mt-2 text-xs font-bold uppercase tracking-widest text-gold">
-                  {stat.label}
-                </dt>
-                <dd className="text-[clamp(2.4rem,4vw,3.5rem)] font-black leading-none tabular-nums text-[#f0ede8]">
-                  <NumberCounter end={stat.end} suffix={stat.suffix} />
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-
       {/* ─── TOOLS HUB ───────────────────────────────────────────────────── */}
       <section id="section-tools" className="bg-cream py-20">
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-12 flex items-end justify-between border-b border-slate-200 pb-6">
             <div>
               <span className="mb-2 block text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
-                Diagnostic Library
+                Tree-Care Reference Library
               </span>
               <h2
                 className={`${dmSerif.className} text-[clamp(2rem,3.5vw,3rem)] text-forest`}
@@ -234,10 +208,10 @@ export default function HomePage() {
             <h2
               className={`${dmSerif.className} text-[clamp(2rem,3.5vw,3rem)] text-[#1a2e1c]`}
             >
-              Full-Service Tree Care
+              Tree-Service Inquiries
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-[#3d3020]">
-              Serving Omaha and surrounding communities since 2023.
+              Contact Midwest Roots to confirm service fit and current availability in the Omaha area.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -277,11 +251,10 @@ export default function HomePage() {
             <h2
               className={`${dmSerif.className} text-[clamp(2rem,3.5vw,3rem)] text-[#f0ede8]`}
             >
-              Get a Free Estimate
+              Request an Estimate
             </h2>
             <p className="mt-3 text-[#98bdb5]">
-              No obligation. We&apos;ll call you back within 2 hours during
-              business hours.
+              A server receipt confirms acceptance; response timing depends on current workload.
             </p>
           </div>
           {/* Light card so ContactForm renders correctly without restyling it */}

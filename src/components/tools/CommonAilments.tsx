@@ -266,8 +266,7 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-amber-900 mb-3">Common Tree Problems</h2>
         <p className="text-amber-800 leading-relaxed">
-          Identify common diseases, pests, and environmental issues affecting trees in the Omaha area.
-          Early detection is key to successful treatment.
+          Compare visible signs with common educational reference entries. Similar symptoms can have different causes; this tool does not identify or diagnose your tree.
         </p>
       </div>
 
@@ -361,7 +360,7 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
 
       {/* Ailment Detail */}
       {selectedAilment && (
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div data-tool-result="true" className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className={`bg-gradient-to-r ${getSeverityGradient(selectedAilment.severity)} text-white p-6`}>
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
@@ -409,8 +408,9 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
             </div>
 
             <div className="bg-green-50 border-2 border-green-200 rounded-xl p-5">
-              <h3 className="text-xl font-bold text-green-900 mb-3">Treatment Options</h3>
-              <p className="text-green-900 leading-relaxed">{selectedAilment.treatment}</p>
+              <h3 className="text-xl font-bold text-green-900 mb-3">Topics to Discuss After Identification</h3>
+              <p className="mb-2 text-sm font-semibold text-green-900">Do not treat from this entry alone. Confirm the cause, product label, timing, and applicator requirements with an independently qualified plant-health professional.</p>
+              <p className="text-green-900 leading-relaxed">Reference summary: {selectedAilment.treatment}</p>
             </div>
 
             <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-5">
@@ -426,7 +426,7 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
             {selectedAilment.severity === 'critical' || selectedAilment.severity === 'serious' ? (
               <div className="bg-red-50 border-2 border-red-300 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-red-900 mb-4 text-center">
-                  This Issue Requires Professional Help
+                  These Warning Signs Warrant On-Site Review
                 </h3>
                 <div className="space-y-3">
                   <a
@@ -437,7 +437,7 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
                     <div className="text-sm font-normal text-green-100 mt-1">{CONTACT.phone} — Available 7 days a week</div>
                   </a>
                   <a
-                    href={`mailto:${CONTACT.email}?subject=Urgent%20-%20Tree%20Problem%20from%20Diagnostic%20Tool&body=I%20think%20my%20tree%20has:%20${encodeURIComponent(selectedAilment.name)}%0A%0ASymptoms%20I'm%20seeing:%20%0A%0AMy%20address:%20%0ABest%20phone%20to%20reach%20me:%20`}
+                    href={`mailto:${CONTACT.email}?subject=Urgent%20-%20Tree%20Warning%20Signs&body=The%20reference%20entry%20I%20read%20was:%20${encodeURIComponent(selectedAilment.name)}%0A%0AVisible%20signs:%20%0A%0AMy%20address:%20%0ABest%20phone%20to%20reach%20me:%20`}
                     className="block w-full px-6 py-4 bg-amber-700 text-white rounded-xl font-semibold hover:bg-amber-800 transition-colors text-center"
                   >
                     Email with Photos of Your Tree
@@ -449,10 +449,10 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
                 <h3 className="text-lg font-bold text-blue-900 mb-3 text-center">Questions About Treatment?</h3>
                 <div className="space-y-2">
                   <a
-                    href={`mailto:${CONTACT.email}?subject=Question%20About%20Tree%20Health%20from%20Diagnostic%20Tool`}
+                    href={`mailto:${CONTACT.email}?subject=Question%20About%20Tree%20Health%20Reference`}
                     className="block w-full px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors text-center"
                   >
-                    Get Expert Advice
+                    Ask About Next Steps
                   </a>
                   <a
                     href={`tel:${CONTACT.phoneRaw}`}
@@ -473,11 +473,9 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
           <div className="flex gap-3">
             <AlertCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" />
             <div className="text-blue-900">
-              <h3 className="font-bold mb-2">When in Doubt, Get Expert Help</h3>
+              <h3 className="font-bold mb-2">When in Doubt, Seek Qualified Identification</h3>
               <p className="text-sm leading-relaxed">
-                Accurate diagnosis is critical for effective treatment. Misidentifying a problem can waste money
-                and time while the real issue gets worse. Professional arborists have the training and experience
-                to correctly identify problems and recommend the most effective solutions.
+                Different problems can produce similar signs. Do not apply pesticides, injections, fertilizers, or irreversible pruning from this reference alone. Use an independently credentialed plant-health professional when the decision affects treatment, removal, quarantine, or safety.
               </p>
             </div>
           </div>
