@@ -1,0 +1,315 @@
+{
+  "schema_version": 2,
+  "project": "sudotsu/omahatreecare",
+  "teardown_path": "project-teardown",
+  "teardown_audited_revision": "3909e4efed404566a1b2fac3490ee9e0103a64a9",
+  "implementation_start_revision": "b1f3c8867c8512e1e84be1c00648b86d46bc0084",
+  "implementation_end_revision": "36308f5ce92b7c97334f31b39e4a1521a76d49be",
+  "revision_status": "partial",
+  "generated_at": "2026-07-17T22:20:00-05:00",
+  "existing_work_reconciled": true,
+  "findings": [
+    {
+      "id": "TRUST-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 1,
+      "reason": "Current-head scans and rendered pages confirmed first-party credential implications; public copy now describes Midwest Roots without an ISA credential and uses independent credential referrals only.",
+      "files_changed": ["src/app/layout.tsx", "src/app/blog/page.tsx", "src/app/blog/[slug]/page.tsx", "src/app/tools/layout.tsx", "src/app/tools/page.tsx", "src/data/services.ts", "src/lib/constants.ts"],
+      "acceptance_results": [
+        {"criterion": "No page, metadata, schema, manifest, or social copy implies an active ISA credential", "status": "passed", "evidence": "Current source scan has no Midwest Roots certified-arborist claim; manifests were removed; rendered metadata was inspected."},
+        {"criterion": "Any third-party credential includes holder, credential, verification link, and role", "status": "passed", "evidence": "No specific third-party credential is published; generic referrals explicitly say independently credentialed and make no holder claim."}
+      ],
+      "verification": ["case-insensitive material-claim scan", "production build", "Chrome rendered DOM review"], "notes": ["No active ISA credential is attributed to the company or owner."]
+    },
+    {
+      "id": "CONV-001", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 2,
+      "reason": "The current head no longer mounted FastQuoteWidget, but the legacy GET receipt remained public and was contained. Final production once-only receipt remains external CONV-003 evidence.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "No success state is reachable without acknowledged persistence or delivery", "status": "passed", "evidence": "Legacy GET renders Finish Your Estimate Request; form success requires a first-party receipt."},
+        {"criterion": "Until durable lead acceptance exists, the fast-quote path routes into the real contact flow and never promises follow-up from ZIP/service alone", "status": "passed", "evidence": "Dormant widget routes to /contact and legacy URL states ZIP/service alone do not submit."},
+        {"criterion": "A labeled test lead arrives once with source, service, ZIP, contact, timestamp, and receipt ID after final closure", "status": "blocked", "evidence": "Local accepted/duplicate behavior passed, but destination arrival requires production store/provider/inbox access."},
+        {"criterion": "Direct GET cannot display a receipt", "status": "passed", "evidence": "Playwright direct-GET regression passed."}
+      ],
+      "verification": ["Playwright legacy GET regression", "local labeled accepted/duplicate API checks"], "notes": ["Containment files are attributed to CONV-002 because blocked records cannot list changed files under schema v2."]
+    },
+    {
+      "id": "CONV-002", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 3,
+      "reason": "Browser EmailJS was replaced by a server-owned schema, durable file-backed receipt/idempotency store, pending queue state, authenticated delivery attempt, and fail-closed UI.",
+      "files_changed": ["src/app/api/leads/route.ts", "src/lib/leads/schema.ts", "src/lib/leads/store.ts", "src/lib/leads/client.ts", "src/components/forms/ContactForm.tsx", "src/components/forms/MultiStepContactForm.tsx", "src/components/forms/FastQuoteWidget.tsx", "src/app/free-tree-assessment-omaha/page.tsx", "package.json", "package-lock.json"],
+      "acceptance_results": [
+        {"criterion": "Submission has a stable receipt ID", "status": "passed", "evidence": "201 response and persisted UUID receipt verified locally."},
+        {"criterion": "Duplicate requests are idempotent", "status": "passed", "evidence": "Same idempotency key returned the same receipt with duplicate=true; Vitest covers durable duplicate lookup."},
+        {"criterion": "Provider outage produces queued/retry or explicit failure", "status": "passed", "evidence": "Accepted record remains delivery=pending on absent/failed webhook with operator signal; missing durable store returns homeowner-safe 503."},
+        {"criterion": "No provider key is shipped to browsers", "status": "passed", "evidence": "@emailjs/browser and NEXT_PUBLIC EmailJS configuration were removed; delivery token is server-only."}
+      ],
+      "verification": ["9 Vitest tests", "local 201/200 duplicate/503/413 fault checks", "typecheck", "build", "Playwright defining journeys"], "notes": ["Production durable storage and retry scheduling remain release configuration gates, not hidden success claims."]
+    },
+    {
+      "id": "SEC-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 4,
+      "reason": "Next.js was patched from 16.2.1 to 16.2.6, clearing applicable high/critical direct production advisories.",
+      "files_changed": ["package.json", "package-lock.json"],
+      "acceptance_results": [
+        {"criterion": "npm audit has no applicable high/critical production advisory", "status": "passed", "evidence": "Final npm audit --omit=dev reports four moderate findings and zero high/critical."},
+        {"criterion": "Build and defining workflows pass on patched version", "status": "passed", "evidence": "60-page Next 16.2.6 production build and three Playwright defining tests passed."}
+      ],
+      "verification": ["npm audit --omit=dev", "npm run build", "npm run test:e2e"], "notes": ["Next's nested PostCSS advisory remains moderate and has no nonbreaking upstream resolution in the installed release."]
+    },
+    {
+      "id": "TEST-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 5,
+      "reason": "Vitest characterization/failure coverage, production-server Playwright journeys, and a pull-request quality workflow were added without weakening the unsafe historical contract.",
+      "files_changed": ["src/data/hazard-criteria.test.ts", "src/lib/leads/leads.test.ts", "tests/e2e/homeowner-tools.spec.ts", "playwright.config.ts", ".github/workflows/quality.yml", "package.json", "package-lock.json", ".gitignore"],
+      "acceptance_results": [
+        {"criterion": "Characterization coverage captures the false-receipt, active hazard scoring, current range selection, and photo-mailto behavior before risky replacement", "status": "passed", "evidence": "Retained teardown evidence established historical behaviors; regression tests now prove direct GET containment, scoring thresholds, broad range UI, and manual mail without a file input."},
+        {"criterion": "CI runs deterministic tests for five tools and the lead lifecycle", "status": "passed", "evidence": "Quality workflow runs Vitest plus production Playwright; local Playwright exercised all five tool routes."},
+        {"criterion": "Tests cover invalid, boundary, failure, duplicate, and mobile navigation paths", "status": "passed", "evidence": "Schema size/contact boundaries, no-store 503, duplicate receipt, oversize 413, mobile menu/skip/overflow passed."},
+        {"criterion": "No test weakens or normalizes an unsafe or misleading current contract", "status": "passed", "evidence": "Tests assert false receipt absent, hazard uncertainty present, dangerous vehicle-pull copy absent, and photo picker absent."}
+      ],
+      "verification": ["npm test: 9 passed", "npm run test:e2e: 3 passed", "workflow syntax inspected"], "notes": ["Firefox/WebKit and real AT stay under A11Y-001 rather than being overstated as CI coverage."]
+    },
+    {
+      "id": "TRUST-002", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 6,
+      "reason": "Owner selected rewrite/remove; guarantees, licensing/insurance, equipment, experience, volume, quantified performance, and response promises were removed or bounded.",
+      "files_changed": ["src/app/page.tsx", "src/app/contact/page.tsx", "src/app/locations/[city]/[neighborhood]/page.tsx", "src/data/services.ts", "src/data/blog/posts.ts", "src/components/ui/HazardAssessmentHeroCard.tsx", "src/components/forms/ContactForm.tsx", "src/components/forms/MultiStepContactForm.tsx"],
+      "acceptance_results": [
+        {"criterion": "Owner supplies evidence or selects replace/remove for every claims-inventory row mapped to TRUST-002", "status": "passed", "evidence": "Owner explicitly selected retain only with evidence or rewrite/remove; current scan and rendered review found no retained unsupported mapped claim."},
+        {"criterion": "Insurance/licensing claims identify jurisdiction, status, and verification where applicable", "status": "passed", "evidence": "No public insurance or licensing claim remains."},
+        {"criterion": "Guarantee terms are written, bounded, and available before purchase", "status": "passed", "evidence": "Unsupported zero-damage and implied outcome guarantees were removed; no guarantee is offered."},
+        {"criterion": "Quantified statistics and response promises have an owner, source period, and update cadence", "status": "passed", "evidence": "Unsubstantiated statistics, since-2023 claim, operating hours, response times, and performance percentages were removed rather than retained."}
+      ],
+      "verification": ["material claim scan", "Chrome DOM adversarial review", "full diff review"], "notes": ["Authority-heavy prior copy was treated as implementation debt, not owner intent."]
+    },
+    {
+      "id": "SAFE-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 7,
+      "reason": "Questions, scoring, result depth, urgency, safety guidance, next steps, and conversion remain; conclusions now report only the homeowner's answers and limitations.",
+      "files_changed": ["src/components/tools/PremiumHazardAssessment.tsx", "src/data/hazard-criteria.ts", "src/data/hazard-criteria.test.ts", "src/components/ui/HazardAssessmentHeroCard.tsx"],
+      "acceptance_results": [
+        {"criterion": "Owner records option A (conservative screener) or option B (credential-reviewed rebuild); recommendation is option A unless an active independent credential holder accepts review responsibility", "status": "passed", "evidence": "Owner selected conservative preliminary homeowner screening."},
+        {"criterion": "No “official,” “certified method,” “diagnosis,” or ISA-framework claim", "status": "passed", "evidence": "Active component and public copy scan contain none of these authority claims."},
+        {"criterion": "Emergency red flags give keep-away and appropriate emergency/utility instructions", "status": "passed", "evidence": "Extreme result directs keep-away, no work beneath tree, emergency services for immediate danger, and utility for line contact."},
+        {"criterion": "All results state limits and route formal assessment to qualified help", "status": "passed", "evidence": "Every score narrative is tied to reported signs; low result explicitly does not establish soundness; CTA routes on-site help."}
+      ],
+      "verification": ["hazard threshold tests", "Playwright maximum-score journey and focus", "390x844 Chrome screenshot"], "notes": ["Independent professional review remains a release-strengthening gate, not a claim that review occurred."]
+    },
+    {
+      "id": "SAFE-002", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 8,
+      "reason": "Ladder, chainsaw, vehicle pull, felling, overhead cutting, and utility instructions were removed/reclassified, but named independent safety review has not occurred.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "No homeowner instruction recommends ladder, chainsaw, vehicle pulling, climbing, overhead cutting, or work near utilities", "status": "passed", "evidence": "Current DIY tool prohibits or reclassifies these tasks; Playwright asserts vehicle-pull copy absent."},
+        {"criterion": "Safety copy has named outside review date/owner", "status": "blocked", "evidence": "No independently qualified reviewer has been engaged; the site and artifact preserve this release gate."}
+      ],
+      "verification": ["source safety-term review", "Playwright DIY journey"], "notes": ["Safety edits are attributed to TRUST-002/CONTENT-002 because schema-blocked findings cannot list changed files."]
+    },
+    {
+      "id": "CONTENT-001", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 9,
+      "reason": "UI now states educational possibilities, uncertainty, no diagnosis, and urgent referral, but material biological/treatment entries still require authoritative sourcing and dated professional review.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Each material biological/treatment claim has source and review date", "status": "blocked", "evidence": "Independent sources and a qualified review owner/date are not available for every retained entry."},
+        {"criterion": "Outputs use uncertainty language and distinguish identification from diagnosis", "status": "passed", "evidence": "Species matching and ailment reference explicitly deny confirmed identification/diagnosis and warn not to treat from an entry alone."},
+        {"criterion": "Urgent triggers route appropriately without asserting diagnosis", "status": "passed", "evidence": "Urgent CTA refers to warning signs/reference entry and requests on-site review without saying the ailment was diagnosed."}
+      ],
+      "verification": ["Playwright species and ailment journeys", "authority copy scan"], "notes": ["Related UI changes are attributed to TRUST-002/CONTENT-002 while professional content review remains blocked."]
+    },
+    {
+      "id": "PRIV-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 10,
+      "reason": "Owner supplied retention/access/deletion choices; a linked privacy notice covers current first-party records and honest manual-photo email with no reuse opt-in.",
+      "files_changed": ["src/app/privacy/page.tsx", "src/components/forms/ContactForm.tsx", "src/components/forms/MultiStepContactForm.tsx", "src/components/layout/Footer.tsx", "src/components/tools/SpeciesIdentifier.tsx", "README.md", "OPERATIONS_SOP.md"],
+      "acceptance_results": [
+        {"criterion": "Owner records a specific retention duration for first-party lead records", "status": "passed", "evidence": "12 months for unconverted leads is encoded, displayed, and documented."},
+        {"criterion": "Owner defines routine deletion, deletion-request handling, and any legal/operational hold exception", "status": "passed", "evidence": "Privacy page and runbook define delete/anonymize, request steps, and bounded active-customer/dispute/security/business-record holds."},
+        {"criterion": "Owner names the roles or individuals permitted to access stored lead records and the access-review cadence", "status": "passed", "evidence": "Owner and explicitly authorized operators only; changes and quarterly review documented."},
+        {"criterion": "Privacy page is linked at every collection point", "status": "passed", "evidence": "Both forms link it and global footer exposes it; photo workflow collects no file or consent."},
+        {"criterion": "Photo reuse is unchecked and separable", "status": "passed", "evidence": "Reuse checkbox was removed; sending email explicitly grants no reuse."},
+        {"criterion": "Retention/deletion contact and processors are named", "status": "passed", "evidence": "Privacy page names owner contact and current Vercel hosting/analytics; future owner-selected delivery/email provider must be privately documented before configuration."}
+      ],
+      "verification": ["privacy route build", "collection-point source review", "Playwright manual-photo check"], "notes": ["No claim of compliance with a named legal regime is made."]
+    },
+    {
+      "id": "SEO-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 11,
+      "reason": "Page titles no longer embed the global brand template redundantly; each tool has generated accurate title, description, and canonical metadata.",
+      "files_changed": ["src/app/layout.tsx", "src/app/page.tsx", "src/app/tools/page.tsx", "src/app/tools/[tool]/page.tsx", "src/app/blog/page.tsx", "src/app/blog/[slug]/page.tsx", "src/app/services/[service]/page.tsx", "src/app/locations/[city]/page.tsx", "src/app/locations/[city]/[neighborhood]/page.tsx", "src/app/contact/page.tsx", "src/app/accessibility/page.tsx"],
+      "acceptance_results": [
+        {"criterion": "Rendered titles are unique, accurate, and not double-branded", "status": "passed", "evidence": "Title sources were normalized to rely on the root template; rendered contact title and build routes inspected."},
+        {"criterion": "All five tools have canonical and accurate descriptions", "status": "passed", "evidence": "generateMetadata maps all five slugs to bounded titles/descriptions/canonicals."}
+      ],
+      "verification": ["60-page build", "rendered head inspection", "metadata source review"], "notes": []
+    },
+    {
+      "id": "SEO-002", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 12,
+      "reason": "Owner chose to keep useful local coverage and obvious credential assertions were removed, but query/lead evidence and owner substantiation for every unique local assertion are unavailable.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Owner decides retain/consolidate based on query and lead evidence", "status": "blocked", "evidence": "Retain-useful direction is recorded, but Search Console/query/lead evidence was not available to select consolidation candidates."},
+        {"criterion": "Every retained page has verified unique content and clear conversion path", "status": "blocked", "evidence": "Routes build and conversion links exist; full owner verification of each local assertion remains unavailable."}
+      ],
+      "verification": ["24 neighborhood and 8 city pages built", "representative source review"], "notes": ["No mass deletion was performed; baseline neighborhood work was preserved."]
+    },
+    {
+      "id": "A11Y-001", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 13,
+      "reason": "Skip link, one-H1 tool route semantics, and active hazard/cost focus were repaired; Firefox/WebKit and real NVDA/VoiceOver gates remain unavailable.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "One H1 per tool route", "status": "passed", "evidence": "Dynamic route supplies one slug-specific H1; production pages built."},
+        {"criterion": "Skip link is first focusable control and visible on focus", "status": "passed", "evidence": "Playwright mobile keyboard test proves first Tab focuses the skip link."},
+        {"criterion": "Results receive programmatic focus or appropriate live announcement", "status": "passed", "evidence": "Hazard and cost headings receive focus; result containers expose live/result markers."},
+        {"criterion": "Supported Firefox/WebKit journeys verify keyboard entry, focus order, result announcement, and recovery without engine-specific failure", "status": "blocked", "evidence": "Only installed Chrome was executable; Firefox/WebKit were not available."},
+        {"criterion": "At least one real NVDA or VoiceOver pass verifies the defining tool and lead journeys; unavailable engines or assistive technology remain an explicit release gate", "status": "blocked", "evidence": "No real NVDA/VoiceOver environment was available; accessibility page and handoff retain the gate."}
+      ],
+      "verification": ["Playwright Chromium keyboard/focus/mobile checks", "semantic source review"], "notes": ["Accessibility edits are attributed to SEO-001/TEST-001 while this evidence-complete finding remains blocked."]
+    },
+    {
+      "id": "UX-001", "approval": "approved", "revalidation": "confirmed", "disposition": "retained", "sequence": 14,
+      "reason": "No-account access, five routes, phone fallback, interaction depth, and narrow/wide responsive behavior were preserved.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Core tools remain usable without account", "status": "passed", "evidence": "All five production routes returned 200 and defining Playwright journeys required no account."},
+        {"criterion": "390px and 1440px layouts have no horizontal overflow", "status": "passed", "evidence": "390px Playwright overflow assertion passed; 390 screenshot and 1440 Chrome render completed."},
+        {"criterion": "Direct call fallback remains available", "status": "passed", "evidence": "Navigation, forms, tool footer, and failure copy retain tel links."}
+      ],
+      "verification": ["five-route HTTP checks", "Playwright Chrome", "390x844 screenshot", "1440x900 render"], "notes": []
+    },
+    {
+      "id": "OPS-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 15,
+      "reason": "README now matches Next 16.2.6, server lead configuration, safe failure, PWA removal, and explicit production gates without claiming the private runbook is complete.",
+      "files_changed": ["README.md", "OPERATIONS_SOP.md", "package.json", "next.config.ts", "src/app/field-estimate/page.tsx", "src/app/globals.css", "src/components/ServiceWorkerCleanup.tsx", "src/sw.ts", "public/manifest.json", "public/field-estimate-manifest.json", "tsconfig.json"],
+      "acceptance_results": [
+        {"criterion": "README framework and dependency versions match the audited or replacement lockfile", "status": "passed", "evidence": "README names Next 16.2.6 and Node 22; lock/build confirm."},
+        {"criterion": "Setup instructions name required configuration without exposing secrets", "status": "passed", "evidence": "Durable directory, delivery URL/token, and analytics ID are named with blank examples only."},
+        {"criterion": "Documentation explicitly states the current lead delivery limitation and points to the controlled verification gate", "status": "passed", "evidence": "README says production storage/routing/delivery test is required; runbook provides labeled drill."},
+        {"criterion": "Immediate documentation corrections do not claim the later operational runbook is complete", "status": "passed", "evidence": "Private owners/destinations, retry automation, and drills are explicit release gates."}
+      ],
+      "verification": ["documentation behavior cross-check", "build and dependency inspection"], "notes": []
+    },
+    {
+      "id": "CONV-003", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 16,
+      "reason": "Production provider/account/destination evidence is unavailable; only local labeled acceptance, duplicate, failure, and redaction behavior was exercised.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "One labeled test per distinct transport uses “PROJECT TEARDOWN TEST — DO NOT CONTACT”", "status": "blocked", "evidence": "Local API test used the prefix; no production transport was submitted without configured private authorization/evidence."},
+        {"criterion": "Sanitized evidence records timestamp, source route, provider acknowledgment, destination, received fields, attribution, and duplicate count", "status": "blocked", "evidence": "Local receipt/source/attribution/duplicate evidence exists; production provider/destination evidence does not."},
+        {"criterion": "A controlled provider/configuration failure produces a homeowner-safe failure and an operator-visible signal", "status": "passed", "evidence": "No-store returns 503 safe copy; delivery failure remains pending and logs structured receipt signal."},
+        {"criterion": "No production customer data or secrets are copied into evidence", "status": "passed", "evidence": "Only obvious placeholder local test data was used; no production data/secrets entered artifacts."}
+      ],
+      "verification": ["local labeled 201 and duplicate 200", "local no-store 503", "operator log inspection"], "notes": ["Exact production destination and provider remain private release configuration."]
+    },
+    {
+      "id": "AN-001", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 17,
+      "reason": "First-party accepted record is documented and implemented as truth; qualification is measurable; analytics emits PII-free tool start/complete/CTA attribution only.",
+      "files_changed": ["src/lib/leads/schema.ts", "src/lib/leads/store.ts", "src/components/tools/ToolAnalytics.tsx", "src/app/tools/[tool]/page.tsx", "src/app/contact/ContactFormWrapper.tsx", "README.md", "OPERATIONS_SOP.md"],
+      "acceptance_results": [
+        {"criterion": "Owner names one analytics source of truth and the reconciliation role of every secondary analytics system", "status": "passed", "evidence": "Accepted first-party record is receipt/qualification truth; Vercel/optional GA are attribution/funnel only."},
+        {"criterion": "Owner defines a qualified lead with measurable minimum fields, service-area fit, service intent, contactability, exclusions, and the event/state that records qualification", "status": "passed", "evidence": "Schema/isQualifiedLead encode return contact, plausible need, nearby address, accepted state, and test/spam/duplicate exclusions."},
+        {"criterion": "Event dictionary and funnel documented", "status": "passed", "evidence": "Runbook documents tool_start/tool_complete/tool_cta and accepted/delivery states."},
+        {"criterion": "All five tools emit start/complete/CTA with no PII", "status": "passed", "evidence": "Shared wrapper applies to all five slugs and emits only event plus tool slug."},
+        {"criterion": "Accepted and routed lead states are measurable", "status": "passed", "evidence": "Records store acceptedAt, qualification, receipt, source/attribution, and pending/acknowledged delivery."}
+      ],
+      "verification": ["qualification unit tests", "all-five Playwright journey", "record inspection"], "notes": []
+    },
+    {
+      "id": "UX-002", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 18,
+      "reason": "File selection/preview/reuse/success state was removed and replaced by explicit mail-draft instructions requiring the homeowner to attach and send.",
+      "files_changed": ["src/components/tools/SpeciesIdentifier.tsx", "src/app/privacy/page.tsx"],
+      "acceptance_results": [
+        {"criterion": "Owner records manual-email containment or real-upload implementation", "status": "passed", "evidence": "Owner selected temporary manual email containment."},
+        {"criterion": "Selecting photos never implies transfer unless bytes are actually acknowledged by the receiving system", "status": "passed", "evidence": "No file input exists; copy says website does not upload or attach."},
+        {"criterion": "Success appears only after acknowledged receipt or is labeled only as “mail draft opened”", "status": "passed", "evidence": "No photo success state exists; opening draft is explicitly not sending."},
+        {"criterion": "Selected files are not cleared before acknowledged transfer or explicit cancellation", "status": "not-applicable", "evidence": "Manual path has no website file selection or in-memory files."},
+        {"criterion": "Photo reuse remains separate, unchecked, and recorded only when a photo is actually received", "status": "passed", "evidence": "No reuse control or grant exists; email text and privacy page state sending grants no reuse."}
+      ],
+      "verification": ["Playwright asserts mail link and zero file inputs", "source review"], "notes": ["Future upload lifecycle requirements remain documented, not implemented."]
+    },
+    {
+      "id": "PROD-002", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 19,
+      "reason": "Owner approved broad numeric planning ranges without blocking on missing job data; UI is truthful now, but original calibration/source/back-test criteria remain unavailable.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Owner selects calibrated-range or nonnumeric/qualified-guide path", "status": "passed", "evidence": "Owner selected retained numeric broad qualified planning ranges with future calibration."},
+        {"criterion": "Every retained number has source period, sample size, geography, included/excluded scope, and review owner", "status": "blocked", "evidence": "UI discloses uncalibrated status, Omaha area, exclusions, and owner, but source period/sample do not exist."},
+        {"criterion": "A back-test against representative completed quotes meets an owner-approved error band", "status": "blocked", "evidence": "Representative redacted jobs, quotes, and approved error band were unavailable."},
+        {"criterion": "UI never labels a four-bucket lookup personalized, firm, professionally accurate, or market-validated without evidence", "status": "passed", "evidence": "Playwright confirms Broad Planning Range and Not a quote; authority labels/precise typical anchor removed."}
+      ],
+      "verification": ["Playwright cost journey", "pricing copy/source review"], "notes": ["Cost edits are attributed to TRUST-002/CONTENT-002 while calibration remains an external future strengthening gate per owner direction."]
+    },
+    {
+      "id": "CONTENT-002", "approval": "approved", "revalidation": "confirmed", "disposition": "implemented", "sequence": 20,
+      "reason": "Public count now matches ten active profiles, tools use screening/matching/range/reference language, and unsupported treatment/equipment/availability selections were removed or bounded as inquiries.",
+      "files_changed": ["src/app/page.tsx", "src/app/tools/page.tsx", "src/components/tools/SpeciesIdentifier.tsx", "src/components/tools/CostEstimator.tsx", "src/components/tools/CommonAilments.tsx", "src/components/tools/DIYvsProGuide.tsx", "src/components/tools/EmailCaptureModal.tsx", "src/components/forms/MultiStepContactForm.tsx", "src/components/forms/ContactForm.tsx", "src/data/services.ts", "src/data/ailments.ts", "src/data/species.ts", "src/data/diy-guide.ts", "src/data/cost-ranges.ts", "src/components/tools/HazardAssessment.tsx"],
+      "acceptance_results": [
+        {"criterion": "All public counts equal the active canonical dataset count", "status": "passed", "evidence": "Homepage states 10 profiles and active species component has ten; contradictory 12/24+ claims removed."},
+        {"criterion": "Tool names and descriptions state lookup/screening/range behavior rather than exact identification or diagnosis", "status": "passed", "evidence": "Metadata, hub, homepage, and results use matching, screening, broad planning, and reference terminology."},
+        {"criterion": "Owner confirms every marketed service, equipment claim, geographic availability, and response capability", "status": "passed", "evidence": "Owner approved capable local tree-service positioning; specific equipment, treatment, guarantee, response-time, and unbounded availability claims were removed."},
+        {"criterion": "Unavailable services cannot be selected or advertised", "status": "passed", "evidence": "Health/EAB treatment selection removed; storm is an inquiry with availability confirmation; specialized equipment is no longer promised."}
+      ],
+      "verification": ["material claim scan", "all-five Playwright journey", "dead duplicated dataset/import search"], "notes": ["Unused duplicate data and dormant hazard implementation were removed; the active five tools and field estimate remain."]
+    },
+    {
+      "id": "SEC-002", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 21,
+      "reason": "Application CSP/frame/referrer/permissions/content-type headers and server size/schema/honeypot/idempotency/rate controls were added, but distributed production abuse behavior, HSTS, provider quotas, and deployed responses remain external.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Automated duplicate/burst tests are bounded and produce observable operator signals without blocking ordinary accessible use", "status": "blocked", "evidence": "Duplicate test and in-process 8/10-minute burst boundary exist; distributed production behavior/alert routing is unverified."},
+        {"criterion": "Production responses verify the approved CSP, frame-ancestors or equivalent, Referrer-Policy, Permissions-Policy, X-Content-Type-Options, and HSTS where TLS ownership permits", "status": "blocked", "evidence": "Local production server captured all except HSTS; deployed TLS-owned response capture is unavailable."},
+        {"criterion": "Lead payload size, schema, idempotency, and logging/redaction boundaries have failure-path tests", "status": "passed", "evidence": "Vitest and HTTP checks cover contact/size/idempotency/no-store; structured logs omit contact fields."},
+        {"criterion": "Provider-side protections and quotas are documented but not treated as substitutes for application controls", "status": "blocked", "evidence": "Runbook states application boundaries; actual selected provider quota/protection is not configured or known."}
+      ],
+      "verification": ["local response header capture", "413/503/duplicate checks", "schema/store tests"], "notes": ["Security files are attributed to CONV-002/SEC-001 while deployed verification remains blocked."]
+    },
+    {
+      "id": "TECH-001", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 22,
+      "reason": "A bounded default Midwest Roots configuration and pure tested hazard/lead rules exist, duplicated unused datasets were removed, but all five interactive rule sets are not yet extracted into a tenant-neutral router-free kernel.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Owner records build-boundary-now or defer-until-local-stability; commercialization remains a separate PROD-001 decision", "status": "passed", "evidence": "Owner selected boundary now and separately deferred commercialization."},
+        {"criterion": "No tool kernel imports Midwest Roots constants or Next router", "status": "blocked", "evidence": "Pure hazard/lead modules meet this, but species/DIY/ailment/cost rules remain embedded in UI adapters that import routing/business context."},
+        {"criterion": "Rules are pure and covered by boundary tests", "status": "blocked", "evidence": "Hazard and lead rules are pure/tested; equivalent extraction/tests for all remaining tools are incomplete."},
+        {"criterion": "Tenant adapter owns branding, locale, leads, analytics, and disclosures", "status": "passed", "evidence": "siteConfig separates identity, routing/retention, service areas, pricing status, analytics, tool copy, authority, and feature flags with Midwest Roots defaults."}
+      ],
+      "verification": ["configuration source review", "dependency/import search", "hazard/lead tests"], "notes": ["No tenancy, billing, generalized SaaS, or managed-embed runtime was added."]
+    },
+    {
+      "id": "PWA-001", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 23,
+      "reason": "Serwist, service worker source/dependencies, both install manifests, and metadata links were removed; one-release cleanup unregisters workers/deletes caches, but deployed stale-client proof is external.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Decision recorded", "status": "passed", "evidence": "Owner explicitly chose remove PWA installation/offline/cache/update complexity."},
+        {"criterion": "If retained, install/offline/update tested in supported browsers; if removed, no stale registrations remain", "status": "blocked", "evidence": "New build has no SW registration/output and cleanup runs in Chrome; deployed /sw.js and previously installed client control have not been observed after deployment."}
+      ],
+      "verification": ["Serwist/manifest/source scan", "production build", "Chrome cleanup component render"], "notes": ["PWA changes are attributed to OPS-001/CONTENT-002 while production stale-control clearance remains a release gate."]
+    },
+    {
+      "id": "PROD-001", "approval": "approved", "revalidation": "changed", "disposition": "implemented", "sequence": 24,
+      "reason": "Owner chose local stabilization and one later paid managed-embed pilot only; broad platform infrastructure was excluded and pilot thresholds/ownership prerequisites documented.",
+      "files_changed": ["README.md", "src/lib/site-config.ts"],
+      "acceptance_results": [
+        {"criterion": "Owner chooses local-only, licensed embed, managed SaaS, or deferral", "status": "passed", "evidence": "Owner chose stabilize local now, then preserve one paid managed-embed pilot path."},
+        {"criterion": "Pilot success thresholds and liability/content ownership are written before build", "status": "passed", "evidence": "README requires named buyer/fee/support/content-liability/update/lead/privacy/exit owners and defines paid journey/lead integrity/renewal threshold before pilot build."}
+      ],
+      "verification": ["scope/diff review confirms no SaaS, tenancy, billing, or pilot runtime"], "notes": []
+    },
+    {
+      "id": "OPS-002", "approval": "approved", "revalidation": "blocked", "disposition": "blocked", "sequence": 25,
+      "reason": "A complete executable public runbook structure exists, but private backup owner/destinations/provider accounts and production drills cannot be completed without owner operational access.",
+      "files_changed": [],
+      "acceptance_results": [
+        {"criterion": "Runbook names system owner, backup owner, destinations, provider accounts, and escalation path without embedding secrets", "status": "blocked", "evidence": "System owner/roles/escalation method are defined; backup owner, selected provider, and private destinations still require owner configuration."},
+        {"criterion": "A labeled test-lead drill and provider-outage drill can be completed from the runbook", "status": "passed", "evidence": "Runbook gives exact prefix, evidence fields, success/pending/no-store cases, restoration, and once-only proof steps."},
+        {"criterion": "Retention, deletion, duplicate reconciliation, alert thresholds, rollback, and provider rotation are documented", "status": "passed", "evidence": "All topics have explicit procedures and safe rollback boundary."},
+        {"criterion": "Runbook version facts match the deployed system", "status": "blocked", "evidence": "Facts match current branch implementation; no deployment has occurred and production provider facts are unavailable."}
+      ],
+      "verification": ["runbook-to-source cross-check", "local labeled and outage drills"], "notes": ["No secrets or production customer records are present."]
+    }
+  ],
+  "convergence_findings": [
+    {"id": "REV-001", "title": "Rendered homepage retained unsupported authority and response claims", "source": "Playwright rendered-DOM adversarial review", "severity": "high", "status": "fixed", "reason": "The first browser snapshot exposed professional-arborist, exact-safety, since-2023, and two-hour callback claims missed by the initial scan; all were replaced with bounded wording.", "files_changed": ["src/app/page.tsx", "src/components/ui/HazardAssessmentHeroCard.tsx", "src/components/forms/ContactForm.tsx"], "verification": ["repeat material-claim scan", "Playwright three-test pass"]},
+    {"id": "REV-002", "title": "Failed acceptance could leave an empty idempotency lock", "source": "manual lead-store fault and concurrency review", "severity": "medium", "status": "fixed", "reason": "An error after exclusive key creation could leave an empty key and make future duplicates fail indefinitely; failure now removes the lock and concurrent empty locks fail safely.", "files_changed": ["src/lib/leads/store.ts", "src/lib/leads/leads.test.ts"], "verification": ["Vitest store suite passed", "local 503 and duplicate checks passed"]},
+    {"id": "REV-003", "title": "Vitest discovered Playwright specifications", "source": "full-suite verification", "severity": "medium", "status": "fixed", "reason": "The initial npm test glob loaded Playwright specs in Vitest; the unit script now excludes tests/e2e and each runner passes independently.", "files_changed": ["package.json"], "verification": ["npm test passed 9 tests", "npm run test:e2e passed 3 tests"]}
+  ],
+  "final_state": {
+    "artifact_relationship": "artifact-only-descendant",
+    "review_convergence": "passed",
+    "blocking_convergence_findings": 0,
+    "merge_readiness": "not-ready",
+    "release_readiness": "not-ready",
+    "delivery": {"committed": "verified", "pushed": "not-performed", "pull_request_updated": "not-performed", "merged": "not-performed"}
+  }
+}
