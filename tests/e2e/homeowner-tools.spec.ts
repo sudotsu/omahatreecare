@@ -6,6 +6,28 @@ test("legacy receipt URL cannot display success without accepted contact data", 
   await expect(page.getByText("Request Received!", { exact: true })).toHaveCount(0);
 });
 
+test("production lead acceptance fails closed without database configuration", async ({ request }) => {
+  const response = await request.post("/api/leads", {
+    data: {
+      idempotencyKey: "playwright-missing-database-0001",
+      user_name: "PROJECT TEARDOWN TEST",
+      user_email: "test@example.com",
+      user_phone: "",
+      service_type: "Tree Removal",
+      message: "PROJECT TEARDOWN TEST — DO NOT CONTACT",
+      address: "Omaha NE",
+      source: "playwright",
+      attribution: {},
+      website: "",
+    },
+  });
+  const body = await response.json();
+
+  expect(response.status()).toBe(503);
+  expect(body.receiptId).toBeUndefined();
+  expect(body.error).toMatch(/call us instead/i);
+});
+
 test("all five homeowner tools retain defining interactions", async ({ page }) => {
   await page.goto("/tools/hazard");
   await page.getByRole("button", { name: /Lifting Soil or Major Splits/ }).click();

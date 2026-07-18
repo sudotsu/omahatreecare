@@ -17,20 +17,40 @@ npm run build
 
 ## Required runtime configuration
 
-The lead API deliberately fails closed unless a durable, access-restricted directory is configured:
+Production lead acceptance uses PostgreSQL through `DATABASE_URL`. The client is initialized lazily and uses a small process-local connection pool suitable for a Vercel function connecting through a provider pooler:
 
 ```dotenv
-LEAD_STORE_DIR=/absolute/path/on-durable-storage
+DATABASE_URL=postgresql://application-role:secret@pooled-host/database?sslmode=require
+LEAD_STORAGE_ADAPTER=postgres
 LEAD_DELIVERY_WEBHOOK_URL=
 LEAD_DELIVERY_TOKEN=
 NEXT_PUBLIC_GA_MEASUREMENT_ID=
 ```
 
-`LEAD_STORE_DIR` must survive deployments and instance replacement. A default Vercel function filesystem is not durable and must not be used as the production store. Until production storage, routing, destination, and labeled delivery tests are complete, the site is not release-ready for lead capture. Do not put secrets or production lead data in logs, commits, or revision artifacts.
+`DATABASE_URL` must be a server-only Vercel environment variable; never prefix it with `NEXT_PUBLIC_`. Prefer the database provider's transaction-pooled connection string and require TLS. Production rejects the filesystem adapter even when `LEAD_STORE_DIR` is present. Missing or invalid database configuration therefore returns the homeowner-safe phone fallback without a receipt.
+
+Local development and deterministic tests may use the filesystem adapter:
+
+```dotenv
+LEAD_STORAGE_ADAPTER=filesystem
+LEAD_STORE_DIR=/absolute/local/path
+```
+
+### Database migration
+
+Apply [migrations/001_create_lead_records.sql](migrations/001_create_lead_records.sql) once with a migration role before enabling production lead capture:
+
+```bash
+psql "$DATABASE_URL" --set ON_ERROR_STOP=1 --file migrations/001_create_lead_records.sql
+```
+
+Use a separate least-privilege application role for the deployed `DATABASE_URL`. It needs `USAGE` on schema `public` and `SELECT`, `INSERT`, and `UPDATE` on `public.lead_records`; it does not need `CREATE`, `ALTER`, `DROP`, or `DELETE`. Configure `DATABASE_URL` separately for Vercel Preview and Production, deploy, then run labeled acceptance, duplicate, concurrent-duplicate, delivery-failure, and destination-receipt checks in the intended environment. Do not put credentials or production lead data in logs, commits, or revision artifacts.
+
+Production persistence is implemented but not yet operationally verified. Until the migration, deployment configuration, storage, routing, destination, and labeled delivery tests are complete, the site is not release-ready for lead capture.
 
 ## Lead lifecycle
 
-- `/api/leads` validates size and schema, applies a honeypot and burst limit, and writes an idempotent first-party record before returning a receipt.
+- `/api/leads` validates size and schema, applies a honeypot and burst limit, and writes an idempotent first-party record before returning a receipt. PostgreSQL enforces idempotency with a unique SHA-256 digest; the raw client key is not stored.
 - The accepted first-party record—not an analytics event—is the source of truth for receipt and qualification.
 - Unconverted records carry a 12-month delete-or-anonymize date. Access is restricted to the owner and explicitly authorized operators.
 - Records begin as `delivery: pending`. The server attempts the configured authenticated webhook with the receipt as its idempotency key and marks provider acknowledgment; failed delivery stays pending and emits an operator-visible signal. Production retry automation remains a release gate.
@@ -40,7 +60,7 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=
 
 The hazard tool is a preliminary screening based on self-reported observations, not an on-site inspection or diagnosis. Numeric cost output is an uncalibrated broad planning range, not a quote. The photo workflow opens a draft only; the homeowner must attach and send files manually.
 
-Business identity, routing policy, service area, pricing status, analytics identifiers, tool copy, authority disclaimers, and bounded feature flags live in `src/lib/site-config.ts`. Midwest Roots remains the default. This is a reusable boundary, not tenancy or SaaS infrastructure.
+Business identity, routing policy, service area, pricing status, analytics identifiers, tool copy, authority disclaimers, and bounded feature flags live in `src/lib/site-config.ts`. Midwest Roots remains the default. This bounded configuration work is complete for the local website, but the tool rules are not fully tenant-neutral or licensing-ready. Extracting all five rule sets into router-free kernels is deferred and remains required before a managed-embed pilot or broader productization.
 
 PWA/service-worker support has been removed. The product remains an ordinary responsive, install-free website. A deployment operator must verify that `/sw.js` is no longer served and that previously installed service workers no longer control clients before release.
 

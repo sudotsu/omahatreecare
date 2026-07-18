@@ -9,7 +9,7 @@ export default defineConfig({
     launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {},
   },
   webServer: {
-    command: "LEAD_STORE_DIR=/tmp/omahatreecare-e2e-leads npm run start -- -p 3200",
+    command: "DATABASE_URL= LEAD_STORE_DIR= LEAD_STORAGE_ADAPTER= npm run start -- -p 3200",
     url: "http://127.0.0.1:3200",
     reuseExistingServer: false,
   },

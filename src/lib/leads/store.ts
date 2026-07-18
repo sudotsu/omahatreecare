@@ -1,85 +1,63 @@
-import { createHash, randomUUID } from "node:crypto";
-import { mkdir, open, readFile, unlink, writeFile } from "node:fs/promises";
-import path from "node:path";
 import type { LeadInput } from "./schema";
-import { isQualifiedLead } from "./schema";
+import { FileSystemLeadStore } from "./store-filesystem";
+import { createPostgresLeadStore } from "./store-postgres";
+import type { LeadRecord, LeadStore } from "./store-contract";
 
-export interface LeadRecord {
-  receiptId: string;
-  acceptedAt: string;
-  deleteOrAnonymizeAfter: string;
-  qualification: "qualified" | "unqualified";
-  delivery: "pending" | "acknowledged";
-  lead: Omit<LeadInput, "website" | "idempotencyKey">;
+export type { LeadAcceptance, LeadRecord, LeadStore } from "./store-contract";
+
+interface RuntimeEnvironment {
+  NODE_ENV?: string;
+  DATABASE_URL?: string;
+  LEAD_STORE_DIR?: string;
+  LEAD_STORAGE_ADAPTER?: string;
 }
 
-function storeRoot() {
-  const configured = process.env.LEAD_STORE_DIR?.trim();
-  if (!configured) throw new Error("LEAD_STORE_DIR is not configured");
-  return path.resolve(configured);
-}
+export function createLeadStoreForEnvironment(env: RuntimeEnvironment): LeadStore {
+  const adapter = env.LEAD_STORAGE_ADAPTER?.trim().toLowerCase();
+  const databaseUrl = env.DATABASE_URL?.trim();
+  const fileRoot = env.LEAD_STORE_DIR?.trim();
 
-function keyDigest(key: string) {
-  return createHash("sha256").update(key).digest("hex");
-}
-
-export async function acceptLead(input: LeadInput): Promise<{ record: LeadRecord; duplicate: boolean }> {
-  const root = storeRoot();
-  const records = path.join(root, "records");
-  const keys = path.join(root, "idempotency");
-  await mkdir(records, { recursive: true, mode: 0o700 });
-  await mkdir(keys, { recursive: true, mode: 0o700 });
-
-  const keyPath = path.join(keys, `${keyDigest(input.idempotencyKey)}.txt`);
-  let keyHandle;
-  try {
-    keyHandle = await open(keyPath, "wx", 0o600);
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
-    const receiptId = (await readFile(keyPath, "utf8")).trim();
-    if (!receiptId) throw new Error("Lead acceptance is already in progress");
-    const record = JSON.parse(await readFile(path.join(records, `${receiptId}.json`), "utf8")) as LeadRecord;
-    return { record, duplicate: true };
+  if (env.NODE_ENV === "production") {
+    if (adapter && adapter !== "postgres") throw new Error("Production lead storage must use the postgres adapter");
+    if (!databaseUrl) throw new Error("DATABASE_URL is required for production lead storage");
+    return createPostgresLeadStore(databaseUrl);
   }
 
-  const acceptedAt = new Date();
-  const deleteAfter = new Date(acceptedAt);
-  deleteAfter.setUTCMonth(deleteAfter.getUTCMonth() + 12);
-  const receiptId = randomUUID();
-  const { website: _website, idempotencyKey: _key, ...lead } = input;
-  const record: LeadRecord = {
-    receiptId,
-    acceptedAt: acceptedAt.toISOString(),
-    deleteOrAnonymizeAfter: deleteAfter.toISOString(),
-    qualification: isQualifiedLead(input) ? "qualified" : "unqualified",
-    delivery: "pending",
-    lead,
-  };
-
-  try {
-    await writeFile(path.join(records, `${receiptId}.json`), JSON.stringify(record, null, 2), { encoding: "utf8", mode: 0o600, flag: "wx" });
-    await keyHandle.writeFile(receiptId, "utf8");
-    await keyHandle.close();
-    return { record, duplicate: false };
-  } catch (error) {
-    await keyHandle.close().catch(() => undefined);
-    await unlink(keyPath).catch(() => undefined);
-    throw error;
+  if (adapter === "postgres" || (!adapter && databaseUrl)) {
+    if (!databaseUrl) throw new Error("DATABASE_URL is required for the postgres lead-storage adapter");
+    return createPostgresLeadStore(databaseUrl);
   }
+  if (adapter && adapter !== "filesystem") throw new Error(`Unsupported lead-storage adapter: ${adapter}`);
+  if (!fileRoot) throw new Error("LEAD_STORE_DIR is required for local filesystem lead storage");
+  return new FileSystemLeadStore(fileRoot);
 }
 
-export async function deliverLead(record: LeadRecord): Promise<LeadRecord> {
+let runtimeStore: LeadStore | undefined;
+
+export function getLeadStore() {
+  runtimeStore ??= createLeadStoreForEnvironment(process.env);
+  return runtimeStore;
+}
+
+export async function acceptLead(input: LeadInput, store: LeadStore = getLeadStore()) {
+  return store.accept(input);
+}
+
+export async function deliverLead(
+  record: LeadRecord,
+  store: LeadStore = getLeadStore(),
+  fetchImpl: typeof fetch = fetch,
+): Promise<LeadRecord> {
   const url = process.env.LEAD_DELIVERY_WEBHOOK_URL?.trim();
   const token = process.env.LEAD_DELIVERY_TOKEN?.trim();
   if (!url || !token || record.delivery === "acknowledged") return record;
-  const response = await fetch(url, {
+
+  const response = await fetchImpl(url, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`, "Idempotency-Key": record.receiptId },
     body: JSON.stringify(record),
     signal: AbortSignal.timeout(8_000),
   });
   if (!response.ok) throw new Error(`delivery provider returned ${response.status}`);
-  const updated = { ...record, delivery: "acknowledged" as const };
-  await writeFile(path.join(storeRoot(), "records", `${record.receiptId}.json`), JSON.stringify(updated, null, 2), { encoding: "utf8", mode: 0o600 });
-  return updated;
+  return store.markDeliveryAcknowledged(record.receiptId);
 }
