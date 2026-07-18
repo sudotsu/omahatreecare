@@ -11,8 +11,8 @@
 **Merge readiness:** not-ready
 **Release readiness:** not-ready
 **Committed:** verified
-**Pushed:** not-performed
-**Pull request updated:** not-performed
+**Pushed:** verified
+**Pull request updated:** verified
 **Merged:** not-performed
 **Revision validator status:** passed
 
@@ -32,7 +32,7 @@
 
 ## Review-source coverage
 
-Manual review covered the full baseline-to-working-tree diff, form→API→schema→store→delivery interaction, all public claim scans, PWA removal, configuration, tests, and documentation. Rendered Chrome review found and fixed `REV-001`; store fault review found/fixed `REV-002`; full-suite review found/fixed `REV-003`. No PR existed during this marker; current-head PR comments, reviews, and CI must be refreshed after push. No external review source is claimed passed.
+Manual review covered the full baseline-to-product-endpoint diff, form→API→schema→store→delivery interaction, all public claim scans, PWA removal, configuration, tests, and documentation. Rendered Chrome review found and fixed `REV-001`; store fault review found/fixed `REV-002`; full-suite review found/fixed `REV-003`. Draft PR #83 was read at head `4f929351…`: no submitted reviews, Vercel's comment reported the omahatreecare preview building, Quality was in progress, Vercel Preview Comments passed, and an unrelated winter-defense status passed. No pending source is claimed passed.
 
 ## Baseline reconciliation
 
@@ -136,7 +136,7 @@ The revision remains partial and not merge-ready because TECH-001 has incomplete
 
 ## Delivery state
 
-Product code is committed at `36308f5ce92b7c97334f31b39e4a1521a76d49be` on `codex/project-revision-midwest-roots`. The artifact is the only planned descendant. At this marker nothing is pushed, no PR is updated, and nothing is merged, deployed, migrated, published, or released. These facts must be refreshed after the authorized push/draft-PR sequence.
+Product code is committed at `36308f5ce92b7c97334f31b39e4a1521a76d49be`; artifact commit `4f929351c2af52df8bbf8ff8128e77cd676833d1` was pushed on `codex/project-revision-midwest-roots`, and draft PR #83 was created and read back at that head. CI and the omahatreecare preview were pending at the read. Nothing is merged, deployed to production, migrated, published, or released.
 
 ## Validator result
 

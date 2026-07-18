@@ -310,6 +310,6 @@
     "blocking_convergence_findings": 0,
     "merge_readiness": "not-ready",
     "release_readiness": "not-ready",
-    "delivery": {"committed": "verified", "pushed": "not-performed", "pull_request_updated": "not-performed", "merged": "not-performed"}
+    "delivery": {"committed": "verified", "pushed": "verified", "pull_request_updated": "verified", "merged": "not-performed"}
   }
 }

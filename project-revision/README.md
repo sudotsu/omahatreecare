@@ -46,8 +46,8 @@
 | State | Value |
 | --- | --- |
 | Committed | `verified` |
-| Pushed | `not-performed` |
-| Pull request updated | `not-performed` |
+| Pushed | `verified` |
+| Pull request updated | `verified` |
 | Merged | `not-performed` |
 
 ## Interpretation
