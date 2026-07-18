@@ -74,7 +74,7 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
           <h2 className="text-2xl font-bold text-amber-900">What Happens Next</h2>
 
           <div className="flex items-start gap-4">
-            <span className="flex-shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+            <span className="shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
             <div>
               <p className="font-semibold text-amber-900">Complete the contact form</p>
               <p className="text-amber-700 text-sm mt-1">A receipt appears only after our server safely accepts your request.</p>
@@ -82,7 +82,7 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
           </div>
 
           <div className="flex items-start gap-4">
-            <span className="flex-shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+            <span className="shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
             <div>
               <p className="font-semibold text-amber-900">Keep the receipt ID</p>
               <p className="text-amber-700 text-sm mt-1">It identifies the accepted record if you need to follow up.</p>
@@ -90,7 +90,7 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
           </div>
 
           <div className="flex items-start gap-4">
-            <span className="flex-shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+            <span className="shrink-0 w-8 h-8 bg-[#11261B] text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
             <div>
               <p className="font-semibold text-amber-900">Midwest Roots reviews the request</p>
               <p className="text-amber-700 text-sm mt-1">Scheduling and on-site estimating depend on the job, location, and current availability.</p>

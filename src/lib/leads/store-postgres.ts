@@ -93,13 +93,18 @@ export class PostgresLeadStore implements LeadStore {
   async markDeliveryAcknowledged(receiptId: string) {
     const client = await this.pool.connect();
     try {
+      await client.query("begin");
+      await client.query("set local statement_timeout = '5s'");
       const result = await client.query<LeadRow>(`
         update public.lead_records
         set delivery_state = 'acknowledged'
         where receipt_id = $1 and delivery_state = 'pending'
         returning ${RETURNING_COLUMNS}
       `, [receiptId]);
-      if (result.rows[0]) return toRecord(result.rows[0]);
+      if (result.rows[0]) {
+        await client.query("commit");
+        return toRecord(result.rows[0]);
+      }
 
       const existing = await client.query<LeadRow>(`
         select ${RETURNING_COLUMNS}
@@ -107,7 +112,11 @@ export class PostgresLeadStore implements LeadStore {
         where receipt_id = $1
       `, [receiptId]);
       if (!existing.rows[0]) throw new Error("Accepted lead record was not found");
+      await client.query("commit");
       return toRecord(existing.rows[0]);
+    } catch (error) {
+      await client.query("rollback").catch(() => undefined);
+      throw error;
     } finally {
       client.release();
     }

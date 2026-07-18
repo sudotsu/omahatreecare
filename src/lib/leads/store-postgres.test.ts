@@ -114,4 +114,32 @@ describe("PostgresLeadStore", () => {
     await expect(new PostgresLeadStore(pool).accept(validLead())).rejects.toThrow("database unavailable");
     expect(pool.byDigest.size).toBe(0);
   });
+
+  it("rolls back and releases the client when delivery acknowledgement times out", async () => {
+    const queries: string[] = [];
+    let released = false;
+    const pool: PostgresPool = {
+      async connect() {
+        return {
+          async query<R extends QueryResultRow = QueryResultRow>(text: string) {
+            const sql = text.replace(/\s+/g, " ").trim().toLowerCase();
+            queries.push(sql);
+            if (sql.startsWith("update public.lead_records")) throw new Error("canceling statement due to statement timeout");
+            return result([]) as QueryResult<R>;
+          },
+          release() { released = true; },
+        };
+      },
+    };
+
+    await expect(new PostgresLeadStore(pool).markDeliveryAcknowledged("11111111-1111-4111-8111-111111111111"))
+      .rejects.toThrow("statement timeout");
+    expect(queries).toEqual([
+      "begin",
+      "set local statement_timeout = '5s'",
+      expect.stringMatching(/^update public\.lead_records/),
+      "rollback",
+    ]);
+    expect(released).toBe(true);
+  });
 });

@@ -9,7 +9,13 @@ export async function submitLead(lead: LeadSubmission, idempotencyKey: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ...lead, idempotencyKey, website: "" }),
   });
-  const result = await response.json() as { receiptId?: string; error?: string };
+  let result: { receiptId?: string; error?: string } = {};
+  try {
+    const parsed: unknown = await response.json();
+    if (parsed && typeof parsed === "object") result = parsed as typeof result;
+  } catch {
+    // Provider and proxy failures may return HTML or an empty body.
+  }
   if (!response.ok || !result.receiptId) throw new Error(result.error || "Lead request was not accepted");
   return result;
 }

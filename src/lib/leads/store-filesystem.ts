@@ -1,10 +1,13 @@
-import { mkdir, open, readFile, unlink, writeFile } from "node:fs/promises";
+import { mkdir, open, readFile, unlink, writeFile, type FileHandle } from "node:fs/promises";
 import path from "node:path";
 import type { LeadInput } from "./schema";
 import { createLeadRecord, idempotencyDigest, type LeadAcceptance, type LeadRecord, type LeadStore } from "./store-contract";
 
 export class FileSystemLeadStore implements LeadStore {
-  constructor(private readonly root: string) {
+  constructor(
+    private readonly root: string,
+    private readonly finalizeKey: (handle: FileHandle, receiptId: string) => Promise<void> = (handle, receiptId) => handle.writeFile(receiptId, "utf8"),
+  ) {
     if (!root.trim()) throw new Error("Filesystem lead-store root is required");
   }
 
@@ -31,13 +34,17 @@ export class FileSystemLeadStore implements LeadStore {
     }
 
     const record = createLeadRecord(input);
+    const recordPath = this.recordPath(record.receiptId);
+    let recordCreated = false;
     try {
-      await writeFile(this.recordPath(record.receiptId), JSON.stringify(record, null, 2), { encoding: "utf8", mode: 0o600, flag: "wx" });
-      await keyHandle.writeFile(record.receiptId, "utf8");
+      await writeFile(recordPath, JSON.stringify(record, null, 2), { encoding: "utf8", mode: 0o600, flag: "wx" });
+      recordCreated = true;
+      await this.finalizeKey(keyHandle, record.receiptId);
       await keyHandle.close();
       return { record, duplicate: false };
     } catch (error) {
       await keyHandle.close().catch(() => undefined);
+      if (recordCreated) await unlink(recordPath).catch(() => undefined);
       await unlink(keyPath).catch(() => undefined);
       throw error;
     }

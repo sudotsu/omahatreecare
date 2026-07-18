@@ -79,7 +79,7 @@ const tasks: Task[] = [
       'Arrange an appropriately equipped service provider',
     ],
     tools: [],
-    whenToCall: "If branches are over head height, near power lines, or you're uncomfortable",
+    whenToCall: 'Keep clear of the work area and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Small Stump Removal',
@@ -92,7 +92,7 @@ const tasks: Task[] = [
       'Request a site-specific removal method',
     ],
     tools: [],
-    whenToCall: "For stumps over 10\", near utilities, or if uncomfortable with equipment",
+    whenToCall: 'Keep clear of the stump and arrange an appropriately equipped, qualified stump-service provider',
   },
   {
     name: 'Small Dead Tree Removal (under 15 feet)',
@@ -105,7 +105,7 @@ const tasks: Task[] = [
       'Arrange an on-site work plan',
     ],
     tools: [],
-    whenToCall: 'If any structures, fences, or obstacles in fall zone, or tree is leaning',
+    whenToCall: 'Keep clear of the dead tree and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Any Work Over 20 Feet High',
@@ -118,7 +118,7 @@ const tasks: Task[] = [
       'Difficult to judge branch weight and direction of fall from ground',
     ],
     tools: [],
-    whenToCall: 'Always call a professional — never attempt high tree work yourself',
+    whenToCall: 'Keep clear of elevated tree work and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Trees Near Power Lines',
@@ -131,7 +131,7 @@ const tasks: Task[] = [
       'The utility can explain its responsibility and the safe next step for the specific line',
     ],
     tools: [],
-    whenToCall: 'Always — contact utility company first, then professional tree service',
+    whenToCall: 'Keep clear, contact the utility first, and arrange an appropriately equipped, qualified provider only as the utility directs',
   },
   {
     name: 'Large Tree Removal (over 15 feet)',
@@ -144,7 +144,7 @@ const tasks: Task[] = [
       'Heavy equipment may be needed for large trees',
     ],
     tools: [],
-    whenToCall: 'Always — tree removal is extremely dangerous and complex',
+    whenToCall: 'Keep clear of the tree and arrange an appropriately equipped, qualified tree-service provider',
   },
   {
     name: 'Storm-Damaged Trees',
@@ -157,7 +157,7 @@ const tasks: Task[] = [
       'Root balls can flip back when cutting',
     ],
     tools: [],
-    whenToCall: 'Keep clear and contact emergency services, the utility, or an appropriately equipped tree professional as the situation requires',
+    whenToCall: 'Keep clear and contact emergency services, the utility, or an appropriately equipped, qualified tree-service provider as the situation requires',
   },
   {
     name: 'Disease Diagnosis & Treatment',
@@ -170,7 +170,7 @@ const tasks: Task[] = [
       'An independently credentialed professional can help distinguish treatable problems from removal cases',
     ],
     tools: [],
-    whenToCall: 'When tree shows unusual symptoms, discoloration, or decline',
+    whenToCall: 'Keep clear of dead or hanging parts and arrange an appropriately qualified plant-health professional before treatment',
   },
 ]
 

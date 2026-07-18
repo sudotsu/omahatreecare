@@ -6,6 +6,7 @@ import { DIYvsProGuide } from '@/components/tools/DIYvsProGuide'
 import { PremiumHazardAssessment } from '@/components/tools/PremiumHazardAssessment'
 import { SpeciesIdentifier } from '@/components/tools/SpeciesIdentifier'
 import { ToolAnalytics } from '@/components/tools/ToolAnalytics'
+import { CONTACT } from '@/lib/constants'
 
 const TOOL_MAP = {
   hazard:   PremiumHazardAssessment,
@@ -41,7 +42,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ tool: string }> }): Promise<Metadata> {
   const { tool } = await params
   if (!isToolSlug(tool)) return {}
-  return { title: TOOL_TITLES[tool], description: TOOL_DESCRIPTIONS[tool], alternates: { canonical: `/tools/${tool}` } }
+  return { title: TOOL_TITLES[tool], description: TOOL_DESCRIPTIONS[tool], alternates: { canonical: `${CONTACT.siteUrl}/tools/${tool}` } }
 }
 
 export default async function ToolPage({

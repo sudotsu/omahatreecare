@@ -81,15 +81,15 @@ export default async function ContactPage() {
               <h3 className="font-bold text-amber-900 mb-4">What Happens Next</h3>
               <ol className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                  <span className="shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                   <p className="text-amber-800 text-sm">Response timing depends on current workload and service availability.</p>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                  <span className="shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                   <p className="text-amber-800 text-sm">Midwest Roots confirms service fit, availability, and whether an on-site estimate is appropriate.</p>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                  <span className="shrink-0 w-6 h-6 bg-[#11261B] text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                   <p className="text-amber-800 text-sm">The written estimate should identify the proposed service scope; diagnosis and formal risk assessment are separate professional services.</p>
                 </li>
               </ol>

@@ -28,6 +28,33 @@ test("production lead acceptance fails closed without database configuration", a
   expect(body.error).toMatch(/call us instead/i);
 });
 
+test("accepted form receipts move focus to one status confirmation", async ({ page }) => {
+  await page.route("**/api/leads", async (route) => {
+    await route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: JSON.stringify({ receiptId: "11111111-1111-4111-8111-111111111111", acceptedAt: new Date(0).toISOString(), duplicate: false }),
+    });
+  });
+
+  await page.goto("/");
+  await page.locator("#user_name").fill("Homeowner");
+  await page.locator("#user_phone").fill("4025550101");
+  await page.locator("#user_email").fill("owner@example.com");
+  await page.getByRole("button", { name: "Request an Estimate", exact: true }).click();
+  await expect(page.getByRole("status")).toBeFocused();
+
+  await page.goto("/contact");
+  await page.getByRole("button", { name: /Removal/ }).click();
+  await expect(page.getByRole("button", { name: /Continue/ })).toBeVisible();
+  await page.getByRole("button", { name: /Continue/ }).click();
+  await page.locator("#user_name").fill("Homeowner");
+  await page.locator("#user_email").fill("owner@example.com");
+  await page.locator("#user_phone").fill("4025550101");
+  await page.getByRole("button", { name: /Request My Estimate/ }).click();
+  await expect(page.getByRole("status")).toBeFocused();
+});
+
 test("all five homeowner tools retain defining interactions", async ({ page }) => {
   await page.goto("/tools/hazard");
   await page.getByRole("button", { name: /Lifting Soil or Major Splits/ }).click();
@@ -47,6 +74,11 @@ test("all five homeowner tools retain defining interactions", async ({ page }) =
   await expect(page.locator("input[type=file]")).toHaveCount(0);
   await expect(page.getByText("Fatal Risk: 99% mortality", { exact: false })).toHaveCount(0);
   await expect(page.getByText("More concerns to review", { exact: true }).first()).toBeVisible();
+  await page.getByRole("button", { name: /Ash Trees/ }).click();
+  await page.getByRole("button", { name: "Start Hazard Assessment" }).click();
+  await expect(page.getByRole("dialog", { name: "Review This Tree's Warning Signs" })).toBeVisible();
+  await expect(page.getByText("Critical Species Risk", { exact: true })).toHaveCount(0);
+  await expect(page.getByText(/does not establish that your tree is hazardous/i)).toBeVisible();
 
   await page.goto("/tools/diy");
   await expect(page.getByText("Professional Only — Do Not Attempt")).toBeVisible();

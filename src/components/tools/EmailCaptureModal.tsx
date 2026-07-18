@@ -39,19 +39,19 @@ export default function EmailCaptureModal({ isOpen, onClose }: Props) {
             </a>
 
             <div className="mt-6 pt-6 border-t border-slate-200">
-              <p className="text-sm font-semibold text-slate-700 mb-3">You&apos;ll receive:</p>
+              <p className="text-sm font-semibold text-slate-700 mb-3">Topics you can discuss:</p>
               <ul className="space-y-2 text-sm text-slate-600">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>Spring pruning reminders (optimal timing for Omaha trees)</span>
+                  <span>Seasonal pruning timing for the tree and site</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>Winter storm prep checklist (before the ice hits)</span>
+                  <span>Winter storm preparation considerations</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>EAB updates and ash tree protection tips</span>
+                  <span>Ash-tree concerns and current on-site options</span>
                 </li>
               </ul>
             </div>

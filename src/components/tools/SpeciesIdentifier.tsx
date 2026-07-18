@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 interface Tree {
   name: string
   scientificName: string
-  riskLevel: 'high' | 'moderate' | 'low'
+  concernLevel: 'high' | 'moderate' | 'low'
   characteristics: string[]
   commonIssues: string[]
   strengths?: string[]
@@ -20,7 +20,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Ash Trees',
     scientificName: 'Fraxinus spp.',
-    riskLevel: 'high',
+    concernLevel: 'high',
     characteristics: ['Compound leaves (5–11 leaflets)', 'Opposite branching', 'Diamond-pattern bark'],
     commonIssues: [
       'Emerald ash borer can cause severe decline and death in untreated ash',
@@ -33,7 +33,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Silver Maple',
     scientificName: 'Acer saccharinum',
-    riskLevel: 'high',
+    concernLevel: 'high',
     characteristics: ['Deeply lobed leaves with silvery undersides', 'Fast growth', 'Shallow roots'],
     commonIssues: [
       'Weak wood prone to storm breakage',
@@ -47,7 +47,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Cottonwood',
     scientificName: 'Populus deltoides',
-    riskLevel: 'high',
+    concernLevel: 'high',
     characteristics: ['Large triangular leaves', 'Thick ridged bark', 'Massive size'],
     commonIssues: [
       'Brittle branches with frequent limb drop',
@@ -61,7 +61,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Bradford Pear',
     scientificName: 'Pyrus calleryana',
-    riskLevel: 'high',
+    concernLevel: 'high',
     characteristics: ['White spring flowers', 'Oval shape', 'Tight branching'],
     commonIssues: [
       'Tight branch unions can split during wind or ice events',
@@ -74,7 +74,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Bur Oak',
     scientificName: 'Quercus macrocarpa',
-    riskLevel: 'low',
+    concernLevel: 'low',
     characteristics: ['Large lobed leaves with "bur" on acorn cap', 'Massive spreading form', 'Thick bark'],
     commonIssues: [
       'Slow growth makes replacement difficult',
@@ -88,7 +88,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Red Oak',
     scientificName: 'Quercus rubra',
-    riskLevel: 'low',
+    concernLevel: 'low',
     characteristics: ['Pointed leaf lobes', 'Reddish fall color', 'Gray furrowed bark'],
     commonIssues: [
       'Oak wilt susceptibility (DO NOT prune April–July)',
@@ -101,7 +101,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Hackberry',
     scientificName: 'Celtis occidentalis',
-    riskLevel: 'moderate',
+    concernLevel: 'moderate',
     characteristics: ['Warty bark', 'Elm-like leaves', 'Very adaptable'],
     commonIssues: ["Witches' broom (harmless but unsightly)", 'Occasionally develops co-dominant stems'],
     strengths: ['Extremely tough', 'Wind-resistant', 'Drought-tolerant'],
@@ -111,7 +111,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Honeylocust',
     scientificName: 'Gleditsia triacanthos',
-    riskLevel: 'moderate',
+    concernLevel: 'moderate',
     characteristics: ['Fine compound leaves', 'Delicate appearance', 'Thornless cultivars common'],
     commonIssues: ['Cankers can develop on stressed trees', 'Occasional branch dieback'],
     strengths: ['Drought-tolerant', 'Filtered shade', 'Clean fall cleanup'],
@@ -121,7 +121,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'American Elm (Resistant)',
     scientificName: 'Ulmus americana',
-    riskLevel: 'moderate',
+    concernLevel: 'moderate',
     characteristics: ['Vase-shaped form', 'Saw-toothed leaves', 'Graceful branching'],
     commonIssues: ['Dutch Elm Disease in non-resistant varieties', 'Elm leaf beetle'],
     strengths: ['Classic form', 'Rapid growth', 'Disease-resistant cultivars available'],
@@ -131,7 +131,7 @@ const treeDatabase: Tree[] = [
   {
     name: 'Kentucky Coffeetree',
     scientificName: 'Gymnocladus dioicus',
-    riskLevel: 'low',
+    concernLevel: 'low',
     characteristics: ['Very large compound leaves', 'Thick rough bark', 'Unique winter silhouette'],
     commonIssues: ['Large pods create minor litter', 'Slow to leaf out in spring'],
     strengths: ['Tolerates many urban conditions', 'Few commonly reported serious pest issues', 'Distinctive mature form'],
@@ -140,7 +140,7 @@ const treeDatabase: Tree[] = [
   },
 ]
 
-const getRiskLabel = (level: Tree['riskLevel']) => {
+const getConcernLabel = (level: Tree['concernLevel']) => {
   switch (level) {
     case 'high':     return { text: 'More concerns to review' }
     case 'moderate': return { text: 'Some concerns to review' }
@@ -148,7 +148,7 @@ const getRiskLabel = (level: Tree['riskLevel']) => {
   }
 }
 
-const getRiskColor = (level: Tree['riskLevel']) => {
+const getConcernColor = (level: Tree['concernLevel']) => {
   switch (level) {
     case 'high':     return 'text-red-700 bg-red-100'
     case 'moderate': return 'text-yellow-700 bg-yellow-100'
@@ -156,7 +156,7 @@ const getRiskColor = (level: Tree['riskLevel']) => {
   }
 }
 
-const getRiskIcon = (level: Tree['riskLevel']) => {
+const getConcernIcon = (level: Tree['concernLevel']) => {
   switch (level) {
     case 'high':     return AlertTriangle
     case 'low':      return CheckCircle
@@ -219,7 +219,7 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
 
   const handleStartAssessment = () => {
     if (!selectedTree) return
-    if (selectedTree.riskLevel === 'high') {
+    if (selectedTree.concernLevel === 'high') {
       setIsInterrupted(true)
     } else {
       router.push(`/tools/hazard?species=${encodeURIComponent(selectedTree.name)}`)
@@ -291,8 +291,8 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
       {!selectedTree && (
         <div className="space-y-3">
           {filteredTrees.map((tree) => {
-            const RiskIcon = getRiskIcon(tree.riskLevel)
-            const riskInfo = getRiskLabel(tree.riskLevel)
+            const ConcernIcon = getConcernIcon(tree.concernLevel)
+            const concernInfo = getConcernLabel(tree.concernLevel)
             return (
               <button
                 key={tree.name}
@@ -305,9 +305,9 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
                       <h3 className="text-xl font-bold text-amber-900 group-hover:text-amber-700 transition-colors">
                         {tree.name}
                       </h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${getRiskColor(tree.riskLevel)}`}>
-                        <RiskIcon className="w-3 h-3" />
-                        {riskInfo.text}
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${getConcernColor(tree.concernLevel)}`}>
+                        <ConcernIcon className="w-3 h-3" />
+                        {concernInfo.text}
                       </span>
                     </div>
                     <p className="text-sm text-amber-700 italic">{tree.scientificName}</p>
@@ -344,8 +344,8 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
               </button>
             </div>
             <div className="flex items-center gap-6 text-sm">
-              <span className={`px-4 py-2 rounded-full font-semibold ${getRiskColor(selectedTree.riskLevel)}`}>
-                {getRiskLabel(selectedTree.riskLevel).text}
+              <span className={`px-4 py-2 rounded-full font-semibold ${getConcernColor(selectedTree.concernLevel)}`}>
+                {getConcernLabel(selectedTree.concernLevel).text}
               </span>
               <span className="text-amber-100">Typical Size: {selectedTree.size}</span>
             </div>
@@ -411,9 +411,9 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
               </button>
             </div>
 
-            {selectedTree.riskLevel === 'high' ? (
+            {selectedTree.concernLevel === 'high' ? (
               <div className="bg-red-50 border-2 border-red-300 rounded-xl p-5">
-                <h3 className="text-lg font-bold text-red-900 mb-3 text-center">High-Risk Species — Get Expert Help</h3>
+                <h3 className="text-lg font-bold text-red-900 mb-3 text-center">More Species Concerns to Review</h3>
                 <div className="space-y-3">
                   <a href={`tel:${CONTACT.phoneRaw}`} className="block w-full px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors text-center">
                     Call Andrew: {CONTACT.phone}
@@ -422,7 +422,7 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
                     href={`mailto:${CONTACT.email}?subject=Question%20About%20My%20${encodeURIComponent(selectedTree.name)}%20-%20From%20Species%20Guide`}
                     className="block w-full px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-center"
                   >
-                    Email for Free Advice
+                    Ask About an On-Site Review
                   </a>
                 </div>
               </div>
@@ -452,44 +452,44 @@ export function SpeciesIdentifier({ searchParams: _searchParams }: { searchParam
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in"
         >
           {(() => {
-            const HighRiskIcon = getRiskIcon('high');
+            const HighConcernIcon = getConcernIcon('high');
             return (
               <div 
                 ref={dialogRef}
-                role="alertdialog"
+                role="dialog"
                 aria-modal="true"
                 aria-labelledby="interruption-title"
                 aria-describedby="interruption-desc"
-                className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl border-4 border-red-500"
+                className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl border-4 border-amber-400"
               >
-                <div className="flex items-center gap-3 mb-4 text-red-600">
-                  <HighRiskIcon size={32} strokeWidth={3} />
+                <div className="flex items-center gap-3 mb-4 text-amber-700">
+                  <HighConcernIcon size={32} strokeWidth={3} />
                   <h3 id="interruption-title" className="text-2xl font-black uppercase tracking-tight">
-                    Critical Species Risk
+                    Review This Tree&apos;s Warning Signs
                   </h3>
                 </div>
                 
                 <p id="interruption-desc" className="text-stone-600 text-lg leading-relaxed mb-8">
-                  Because <strong>{selectedTree.name}</strong> is classified as a high-risk species in the Omaha area, 
-                  self-assessment results may be insufficient. <strong>CRITICAL:</strong> Structural failures in this species 
-                  are often sudden and catastrophic.
+                  This profile lists more common concerns for <strong>{selectedTree.name}</strong>. That concern level does not
+                  establish that your tree is hazardous or predict a failure. Continue to the preliminary screening and answer
+                  only from warning signs you can observe on this tree.
                 </p>
 
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={() => {
                       setIsInterrupted(false);
-                      router.push(`/contact?source=species_interrupt&task=urgent_assessment&species=${encodeURIComponent(selectedTree.name)}`);
+                      router.push(`/contact?source=species_concern_review&task=on_site_review&species=${encodeURIComponent(selectedTree.name)}`);
                     }}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    Request Urgent Professional Review
+                    Ask About an On-Site Review
                   </button>
                   <button
                     onClick={proceedToAssessment}
                     className="w-full bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold py-3 px-6 rounded-xl transition-colors"
                   >
-                    I Understand, Continue to Tool
+                    Continue to Preliminary Screening
                   </button>
                   <button
                     onClick={() => setIsInterrupted(false)}

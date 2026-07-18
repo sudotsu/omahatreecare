@@ -35,7 +35,7 @@ In a non-production or controlled environment, disable downstream delivery while
 5. Submit one labeled lead and confirm the response receipt matches the persisted row. Verify the idempotency digest is stored, not the raw key; payload and attribution are present; qualification and `pending` delivery state are correct; and the retention deadline is later than acceptance.
 6. Submit the same idempotency key sequentially and concurrently. Confirm one row, one receipt, one first acceptance, and duplicate responses for the rest.
 7. Disable database access and verify HTTP 503, no receipt, redacted failure logging, and the phone fallback. Restore access before continuing.
-8. Disable downstream delivery while keeping Postgres available. Confirm acceptance succeeds, delivery stays `pending`, and a retry with the receipt idempotency key does not create another lead.
+8. Disable downstream delivery while keeping Postgres available. Confirm acceptance succeeds and delivery stays `pending`. Resend duplicate API submissions with the same original client idempotency key and confirm they return the original receipt without another lead row. Separately retry webhook delivery with `receiptId` as the delivery idempotency key and confirm the destination receives it once.
 9. Record the exact deployment, database, migration identifier, timestamps, and sanitized results in the private operations system.
 
 ## Retention, deletion, and access requests

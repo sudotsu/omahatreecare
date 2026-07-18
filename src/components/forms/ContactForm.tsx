@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle, Loader2, Send } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { FloatingLabelInput } from "@/components/ui/FloatingLabelInput";
@@ -52,6 +52,11 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
   const [receiptId, setReceiptId] = useState("");
   const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (submitStatus === "success") successRef.current?.focus();
+  }, [submitStatus]);
 
   const {
     register,
@@ -92,7 +97,7 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
   // ── Success state ─────────────────────────────────────────────────────────
   if (submitStatus === "success") {
     return (
-      <div className="rounded-lg border border-green-200 bg-green-50 p-8 text-center shadow-sm">
+      <div ref={successRef} role="status" tabIndex={-1} className="rounded-lg border border-green-200 bg-green-50 p-8 text-center shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-green-700">
         <div className="mb-4 flex justify-center">
           <CheckCircle className="h-16 w-16 text-green-600" />
         </div>

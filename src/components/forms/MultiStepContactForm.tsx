@@ -20,7 +20,7 @@ import {
   ShieldCheck,
   LucideIcon
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { FloatingLabelInput } from "@/components/ui/FloatingLabelInput";
@@ -90,6 +90,11 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
   const [receiptId, setReceiptId] = useState("");
   const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
   const [isPreparing, setIsPreparing] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (submitStatus === "success") successRef.current?.focus();
+  }, [submitStatus]);
 
   const {
     register,
@@ -160,7 +165,7 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
   // ── Success State ──────────────────────────────────────────────────────────
   if (submitStatus === "success") {
     return (
-      <div className="animate-fade-in flex flex-col items-center py-12 px-6 text-center">
+      <div ref={successRef} role="status" tabIndex={-1} className="animate-fade-in flex flex-col items-center py-12 px-6 text-center outline-none focus-visible:ring-2 focus-visible:ring-emerald-700">
         <div className="mb-6 rounded-full bg-emerald-100 p-4">
           <CheckCircle className="h-12 w-12 text-emerald-600" />
         </div>
