@@ -11,8 +11,8 @@
 **Merge readiness:** not-ready
 **Release readiness:** not-ready
 **Committed:** verified
-**Pushed:** unverified
-**Pull request updated:** unverified
+**Pushed:** verified
+**Pull request updated:** verified
 **Merged:** not-performed
 **Revision validator status:** passed
 
@@ -136,7 +136,7 @@ The revision remains partial and not merge-ready because TECH-001 has incomplete
 
 ## Delivery state
 
-Product code is committed at `e9211475e7aff21a4391d248e96d9fb1f130f546`. The new product and refreshed artifacts are not yet verified on the remote or draft PR #83 at this artifact state. Nothing is merged, deployed to production, migrated, published, or released.
+Product code is committed at `e9211475e7aff21a4391d248e96d9fb1f130f546`; artifact commit `9e31f61…` and the product endpoint were pushed on `codex/project-revision-midwest-roots`, and draft PR #83 was read at that head before this final delivery-record update. Nothing is merged, deployed to production, migrated, published, or released.
 
 ## Validator result
 
