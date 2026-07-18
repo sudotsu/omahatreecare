@@ -76,6 +76,9 @@ function getRiskLevel(risk: number) {
   return           { level: 'Low',          color: 'green',  action: 'Monitor during regular visits' }
 }
 
+/**
+ * Guides users through a tree hazard assessment and presents, saves, or shares the resulting risk evaluation.
+ */
 export function HazardAssessment() {
   const router = useRouter()
   const [step, setStep]             = useState(0)
@@ -92,9 +95,9 @@ export function HazardAssessment() {
     const message = `Tree Risk Assessment Results:\n\nRisk Level: ${risk.level}\nRisk Score: ${riskScore}/16\nIssues: ${issuesList}\nRecommended Action: ${risk.action}\n\nGet your free assessment at ${CONTACT.siteUrl}/tools/hazard`
 
     if (method === 'email') {
-      window.location.href = `mailto:?subject=My%20Tree%20Risk%20Assessment%20Results&body=${encodeURIComponent(message)}`
+      window.location.assign(`mailto:?subject=My%20Tree%20Risk%20Assessment%20Results&body=${encodeURIComponent(message)}`)
     } else if (method === 'sms') {
-      window.location.href = `sms:?body=${encodeURIComponent(message)}`
+      window.location.assign(`sms:?body=${encodeURIComponent(message)}`)
     } else {
       navigator.clipboard.writeText(message)
         .then(() => alert('Results copied to clipboard!'))
@@ -112,7 +115,7 @@ export function HazardAssessment() {
     const issuesList = assessment.issues.length > 0 ? assessment.issues.join(', ') : 'No major issues identified'
     const subject = `Send me my tree risk assessment results (${risk.level} Risk)`
     const body    = `Hi, I just completed your tree risk assessment tool and got a ${risk.level} risk score (${riskScore}/16).\n\nIssues identified: ${issuesList}\n\nRecommended action: ${risk.action}\n\nCould you send me a copy of these results and provide any additional recommendations?`
-    window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.assign(`mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`)
   }
 
   const handleAnswer = (value: number, issues: string[] = [], isConsequence = false) => {

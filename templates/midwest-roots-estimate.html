@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tree Service Estimate | Midwest Roots</title>
+  <style>
+    @font-face {
+      font-family: "Permanent Marker";
+      src: url("./assets/permanent-marker.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    :root {
+      --forest: #11261b;
+      --forest-deep: #0d1a0f;
+      --sage: #52796f;
+      --gold: #ffb800;
+      --cream: #f8f6f1;
+      --cream-warm: #f0ede8;
+      --brown: #3d3027;
+      --muted: #6e716b;
+      --line: #dcd8cf;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 40px 18px;
+      background: #e8e5de;
+      color: var(--brown);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .toolbar {
+      width: min(900px, 100%);
+      margin: 0 auto 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #555;
+      font-size: 13px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 4px;
+      padding: 10px 16px;
+      background: var(--forest);
+      color: white;
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .sheet {
+      position: relative;
+      width: min(900px, 100%);
+      min-height: 1120px;
+      margin: auto;
+      overflow: hidden;
+      background: var(--cream);
+      box-shadow: 0 18px 55px rgb(13 26 15 / 14%);
+    }
+
+    .sheet::after {
+      content: "";
+      position: absolute;
+      width: 330px;
+      height: 330px;
+      right: -185px;
+      bottom: -185px;
+      border: 1px solid rgb(82 121 111 / 16%);
+      border-radius: 50%;
+      box-shadow: 0 0 0 38px rgb(82 121 111 / 7%), 0 0 0 76px rgb(82 121 111 / 5%);
+      pointer-events: none;
+    }
+
+    header {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 28px;
+      padding: 42px 50px 36px;
+      color: var(--cream-warm);
+      background: var(--forest-deep);
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 36%;
+      height: 5px;
+      background: var(--gold);
+    }
+
+    .brand-name {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .brand-subtitle,
+    .eyebrow {
+      margin-top: 8px;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .contact {
+      align-self: center;
+      text-align: right;
+      color: #cad3cd;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    main { padding: 38px 50px 46px; }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 42px;
+      align-items: start;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; color: var(--forest); }
+    h1 { margin: 2px 0 14px; font-size: 39px; font-weight: 500; letter-spacing: -0.025em; }
+    h2 { margin: 0 0 15px; font-size: 23px; font-weight: 500; }
+    h3 { margin: 0 0 4px; font-size: 17px; }
+
+    .intro p { margin: 0; max-width: 560px; color: #5f625d; }
+
+    .meta {
+      border-left: 3px solid var(--gold);
+      padding-left: 18px;
+      font-size: 12px;
+    }
+
+    .meta-row { display: grid; grid-template-columns: 72px 1fr; gap: 10px; margin-bottom: 7px; }
+    .meta-label { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .meta-value { color: var(--forest); font-weight: 700; }
+
+    .client {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 22px 0;
+    }
+
+    .field-label { color: var(--sage); font-size: 10px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+    .field-value { margin-top: 3px; color: var(--forest); font-size: 15px; font-weight: 700; }
+
+    .work { margin-top: 5px; }
+
+    .line-item {
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 15px;
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .item-number {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--cream-warm);
+      color: var(--sage);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .item-description { margin: 5px 0 0; color: #656862; font-size: 13px; }
+    .price { padding-left: 18px; color: var(--forest); font-size: 18px; font-weight: 850; white-space: nowrap; }
+    .price.invalid-price { color: #9f2d2d; background: #fff0f0; box-shadow: 0 0 0 2px #c1666b; }
+
+    .total-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin: 8px 0 34px;
+    }
+
+    .total {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 28px;
+      align-items: baseline;
+      min-width: 310px;
+      padding: 17px 20px;
+      color: white;
+      background: var(--forest);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .total-label { font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+    .total-price { text-align: right; font-family: Georgia, "Times New Roman", serif; font-size: 28px; }
+    .total-price.has-error { color: #ffddd9; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 15px; font-weight: 800; }
+
+    .details {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 34px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .details ul { margin: 10px 0 0; padding-left: 18px; color: #656862; font-size: 12px; }
+    .details li { margin-bottom: 6px; }
+
+    .approval {
+      padding: 21px;
+      background: var(--cream-warm);
+      border-left: 3px solid var(--sage);
+    }
+
+    .approval p { margin: 7px 0 20px; color: #656862; font-size: 12px; }
+    .signature { padding-top: 15px; border-top: 1px solid #aaa89f; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+    .date-line { margin-top: 24px; }
+
+    .personal-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .customer-note {
+      padding: 14px 18px;
+      color: #1d2935;
+      background: white;
+      border: 1px solid #e4e0d7;
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 4px 13px rgb(13 26 15 / 6%);
+      font-family: "Permanent Marker", "Comic Sans MS", cursive;
+      font-size: 19px;
+      line-height: 1.35;
+      transform: rotate(.6deg);
+    }
+
+    .qr-block {
+      display: grid;
+      grid-template-columns: auto 70px;
+      gap: 10px;
+      align-items: center;
+      color: var(--forest);
+      font-family: "Permanent Marker", "Comic Sans MS", cursive;
+      font-size: 13px;
+      line-height: 1.25;
+      transform: rotate(-1.5deg);
+    }
+
+    .qr-block img { width: 70px; height: 70px; padding: 4px; background: white; border: 1px solid var(--line); }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    [contenteditable="true"] { border-radius: 2px; outline: none; }
+    [contenteditable="true"]:focus { box-shadow: 0 0 0 2px rgb(255 184 0 / 45%); background: white; }
+
+    @media (max-width: 700px) {
+      body { padding: 0; }
+      .toolbar { padding: 10px; margin: 0; background: white; }
+      .sheet { min-height: 0; box-shadow: none; }
+      header, .intro, .details { grid-template-columns: 1fr; }
+      header, main { padding-left: 25px; padding-right: 25px; }
+      .contact { text-align: left; }
+      .intro { gap: 24px; }
+      .client { grid-template-columns: 1fr; gap: 13px; }
+      .line-item { grid-template-columns: 30px 1fr; }
+      .price { grid-column: 2; padding-left: 0; }
+      .total { min-width: 100%; }
+      .personal-row { grid-template-columns: 1fr; }
+      .qr-block { justify-content: end; }
+      footer { flex-direction: column; }
+    }
+
+    @page { size: letter; margin: 0; }
+    @media print {
+      html, body { width: 8.5in; height: 11in; overflow: hidden; }
+      body { padding: 0; background: white; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .toolbar { display: none; }
+      .sheet {
+        width: 108.7%;
+        min-height: 0;
+        box-shadow: none;
+        transform: scale(.92);
+        transform-origin: top left;
+      }
+      header { padding: 27px 44px 23px; }
+      main { padding: 23px 44px 24px; }
+      .intro { gap: 34px; padding-bottom: 18px; }
+      h1 { margin-bottom: 9px; font-size: 34px; }
+      h2 { margin-bottom: 10px; font-size: 21px; }
+      .client { padding: 14px 0; }
+      .line-item { padding: 11px 0; }
+      .item-description { margin-top: 2px; font-size: 11px; }
+      .total-wrap { margin: 5px 0 20px; }
+      .total { padding: 12px 17px; }
+      .total-price { font-size: 25px; }
+      .details { gap: 28px; padding-top: 18px; }
+      .details ul { margin-top: 7px; font-size: 10.5px; }
+      .details li { margin-bottom: 3px; }
+      .approval { padding: 16px; }
+      .approval p { margin-bottom: 15px; }
+      .date-line { margin-top: 18px; }
+      .personal-row { margin-top: 14px; }
+      .customer-note { padding: 10px 15px; font-size: 16px; }
+      .qr-block { grid-template-columns: auto 58px; font-size: 11px; }
+      .qr-block img { width: 58px; height: 58px; }
+      footer { margin-top: 15px; padding-top: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span>Click highlighted text to edit, then print or save as PDF.</span>
+    <button type="button" onclick="printEstimate()">Print / Save PDF</button>
+  </div>
+
+  <article class="sheet">
+    <header>
+      <div>
+        <p class="brand-name">Midwest Roots</p>
+        <div class="brand-subtitle">Tree Services</div>
+      </div>
+      <div class="contact">
+        <strong>(402) 812-3294</strong><br>
+        andrew@omahatreecare.com<br>
+        omahatreecare.com · Omaha, Nebraska
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <div class="eyebrow">Prepared with care</div>
+          <h1>Tree Service Estimate</h1>
+          <p>Thanks for having us out. Based on our walkthrough, here’s the work we recommend to address the tree concerns we discussed and leave the property clean.</p>
+        </div>
+        <div class="meta">
+          <div class="meta-row"><span class="meta-label">Estimate</span><span class="meta-value" contenteditable="true">MR-2026-041</span></div>
+          <div class="meta-row"><span class="meta-label">Issued</span><span class="meta-value" contenteditable="true">July 17, 2026</span></div>
+          <div class="meta-row"><span class="meta-label">Valid for</span><span class="meta-value">30 days</span></div>
+        </div>
+      </section>
+
+      <section class="client">
+        <div><div class="field-label">Prepared for</div><div class="field-value" contenteditable="true">Jamie Thompson</div></div>
+        <div><div class="field-label">Service address</div><div class="field-value" contenteditable="true">123 Maple Street, Omaha, NE</div></div>
+      </section>
+
+      <section class="work">
+        <h2>Recommended work</h2>
+
+        <div class="line-item">
+          <div class="item-number">01</div>
+          <div>
+            <h3 contenteditable="true">Remove declining maple near driveway</h3>
+            <p class="item-description" contenteditable="true">Safely dismantle and remove the tree; protect nearby lawn, driveway, and landscaping; chip branches; haul away wood and debris; complete final ground cleanup.</p>
+          </div>
+          <div class="price" contenteditable="true">$1,450</div>
+        </div>
+
+        <div class="line-item">
+          <div class="item-number">02</div>
+          <div>
+            <h3 contenteditable="true">Grind maple stump</h3>
+            <p class="item-description" contenteditable="true">Grind the stump approximately 6–8 inches below grade and rake grindings neatly into the stump area.</p>
+          </div>
+          <div class="price" contenteditable="true">$325</div>
+        </div>
+
+        <div class="line-item">
+          <div class="item-number">03</div>
+          <div>
+            <h3 contenteditable="true">Prune mature oak near house</h3>
+            <p class="item-description" contenteditable="true">Remove dead, damaged, and conflicting limbs; provide appropriate roof clearance; improve structure without excessive thinning; haul away debris.</p>
+          </div>
+          <div class="price" contenteditable="true">$675</div>
+        </div>
+
+        <div class="total-wrap">
+          <div class="total"><span class="total-label">Estimated total</span><span class="total-price" role="status" aria-live="polite">$2,450</span></div>
+        </div>
+      </section>
+
+      <section class="details">
+        <div>
+          <h2>A few important details</h2>
+          <ul>
+            <li>Pricing assumes normal access for our crew and equipment.</li>
+            <li>Normal job-site cleanup and listed debris removal are included.</li>
+            <li>Customer identifies private irrigation, lighting, and invisible fencing.</li>
+            <li>Any change in scope will be discussed and approved before the price changes.</li>
+            <li>Scheduling is weather-dependent; payment is due upon completion.</li>
+          </ul>
+        </div>
+        <div class="approval">
+          <div class="field-label">Ready to move forward?</div>
+          <h3>Approve this estimate</h3>
+          <p>Reply “Approved” by text or email, or sign below. We’ll follow up with available dates.</p>
+          <div class="signature">Client signature</div>
+          <div class="signature date-line">Date</div>
+        </div>
+      </section>
+
+      <section class="personal-row">
+        <div class="customer-note" contenteditable="true">thanks jamie! appreciate you walking the yard with me — text me if anything comes up<br>— andrew</div>
+        <div class="qr-block">
+          <span>check out the new site<br>omahatreecare.com</span>
+          <img src="./assets/omahatreecare-qr.png" alt="Scan to visit OmahaTreeCare.com">
+        </div>
+      </section>
+
+      <footer>
+        <span>Midwest Roots Tree Services · 5634 Corby St #1 · Omaha, NE 68104</span>
+        <span>Clear recommendations. Thoughtful tree care.</span>
+      </footer>
+    </main>
+  </article>
+  <script>
+    const currency = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2
+    });
+
+    function parseCurrency(value) {
+      const raw = value.trim();
+      const validFormat = /^\(?\s*\$?\s*-?\d[\d,]*(?:\.\d{1,2})?\s*\)?$/;
+      if (!validFormat.test(raw)) return null;
+      const isParenthesized = raw.startsWith("(") && raw.endsWith(")");
+      const amount = Number.parseFloat(raw.replace(/[$,()\s]/g, ""));
+      if (!Number.isFinite(amount)) return null;
+      return isParenthesized ? -Math.abs(amount) : amount;
+    }
+
+    function recalculateTotal() {
+      const prices = Array.from(document.querySelectorAll(".price"));
+      const parsed = prices.map((element) => {
+        const amount = parseCurrency(element.textContent || "");
+        element.classList.toggle("invalid-price", amount === null);
+        element.setAttribute("aria-invalid", String(amount === null));
+        return amount;
+      });
+      const totalElement = document.querySelector(".total-price");
+      const hasInvalidPrice = parsed.some((amount) => amount === null);
+
+      if (hasInvalidPrice) {
+        totalElement.textContent = "Check prices";
+        totalElement.classList.add("has-error");
+        return false;
+      }
+
+      const total = parsed.reduce((sum, amount) => sum + amount, 0);
+      totalElement.textContent = currency.format(total);
+      totalElement.classList.remove("has-error");
+      return true;
+    }
+
+    function printEstimate() {
+      if (!recalculateTotal()) {
+        window.alert("Fix the highlighted price before saving this estimate as a PDF.");
+        return;
+      }
+      window.print();
+    }
+
+    document.querySelectorAll(".price").forEach((element) => {
+      element.addEventListener("input", recalculateTotal);
+      element.addEventListener("blur", () => {
+        const amount = parseCurrency(element.textContent || "");
+        if (amount !== null) element.textContent = currency.format(amount);
+        recalculateTotal();
+      });
+    });
+    window.addEventListener("beforeprint", recalculateTotal);
+    recalculateTotal();
+  </script>
+</body>
+</html>

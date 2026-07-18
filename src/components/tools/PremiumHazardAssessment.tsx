@@ -16,10 +16,11 @@ import {
   Zap,
   Target,
   FileText,
-  Clock
+  Clock,
+  type LucideIcon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CONTACT } from "@/lib/constants";
 import { dmSerif } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -45,7 +46,7 @@ interface Question {
   title: string;
   description: string;
   options: QuestionOption[];
-  icon: any;
+  icon: LucideIcon;
   isConsequence?: boolean;
 }
 
@@ -116,25 +117,26 @@ const getRiskLevel = (risk: number) => {
   return { ...base, ...ui };
 };
 
-export function PremiumHazardAssessment({ searchParams }: { searchParams?: Record<string, any> }) {
+/**
+ * Guides users through a tree hazard assessment and displays a diagnostic report with recommended next steps.
+ *
+ * @param searchParams - Optional navigation parameters used to preselect the tree species.
+ */
+export function PremiumHazardAssessment({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
   const router = useRouter();
   
-  // Robust extraction from prop (handles both plain object and URLSearchParams-like)
-  const speciesFromNav = searchParams 
-    ? (typeof searchParams.get === 'function' ? searchParams.get('species') : searchParams.species)
-    : null;
+  const speciesParam = searchParams?.species;
+  const speciesFromNav = Array.isArray(speciesParam) ? speciesParam[0] : speciesParam;
 
   const [step, setStep] = useState(0);
   const [assessment, setAssessment] = useState<AssessmentState>({ likelihood: 0, consequence: 0, issues: [] });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [selectedTree, setSelectedTree] = useState<string>(speciesFromNav || "");
-
-  useEffect(() => {
-    if (speciesFromNav) {
-      setSelectedTree(speciesFromNav);
-    }
-  }, [speciesFromNav]);
 
   const calculateRisk = () => assessment.likelihood * assessment.consequence;
 

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invoice | Midwest Roots</title>
+  <style>
+    @font-face { font-family: "Inter"; src: url("./assets/inter-400.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+    @font-face { font-family: "Inter"; src: url("./assets/inter-500.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+    @font-face { font-family: "Inter"; src: url("./assets/inter-600.ttf") format("truetype"); font-weight: 600; font-display: swap; }
+    @font-face { font-family: "Inter"; src: url("./assets/inter-700.ttf") format("truetype"); font-weight: 700; font-display: swap; }
+    @font-face { font-family: "Permanent Marker"; src: url("./assets/permanent-marker.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+
+    :root { --ink: #1f2937; --muted: #6b7280; --line: #e5e7eb; --soft: #f9fafb; --gold: #fec31c; --forest: #11261b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f3f4f6; color: var(--ink); font-family: "Inter", Arial, sans-serif; font-size: 14px; }
+    .toolbar { position: sticky; top: 0; z-index: 10; display: flex; justify-content: center; align-items: center; gap: 16px; padding: 9px 16px; background: var(--ink); color: white; font-size: 13px; }
+    .toolbar button { border: 0; border-radius: 6px; padding: 7px 12px; background: var(--gold); color: var(--forest); font: inherit; font-weight: 700; cursor: pointer; }
+    .invoice { position: relative; width: min(8.5in, calc(100% - 24px)); margin: 2rem auto; padding: .5in; background: white; border-radius: 8px; box-shadow: 0 10px 25px rgb(0 0 0 / 10%); }
+    .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; margin-bottom: 24px; }
+    .brand { font-size: 30px; font-weight: 700; letter-spacing: -.04em; color: #111827; }
+    .contact { margin-top: 5px; color: #4b5563; font-size: 13px; line-height: 1.45; }
+    .invoice-meta { text-align: right; }
+    .invoice-meta h1 { margin: 0 0 8px; color: #e5e7eb; font-size: 36px; letter-spacing: .12em; line-height: 1; text-transform: uppercase; }
+    .meta-line { margin-top: 5px; font-size: 13px; }
+    .label { margin-right: 8px; color: #374151; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .bill-to { padding: 13px 0; border-block: 2px solid #f3f4f6; }
+    .bill-to h2 { margin: 0 0 12px; color: #9ca3af; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+    .bill-grid { width: 56%; display: grid; gap: 9px; }
+    .bill-row { display: grid; grid-template-columns: 118px 1fr; align-items: end; }
+    .bill-row > span:first-child { color: #374151; font-weight: 500; }
+    .editable-line { min-height: 21px; padding: 0 4px 2px; border-bottom: 1px solid #d1d5db; color: #111827; font-weight: 500; }
+    .project { margin: 15px 0 8px; font-size: 13px; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 8px 12px; background: var(--soft); border-bottom: 2px solid #e5e7eb; color: #6b7280; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; }
+    th:last-child, td:last-child { width: 125px; text-align: right; }
+    td { padding: 8px 12px; border-bottom: 1px solid #f3f4f6; color: #374151; font-size: 13px; line-height: 1.35; vertical-align: top; }
+    .service-title { color: #111827; font-weight: 600; }
+    .totals { width: 50%; margin: 16px 0 16px auto; }
+    .total-row { display: flex; justify-content: space-between; gap: 20px; padding: 5px 0; color: #4b5563; font-size: 13px; }
+    .total-row.grand { align-items: center; margin-top: 3px; padding: 9px 0; border-top: 2px solid #111827; color: #111827; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .total-row.grand strong { font-size: 20px; }
+    .terms { padding: 15px; background: var(--soft); border: 1px solid #e5e7eb; border-radius: 5px; }
+    .terms h3 { margin: 0 0 8px; color: #111827; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
+    .terms ul { margin: 0; padding: 0; list-style: none; color: #374151; font-size: 12px; }
+    .terms li { display: flex; gap: 8px; margin-top: 5px; }
+    .terms li::before { content: "▪"; color: #9ca3af; }
+    .bottom { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: end; margin-top: 14px; }
+    .note { padding: 11px 13px; background: white; border: 1px solid #f3f4f6; border-left: 4px solid var(--gold); box-shadow: 0 2px 6px rgb(0 0 0 / 5%); color: #1f2937; font-family: "Permanent Marker", "Comic Sans MS", cursive; font-size: 16px; line-height: 1.35; transform: rotate(.5deg); }
+    .qr { display: flex; flex-direction: column; align-items: center; color: var(--forest); font-family: "Permanent Marker", "Comic Sans MS", cursive; font-size: 16px; line-height: 1.15; text-align: center; transform: rotate(-2deg); }
+    .qr img { width: 68px; height: 68px; margin-top: 4px; padding: 4px; background: white; border: 1px solid #d1d5db; }
+    [contenteditable="true"] { border-radius: 2px; outline: none; }
+    [contenteditable="true"]:focus { background: #fff9df; box-shadow: 0 0 0 2px rgb(254 195 28 / 45%); }
+    .money-input { display: inline-block; min-width: 68px; text-align: right; }
+
+    @media (max-width: 650px) {
+      .invoice { width: 100%; margin: 0; padding: 24px 18px; border-radius: 0; box-shadow: none; }
+      .top { flex-direction: column; }
+      .invoice-meta { text-align: left; }
+      .bill-grid, .totals { width: 100%; }
+      .bottom { grid-template-columns: 1fr; }
+      .qr { justify-self: end; }
+    }
+
+    @media print {
+      @page { size: letter portrait; margin: .25in; }
+      body { background: white; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .toolbar { display: none; }
+      .invoice { width: 100%; margin: 0; padding: .25in 0; border-radius: 0; box-shadow: none; }
+      table, tr, .top, .bill-to, .totals, .terms, .bottom { break-inside: avoid; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span>Tap highlighted text to edit. Amounts recalculate automatically.</span>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="invoice">
+    <header class="top">
+      <div>
+        <div class="brand">MIDWEST ROOTS</div>
+        <div class="contact">Omaha, NE<br><strong>402-812-3294</strong><br>andrew@omahatreecare.com<br>andrew@midwestroots.info</div>
+      </div>
+      <div class="invoice-meta">
+        <h1>Invoice</h1>
+        <div class="meta-line"><span class="label">Invoice #:</span><span data-bind="invoiceNumber" contenteditable="true"></span></div>
+        <div class="meta-line"><span class="label">Date:</span><span data-bind="date" contenteditable="true"></span></div>
+      </div>
+    </header>
+
+    <section class="bill-to">
+      <h2>Bill to</h2>
+      <div class="bill-grid">
+        <div class="bill-row"><span>Name:</span><span class="editable-line" data-bind="customer.name" contenteditable="true"></span></div>
+        <div class="bill-row"><span>Address:</span><span class="editable-line" data-bind="customer.address" contenteditable="true"></span></div>
+        <div class="bill-row"><span>City, State, ZIP:</span><span class="editable-line" data-bind="customer.cityStateZip" contenteditable="true"></span></div>
+      </div>
+    </section>
+
+    <div class="project"><span class="label">Project:</span><span data-bind="project" contenteditable="true"></span></div>
+
+    <table>
+      <thead><tr><th>Description of services</th><th>Amount</th></tr></thead>
+      <tbody id="serviceRows"></tbody>
+    </table>
+
+    <section class="totals">
+      <div class="total-row"><span>Standard Service Rate</span><span class="money-input" data-money="serviceRate" contenteditable="true"></span></div>
+      <div class="total-row grand"><span>Total Project Cost</span><strong data-output="total"></strong></div>
+    </section>
+
+    <section class="terms">
+      <h3>Terms &amp; boundaries</h3>
+      <ul>
+        <li><span><strong>Deposit:</strong> <span class="money-input" data-money="deposit" contenteditable="true"></span> down payment required to secure scheduling.</span></li>
+        <li><span><strong>Balance:</strong> Remaining <span data-output="balance"></span> due upon project completion and <strong>total customer satisfaction</strong>.</span></li>
+        <li><span><strong>Project Scope:</strong> <span data-bind="scope" contenteditable="true"></span></span></li>
+        <li><span>Please make checks payable to <strong>Andrew Warner</strong>. Digital (Venmo, Chime, PayPal) preferred.</span></li>
+      </ul>
+    </section>
+
+    <section class="bottom">
+      <div class="note" data-bind="customerNote" contenteditable="true"></div>
+      <div class="qr"><span>check out the new site<br>omahatreecare.com</span><img src="./assets/omahatreecare-qr.png" alt="Scan to visit OmahaTreeCare.com"></div>
+    </section>
+  </article>
+
+  <script>
+    const invoice = {
+      invoiceNumber: "SAMPLE-001",
+      date: "July 17, 2026",
+      customer: {
+        name: "Sample Customer",
+        address: "123 Example Street",
+        cityStateZip: "Omaha, NE 68102"
+      },
+      project: "Tree Removal & Stump Excavation",
+      services: [
+        { title: "Tree Removals & Stump Extraction", description: "Complete removal of two (2) designated trees. Dig out and remove the root balls/stumps for both trees.", amountLabel: "Included" },
+        { title: "Additional Stump Extraction", description: "Dig out and remove one (1) additional pre-existing stump on the property.", amountLabel: "Included" },
+        { title: "Hauling & Disposal", description: "All wood, brush, and excavated stump debris processed and hauled off-site. General site cleanup of the work area.", amountLabel: "Included" }
+      ],
+      serviceRate: 400,
+      deposit: 0,
+      scope: "Not responsible for unmarked underground utilities/sprinklers. Backfilling stump holes with topsoil is excluded unless specified.",
+      customerNote: "thanks for taking the time to walk the property with me\n— andrew"
+    };
+
+    const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+
+    function getPath(path) {
+      return path.split(".").reduce((value, key) => value[key], invoice);
+    }
+
+    function setPath(path, value) {
+      const keys = path.split(".");
+      const finalKey = keys.pop();
+      const target = keys.reduce((current, key) => current[key], invoice);
+      target[finalKey] = value;
+    }
+
+    function parseMoney(value) {
+      const normalized = value.replace(/[^0-9.-]/g, "");
+      const amount = Number.parseFloat(normalized);
+      return Number.isFinite(amount) ? amount : null;
+    }
+
+    function recalculate() {
+      const total = invoice.serviceRate;
+      const balance = Math.max(total - invoice.deposit, 0);
+      document.querySelector('[data-output="total"]').textContent = currency.format(total);
+      document.querySelector('[data-output="balance"]').textContent = currency.format(balance);
+    }
+
+    function renderServices() {
+      const rows = document.getElementById("serviceRows");
+      rows.replaceChildren(...invoice.services.map((service, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td><span class="service-title" data-service="${index}" data-field="title" contenteditable="true"></span>: <span data-service="${index}" data-field="description" contenteditable="true"></span></td><td data-service="${index}" data-field="amountLabel" contenteditable="true"></td>`;
+        row.querySelectorAll("[data-service]").forEach((element) => {
+          element.textContent = service[element.dataset.field];
+          element.addEventListener("input", () => {
+            invoice.services[index][element.dataset.field] = element.textContent.trim();
+          });
+        });
+        return row;
+      }));
+    }
+
+    document.querySelectorAll("[data-bind]").forEach((element) => {
+      const path = element.dataset.bind;
+      element.textContent = getPath(path);
+      element.addEventListener("input", () => setPath(path, element.textContent.trim()));
+    });
+
+    document.querySelectorAll("[data-money]").forEach((element) => {
+      const key = element.dataset.money;
+      element.textContent = currency.format(invoice[key]);
+      element.addEventListener("input", () => {
+        const amount = parseMoney(element.textContent);
+        if (amount === null) {
+          element.setAttribute("aria-invalid", "true");
+          return;
+        }
+        element.removeAttribute("aria-invalid");
+        invoice[key] = amount;
+        recalculate();
+      });
+      element.addEventListener("blur", () => {
+        element.textContent = currency.format(invoice[key]);
+      });
+    });
+
+    renderServices();
+    recalculate();
+    window.addEventListener("beforeprint", recalculate);
+  </script>
+</body>
+</html>

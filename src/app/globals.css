@@ -109,6 +109,22 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+body:has(.field-estimate-app) > nav,
+body:has(.field-estimate-app) > footer {
+  display: none;
+}
+
+@media print {
+  body:has(.field-estimate-app) > script {
+    display: none !important;
+  }
+
+  body:has(.field-estimate-app) {
+    min-height: 0;
+    background: white;
+  }
+}
+
 /* Dark mode overrides */
 @media (prefers-color-scheme: dark) {
   :root {

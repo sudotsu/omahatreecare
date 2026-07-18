@@ -234,6 +234,12 @@ function getTypeIcon(type: AilmentType) {
   }
 }
 
+/**
+ * Maps an ailment severity to its corresponding gradient styling classes.
+ *
+ * @param severity - The ailment severity level
+ * @returns The Tailwind CSS gradient classes for the severity level
+ */
 function getSeverityGradient(severity: Severity) {
   switch (severity) {
     case 'critical': return 'from-red-600 to-red-800'
@@ -242,7 +248,12 @@ function getSeverityGradient(severity: Severity) {
   }
 }
 
-export function CommonAilments({ searchParams: _searchParams }: { searchParams?: Record<string, any> }) {
+/**
+ * Provides an interactive guide to common tree problems, with filtering and detailed ailment information.
+ *
+ * @returns The rendered tree-problem browser or selected ailment details.
+ */
+export function CommonAilments({ searchParams: _searchParams }: { searchParams?: Record<string, unknown> }) {
   const [selectedAilment, setSelectedAilment] = useState<Ailment | null>(null)
   const [filterType, setFilterType] = useState<AilmentType | 'all'>('all')
 
