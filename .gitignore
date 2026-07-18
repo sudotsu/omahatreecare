@@ -43,3 +43,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .worktrees
+
+# Local project audits and revision workspaces
+/project-teardown/
+/project-teardown.zip
+/project-revision/
+/project-revision.zip
