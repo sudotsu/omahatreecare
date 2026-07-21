@@ -100,6 +100,9 @@ export function Footer() {
             <p className="text-sm mb-3 text-slate-400">
               Free tree-care resources and preliminary screening tools for Omaha homeowners. <Link href="/privacy" className="underline">Privacy</Link>
             </p>
+            <Link href="/treehouse" className="mb-3 inline-block text-sm font-semibold text-emerald-400 hover:text-emerald-300">
+              Visit The Treehouse
+            </Link>
             <div className="flex flex-col gap-2">
               <p className="text-xs text-slate-400">
                 Built by{" "}
