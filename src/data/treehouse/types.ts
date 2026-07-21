@@ -13,7 +13,6 @@ export type PublicationEvidence = {
     reviewerName: string;
     reviewerRole: string;
     experienceBasis: string;
-    credentials?: string[];
     reviewedOn: string;
   };
 };

@@ -30,12 +30,28 @@ describe("Treehouse content integrity", () => {
   });
 
   it("shows drafts only in development and Vercel preview environments", () => {
-    expect(canPreviewDrafts({ NODE_ENV: "development" })).toBe(true);
-    expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(true);
-    expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(false);
-    expect(getVisibleArticles({ NODE_ENV: "production", VERCEL_ENV: "production" })).toEqual([articles[0]]);
-    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(articles[0]);
-    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(articles[0]);
+    const productionEnvironment = { NODE_ENV: "production", VERCEL_ENV: "production" };
+    const previewEnvironment = { NODE_ENV: "production", VERCEL_ENV: "preview" };
+    const draftArticle = {
+      ...articles[0],
+      id: "draft-visibility-fixture",
+      slug: "draft-visibility-fixture",
+      status: "draft" as const,
+    };
+    const originalArticleCount = articles.length;
+
+    articles.push(draftArticle);
+    try {
+      expect(canPreviewDrafts({ NODE_ENV: "development" })).toBe(true);
+      expect(canPreviewDrafts(previewEnvironment)).toBe(true);
+      expect(canPreviewDrafts(productionEnvironment)).toBe(false);
+      expect(getVisibleArticles(productionEnvironment)).not.toContain(draftArticle);
+      expect(getVisibleArticle(draftArticle.slug, productionEnvironment)).toBeUndefined();
+      expect(getVisibleArticles(previewEnvironment)).toContain(draftArticle);
+      expect(getVisibleArticle(draftArticle.slug, previewEnvironment)).toBe(draftArticle);
+    } finally {
+      articles.splice(originalArticleCount);
+    }
   });
 
   it("rejects a published article when required publication evidence is incomplete", () => {
