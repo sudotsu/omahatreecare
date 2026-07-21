@@ -2,6 +2,10 @@
 
 The Treehouse is a structured, statically generated editorial section. New articles use shared cards, article layout, table of contents, calls to action, FAQs, source lists, metadata, JSON-LD, category archives, and sitemap rules. Do not create a new page component for each article.
 
+## MVP source documents
+
+The approved implementation brief, first-article source, and Codex kickoff instructions are tracked in [`docs/treehouse/source/`](treehouse/source/). Treat those files as the source of truth for the MVP; keep later editorial research or owner-approved revisions clearly dated and attributable.
+
 ## Add the next article
 
 1. Create one data file in `src/data/treehouse/`, following `tree-removal-cost.ts` and the `TreehouseArticle` type in `types.ts`.
