@@ -19,17 +19,24 @@ test("Treehouse landing, article, and archive routes render with publication con
 
   const sitemapResponse = await request.get("/sitemap.xml");
   expect(sitemapResponse.status()).toBe(200);
-  expect(await sitemapResponse.text()).not.toContain("/treehouse");
+  const sitemap = await sitemapResponse.text();
+  expect(sitemap).toContain("/treehouse/guides");
+  expect(sitemap).toContain("/treehouse/tree-removal-cost-omaha");
 
-  const draftResponse = await request.get("/treehouse/tree-removal-cost-omaha");
-  expect(draftResponse.status()).toBe(404);
+  const articleResponse = await request.get("/treehouse/tree-removal-cost-omaha");
+  expect(articleResponse.status()).toBe(200);
 
   await page.goto("/treehouse");
   await expect(page.getByRole("heading", { name: "Practical Omaha tree care, explained from the ground up." })).toBeVisible();
   await expect(page.getByRole("link", { name: /Explore homeowner guides/ })).toHaveAttribute("href", "/treehouse/guides");
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute("content", /noindex/);
 
-  await expect(page.getByRole("link", { name: "Tree Removal Cost in Omaha: What Changes the Price" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Tree Removal Cost in Omaha: What Changes the Price" }).first()).toBeVisible();
+
+  await page.goto("/treehouse/tree-removal-cost-omaha");
+  await expect(page.getByRole("heading", { name: "How Much Does Tree Removal Cost in Omaha?" })).toBeVisible();
+  await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute("content", /noindex/);
+  await expect(page.getByText("July 21, 2026").first()).toBeVisible();
 });
 
 test("empty category archives remain useful, noindex, and free of invented entries", async ({ page }) => {

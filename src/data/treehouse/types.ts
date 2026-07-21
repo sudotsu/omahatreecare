@@ -11,7 +11,9 @@ export type PublicationEvidence = {
   sourcesVerifiedOn?: string;
   safetyReview?: {
     reviewerName: string;
-    credential: string;
+    reviewerRole: string;
+    experienceBasis: string;
+    credentials?: string[];
     reviewedOn: string;
   };
 };

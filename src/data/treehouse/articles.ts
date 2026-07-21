@@ -58,8 +58,13 @@ export function getPublicationIssues(article: TreehouseArticle) {
     issues.push("verified HTTPS sources are required");
   }
   const review = article.publication.safetyReview;
-  if (!review?.reviewerName.trim() || !review.credential.trim() || !isIsoDate(review.reviewedOn)) {
-    issues.push("independent credentialed safety review is required");
+  if (
+    !review?.reviewerName.trim()
+    || !review.reviewerRole.trim()
+    || !review.experienceBasis.trim()
+    || !isIsoDate(review.reviewedOn)
+  ) {
+    issues.push("named professional safety review with a disclosed experience basis is required");
   }
   return issues;
 }

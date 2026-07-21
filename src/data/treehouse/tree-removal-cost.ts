@@ -4,11 +4,17 @@ import type { TreehouseArticle } from "./types";
 export const treeRemovalCostArticle: TreehouseArticle = {
   id: "tree-removal-cost-omaha",
   slug: "tree-removal-cost-omaha",
-  status: "draft",
+  status: "published",
   publication: {
     bylineApproved: true,
     featuredImageApproved: true,
     sourcesVerifiedOn: "2026-07-21",
+    safetyReview: {
+      reviewerName: "Andrew Warner",
+      reviewerRole: "Owner and climber, Midwest Roots Tree Services",
+      experienceBasis: "Hands-on experience planning and performing residential tree-removal work as the company owner and climber",
+      reviewedOn: "2026-07-21",
+    },
   },
   title: "How Much Does Tree Removal Cost in Omaha?",
   cardTitle: "Tree Removal Cost in Omaha: What Changes the Price",
@@ -26,6 +32,7 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     role: "Omaha tree service",
     bio: "Practical Omaha tree-care information from the Midwest Roots team, written to help homeowners understand project scope and prepare for an on-site conversation.",
   },
+  datePublished: "2026-07-21",
   readingTime: 14,
   featured: true,
   featuredImage: {

@@ -15,21 +15,26 @@ const verifiedInternalRoutes = new Set([
 ]);
 
 describe("Treehouse content integrity", () => {
-  it("keeps the first article on publication hold until owner fields are supplied", () => {
+  it("publishes the first article with complete owner and professional review evidence", () => {
     const article = articles[0];
     expect(article.slug).toBe("tree-removal-cost-omaha");
-    expect(article.status).toBe("draft");
-    expect(article.datePublished).toBeUndefined();
+    expect(article.status).toBe("published");
+    expect(article.datePublished).toBe("2026-07-21");
+    expect(article.publication.safetyReview).toMatchObject({
+      reviewerName: "Andrew Warner",
+      reviewerRole: "Owner and climber, Midwest Roots Tree Services",
+      reviewedOn: "2026-07-21",
+    });
     expect(article.featuredImage?.src).toBe("/images/treehouse/tree-removal-cost-omaha.webp");
-    expect(getPublishedArticles()).toEqual([]);
+    expect(getPublishedArticles()).toEqual([article]);
   });
 
   it("shows drafts only in development and Vercel preview environments", () => {
     expect(canPreviewDrafts({ NODE_ENV: "development" })).toBe(true);
     expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(true);
     expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(false);
-    expect(getVisibleArticles({ NODE_ENV: "production", VERCEL_ENV: "production" })).toEqual([]);
-    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "production" })).toBeUndefined();
+    expect(getVisibleArticles({ NODE_ENV: "production", VERCEL_ENV: "production" })).toEqual([articles[0]]);
+    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(articles[0]);
     expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(articles[0]);
   });
 
@@ -38,8 +43,31 @@ describe("Treehouse content integrity", () => {
       ...articles[0],
       status: "published" as const,
       datePublished: "2026-07-21",
+      publication: {
+        ...articles[0].publication,
+        safetyReview: undefined,
+      },
     };
-    expect(() => assertArticleReadyForPublication(incompletePublishedArticle)).toThrow(/credentialed safety review/);
+    expect(() => assertArticleReadyForPublication(incompletePublishedArticle)).toThrow(/named professional safety review/);
+  });
+
+  it("accepts an accountable professional review based on disclosed experience without claiming a certification", () => {
+    const reviewedArticle = {
+      ...articles[0],
+      status: "published" as const,
+      datePublished: "2026-07-21",
+      publication: {
+        ...articles[0].publication,
+        safetyReview: {
+          reviewerName: "Test Reviewer",
+          reviewerRole: "Tree-service owner-operator",
+          experienceBasis: "Hands-on experience planning and performing residential tree removals",
+          reviewedOn: "2026-07-21",
+        },
+      },
+    };
+
+    expect(() => assertArticleReadyForPublication(reviewedArticle)).not.toThrow();
   });
 
   it("contains every required first-article section in the structured body", () => {

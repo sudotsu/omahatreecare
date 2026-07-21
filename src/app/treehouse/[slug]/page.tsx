@@ -96,7 +96,7 @@ function ArticlePage({ article }: { article: TreehouseArticle }) {
       <header className="bg-forest px-6 pb-16 pt-28 text-cream-warm md:pb-20 md:pt-36">
         <div className="mx-auto max-w-5xl">
           <Breadcrumbs items={[{ label: "Home", href: treehouseLinks.home }, { label: "The Treehouse", href: treehouseLinks.treehouse }, { label: category.name, href: `/treehouse/${category.route}` }, { label: article.title }]} />
-          {article.status === "draft" && <div className="mt-8 border border-gold/40 bg-gold/10 px-4 py-3 text-sm leading-6 text-cream-warm"><strong className="text-gold">Publication hold:</strong> independent credentialed review of safety-sensitive content and the owner-approved publication date are pending. This preview is noindex.</div>}
+          {article.status === "draft" && <div className="mt-8 border border-gold/40 bg-gold/10 px-4 py-3 text-sm leading-6 text-cream-warm"><strong className="text-gold">Publication hold:</strong> named professional review of safety-sensitive content and the owner-approved publication date are pending. This preview is noindex.</div>}
           <Link className="mt-10 inline-block text-xs font-bold uppercase tracking-[0.2em] text-gold underline-offset-4 hover:underline" href={`/treehouse/${category.route}`}>{category.name}</Link>
           <h1 className={`${dmSerif.className} mt-4 max-w-4xl text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-6xl`}>{article.title}</h1>
           <p className="mt-6 max-w-3xl border-l-2 border-gold pl-5 text-lg leading-8 text-link-dark md:text-xl">{article.directAnswer}</p>
