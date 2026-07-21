@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArticleMedia, ArticleMeta, AuthorBox, EstimateRail, TableOfContents } from "@/components/treehouse/ArticleChrome";
 import { Breadcrumbs } from "@/components/treehouse/Breadcrumbs";
 import { ContentRenderer, FAQ, RelatedContent, Sources, ToolCta } from "@/components/treehouse/ContentBlocks";
-import { articles, getArticle } from "@/data/treehouse/articles";
+import { getVisibleArticle, getVisibleArticles } from "@/data/treehouse/articles";
 import { getCategory } from "@/data/treehouse/categories";
 import type { TreehouseArticle } from "@/data/treehouse/types";
 import { treehouseLinks } from "@/data/treehouse/links";
@@ -14,14 +14,22 @@ import { dmSerif } from "@/lib/fonts";
 type PageProps = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+  return getVisibleArticles().map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = getVisibleArticle(slug);
   if (!article) return {};
   const canonical = `${CONTACT.siteUrl}/treehouse/${article.slug}`;
+  const socialImage = article.featuredImage
+    ? {
+        url: `${CONTACT.siteUrl}${article.featuredImage.src}`,
+        width: article.featuredImage.width,
+        height: article.featuredImage.height,
+        alt: article.featuredImage.alt,
+      }
+    : undefined;
   return {
     title: article.seoTitle,
     description: article.metaDescription,
@@ -34,16 +42,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: canonical,
       siteName: CONTACT.businessName,
       type: "article",
+      ...(socialImage ? { images: [socialImage] } : {}),
       ...(article.datePublished ? { publishedTime: article.datePublished } : {}),
       ...(article.dateModified ? { modifiedTime: article.dateModified } : {}),
     },
-    twitter: { card: "summary", title: article.seoTitle, description: article.metaDescription },
+    twitter: {
+      card: socialImage ? "summary_large_image" : "summary",
+      title: article.seoTitle,
+      description: article.metaDescription,
+      ...(socialImage ? { images: [socialImage.url] } : {}),
+    },
   };
 }
 
 export default async function TreehouseArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = getVisibleArticle(slug);
   if (!article) notFound();
   return <ArticlePage article={article} />;
 }
@@ -81,7 +95,7 @@ function ArticlePage({ article }: { article: TreehouseArticle }) {
       <header className="bg-forest px-6 pb-16 pt-28 text-cream-warm md:pb-20 md:pt-36">
         <div className="mx-auto max-w-5xl">
           <Breadcrumbs items={[{ label: "Home", href: treehouseLinks.home }, { label: "The Treehouse", href: treehouseLinks.treehouse }, { label: category.name, href: `/treehouse/${category.route}` }, { label: article.title }]} />
-          {article.status === "draft" && <div className="mt-8 border border-gold/40 bg-gold/10 px-4 py-3 text-sm leading-6 text-cream-warm"><strong className="text-gold">Publication hold:</strong> original images, publication date, individual author details, and safety-sensitive content review are pending. This page is currently noindex.</div>}
+          {article.status === "draft" && <div className="mt-8 border border-gold/40 bg-gold/10 px-4 py-3 text-sm leading-6 text-cream-warm"><strong className="text-gold">Publication hold:</strong> independent credentialed review of safety-sensitive content and the owner-approved publication date are pending. This preview is noindex.</div>}
           <Link className="mt-10 inline-block text-xs font-bold uppercase tracking-[0.2em] text-gold underline-offset-4 hover:underline" href={`/treehouse/${category.route}`}>{category.name}</Link>
           <h1 className={`${dmSerif.className} mt-4 max-w-4xl text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-6xl`}>{article.title}</h1>
           <p className="mt-6 max-w-3xl border-l-2 border-gold pl-5 text-lg leading-8 text-link-dark md:text-xl">{article.directAnswer}</p>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { articles, getPublishedArticles } from "./articles";
+import { articles, canPreviewDrafts, getPublishedArticles, getVisibleArticle, getVisibleArticles } from "./articles";
 import { categories } from "./categories";
 
 const verifiedInternalRoutes = new Set([
@@ -20,8 +20,17 @@ describe("Treehouse content integrity", () => {
     expect(article.slug).toBe("tree-removal-cost-omaha");
     expect(article.status).toBe("draft");
     expect(article.datePublished).toBeUndefined();
-    expect(article.featuredImage).toBeUndefined();
+    expect(article.featuredImage?.src).toBe("/images/treehouse/tree-removal-cost-omaha.webp");
     expect(getPublishedArticles()).toEqual([]);
+  });
+
+  it("shows drafts only in development and Vercel preview environments", () => {
+    expect(canPreviewDrafts({ NODE_ENV: "development" })).toBe(true);
+    expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(true);
+    expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(false);
+    expect(getVisibleArticles({ NODE_ENV: "production", VERCEL_ENV: "production" })).toEqual([]);
+    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "production" })).toBeUndefined();
+    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(articles[0]);
   });
 
   it("contains every required first-article section in the structured body", () => {

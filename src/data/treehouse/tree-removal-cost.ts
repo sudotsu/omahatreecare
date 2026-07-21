@@ -19,10 +19,17 @@ export const treeRemovalCostArticle: TreehouseArticle = {
   author: {
     name: "Midwest Roots Tree Services",
     role: "Omaha tree service",
-    bio: "Practical tree-care information from the Midwest Roots team. Individual author details and verified credentials are pending owner approval.",
+    bio: "Practical Omaha tree-care information from the Midwest Roots team, written to help homeowners understand project scope and prepare for an on-site conversation.",
   },
   readingTime: 14,
   featured: true,
+  featuredImage: {
+    src: "/images/treehouse/tree-removal-cost-omaha.webp",
+    alt: "Editorial illustration of a mature tree near a house, fence, narrow access path, and utility lines",
+    caption: "Editorial illustration of common property conditions that can affect tree-removal planning. Replace with approved original Midwest Roots photography when available.",
+    width: 1672,
+    height: 941,
+  },
   relatedTools: [
     {
       label: "Start the cost planner",
@@ -78,13 +85,15 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     },
     {
       title: "Licensed Arborists",
-      organization: "City of Omaha Parks, Recreation & Public Property",
-      url: "https://parks.cityofomaha.org/licensed-arborists/",
+      organization: "City of Omaha ONEBiz",
+      url: "https://onebiz.cityofomaha.org/obtain-necessary-licenses-and-permits",
+      accessedDate: "2026-07-21",
     },
     {
       title: "FAQ and Code Enforcement",
-      organization: "City of Omaha Parks, Recreation & Public Property",
-      url: "https://parks.cityofomaha.org/faq-code-enforcement/",
+      organization: "Omaha Municipal Code, Chapter 37",
+      url: "https://library.municode.com/ne/omaha/codes/code_of_ordinances?nodeId=PTIIMUCO_CH37TRVE",
+      accessedDate: "2026-07-21",
     },
   ],
   faq: [
@@ -119,7 +128,8 @@ export const treeRemovalCostArticle: TreehouseArticle = {
       question: "Do I need a permit to remove a tree in Omaha?",
       answer:
         "A permit is required before removing or planting a tree on a City of Omaha right-of-way or in a city park. Requirements can differ for private property, street obstructions, utility conflicts, and other special circumstances. Confirm ownership and location before beginning work.",
-      sourceUrl: "https://parks.cityofomaha.org/faq-code-enforcement/",
+      sourceUrl:
+        "https://library.municode.com/ne/omaha/codes/code_of_ordinances?nodeId=PTIIMUCO_CH37TRVE",
     },
     {
       question: "Should I choose the lowest tree-removal quote?",
@@ -625,7 +635,7 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     {
       type: "source-note",
       label: "City of Omaha: Licensed Arborists",
-      url: "https://parks.cityofomaha.org/licensed-arborists/",
+      url: "https://onebiz.cityofomaha.org/obtain-necessary-licenses-and-permits",
     },
     {
       type: "paragraph",

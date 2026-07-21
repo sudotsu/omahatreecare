@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getArticlesByCategory } from "@/data/treehouse/articles";
+import { getVisibleArticlesByCategory } from "@/data/treehouse/articles";
 import type { TreehouseCategory } from "@/data/treehouse/categories";
 import { treehouseLinks } from "@/data/treehouse/links";
 import { ArticleCard } from "./ArticleCard";
 import { Breadcrumbs } from "./Breadcrumbs";
 
 export function CategoryArchive({ category }: { category: TreehouseCategory }) {
-  const categoryArticles = getArticlesByCategory(category.slug);
+  const categoryArticles = getVisibleArticlesByCategory(category.slug);
   return (
     <>
       <section className="bg-forest px-6 pb-16 pt-28 text-cream-warm md:pb-20 md:pt-36">

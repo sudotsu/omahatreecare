@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Leaf, NotebookTabs } from "lucide-react";
 import { ArticleCard } from "@/components/treehouse/ArticleCard";
-import { articles, getPublishedArticles } from "@/data/treehouse/articles";
+import { getPublishedArticles, getVisibleArticles } from "@/data/treehouse/articles";
 import { categories } from "@/data/treehouse/categories";
 import { treehouseLinks } from "@/data/treehouse/links";
 import { CONTACT } from "@/lib/constants";
 import { dmSerif } from "@/lib/fonts";
 
 const hasPublishedArticle = getPublishedArticles().length > 0;
+const visibleArticles = getVisibleArticles();
 
 export const metadata: Metadata = {
   title: "The Treehouse",
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
-const featured = articles.find((article) => article.featured)!;
+const featured = visibleArticles.find((article) => article.featured);
 
 const tools = [
   { name: "Cost planning guide", text: "Organize the variables that can affect a project estimate.", href: treehouseLinks.costTool, number: "01" },
@@ -58,13 +59,15 @@ export default function TreehousePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-        <div className="mb-10 grid gap-5 md:grid-cols-[1fr_0.7fr] md:items-end">
-          <div><span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Start here</span><h2 className={`${dmSerif.className} mt-2 text-4xl text-forest md:text-5xl`}>A clearer way to plan a removal</h2></div>
-          <p className="leading-7 text-slate-600">The first Treehouse guide explains the work behind an estimate without relying on a misleading citywide average.</p>
-        </div>
-        <ArticleCard article={featured} variant="featured" />
-      </section>
+      {featured && (
+        <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          <div className="mb-10 grid gap-5 md:grid-cols-[1fr_0.7fr] md:items-end">
+            <div><span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Start here</span><h2 className={`${dmSerif.className} mt-2 text-4xl text-forest md:text-5xl`}>A clearer way to plan a removal</h2></div>
+            <p className="leading-7 text-slate-600">The first Treehouse guide explains the work behind an estimate without relying on a misleading citywide average.</p>
+          </div>
+          <ArticleCard article={featured} variant="featured" />
+        </section>
+      )}
 
       <section className="bg-stone px-6 py-16 md:py-24">
         <div className="mx-auto max-w-6xl">
@@ -89,10 +92,12 @@ export default function TreehousePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-        <div className="mb-9 flex flex-wrap items-end justify-between gap-5"><div><span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Latest from the Treehouse</span><h2 className={`${dmSerif.className} mt-2 text-4xl text-forest md:text-5xl`}>Useful now. Built to grow.</h2></div><Link className="inline-flex items-center gap-2 font-bold text-forest underline-offset-4 hover:underline" href={treehouseLinks.guides}>View all guides <ArrowRight className="size-4" /></Link></div>
-        <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">{articles.map((article) => <ArticleCard article={article} key={article.id} />)}</div>
-      </section>
+      {visibleArticles.length > 0 && (
+        <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          <div className="mb-9 flex flex-wrap items-end justify-between gap-5"><div><span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Latest from the Treehouse</span><h2 className={`${dmSerif.className} mt-2 text-4xl text-forest md:text-5xl`}>Useful now. Built to grow.</h2></div><Link className="inline-flex items-center gap-2 font-bold text-forest underline-offset-4 hover:underline" href={treehouseLinks.guides}>View all guides <ArrowRight className="size-4" /></Link></div>
+          <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">{visibleArticles.map((article) => <ArticleCard article={article} key={article.id} />)}</div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-6 pb-20">
         <div className="grid gap-8 bg-forest p-8 text-cream-warm md:grid-cols-[0.25fr_1fr_auto] md:items-center md:p-10">

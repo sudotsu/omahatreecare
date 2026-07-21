@@ -35,9 +35,13 @@ Keep `status: "draft"` until every item below is complete:
 
 When the article is ready, change `status` to `"published"`. Published articles automatically become indexable, populate their non-empty category archive, and enter the generated sitemap. Draft articles and empty category archives stay `noindex` and are excluded from the sitemap.
 
+Draft articles are available during local development and on Vercel preview deployments so reviewers can inspect them. Production deployments omit drafts from Treehouse listings and return `404` for their article routes.
+
 ## Known MVP publication holds
 
-The first article intentionally remains a draft. Publication still requires the owner-supplied date, approved byline details, original imagery, and the independent safety review listed above. In addition, the two supplied City of Omaha Parks source URLs returned `403` to automated verification on July 21, 2026. Verify the licensed-arborist and right-of-way/city-park permit language in a normal browser or replace those references with current City sources before publishing.
+The first article intentionally remains a draft until it receives the independent safety review listed above and an owner-approved publication date. The company byline is approved for the initial release, and temporary AI-generated editorial artwork is explicitly identified in its caption so it cannot be mistaken for a real Midwest Roots project. Replace that artwork with approved original photography when available.
+
+The two supplied City of Omaha Parks URLs returned `403` during automated verification on July 21, 2026. The implementation now cites the current City of Omaha ONEBiz arborist-license guidance and Omaha Municipal Code Chapter 37 instead.
 
 ## Images
 
