@@ -72,6 +72,18 @@ export const treeRemovalCostArticle: TreehouseArticle = {
   relatedArticles: [],
   sources: [
     {
+      title: "Tree Removal Cost in Omaha, Nebraska (2025)",
+      organization: "HomeBlue",
+      url: "https://www.homeblue.com/tree-service/omaha-ne-tree-removal-cost.htm",
+      accessedDate: "2026-07-21",
+    },
+    {
+      title: "Emerald Ash Borer (EAB)",
+      organization: "City of Omaha Parks and Recreation",
+      url: "https://parks.cityofomaha.org/eab/",
+      accessedDate: "2026-07-21",
+    },
+    {
       title: "Inspection Guidance for Tree Care and Tree Removal Operations",
       organization: "Occupational Safety and Health Administration",
       url: "https://www.osha.gov/memos/2021-06-30/inspection-guidance-for-tree-care-and-tree-removal-operations",
@@ -109,6 +121,11 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     },
   ],
   faq: [
+    {
+      question: "What is the average cost to remove a tree in Omaha?",
+      answer:
+        "A typical Omaha tree removal is around $1,000, with most jobs falling between $400 and $1,700 and a broader planning span of roughly $300 to $2,500. Size, access, condition, and stump work can move the number, so only an on-site estimate can provide a reliable price for a specific property.",
+    },
     {
       question: "How much does it cost to remove a tree in Omaha?",
       answer:
@@ -151,12 +168,33 @@ export const treeRemovalCostArticle: TreehouseArticle = {
         "https://www.treesaregood.org/Portals/0/TreesAreGood_Why%20Hire%20An%20Arborist_0321.pdf",
     },
     {
+      question: "Does emerald ash borer make removal more expensive or urgent?",
+      answer:
+        "It can. Standing dead ash grow more brittle and unpredictable over time, which raises safety risk and can require more careful, sometimes costlier work. For that reason, emerald ash borer-killed trees are often a removal priority.",
+    },
+    {
       question: "Can a dead tree be cheaper to remove?",
       answer:
         "Sometimes, but not always. A dead tree may contain less foliage, yet deteriorated wood can make climbing, cutting, or rigging less predictable. The effect on price depends on the tree’s actual structure, location, and available removal method.",
     },
   ],
   body: [
+    {
+      type: "checklist",
+      title: "The short version",
+      items: [
+        "Tree-removal cost depends on size, access, and condition—not height alone.",
+        "For planning only, most Omaha jobs fall between $400 and $1,700, with a broader span of roughly $300 to $2,500.",
+        "The biggest cost drivers are the eight factors explained below.",
+      ],
+    },
+    {
+      type: "jump-nav",
+      links: [
+        { label: "Jump to price ranges", targetId: "cost-range" },
+        { label: "Jump to the 8 cost factors", targetId: "eight-factors" },
+      ],
+    },
     {
       type: "paragraph",
       text: "At Midwest Roots Tree Services, we believe homeowners should understand what they are paying for. An estimate should not feel like a mystery number attached to a tree. It should explain the work required to complete the project responsibly.",
@@ -190,6 +228,38 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     {
       type: "takeaway",
       text: "The size of the tree matters, but the difficulty of safely moving the tree from where it stands to where the material can be processed often matters just as much.",
+    },
+    {
+      type: "heading",
+      level: 2,
+      id: "cost-range",
+      text: "Typical Tree Removal Cost Ranges in Omaha",
+    },
+    {
+      type: "paragraph",
+      text: "These are broad 2025 planning ranges, not quotes. A typical Omaha tree removal is around $1,000, most jobs fall between $400 and $1,700, and the full span is roughly $300 to $2,500 depending on size, access, and condition.",
+    },
+    {
+      type: "table",
+      caption: "Typical Omaha tree-removal cost ranges by size (2025 planning estimates)",
+      columns: ["Tree size", "Typical range", "What tends to drive it"],
+      rows: [
+        ["Small — under 25 ft (ornamentals, small evergreens)", "$300–$500", "Simple ground-level cuts, minimal material"],
+        ["Medium — 25–60 ft", "$400–$900", "Moderate canopy, some rigging or lowering"],
+        ["Large — 60–80 ft", "$900–$1,800", "Heavy limbs, more rigging, larger crew"],
+        ["Very large — over 80 ft", "$1,500–$2,500+", "Sectional removal near targets, specialized equipment"],
+        ["Stump grinding (add-on)", "$75–$400", "Stump diameter, depth, surface roots, access"],
+      ],
+    },
+    {
+      type: "safety",
+      title: "Planning ranges, not a quote",
+      text: "These are general planning ranges. The actual price depends on the eight factors below, and an on-site estimate is the only reliable number for a specific tree and property.",
+    },
+    {
+      type: "source-note",
+      label: "HomeBlue — Tree Removal Cost in Omaha, NE (2025)",
+      url: "https://www.homeblue.com/tree-service/omaha-ne-tree-removal-cost.htm",
     },
     {
       type: "heading",
@@ -293,6 +363,15 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     {
       type: "paragraph",
       text: "Dead, decayed, cracked, hollow, storm-damaged, or partially uprooted trees may be less predictable. An estimator may need to consider whether the trunk and limbs can support a climber, whether an aerial lift is necessary, and whether conventional rigging methods are appropriate.",
+    },
+    {
+      type: "paragraph",
+      text: "Emerald ash borer-killed ash are now common across Omaha. After EAB was confirmed locally in 2016, the City placed nearly 15,000 public ash trees—about 14% of Omaha’s urban canopy—on a citywide removal plan. Dead, brittle ash are often less predictable than a live tree of the same size and can require more careful, costlier rigging.",
+    },
+    {
+      type: "source-note",
+      label: "City of Omaha Parks and Recreation — Emerald Ash Borer (EAB)",
+      url: "https://parks.cityofomaha.org/eab/",
     },
     {
       type: "paragraph",

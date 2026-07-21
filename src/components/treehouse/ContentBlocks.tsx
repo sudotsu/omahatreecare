@@ -35,6 +35,14 @@ export function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) {
           ? <h2 className="scroll-mt-28 border-t border-forest/15 pt-10 text-3xl font-bold leading-tight tracking-tight text-forest first:border-0" id={block.id} key={index}>{content}</h2>
           : <h3 className="scroll-mt-28 pt-6 text-2xl font-bold leading-tight tracking-tight text-forest" id={block.id} key={index}>{content}</h3>;
       }
+      case "jump-nav":
+        return (
+          <nav className="my-7 flex flex-wrap gap-3" aria-label="Jump to article sections" key={index}>
+            {block.links.map((link) => (
+              <a className="inline-flex min-h-11 items-center rounded-full border border-primary/30 bg-stone px-4 py-2 text-sm font-bold text-forest transition hover:border-primary hover:bg-[#edf3ee] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary" href={`#${link.targetId}`} key={link.targetId}>{link.label}</a>
+            ))}
+          </nav>
+        );
       case "list": {
         const List = block.style === "numbered" ? "ol" : "ul";
         return <List className={`my-6 space-y-2 pl-6 text-[1.0625rem] leading-8 text-[#3d3027] ${block.style === "numbered" ? "list-decimal" : "list-disc marker:text-primary"}`} key={index}>{block.items.map((item) => <li className="pl-1" key={item}><RichText text={item} /></li>)}</List>;

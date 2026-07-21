@@ -92,6 +92,7 @@ describe("Treehouse content integrity", () => {
       .map((block) => block.type === "heading" ? block.text : "");
     expect(headings).toEqual(expect.arrayContaining([
       "Why There Is No Honest One-Price Answer",
+      "Typical Tree Removal Cost Ranges in Omaha",
       "What You Are Actually Paying For",
       "Eight Factors That Change a Tree-Removal Estimate",
       "Why Two Tree-Service Estimates May Be Very Different",
@@ -99,8 +100,8 @@ describe("Treehouse content integrity", () => {
       "Can You Reduce the Cost Without Cutting Corners?",
       "Start With a Clearer Tree-Removal Plan",
     ]));
-    expect(articles[0].faq).toHaveLength(8);
-    expect(articles[0].sources).toHaveLength(6);
+    expect(articles[0].faq).toHaveLength(10);
+    expect(articles[0].sources).toHaveLength(8);
   });
 
   it("uses verified production routes instead of placeholders", () => {
