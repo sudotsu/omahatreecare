@@ -33,6 +33,8 @@ Keep `status: "draft"` until every item below is complete:
 - Working internal links and current authoritative external sources
 - No invented pricing, project stories, reviews, credentials, service capabilities, or risk conclusions
 
+Record approval and review evidence in the article's `publication` object. The build throws an error if an article is changed to `status: "published"` without a valid publication date, approved byline and featured image, verified HTTPS sources, and the credentialed safety review.
+
 When the article is ready, change `status` to `"published"`. Published articles automatically become indexable, populate their non-empty category archive, and enter the generated sitemap. Draft articles and empty category archives stay `noindex` and are excluded from the sitemap.
 
 Draft articles are available during local development and on Vercel preview deployments so reviewers can inspect them. Production deployments omit drafts from Treehouse listings and return `404` for their article routes.

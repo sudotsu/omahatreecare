@@ -63,7 +63,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...publishedTreehouseArticles.map(article => ({
       url: `${base}/treehouse/${article.slug}`,
       ...(article.dateModified || article.datePublished
-        ? { lastModified: new Date(article.dateModified ?? article.datePublished!) }
+        ? { lastModified: new Date(article.dateModified || article.datePublished!) }
         : {}),
       changeFrequency: 'monthly' as const,
       priority: 0.7,

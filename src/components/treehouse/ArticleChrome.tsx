@@ -3,6 +3,7 @@ import { ArrowRight, CalendarDays, Clock, UserRound } from "lucide-react";
 import { getCategory } from "@/data/treehouse/categories";
 import type { TreehouseArticle } from "@/data/treehouse/types";
 import { treehouseLinks } from "@/data/treehouse/links";
+import { formatCalendarDate } from "@/lib/format-date";
 import { MediaPlaceholder } from "./MediaPlaceholder";
 import { TreehouseImage } from "./TreehouseImage";
 
@@ -11,8 +12,8 @@ export function ArticleMeta({ article }: { article: TreehouseArticle }) {
   return (
     <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 text-sm text-link-dark">
       <span className="inline-flex items-center gap-1.5"><UserRound className="size-4" />{article.author.name}</span>
-      <span className="inline-flex items-center gap-1.5"><CalendarDays className="size-4" />{article.datePublished ? `Published ${formatDate(article.datePublished)}` : "Publication date pending"}</span>
-      {article.dateModified && <span>Updated {formatDate(article.dateModified)}</span>}
+      <span className="inline-flex items-center gap-1.5"><CalendarDays className="size-4" />{article.datePublished ? `Published ${formatCalendarDate(article.datePublished)}` : "Publication date pending"}</span>
+      {article.dateModified && <span>Updated {formatCalendarDate(article.dateModified)}</span>}
       <span className="inline-flex items-center gap-1.5"><Clock className="size-4" />{article.readingTime} min read</span>
       <Link className="underline underline-offset-4 hover:text-white" href={`/treehouse/${category.route}`}>{category.name}</Link>
     </div>
@@ -56,8 +57,4 @@ export function EstimateRail() {
       <Link className="mt-5 inline-flex min-h-11 items-center gap-2 rounded bg-gold px-4 py-2.5 text-sm font-bold text-forest hover:bg-white" href={treehouseLinks.contact}>Request an estimate <ArrowRight className="size-4" /></Link>
     </aside>
   );
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
 }

@@ -5,6 +5,11 @@ export const treeRemovalCostArticle: TreehouseArticle = {
   id: "tree-removal-cost-omaha",
   slug: "tree-removal-cost-omaha",
   status: "draft",
+  publication: {
+    bylineApproved: true,
+    featuredImageApproved: true,
+    sourcesVerifiedOn: "2026-07-21",
+  },
   title: "How Much Does Tree Removal Cost in Omaha?",
   cardTitle: "Tree Removal Cost in Omaha: What Changes the Price",
   seoTitle: "Tree Removal Cost in Omaha: What Changes the Price",

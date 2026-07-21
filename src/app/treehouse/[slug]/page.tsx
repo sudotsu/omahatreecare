@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArticleMedia, ArticleMeta, AuthorBox, EstimateRail, TableOfContents } from "@/components/treehouse/ArticleChrome";
 import { Breadcrumbs } from "@/components/treehouse/Breadcrumbs";
 import { ContentRenderer, FAQ, RelatedContent, Sources, ToolCta } from "@/components/treehouse/ContentBlocks";
-import { getVisibleArticle, getVisibleArticles } from "@/data/treehouse/articles";
+import { getVisibleArticle, getVisibleArticles, isPublishedArticle } from "@/data/treehouse/articles";
 import { getCategory } from "@/data/treehouse/categories";
 import type { TreehouseArticle } from "@/data/treehouse/types";
 import { treehouseLinks } from "@/data/treehouse/links";
@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const article = getVisibleArticle(slug);
   if (!article) return {};
   const canonical = `${CONTACT.siteUrl}/treehouse/${article.slug}`;
+  const published = isPublishedArticle(article);
   const socialImage = article.featuredImage
     ? {
         url: `${CONTACT.siteUrl}${article.featuredImage.src}`,
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: article.metaDescription,
     authors: [{ name: article.author.name }],
     alternates: { canonical },
-    robots: { index: article.status === "published", follow: true },
+    robots: { index: published, follow: true },
     openGraph: {
       title: article.seoTitle,
       description: article.metaDescription,

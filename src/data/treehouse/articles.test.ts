@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { articles, canPreviewDrafts, getPublishedArticles, getVisibleArticle, getVisibleArticles } from "./articles";
+import { articles, assertArticleReadyForPublication, canPreviewDrafts, getPublishedArticles, getVisibleArticle, getVisibleArticles } from "./articles";
 import { categories } from "./categories";
 
 const verifiedInternalRoutes = new Set([
@@ -33,6 +33,15 @@ describe("Treehouse content integrity", () => {
     expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(articles[0]);
   });
 
+  it("rejects a published article when required publication evidence is incomplete", () => {
+    const incompletePublishedArticle = {
+      ...articles[0],
+      status: "published" as const,
+      datePublished: "2026-07-21",
+    };
+    expect(() => assertArticleReadyForPublication(incompletePublishedArticle)).toThrow(/credentialed safety review/);
+  });
+
   it("contains every required first-article section in the structured body", () => {
     const headings = articles[0].body
       .filter((block) => block.type === "heading")
@@ -61,8 +70,10 @@ describe("Treehouse content integrity", () => {
   });
 
   it("uses only HTTPS references and keeps every article in a known category", () => {
-    for (const source of articles[0].sources) expect(source.url).toMatch(/^https:\/\//);
     expect(categories).toHaveLength(3);
-    expect(categories.some((category) => category.slug === articles[0].category)).toBe(true);
+    for (const article of articles) {
+      for (const source of article.sources) expect(source.url).toMatch(/^https:\/\//);
+      expect(categories.some((category) => category.slug === article.category)).toBe(true);
+    }
   });
 });

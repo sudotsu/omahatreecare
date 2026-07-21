@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getCategory } from "@/data/treehouse/categories";
 import type { TreehouseArticle } from "@/data/treehouse/types";
+import { formatCalendarDate } from "@/lib/format-date";
 import { MediaPlaceholder } from "./MediaPlaceholder";
 import { TreehouseImage } from "./TreehouseImage";
 
@@ -29,7 +30,7 @@ export function ArticleCard({ article, variant = "standard" }: { article: Treeho
         </h3>
         <p className={`mt-4 leading-7 ${fieldNote ? "text-cream-warm/75" : "text-slate-600"}`}>{article.summary}</p>
         <div className={`mt-6 flex flex-wrap gap-x-2 gap-y-1 text-xs ${fieldNote ? "text-link-dark" : "text-slate-500"}`}>
-          <span>{article.dateModified ? `Updated ${formatDate(article.dateModified)}` : article.datePublished ? formatDate(article.datePublished) : "Publication date pending"}</span>
+          <span>{article.dateModified ? `Updated ${formatCalendarDate(article.dateModified)}` : article.datePublished ? formatCalendarDate(article.datePublished) : "Publication date pending"}</span>
           <span aria-hidden="true">•</span><span>{article.readingTime} min read</span>
         </div>
         <Link className={`mt-6 inline-flex items-center gap-2 self-start text-sm font-bold uppercase tracking-wider underline-offset-4 hover:underline ${fieldNote ? "text-gold" : "text-forest"}`} href={`/treehouse/${article.slug}`}>
@@ -38,8 +39,4 @@ export function ArticleCard({ article, variant = "standard" }: { article: Treeho
       </div>
     </article>
   );
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
 }

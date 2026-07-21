@@ -5,6 +5,17 @@ export type CategorySlug =
 
 export type ArticleStatus = "draft" | "published";
 
+export type PublicationEvidence = {
+  bylineApproved: boolean;
+  featuredImageApproved: boolean;
+  sourcesVerifiedOn?: string;
+  safetyReview?: {
+    reviewerName: string;
+    credential: string;
+    reviewedOn: string;
+  };
+};
+
 export type InternalLink = {
   label: string;
   href: string;
@@ -43,6 +54,7 @@ export type TreehouseArticle = {
   id: string;
   slug: string;
   status: ArticleStatus;
+  publication: PublicationEvidence;
   title: string;
   cardTitle: string;
   seoTitle: string;
