@@ -1,0 +1,15 @@
+export const treehouseLinks = {
+  home: "/",
+  treehouse: "/treehouse",
+  guides: "/treehouse/guides",
+  fieldNotes: "/treehouse/field-notes",
+  treeProfiles: "/treehouse/tree-profiles",
+  tools: "/tools",
+  costTool: "/tools/cost",
+  hazardTool: "/tools/hazard",
+  speciesTool: "/tools/species",
+  diyTool: "/tools/diy",
+  ailmentsTool: "/tools/ailments",
+  treeRemoval: "/services/tree-removal",
+  contact: "/contact",
+} as const;

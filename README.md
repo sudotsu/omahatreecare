@@ -48,6 +48,10 @@ Use a separate least-privilege application role for the deployed `DATABASE_URL`.
 
 Production persistence is implemented but not yet operationally verified. Until the migration, deployment configuration, storage, routing, destination, and labeled delivery tests are complete, the site is not release-ready for lead capture.
 
+## The Treehouse
+
+The structured editorial section lives at `/treehouse`. See [docs/TREEHOUSE_PUBLISHING.md](docs/TREEHOUSE_PUBLISHING.md) for the article model, category rules, required publication fields, image guidance, safety review gate, and validation checklist. Draft articles and empty categories remain `noindex` and are excluded from the sitemap until approved.
+
 ## Lead lifecycle
 
 - `/api/leads` validates size and schema, applies a honeypot and burst limit, and writes an idempotent first-party record before returning a receipt. PostgreSQL enforces idempotency with a unique SHA-256 digest; the raw client key is not stored.

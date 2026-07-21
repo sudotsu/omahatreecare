@@ -39,7 +39,7 @@ export const siteConfig = {
   },
   authority: {
     hazardDisclaimer: "This preliminary screening uses only the observations you report. It is not an on-site inspection, diagnosis, or certification.",
-    professionalReviewGate: "Safety-sensitive content should receive independent review by an appropriately credentialed tree professional before release.",
+    professionalReviewGate: "Safety-sensitive content should be reviewed before release by a named tree professional whose relevant role and experience are disclosed. Formal credentials must only be stated when verified.",
   },
   features: {
     pwa: false,

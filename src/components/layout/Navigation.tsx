@@ -130,6 +130,14 @@ export function Navigation({
             Free Tools
           </Link>
 
+          <Link
+            href="/treehouse"
+            className="font-semibold text-sm transition-colors hover:opacity-75"
+            style={{ color: linkColor }}
+          >
+            The Treehouse
+          </Link>
+
           <a
             href={`tel:${CONTACT.phoneRaw}`}
             className="rounded bg-gold px-5 py-2.5 text-sm font-bold text-forest transition-all hover:-translate-y-0.5 hover:bg-white"
@@ -182,6 +190,14 @@ export function Navigation({
             onClick={toggleMenu}
           >
             Free Tools
+          </Link>
+
+          <Link
+            href="/treehouse"
+            className="text-base font-semibold text-[#52796f]"
+            onClick={toggleMenu}
+          >
+            The Treehouse
           </Link>
 
           <a
