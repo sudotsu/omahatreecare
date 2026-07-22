@@ -72,6 +72,12 @@ export const treeRemovalCostArticle: TreehouseArticle = {
   relatedArticles: [],
   sources: [
     {
+      title: "Emerald Ash Borer (EAB)",
+      organization: "City of Omaha Parks and Recreation",
+      url: "https://parks.cityofomaha.org/eab/",
+      accessedDate: "2026-07-21",
+    },
+    {
       title: "Inspection Guidance for Tree Care and Tree Removal Operations",
       organization: "Occupational Safety and Health Administration",
       url: "https://www.osha.gov/memos/2021-06-30/inspection-guidance-for-tree-care-and-tree-removal-operations",
@@ -109,6 +115,11 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     },
   ],
   faq: [
+    {
+      question: "Does homeowners insurance cover tree removal?",
+      answer:
+        "Sometimes, but usually only when a covered event—such as a storm—causes a tree to damage an insured structure, and coverage is often capped per tree. Removing a healthy, dead, or diseased tree for maintenance or safety is typically the homeowner's own expense. Check your specific policy limits and deductible before assuming a claim will apply.",
+    },
     {
       question: "How much does it cost to remove a tree in Omaha?",
       answer:
@@ -151,12 +162,33 @@ export const treeRemovalCostArticle: TreehouseArticle = {
         "https://www.treesaregood.org/Portals/0/TreesAreGood_Why%20Hire%20An%20Arborist_0321.pdf",
     },
     {
+      question: "Does emerald ash borer make removal more expensive or urgent?",
+      answer:
+        "It can. Standing dead ash grow more brittle and unpredictable over time, which raises safety risk and can require more careful, sometimes costlier work. For that reason, emerald ash borer-killed trees are often a removal priority.",
+    },
+    {
       question: "Can a dead tree be cheaper to remove?",
       answer:
         "Sometimes, but not always. A dead tree may contain less foliage, yet deteriorated wood can make climbing, cutting, or rigging less predictable. The effect on price depends on the tree’s actual structure, location, and available removal method.",
     },
   ],
   body: [
+    {
+      type: "checklist",
+      title: "The short version",
+      items: [
+        "Tree-removal cost depends on size, access, and condition—not height alone.",
+        "For planning only, a typical Midwest Roots job runs around $1,500, with most falling between $900 and $2,200 and taller or harder-access trees pushing higher.",
+        "The biggest cost drivers are the eight factors explained below.",
+      ],
+    },
+    {
+      type: "jump-nav",
+      links: [
+        { label: "Jump to price ranges", targetId: "cost-range" },
+        { label: "Jump to the 8 cost factors", targetId: "eight-factors" },
+      ],
+    },
     {
       type: "paragraph",
       text: "At Midwest Roots Tree Services, we believe homeowners should understand what they are paying for. An estimate should not feel like a mystery number attached to a tree. It should explain the work required to complete the project responsibly.",
@@ -190,6 +222,35 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     {
       type: "takeaway",
       text: "The size of the tree matters, but the difficulty of safely moving the tree from where it stands to where the material can be processed often matters just as much.",
+    },
+    {
+      type: "heading",
+      level: 2,
+      id: "cost-range",
+      text: "Typical Tree Removal Cost Ranges in Omaha",
+    },
+    {
+      type: "paragraph",
+      text: "These are our broad 2025 planning ranges, not quotes. A typical Midwest Roots tree removal runs around $1,500, and most jobs fall between $900 and $2,200, driven mainly by the tree's height and how accessible it is.",
+    },
+    {
+      type: "table",
+      caption: "Midwest Roots tree-removal planning ranges by tree height (Omaha, 2025)",
+      columns: ["Tree height", "Typical range", "What tends to drive it"],
+      rows: [
+        ["Up to 20 ft (ornamentals, small evergreens)", "$350–$780", "Simple ground-level cuts, minimal material"],
+        ["30 ft", "$820–$1,120", "Moderate canopy, some lowering"],
+        ["40 ft", "$930–$1,330", "Larger canopy, more rigging"],
+        ["50 ft", "$1,040–$1,540", "Heavier limbs, careful lowering"],
+        ["60 ft", "$1,150–$1,740", "Large crew, more rigging"],
+        ["70 ft", "$1,260–$1,950", "Sectional removal, specialized equipment"],
+        ["80 ft", "$1,370–$2,160", "Sectional removal near targets, largest crews"],
+      ],
+    },
+    {
+      type: "safety",
+      title: "Planning ranges, not a quote",
+      text: "These are our general planning ranges. The actual price depends on the eight factors below, and an on-site estimate is the only reliable number for a specific tree and property.",
     },
     {
       type: "heading",
@@ -293,6 +354,15 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     {
       type: "paragraph",
       text: "Dead, decayed, cracked, hollow, storm-damaged, or partially uprooted trees may be less predictable. An estimator may need to consider whether the trunk and limbs can support a climber, whether an aerial lift is necessary, and whether conventional rigging methods are appropriate.",
+    },
+    {
+      type: "paragraph",
+      text: "Emerald ash borer-killed ash are now common across Omaha. After EAB was confirmed locally in 2016, the City identified nearly 15,000 public ash trees for removal under a ten-year plan and had removed more than 9,000 of them by January 2024. Dead, brittle ash are often less predictable than a live tree of the same size and can require more careful, costlier rigging.",
+    },
+    {
+      type: "source-note",
+      label: "City of Omaha Parks and Recreation — Emerald Ash Borer (EAB)",
+      url: "https://parks.cityofomaha.org/eab/",
     },
     {
       type: "paragraph",

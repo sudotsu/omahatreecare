@@ -13,7 +13,6 @@ export type PublicationEvidence = {
     reviewerName: string;
     reviewerRole: string;
     experienceBasis: string;
-    credentials?: string[];
     reviewedOn: string;
   };
 };
@@ -40,6 +39,7 @@ export type FAQItem = {
 export type ContentBlock =
   | { type: "paragraph"; text: string }
   | { type: "heading"; level: 2 | 3; id: string; text: string }
+  | { type: "jump-nav"; links: { label: string; targetId: string }[] }
   | { type: "list"; style?: "bulleted" | "numbered"; items: string[] }
   | { type: "takeaway"; text: string }
   | { type: "safety"; title?: string; text: string }

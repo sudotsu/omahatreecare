@@ -30,12 +30,28 @@ describe("Treehouse content integrity", () => {
   });
 
   it("shows drafts only in development and Vercel preview environments", () => {
-    expect(canPreviewDrafts({ NODE_ENV: "development" })).toBe(true);
-    expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(true);
-    expect(canPreviewDrafts({ NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(false);
-    expect(getVisibleArticles({ NODE_ENV: "production", VERCEL_ENV: "production" })).toEqual([articles[0]]);
-    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(articles[0]);
-    expect(getVisibleArticle("tree-removal-cost-omaha", { NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(articles[0]);
+    const productionEnvironment = { NODE_ENV: "production", VERCEL_ENV: "production" };
+    const previewEnvironment = { NODE_ENV: "production", VERCEL_ENV: "preview" };
+    const draftArticle = {
+      ...articles[0],
+      id: "draft-visibility-fixture",
+      slug: "draft-visibility-fixture",
+      status: "draft" as const,
+    };
+    const originalArticleCount = articles.length;
+
+    articles.push(draftArticle);
+    try {
+      expect(canPreviewDrafts({ NODE_ENV: "development" })).toBe(true);
+      expect(canPreviewDrafts(previewEnvironment)).toBe(true);
+      expect(canPreviewDrafts(productionEnvironment)).toBe(false);
+      expect(getVisibleArticles(productionEnvironment)).not.toContain(draftArticle);
+      expect(getVisibleArticle(draftArticle.slug, productionEnvironment)).toBeUndefined();
+      expect(getVisibleArticles(previewEnvironment)).toContain(draftArticle);
+      expect(getVisibleArticle(draftArticle.slug, previewEnvironment)).toBe(draftArticle);
+    } finally {
+      articles.splice(originalArticleCount);
+    }
   });
 
   it("rejects a published article when required publication evidence is incomplete", () => {
@@ -76,6 +92,7 @@ describe("Treehouse content integrity", () => {
       .map((block) => block.type === "heading" ? block.text : "");
     expect(headings).toEqual(expect.arrayContaining([
       "Why There Is No Honest One-Price Answer",
+      "Typical Tree Removal Cost Ranges in Omaha",
       "What You Are Actually Paying For",
       "Eight Factors That Change a Tree-Removal Estimate",
       "Why Two Tree-Service Estimates May Be Very Different",
@@ -83,8 +100,8 @@ describe("Treehouse content integrity", () => {
       "Can You Reduce the Cost Without Cutting Corners?",
       "Start With a Clearer Tree-Removal Plan",
     ]));
-    expect(articles[0].faq).toHaveLength(8);
-    expect(articles[0].sources).toHaveLength(6);
+    expect(articles[0].faq).toHaveLength(10);
+    expect(articles[0].sources).toHaveLength(7);
   });
 
   it("uses verified production routes instead of placeholders", () => {

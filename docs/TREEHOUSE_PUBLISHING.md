@@ -26,15 +26,15 @@ Keep `status: "draft"` until every item below is complete:
 - A real publication date in `YYYY-MM-DD` format
 - An updated date when the article has materially changed
 - A real author or the approved company byline, with a truthful role and biography
-- Verified credentials only when tied to a real person and independently confirmable
+- No stated credentials in published copy until the publication contract carries explicit verification evidence for them (see the credential note below)
 - An approved featured image with dimensions, descriptive alt text, and optional caption
 - Owner approval for customer/property details and identifiable project photography
 - Review of safety-sensitive content by a named tree professional whose real role and relevant experience are disclosed, as required by `siteConfig.authority.professionalReviewGate`
-- Formal credentials are optional, but any credential stated in the review evidence or published copy must be independently verifiable
+- Formal credentials are not part of the current review-evidence model; add explicit verification evidence to the publication contract before recording them
 - Working internal links and current authoritative external sources
 - No invented pricing, project stories, reviews, credentials, service capabilities, or risk conclusions
 
-Record approval and review evidence in the article's `publication` object. A safety review records the reviewer's name, real role, relevant experience basis, review date, and any optional verified credentials. The build throws an error if an article is changed to `status: "published"` without a valid publication date, approved byline and featured image, verified HTTPS sources, and the named professional safety review.
+Record approval and review evidence in the article's `publication` object. A safety review records the reviewer's name, real role, relevant experience basis, and review date. The build throws an error if an article is changed to `status: "published"` without a valid publication date, approved byline and featured image, verified HTTPS sources, and the named professional safety review.
 
 When the article is ready, change `status` to `"published"`. Published articles automatically become indexable, populate their non-empty category archive, and enter the generated sitemap. Draft articles and empty category archives stay `noindex` and are excluded from the sitemap.
 

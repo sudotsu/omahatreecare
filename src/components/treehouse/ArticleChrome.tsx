@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Clock, UserRound } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock } from "lucide-react";
 import { getCategory } from "@/data/treehouse/categories";
 import type { TreehouseArticle } from "@/data/treehouse/types";
 import { treehouseLinks } from "@/data/treehouse/links";
@@ -11,7 +11,6 @@ export function ArticleMeta({ article }: { article: TreehouseArticle }) {
   const category = getCategory(article.category);
   return (
     <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3 text-sm text-link-dark">
-      <span className="inline-flex items-center gap-1.5"><UserRound className="size-4" />{article.author.name}</span>
       <span className="inline-flex items-center gap-1.5"><CalendarDays className="size-4" />{article.datePublished ? `Published ${formatCalendarDate(article.datePublished)}` : "Publication date pending"}</span>
       {article.dateModified && <span>Updated {formatCalendarDate(article.dateModified)}</span>}
       <span className="inline-flex items-center gap-1.5"><Clock className="size-4" />{article.readingTime} min read</span>
