@@ -357,7 +357,7 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     },
     {
       type: "paragraph",
-      text: "Emerald ash borer-killed ash are now common across Omaha. After EAB was confirmed locally in 2016, the City placed nearly 15,000 public ash trees—about 14% of Omaha’s urban canopy—on a citywide removal plan. Dead, brittle ash are often less predictable than a live tree of the same size and can require more careful, costlier rigging.",
+      text: "Emerald ash borer-killed ash are now common across Omaha. After EAB was confirmed locally in 2016, the City identified nearly 15,000 public ash trees for removal under a ten-year plan and had removed more than 9,000 of them by January 2024. Dead, brittle ash are often less predictable than a live tree of the same size and can require more careful, costlier rigging.",
     },
     {
       type: "source-note",
