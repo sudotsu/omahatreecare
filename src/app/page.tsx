@@ -85,10 +85,10 @@ const TOOLS: Tool[] = [
   },
   {
     id: "cost",
-    label: "Cost Estimator",
+    label: "Removal Cost Planner",
     badge: null,
-    desc: "Get typical price ranges for common tree services in the Omaha area before you call anyone.",
-    cta: "See Estimates",
+    desc: "Start with our published tree-removal ranges, then see how your tree, property access, cleanup, and stump choices can affect the estimate.",
+    cta: "Plan My Cost",
     Icon: DollarSign,
   },
 ];

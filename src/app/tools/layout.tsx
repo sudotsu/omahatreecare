@@ -5,9 +5,9 @@ import { dmSerif } from "@/lib/fonts"
 
 export default function ToolsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#F7F6F2]">
+    <div data-tools-shell="true" className="min-h-screen bg-[#F7F6F2]">
       {/* Premium Header */}
-      <header className="sticky top-0 z-50 border-b border-forest/10 bg-white/80 backdrop-blur-md">
+      <header data-tools-shell-header="true" className="sticky top-0 z-50 border-b border-forest/10 bg-white/80 backdrop-blur-md">
         <div className="container mx-auto px-4 py-4 md:px-6">
           <div className="flex items-center justify-between">
             <Link
@@ -43,12 +43,12 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 md:py-16 md:px-6">
+      <div data-tools-shell-content="true" className="container mx-auto px-4 py-8 md:py-16 md:px-6">
         {children}
       </div>
 
       {/* Integrated Footer */}
-      <footer className="border-t border-stone-200 bg-white py-16">
+      <footer data-tools-shell-footer="true" className="border-t border-stone-200 bg-white py-16">
         <div className="container mx-auto px-4 text-center md:px-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Need On-Site Tree Service?</p>
           <h2 className={`${dmSerif.className} mt-4 text-3xl text-forest md:text-4xl`}>

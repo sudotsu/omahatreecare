@@ -19,14 +19,14 @@ const TOOL_MAP = {
 type ToolSlug = keyof typeof TOOL_MAP
 
 const TOOL_TITLES: Record<ToolSlug, string> = {
-  hazard: 'Tree Hazard Screening', species: 'Tree Species Matching Guide', cost: 'Tree-Service Cost Planning Guide',
+  hazard: 'Tree Hazard Screening', species: 'Tree Species Matching Guide', cost: 'Tree Removal Cost Planner',
   diy: 'DIY or Professional Decision Guide', ailments: 'Common Tree Ailments Reference',
 }
 
 const TOOL_DESCRIPTIONS: Record<ToolSlug, string> = {
   hazard: 'A preliminary homeowner screening based on self-reported tree warning signs and nearby targets.',
   species: 'Compare visible characteristics with ten common Omaha-area tree profiles; matches are not confirmed identifications.',
-  cost: 'Broad uncalibrated planning ranges and the site factors that can change a tree-service estimate.',
+  cost: 'Use Midwest Roots tree-removal planning ranges to see how height, access, nearby targets, condition, cleanup, and stump work shape an estimate.',
   diy: 'Ground-based homeowner tasks, stop conditions, and work that should be left to appropriately equipped providers.',
   ailments: 'Educational reference entries for common tree symptoms, with uncertainty and on-site referral thresholds.',
 }

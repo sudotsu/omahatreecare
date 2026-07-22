@@ -23,13 +23,12 @@ export const siteConfig = {
   serviceAreas: ["Omaha", "Dundee", "Millard", "Elkhorn", "Gretna", "Papillion", "Bellevue", "Bennington", "Ralston"],
   pricing: {
     locale: "Omaha area",
-    status: "uncalibrated broad planning ranges",
-    reviewOwner: "Midwest Roots owner",
+    status: "published 2025 broad planning ranges",
   },
   toolCopy: {
     hazardName: "Tree Hazard Screening",
     speciesName: "Tree Species Matching Guide",
-    costName: "Tree-Service Cost Planning Guide",
+    costName: "Tree Removal Cost Planner",
     diyName: "DIY or Professional Decision Guide",
     ailmentsName: "Common Tree Ailments Reference",
   },

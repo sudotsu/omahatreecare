@@ -1,5 +1,14 @@
 import { treehouseLinks as siteLinks } from "./links";
 import type { TreehouseArticle } from "./types";
+import {
+  TREE_REMOVAL_ARTICLE_ROWS,
+  TREE_REMOVAL_MARKET_SUMMARY,
+  TREE_REMOVAL_PRICING_YEAR,
+  formatTreeRemovalCurrency,
+} from "../tree-removal-pricing";
+
+const typicalRemovalPrice = formatTreeRemovalCurrency(TREE_REMOVAL_MARKET_SUMMARY.typical);
+const mostJobsRemovalRange = `${formatTreeRemovalCurrency(TREE_REMOVAL_MARKET_SUMMARY.mostJobsMin)}–${formatTreeRemovalCurrency(TREE_REMOVAL_MARKET_SUMMARY.mostJobsMax)}`;
 
 export const treeRemovalCostArticle: TreehouseArticle = {
   id: "tree-removal-cost-omaha",
@@ -37,8 +46,8 @@ export const treeRemovalCostArticle: TreehouseArticle = {
   featured: true,
   featuredImage: {
     src: "/images/treehouse/tree-removal-cost-omaha.webp",
-    alt: "Editorial illustration of a mature tree near a house, fence, narrow access path, and utility lines",
-    caption: "Editorial illustration of common property conditions that can affect tree-removal planning. Replace with approved original Midwest Roots photography when available.",
+    alt: "Large mature tree beside homes on a residential Omaha street",
+    caption: "A mature residential tree in Omaha, where surrounding homes, streets, access, and nearby property can shape a removal plan.",
     width: 1672,
     height: 941,
   },
@@ -178,7 +187,7 @@ export const treeRemovalCostArticle: TreehouseArticle = {
       title: "The short version",
       items: [
         "Tree-removal cost depends on size, access, and condition—not height alone.",
-        "For planning only, a typical Midwest Roots job runs around $1,500, with most falling between $900 and $2,200 and taller or harder-access trees pushing higher.",
+        `For planning only, a typical Midwest Roots job runs around ${typicalRemovalPrice}, with most falling between ${mostJobsRemovalRange} and taller or harder-access trees pushing higher.`,
         "The biggest cost drivers are the eight factors explained below.",
       ],
     },
@@ -231,21 +240,13 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     },
     {
       type: "paragraph",
-      text: "These are our broad 2025 planning ranges, not quotes. A typical Midwest Roots tree removal runs around $1,500, and most jobs fall between $900 and $2,200, driven mainly by the tree's height and how accessible it is.",
+      text: `These are our broad ${TREE_REMOVAL_PRICING_YEAR} planning ranges, not quotes. A typical Midwest Roots tree removal runs around ${typicalRemovalPrice}, and most jobs fall between ${mostJobsRemovalRange}, driven mainly by the tree's height and how accessible it is.`,
     },
     {
       type: "table",
-      caption: "Midwest Roots tree-removal planning ranges by tree height (Omaha, 2025)",
+      caption: `Midwest Roots tree-removal planning ranges by tree height (Omaha, ${TREE_REMOVAL_PRICING_YEAR})`,
       columns: ["Tree height", "Typical range", "What tends to drive it"],
-      rows: [
-        ["Up to 20 ft (ornamentals, small evergreens)", "$350–$780", "Simple ground-level cuts, minimal material"],
-        ["30 ft", "$820–$1,120", "Moderate canopy, some lowering"],
-        ["40 ft", "$930–$1,330", "Larger canopy, more rigging"],
-        ["50 ft", "$1,040–$1,540", "Heavier limbs, careful lowering"],
-        ["60 ft", "$1,150–$1,740", "Large crew, more rigging"],
-        ["70 ft", "$1,260–$1,950", "Sectional removal, specialized equipment"],
-        ["80 ft", "$1,370–$2,160", "Sectional removal near targets, largest crews"],
-      ],
+      rows: TREE_REMOVAL_ARTICLE_ROWS,
     },
     {
       type: "safety",

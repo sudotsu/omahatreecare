@@ -123,7 +123,7 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
               Tree Hazard Assessment
             </Link>
             <Link href="/tools/cost" className="px-5 py-2 bg-white border-2 border-amber-200 text-amber-900 rounded-xl text-sm font-semibold hover:border-amber-400 transition-colors">
-              Cost Estimator
+              Removal Cost Planner
             </Link>
             <Link href="/tools/ailments" className="px-5 py-2 bg-white border-2 border-amber-200 text-amber-900 rounded-xl text-sm font-semibold hover:border-amber-400 transition-colors">
               Tree Problem Identifier

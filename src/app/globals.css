@@ -122,6 +122,54 @@ body:has(.field-estimate-app) > footer {
     min-height: 0;
     background: white;
   }
+
+  body:has([data-cost-planner-result]) > a,
+  body:has([data-cost-planner-result]) > nav,
+  body:has([data-cost-planner-result]) > footer,
+  body:has([data-cost-planner-result]) [data-tools-shell-header],
+  body:has([data-cost-planner-result]) [data-tools-shell-footer],
+  body:has([data-cost-planner-result]) [data-cost-planner-controls],
+  body:has([data-cost-planner-result]) [data-cost-planner-decoration] {
+    display: none !important;
+  }
+
+  body:has([data-cost-planner-result]),
+  body:has([data-cost-planner-result]) main,
+  body:has([data-cost-planner-result]) [data-tools-shell],
+  body:has([data-cost-planner-result]) [data-tools-shell-content] {
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  body:has([data-cost-planner-result]) [data-tools-shell-content] {
+    width: 100%;
+    max-width: none !important;
+  }
+
+  [data-cost-planner-result] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    max-width: none !important;
+    overflow: visible !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  [data-cost-planner-layout] {
+    display: block !important;
+  }
+
+  [data-cost-planner-result] aside,
+  [data-cost-planner-result] section {
+    break-inside: avoid;
+  }
+
+  [data-cost-planner-result] aside {
+    min-height: 0 !important;
+  }
 }
 
 /* Dark mode overrides */

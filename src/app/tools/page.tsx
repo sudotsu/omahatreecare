@@ -35,12 +35,12 @@ const tools = [
   },
   {
     slug: 'cost',
-    name: 'Cost Estimator',
-    description: 'Get realistic price ranges for 9 common tree services — removal, pruning, stump grinding, EAB treatment, and more — before you call anyone for a quote.',
+    name: 'Tree Removal Cost Planner',
+    description: 'Start with Midwest Roots’ published height-based removal ranges, then see how access, nearby targets, condition, cleanup, and stump work may move the project within or beyond that range.',
     icon: DollarSign,
     color: 'text-amber-700',
     bg: 'bg-amber-50 border-amber-200',
-    cta: 'Estimate My Cost',
+    cta: 'Plan My Removal Cost',
   },
   {
     slug: 'diy',
