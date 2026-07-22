@@ -101,7 +101,7 @@ describe("Treehouse content integrity", () => {
       "Start With a Clearer Tree-Removal Plan",
     ]));
     expect(articles[0].faq).toHaveLength(10);
-    expect(articles[0].sources).toHaveLength(8);
+    expect(articles[0].sources).toHaveLength(7);
   });
 
   it("uses verified production routes instead of placeholders", () => {

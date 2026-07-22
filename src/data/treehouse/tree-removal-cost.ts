@@ -72,12 +72,6 @@ export const treeRemovalCostArticle: TreehouseArticle = {
   relatedArticles: [],
   sources: [
     {
-      title: "Tree Removal Cost in Omaha, Nebraska (2025)",
-      organization: "HomeBlue",
-      url: "https://www.homeblue.com/tree-service/omaha-ne-tree-removal-cost.htm",
-      accessedDate: "2026-07-21",
-    },
-    {
       title: "Emerald Ash Borer (EAB)",
       organization: "City of Omaha Parks and Recreation",
       url: "https://parks.cityofomaha.org/eab/",
@@ -122,9 +116,9 @@ export const treeRemovalCostArticle: TreehouseArticle = {
   ],
   faq: [
     {
-      question: "What is the average cost to remove a tree in Omaha?",
+      question: "Does homeowners insurance cover tree removal?",
       answer:
-        "A typical Omaha tree removal is around $1,000, with most jobs falling between $400 and $1,700 and a broader planning span of roughly $300 to $2,500. Size, access, condition, and stump work can move the number, so only an on-site estimate can provide a reliable price for a specific property.",
+        "Sometimes, but usually only when a covered event—such as a storm—causes a tree to damage an insured structure, and coverage is often capped per tree. Removing a healthy, dead, or diseased tree for maintenance or safety is typically the homeowner's own expense. Check your specific policy limits and deductible before assuming a claim will apply.",
     },
     {
       question: "How much does it cost to remove a tree in Omaha?",
@@ -184,7 +178,7 @@ export const treeRemovalCostArticle: TreehouseArticle = {
       title: "The short version",
       items: [
         "Tree-removal cost depends on size, access, and condition—not height alone.",
-        "For planning only, most Omaha jobs fall between $400 and $1,700, with a broader span of roughly $300 to $2,500.",
+        "For planning only, a typical Midwest Roots job runs around $1,500, with most falling between $900 and $2,200 and taller or harder-access trees pushing higher.",
         "The biggest cost drivers are the eight factors explained below.",
       ],
     },
@@ -237,29 +231,26 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     },
     {
       type: "paragraph",
-      text: "These are broad 2025 planning ranges, not quotes. A typical Omaha tree removal is around $1,000, most jobs fall between $400 and $1,700, and the full span is roughly $300 to $2,500 depending on size, access, and condition.",
+      text: "These are our broad 2025 planning ranges, not quotes. A typical Midwest Roots tree removal runs around $1,500, and most jobs fall between $900 and $2,200, driven mainly by the tree's height and how accessible it is.",
     },
     {
       type: "table",
-      caption: "Typical Omaha tree-removal cost ranges by size (2025 planning estimates)",
-      columns: ["Tree size", "Typical range", "What tends to drive it"],
+      caption: "Midwest Roots tree-removal planning ranges by tree height (Omaha, 2025)",
+      columns: ["Tree height", "Typical range", "What tends to drive it"],
       rows: [
-        ["Small — under 25 ft (ornamentals, small evergreens)", "$300–$500", "Simple ground-level cuts, minimal material"],
-        ["Medium — 25–60 ft", "$400–$900", "Moderate canopy, some rigging or lowering"],
-        ["Large — 60–80 ft", "$900–$1,800", "Heavy limbs, more rigging, larger crew"],
-        ["Very large — over 80 ft", "$1,500–$2,500+", "Sectional removal near targets, specialized equipment"],
-        ["Stump grinding (add-on)", "$75–$400", "Stump diameter, depth, surface roots, access"],
+        ["Up to 20 ft (ornamentals, small evergreens)", "$350–$780", "Simple ground-level cuts, minimal material"],
+        ["30 ft", "$820–$1,120", "Moderate canopy, some lowering"],
+        ["40 ft", "$930–$1,330", "Larger canopy, more rigging"],
+        ["50 ft", "$1,040–$1,540", "Heavier limbs, careful lowering"],
+        ["60 ft", "$1,150–$1,740", "Large crew, more rigging"],
+        ["70 ft", "$1,260–$1,950", "Sectional removal, specialized equipment"],
+        ["80 ft", "$1,370–$2,160", "Sectional removal near targets, largest crews"],
       ],
     },
     {
       type: "safety",
       title: "Planning ranges, not a quote",
-      text: "These are general planning ranges. The actual price depends on the eight factors below, and an on-site estimate is the only reliable number for a specific tree and property.",
-    },
-    {
-      type: "source-note",
-      label: "HomeBlue — Tree Removal Cost in Omaha, NE (2025)",
-      url: "https://www.homeblue.com/tree-service/omaha-ne-tree-removal-cost.htm",
+      text: "These are our general planning ranges. The actual price depends on the eight factors below, and an on-site estimate is the only reliable number for a specific tree and property.",
     },
     {
       type: "heading",

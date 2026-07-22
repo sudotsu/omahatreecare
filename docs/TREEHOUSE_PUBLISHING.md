@@ -26,7 +26,7 @@ Keep `status: "draft"` until every item below is complete:
 - A real publication date in `YYYY-MM-DD` format
 - An updated date when the article has materially changed
 - A real author or the approved company byline, with a truthful role and biography
-- Verified credentials only when tied to a real person and independently confirmable
+- No stated credentials in published copy until the publication contract carries explicit verification evidence for them (see the credential note below)
 - An approved featured image with dimensions, descriptive alt text, and optional caption
 - Owner approval for customer/property details and identifiable project photography
 - Review of safety-sensitive content by a named tree professional whose real role and relevant experience are disclosed, as required by `siteConfig.authority.professionalReviewGate`
