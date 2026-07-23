@@ -142,7 +142,7 @@ export const treeRemovalCostArticle: TreehouseArticle = {
     {
       question: "Is stump grinding included with tree removal?",
       answer:
-        "Not automatically. Some estimates include stump grinding, while others list it as an optional service. Ask about grinding depth, surface roots, debris removal, backfilling, and access before comparing totals.",
+        "No. Stump grinding is a separate service we schedule when there are several to do, not a standard part of a single-tree removal—ask us if you need it, especially if you have more than one stump. When you do compare stump-grinding quotes, check grinding depth, surface roots, debris removal, backfilling, and access.",
     },
     {
       question: "Why is backyard tree removal often more expensive?",

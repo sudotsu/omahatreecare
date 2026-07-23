@@ -20,14 +20,14 @@ describe("tree-removal planning ranges", () => {
 
   it("returns the published height range without adding invented dollars", () => {
     const result = getTreeRemovalPlanningAssessment({
-      heightId: "50",
+      heightId: "large",
       access: "restricted",
       targets: "dense",
       condition: "declining",
     });
 
     if (!result.range) throw new Error("Expected a height-based range");
-    expect(formatTreeRemovalRange(result.range)).toBe("$1,040–$1,540");
+    expect(formatTreeRemovalRange(result.range)).toBe("$1,040–$1,740");
     expect(result.position).toBe("upper");
     expect(result.drivers).toEqual(expect.arrayContaining([
       expect.objectContaining({ label: "Access", selection: "Restricted backyard access", influence: "pushes-higher" }),
@@ -56,7 +56,7 @@ describe("tree-removal planning ranges", () => {
     "requires a site review for targets=%s and condition=%s",
     (targets, condition, requiresUtilityReview, hasUrgentWarningSigns) => {
       const result = getTreeRemovalPlanningAssessment({
-        heightId: "40",
+        heightId: "medium",
         access: "open",
         targets,
         condition,

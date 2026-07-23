@@ -65,15 +65,13 @@ test("all five homeowner tools retain defining interactions", async ({ page }) =
   await expect(page.getByText(/you reported severe warning signs/i)).toBeVisible();
 
   await page.goto("/tools/cost");
-  await page.getByRole("button", { name: /About 50 ft/ }).click();
+  await page.getByRole("button", { name: /Large \(/ }).click();
   await page.getByRole("button", { name: /Restricted backyard/ }).click();
   await page.getByRole("button", { name: /Over structures or tight targets/ }).click();
   await page.getByRole("button", { name: /Dead, declining, or uncertain/ }).click();
-  await page.getByRole("button", { name: /Haul branches and logs/ }).click();
-  await page.getByRole("button", { name: /Include stump grinding/ }).click();
   await page.getByRole("button", { name: /See my planning range/ }).click();
   await expect(page.getByRole("heading", { name: /More likely toward the upper part or above/ })).toBeFocused();
-  await expect(page.getByText("$1,040–$1,540", { exact: true })).toBeVisible();
+  await expect(page.getByText("$1,040–$1,740", { exact: true })).toBeVisible();
   await expect(page.getByText("Not a quote", { exact: true })).toBeVisible();
 
   await page.goto("/tools/species");
@@ -102,17 +100,15 @@ test("storm cleanup explains the pricing boundary without showing an online aver
   await page.getByText("Why no online price average?", { exact: true }).click();
   await expect(page.getByText(/The goal is accurate, site-specific guidance—not pressure to hire us/i)).toBeVisible();
 
-  await page.getByRole("button", { name: /About 50 ft/ }).click();
+  await page.getByRole("button", { name: /Large \(/ }).click();
   await page.getByRole("button", { name: /Open access/ }).click();
   await page.getByRole("button", { name: /Mostly open drop zone/ }).click();
   await page.getByRole("button", { name: /Emergency tree care or storm cleanup/ }).click();
-  await page.getByRole("button", { name: /Not sure yet/ }).click();
-  await page.getByRole("button", { name: /Compare both options/ }).click();
   await page.getByRole("button", { name: /See my planning range/ }).click();
 
   await expect(page.getByRole("heading", { name: "Site-specific guidance is the honest answer" })).toBeFocused();
   await expect(page.getByText("No responsible online average", { exact: true })).toBeVisible();
-  await expect(page.getByText("$1,040–$1,540", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("$1,040–$1,740", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Get site-specific guidance" })).toBeVisible();
 });
 
@@ -134,14 +130,12 @@ test("uncertain height produces a transparent, contact-free worksheet", async ({
   await page.getByRole("button", { name: /Some limits/ }).click();
   await page.getByRole("button", { name: /A few nearby obstacles/ }).click();
   await page.getByRole("button", { name: /Standing and appears intact/ }).click();
-  await page.getByRole("button", { name: /Keep useful logs or chips/ }).click();
-  await page.getByRole("button", { name: /Removal only/ }).click();
   await page.getByRole("button", { name: /See my planning range/ }).click();
 
   await expect(page.getByText("Broad budgeting benchmark", { exact: true })).toBeVisible();
   await expect(page.getByText("$900–$2,200", { exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "What shaped this result" })).toBeVisible();
-  await expect(page.getByText("Some access limits", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What a standard removal includes" })).toBeVisible();
+  await expect(page.getByText(/final cleanup are included as standard/i)).toBeVisible();
   await expect(page.getByText(/do not add or multiply planner ranges/i)).toBeVisible();
 
   await page.getByRole("button", { name: "Copy worksheet" }).click();

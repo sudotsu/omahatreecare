@@ -29,22 +29,16 @@ import {
   type TreeRemovalAccess,
   type TreeRemovalCondition,
   type TreeRemovalHeightSelection,
-  type TreeRemovalPlanningDriver,
   type TreeRemovalTargets,
 } from "@/data/tree-removal-pricing";
 import { dmSerif } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-
-type CleanupChoice = "haul" | "keep" | "unsure";
-type StumpChoice = "include" | "exclude" | "unsure";
 
 interface PlannerAnswers {
   heightId: TreeRemovalHeightSelection | "";
   access: TreeRemovalAccess | "";
   targets: TreeRemovalTargets | "";
   condition: TreeRemovalCondition | "";
-  cleanup: CleanupChoice | "";
-  stump: StumpChoice | "";
 }
 
 interface Choice<T extends string> {
@@ -62,8 +56,6 @@ const INITIAL_ANSWERS: PlannerAnswers = {
   access: "",
   targets: "",
   condition: "",
-  cleanup: "",
-  stump: "",
 };
 
 const ACCESS_CHOICES: Choice<TreeRemovalAccess>[] = [
@@ -129,56 +121,6 @@ const CONDITION_CHOICES: Choice<TreeRemovalCondition>[] = [
     },
   },
 ];
-
-const CLEANUP_CHOICES: Choice<CleanupChoice>[] = [
-  {
-    value: "haul",
-    label: "Haul branches and logs",
-    description: "Plan for the crew to remove the above-ground tree material.",
-  },
-  {
-    value: "keep",
-    label: "Keep useful logs or chips",
-    description: "Leaving suitable material onsite may reduce handling and hauling.",
-  },
-  {
-    value: "unsure",
-    label: "Not sure yet",
-    description: "Ask for the estimate to list cleanup and hauling explicitly.",
-  },
-];
-
-const STUMP_CHOICES: Choice<StumpChoice>[] = [
-  {
-    value: "include",
-    label: "Include stump grinding",
-    description: "Treat grinding depth, surface roots, and debris as separate scope items.",
-  },
-  {
-    value: "exclude",
-    label: "Removal only",
-    description: "Leave the stump after the above-ground tree is removed.",
-  },
-  {
-    value: "unsure",
-    label: "Compare both options",
-    description: "Request removal totals with and without stump work.",
-  },
-];
-
-const DRIVER_STYLES: Record<TreeRemovalPlanningDriver["influence"], string> = {
-  "supports-lower": "bg-emerald-50 text-emerald-800",
-  "adds-work": "bg-amber-50 text-amber-900",
-  "pushes-higher": "bg-orange-50 text-orange-900",
-  "site-review": "bg-stone-200 text-stone-800",
-};
-
-const DRIVER_LABELS: Record<TreeRemovalPlanningDriver["influence"], string> = {
-  "supports-lower": "Supports lower end",
-  "adds-work": "May add work",
-  "pushes-higher": "May push higher",
-  "site-review": "Needs site review",
-};
 
 function getChoiceLabel<T extends string>(choices: Choice<T>[], value: T): string {
   return choices.find((choice) => choice.value === value)?.label ?? value;
@@ -304,8 +246,6 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
       ["Access", getChoiceLabel(ACCESS_CHOICES, answers.access as TreeRemovalAccess)],
       ["Drop zone", getChoiceLabel(TARGET_CHOICES, answers.targets as TreeRemovalTargets)],
       ["Reported condition", getChoiceLabel(CONDITION_CHOICES, answers.condition as TreeRemovalCondition)],
-      ["Cleanup", getChoiceLabel(CLEANUP_CHOICES, answers.cleanup as CleanupChoice)],
-      ["Stump", getChoiceLabel(STUMP_CHOICES, answers.stump as StumpChoice)],
     ] as const;
     const worksheetPricing = requiresSiteSpecificPricing
       ? "No responsible online average — site-specific guidance needed"
@@ -320,8 +260,9 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
       "YOUR ANSWERS",
       ...answerRows.map(([label, value]) => `${label}: ${value}`),
       "",
-      "WHAT SHAPED THE RESULT",
-      ...assessment.drivers.map((driver) => `${driver.label} — ${driver.selection}: ${driver.explanation}`),
+      "INCLUDED / SEPARATE",
+      "Cleanup and hauling: included as standard",
+      "Stump grinding: separate service — ask if you have several",
       "",
       "Do not add or multiply planner ranges for multiple trees. Shared crew, equipment, access, and hauling can change multi-tree pricing.",
       "A final price requires a site-specific written estimate.",
@@ -331,7 +272,6 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
       height: answers.heightId,
       access: answers.access,
       condition: answers.condition,
-      stump: answers.stump,
     });
     const copyWorksheet = async () => {
       try {
@@ -476,36 +416,9 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
               </div>
             )}
 
-            <section className="mt-8" aria-labelledby="result-drivers-heading">
-              <h3 id="result-drivers-heading" className="text-lg font-bold text-forest">
-                What shaped this result
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-stone-500">
-                These are directional planning signals, not dollar add-ons.
-              </p>
-              <div className="mt-4 grid gap-3">
-                {assessment.drivers.map((driver) => (
-                  <div key={driver.label} className="rounded-xl border border-stone-200 bg-white p-4">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <span className="text-xs font-bold uppercase tracking-wide text-stone-400">
-                          {driver.label}
-                        </span>
-                        <p className="font-bold text-forest">{driver.selection}</p>
-                      </div>
-                      <span className={cn("rounded-full px-3 py-1 text-xs font-bold", DRIVER_STYLES[driver.influence])}>
-                        {DRIVER_LABELS[driver.influence]}
-                      </span>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-stone-600">{driver.explanation}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
             <section className="mt-8" aria-labelledby="scope-summary-heading">
               <h3 id="scope-summary-heading" className="text-lg font-bold text-forest">
-                Scope to put in the written estimate
+                What a standard removal includes
               </h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
@@ -513,19 +426,15 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
                     <Truck size={17} className="text-gold" /> Cleanup and hauling
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                    {answers.cleanup === "haul" && "Confirm that all branches and logs, final raking, and hauling are included."}
-                    {answers.cleanup === "keep" && "Identify which logs or chips will stay onsite and exactly where the crew should leave them."}
-                    {answers.cleanup === "unsure" && "Ask for cleanup, log hauling, and chip handling to be itemized so totals are comparable."}
+                    Branch and log removal plus final cleanup are included as standard. There is no separate cleanup line to negotiate.
                   </p>
                 </div>
                 <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
                   <div className="flex items-center gap-2 font-bold text-forest">
-                    <TreePine size={17} className="text-gold" /> Stump work
+                    <TreePine size={17} className="text-gold" /> Stump grinding
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                    {answers.stump === "include" && "Request stump grinding as a separate scope item, including depth, surface roots, grindings, and backfill."}
-                    {answers.stump === "exclude" && "The planning scope leaves the stump in place after above-ground removal."}
-                    {answers.stump === "unsure" && "Ask for written totals both with and without stump grinding before deciding."}
+                    A separate service we schedule when there are several stumps to grind, not part of a standard single-tree removal. Ask us if you need it.
                   </p>
                 </div>
               </div>
@@ -620,10 +529,10 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
           </div>
         </div>
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-stone-600">
-          Start with the same {TREE_REMOVAL_PRICING_YEAR} height-based ranges published in our Omaha cost guide, then identify the property and scope factors most likely to move your project within—or beyond—that range.
+          Start with the same {TREE_REMOVAL_PRICING_YEAR} height-based ranges published in our Omaha cost guide, then identify the property factors most likely to move your project within—or beyond—that range. Cleanup and hauling are included as standard, so there is nothing to toggle there.
         </p>
         <div className="mt-5 flex flex-wrap gap-4 text-xs font-bold uppercase tracking-wider text-stone-500">
-          <span className="flex items-center gap-2"><Ruler size={14} /> 6 practical inputs</span>
+          <span className="flex items-center gap-2"><Ruler size={14} /> 4 quick inputs</span>
           <span className="flex items-center gap-2"><ShieldCheck size={14} className="text-emerald-600" /> No account required</span>
           <span className="flex items-center gap-2"><Info size={14} /> Not a quote</span>
         </div>
@@ -712,26 +621,12 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
           value={answers.condition}
           onChange={(value) => updateAnswer("condition", value)}
         />
-        <ChoiceGroup
-          legend="5. Cleanup preference"
-          help="Quotes are easier to compare when they say exactly what happens to branches, logs, chips, and final cleanup."
-          choices={CLEANUP_CHOICES}
-          value={answers.cleanup}
-          onChange={(value) => updateAnswer("cleanup", value)}
-        />
-        <ChoiceGroup
-          legend="6. Stump preference"
-          help="The published removal ranges do not include a separate stump-grinding price, so the planner records scope without inventing an add-on."
-          choices={STUMP_CHOICES}
-          value={answers.stump}
-          onChange={(value) => updateAnswer("stump", value)}
-        />
       </div>
 
       <footer className="sticky bottom-0 border-t border-stone-200 bg-white/95 p-5 backdrop-blur sm:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-sm font-semibold text-stone-500" aria-live="polite">
-            {completedCount} of 6 inputs complete
+            {completedCount} of 4 inputs complete
           </p>
           <button
             type="button"
