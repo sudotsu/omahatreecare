@@ -41,9 +41,13 @@ test.describe("OBS-001 clean local diagnostics", () => {
   for (const path of ["/", "/tools/cost", "/contact"]) {
     test(`no console errors or /_vercel/ requests on ${path}`, async ({ page }) => {
       const consoleErrors: string[] = [];
+      const pageErrors: string[] = [];
       const vercelRequests: string[] = [];
       page.on("console", (msg) => {
         if (msg.type() === "error") consoleErrors.push(msg.text());
+      });
+      page.on("pageerror", (error) => {
+        pageErrors.push(error.message);
       });
       page.on("requestfailed", (req) => {
         if (req.url().includes("/_vercel/")) vercelRequests.push(req.url());
@@ -56,6 +60,7 @@ test.describe("OBS-001 clean local diagnostics", () => {
 
       expect(vercelRequests, `Unexpected Vercel requests: ${vercelRequests.join(", ")}`).toEqual([]);
       expect(consoleErrors, `Unexpected console errors: ${consoleErrors.join(" | ")}`).toEqual([]);
+      expect(pageErrors, `Unexpected page errors: ${pageErrors.join(" | ")}`).toEqual([]);
     });
   }
 });

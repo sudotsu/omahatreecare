@@ -209,8 +209,9 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
 
+  const TOTAL_INPUTS = Object.keys(INITIAL_ANSWERS).length;
   const completedCount = Object.values(answers).filter(Boolean).length;
-  const canCalculate = completedCount === Object.keys(INITIAL_ANSWERS).length;
+  const canCalculate = completedCount === TOTAL_INPUTS;
 
   useEffect(() => {
     if (isComplete) resultHeadingRef.current?.focus();
@@ -271,6 +272,7 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
       source: "cost_planner",
       height: answers.heightId,
       access: answers.access,
+      targets: answers.targets,
       condition: answers.condition,
     });
     const copyWorksheet = async () => {
@@ -450,7 +452,7 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
               <dl className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
                 {answerRows.map(([label, value]) => (
                   <div key={label} className="border-b border-stone-200 pb-2">
-                    <dt className="text-xs font-bold uppercase tracking-wide text-stone-400">{label}</dt>
+                    <dt className="text-xs font-bold uppercase tracking-wide text-stone-600">{label}</dt>
                     <dd className="mt-1 text-sm font-semibold text-forest">{value}</dd>
                   </div>
                 ))}
@@ -502,7 +504,7 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
                 {requiresSiteSpecificPricing ? "Get site-specific guidance" : "Request an on-site estimate"}
                 <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
               </button>
-              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400">
+              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-stone-600">
                 {requiresSiteSpecificPricing
                   ? "Clear next steps · no obligation to hire us"
                   : "Final price and scope are confirmed on site"}
@@ -532,7 +534,7 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
           Start with the same {TREE_REMOVAL_PRICING_YEAR} height-based ranges published in our Omaha cost guide, then identify the property factors most likely to move your project within—or beyond—that range. Cleanup and hauling are included as standard, so there is nothing to toggle there.
         </p>
         <div className="mt-5 flex flex-wrap gap-4 text-xs font-bold uppercase tracking-wider text-stone-500">
-          <span className="flex items-center gap-2"><Ruler size={14} /> 4 quick inputs</span>
+          <span className="flex items-center gap-2"><Ruler size={14} /> {TOTAL_INPUTS} quick inputs</span>
           <span className="flex items-center gap-2"><ShieldCheck size={14} className="text-emerald-600" /> No account required</span>
           <span className="flex items-center gap-2"><Info size={14} /> Not a quote</span>
         </div>
@@ -626,7 +628,7 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
       <footer className="sticky bottom-0 border-t border-stone-200 bg-white/95 p-5 backdrop-blur sm:px-8">
         <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-sm font-semibold text-stone-500" aria-live="polite">
-            {completedCount} of 4 inputs complete
+            {completedCount} of {TOTAL_INPUTS} inputs complete
           </p>
           <button
             type="button"

@@ -2,7 +2,7 @@
 
 ## Baseline state
 
-- **Repository:** /home/sudotsu/omahatreecare, remote `origin` (GitHub sudotsu/omahatreecare)
+- **Repository:** sudotsu/omahatreecare, remote `origin` (GitHub sudotsu/omahatreecare)
 - **Branch at start:** feat/cost-planner-simplification
 - **Implementation-start revision:** `7bdd99c636b565ba5278aa5419bff6800bd6405d`
 - **Teardown audited revision:** `be301ac133149d31133a9a52d093fd94b2e2c90e`

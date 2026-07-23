@@ -155,7 +155,7 @@
 - **Expected behavior:** Text and interactive links should meet WCAG AA contrast and non-color distinction requirements, and headings should describe a coherent hierarchy.
 - **Actual behavior:** Several labels render at approximately 2.63:1, a homepage eyebrow is 4.4:1 against a 4.5:1 target, tool-shell gold text falls below threshold, footer h4 headings skip levels, and one inline phone link lacks persistent non-color styling.
 - **Root cause:** Muted design tokens were applied to essential text without contrast verification, and visual heading sizes were coupled to semantic heading levels.
-- **Affected components:** src/app/page.tsx | src/app/tools/layout.tsx | src/components/forms/FloatingLabelInput.tsx | src/components/layout/Footer.tsx | src/components/ui/HazardAssessmentHeroCard.tsx
+- **Affected components:** src/app/page.tsx | src/app/tools/layout.tsx | src/components/ui/FloatingLabelInput.tsx | src/components/layout/Footer.tsx | src/components/ui/HazardAssessmentHeroCard.tsx
 - **Recommendation:** Correct shared color tokens and component classes, make footer and hero-card heading semantics sequential, and keep inline links visibly underlined. Re-test component states rather than adjusting each page independently.
 - **If implemented:** Core pages will be easier to read and navigate and the accessibility statement will be closer to its stated goal.
 - **If unchanged:** The site will continue to make unsupported accessibility claims while measurable barriers remain.
@@ -168,7 +168,7 @@
 - **Regression risk:** medium
 - **Action:** fix
 - **Strategic classification:** trust-and-accessibility
-- **JSON record digest:** sha256:726ec2f207e0b65a0a76398e0babe5ef612eea1f9622e87f49ca05e7e57f4615
+- **JSON record digest:** sha256:fcb84d0a61f82239b4ad77ea26907de9ca2975360ad99cf25bf6c01072532ebe
 
 ## A11Y-002 — Navigation and species interactions have keyboard and accessible-name gaps
 
@@ -347,11 +347,11 @@
 - **Verification state:** partially-verified
 - **Status:** open
 - **Impact:** Obsolete form code, unused UI components, unused dependencies, and unnecessary public exports increase review effort and can preserve outdated behavior that later gets copied back into active code.
-- **Evidence:** [test] Five unused files, three unused dependencies, and multiple dead or unnecessarily exported symbols were identified; direct ripgrep checks confirmed no active imports for the listed files and packages. — Knip plus targeted usage searches (evidence/dependency-summary.md)
+- **Evidence:** [test] Six unused files, three unused dependencies, and multiple dead or unnecessarily exported symbols were identified; direct ripgrep checks confirmed no active imports for the listed files and packages. — Knip plus targeted usage searches (evidence/dependency-summary.md)
 - **Expected behavior:** Tracked application code and direct dependencies should have a current consumer or an explicit archival reason.
-- **Actual behavior:** The repository retains deprecated/ContactForm.v1.tsx, FastQuoteWidget, EmailCaptureModal, two unused UI components, and direct dependencies @base-ui/react, class-variance-authority, and zustand without active consumers.
+- **Actual behavior:** The repository retains deprecated/ContactForm.v1.tsx, src/app/page.module.css, FastQuoteWidget, EmailCaptureModal, two unused UI components, and direct dependencies @base-ui/react, class-variance-authority, and zustand without active consumers.
 - **Root cause:** Feature replacement and PWA/lead-flow revisions removed callers without a final dead-code convergence pass.
-- **Affected components:** deprecated/ContactForm.v1.tsx | src/components/forms/FastQuoteWidget.tsx | src/components/tools/EmailCaptureModal.tsx | src/components/ui/button.tsx | src/components/ui/NumberCounter.tsx | package.json
+- **Affected components:** deprecated/ContactForm.v1.tsx | src/app/page.module.css | src/components/forms/FastQuoteWidget.tsx | src/components/tools/EmailCaptureModal.tsx | src/components/ui/button.tsx | src/components/ui/NumberCounter.tsx | package.json
 - **Recommendation:** After confirming no intentional archive requirement, delete dead files and values, remove unused dependencies, narrow internal exports, align @types/node with the Node 22 runtime, and add a configured dead-code check as a non-noisy maintenance gate.
 - **If implemented:** The codebase and dependency graph will better represent the product actually shipped.
 - **If unchanged:** Obsolete behavior and packages will continue to consume attention and widen the audit surface.
@@ -364,7 +364,7 @@
 - **Regression risk:** medium
 - **Action:** remove
 - **Strategic classification:** maintenance-cleanup
-- **JSON record digest:** sha256:c31ebbb1887b42ddf98e8b1fcc0d8de50d12f0efef2bb46201c673451158db30
+- **JSON record digest:** sha256:43f58c82069873737d67fea4d1ebba21bedaa3252e3d1143d840cdb31817ea5b
 
 ## DOC-001 — Public and internal claims have drifted from verified behavior
 

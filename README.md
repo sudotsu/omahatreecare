@@ -66,7 +66,7 @@ The hazard tool is a preliminary screening based on self-reported observations, 
 
 Business identity, routing policy, service area, pricing status, analytics identifiers, tool copy, authority disclaimers, and bounded feature flags live in `src/lib/site-config.ts`. Midwest Roots remains the default. This bounded configuration work is complete for the local website, but the tool rules are not fully tenant-neutral or licensing-ready. Extracting all five rule sets into router-free kernels is deferred and remains required before a managed-embed pilot or broader productization.
 
-PWA/service-worker support has been removed. The product remains an ordinary responsive, install-free website. A deployment operator must verify that `/sw.js` is no longer served and that previously installed service workers no longer control clients before release.
+No new PWA/service-worker support is intended; the product is meant to remain an ordinary responsive, install-free website. Legacy service-worker retirement and cleanup remain pending production verification: a deployment operator must verify that `/sw.js` is no longer served and that previously installed service workers no longer control clients before release.
 
 A future managed-embed pilot is intentionally deferred until the local release gates close. Before any build, the owner must name the buyer, fee and support boundary, content/liability review owner, update mechanism, lead destination, privacy roles, and exit plan. Pilot success means one paying company completes agreed homeowner journeys, receives accepted leads without loss or duplication during the trial, and explicitly chooses renewal; those thresholds are not evidence that a broader SaaS market exists.
 

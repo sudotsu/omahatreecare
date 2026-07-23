@@ -224,7 +224,7 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
         </div>
 
         {submitStatus === "error" && (
-          <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <div role="alert" className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
             <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
             <p className="text-sm text-red-700">
               {errorMessage ? `${errorMessage} ` : "Something went wrong. "}

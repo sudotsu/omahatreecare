@@ -6,6 +6,8 @@
 
 ## Surface coverage
 
+The failed and partial audit scenarios below are outside the existing passing baseline suite of 11 automated Chromium tests.
+
 | Surface | Importance | Status | Verification class | Evidence level | Evidence | Limitations | Next step |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Clean install, lint, typecheck, tests, and production build | required | passed | behaviorally-verified | test | Fresh clone passed install, typecheck, 36 unit tests, build, and 11 e2e tests; lint exposed 13 warnings | CI environment itself was not rerun remotely | Preserve baseline and make warnings fatal |
@@ -82,6 +84,6 @@
 
 Command run at 2026-07-22T18:48:12-05:00:
 
-`python3 /home/sudotsu/.codex/skills/project-teardown/scripts/validate_teardown.py project-teardown-2026-07-22`
+`python3 <skill-directory>/scripts/validate_teardown.py project-teardown-2026-07-22`
 
 Successful output: `Teardown validation passed`

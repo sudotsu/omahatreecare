@@ -128,7 +128,7 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
       <h2 className="mb-6 text-2xl font-bold text-slate-900">Request an Estimate</h2>
 
       {submitStatus === "error" && (
-        <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+        <div role="alert" className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
           <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
           <div>
             <h4 className="font-semibold text-red-900">Submission Failed</h4>

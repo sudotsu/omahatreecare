@@ -30,7 +30,7 @@ Perceived performance is a strength. The homepage scored 95 for mobile performan
 
 ## Passed checks and strengths to preserve
 
-- All current Chromium end-to-end journeys passed.
+- The existing baseline suite's 11 automated Chromium tests passed.
 - Every crawled route had the expected status, exactly one H1, content, valid JSON-LD, no broken image, no duplicate ID, and no horizontal overflow.
 - 404 behavior returned the correct status and noindex metadata.
 - Cost-planner emergency and uncertainty paths remain contact-free and explicit about what cannot be priced online.

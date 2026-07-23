@@ -17,7 +17,8 @@ export default defineConfig({
     { name: "chromium", use: { browserName: "chromium" } },
     // Focused cross-engine smoke coverage (TEST-001). Only tests tagged @smoke
     // run here. These engines are installed in CI via `playwright install
-    // --with-deps`; a local run without them will skip these projects.
+    // --with-deps`. Local Firefox/WebKit runs fail with an executable-not-found
+    // error unless those browsers are installed; use `--project=chromium` locally.
     { name: "firefox", use: { browserName: "firefox" }, grep: /@smoke/ },
     { name: "webkit", use: { browserName: "webkit" }, grep: /@smoke/ },
   ],
