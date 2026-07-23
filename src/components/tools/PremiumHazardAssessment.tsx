@@ -1,15 +1,8 @@
 "use client";
 
-import { 
-  AlertTriangle, 
-  CheckCircle, 
-  Info, 
-  Mail, 
-  MessageSquare, 
-  Share2, 
+import {
   XCircle,
   ArrowRight,
-  ArrowLeft,
   Loader2,
   ShieldCheck,
   Search,
@@ -21,7 +14,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { CONTACT } from "@/lib/constants";
 import { dmSerif } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { TreeRingsBackground } from "@/components/ui/TreeRingsBackground";
@@ -136,7 +128,7 @@ export function PremiumHazardAssessment({
   const [assessment, setAssessment] = useState<AssessmentState>({ likelihood: 0, consequence: 0, issues: [] });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [selectedTree, setSelectedTree] = useState<string>(speciesFromNav || "");
+  const [selectedTree] = useState<string>(speciesFromNav || "");
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => { if (isComplete) resultHeadingRef.current?.focus(); }, [isComplete]);
@@ -195,7 +187,7 @@ export function PremiumHazardAssessment({
 
             <div className="mt-auto space-y-4">
               <div className="rounded-lg bg-white/60 p-4 backdrop-blur-sm">
-                <p className="text-xs font-bold uppercase tracking-wide text-stone-400">Next Action</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-stone-600">Next Action</p>
                 <p className="mt-1 text-sm font-bold text-forest">{risk.action}</p>
               </div>
               <button 
@@ -234,7 +226,7 @@ export function PremiumHazardAssessment({
               {/* Identified Issues */}
               {assessment.issues.length > 0 && (
                 <div>
-                  <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-stone-400 text-center">Signs You Reported</h4>
+                  <h4 className="mb-4 text-xs font-bold uppercase tracking-widest text-stone-600 text-center">Signs You Reported</h4>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {assessment.issues.map((issue, i) => (
                       <div key={i} className="flex items-center gap-3 rounded-lg border border-stone-100 bg-white p-4 shadow-sm">
@@ -256,7 +248,7 @@ export function PremiumHazardAssessment({
                   Request Professional Walkthrough
                   <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
                 </button>
-                <p className="mt-4 text-xs text-stone-400">No obligation. Andrew will review this data before your consultation.</p>
+                <p className="mt-4 text-xs text-stone-600">No obligation. Andrew will review this data before your consultation.</p>
               </div>
             </div>
           </div>
@@ -287,7 +279,7 @@ export function PremiumHazardAssessment({
               <currentQ.icon size={20} />
             </div>
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">Step {step + 1} of {QUESTIONS.length}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-ink">Step {step + 1} of {QUESTIONS.length}</span>
               <h2 className={`${dmSerif.className} text-3xl text-forest`}>{currentQ.title}</h2>
             </div>
           </div>
@@ -319,7 +311,7 @@ export function PremiumHazardAssessment({
             >
               <div>
                 <p className="text-lg font-bold text-forest transition-colors group-hover:text-amber-700">{opt.text}</p>
-                <p className="mt-1 text-sm text-stone-400 group-hover:text-stone-500">{opt.subtext}</p>
+                <p className="mt-1 text-sm text-stone-600 group-hover:text-stone-500">{opt.subtext}</p>
               </div>
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-50 text-stone-300 transition-colors group-hover:bg-gold/10 group-hover:text-gold">
                 <ArrowRight size={20} />
@@ -331,11 +323,11 @@ export function PremiumHazardAssessment({
 
       {/* Footer Meta */}
       <div className="bg-stone-50 p-6 flex items-center justify-center gap-6">
-        <div className="flex items-center gap-2 text-xs font-semibold text-stone-400 uppercase tracking-widest">
+        <div className="flex items-center gap-2 text-xs font-semibold text-stone-600 uppercase tracking-widest">
           <ShieldCheck size={14} className="text-emerald-500" />
           Preliminary homeowner screening · Not an on-site assessment
         </div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-stone-400 uppercase tracking-widest">
+        <div className="flex items-center gap-2 text-xs font-semibold text-stone-600 uppercase tracking-widest">
           <Clock size={14} />
           2 Min Process
         </div>

@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "omahatreecare.com" },
-      { protocol: "https", hostname: "midwestroots.info" },
-    ],
-  },
+  // All optimized images are trusted local assets under /public; there is no
+  // user upload or remote image path, so no `images.remotePatterns` allowlist
+  // is configured. This keeps the advisory-affected sharp code (SEC-002,
+  // GHSA-f88m-g3jw-g9cj) off any untrusted input. Revisit remote image config —
+  // and re-audit sharp reachability — only if remote/user-supplied images are
+  // added, or when a supported Next release ships sharp >= 0.35.
   // Consistent canonical URLs — no trailing slash
   trailingSlash: false,
   async headers() {

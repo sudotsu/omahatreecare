@@ -2,7 +2,7 @@
 
 import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { dmSerif } from "@/lib/fonts";
 import { CONTACT } from "@/lib/constants";
 
@@ -25,6 +25,7 @@ export function Navigation({
   const [scrolled, setScrolled]             = useState(false);
   const [isMenuOpen, setIsMenuOpen]         = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -32,6 +33,20 @@ export function Navigation({
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Escape closes the mobile menu and returns focus to the button that opened
+  // it, so keyboard users are never stranded inside an open disclosure (A11Y-002).
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        menuToggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMenuOpen]);
 
   const toggleMenu = () => setIsMenuOpen((v) => !v);
 
@@ -82,11 +97,9 @@ export function Navigation({
               style={{ color: linkColor }}
               aria-haspopup="menu"
               aria-expanded={isServicesOpen}
+              onClick={() => setIsServicesOpen((v) => !v)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setIsServicesOpen((v) => !v);
-                } else if (e.key === "Escape") {
+                if (e.key === "Escape") {
                   setIsServicesOpen(false);
                 }
               }}
@@ -94,6 +107,7 @@ export function Navigation({
               Services
               <ChevronDown
                 size={15}
+                aria-hidden="true"
                 className={`transition-transform ${isServicesOpen ? "rotate-180" : ""}`}
               />
             </button>
@@ -148,6 +162,7 @@ export function Navigation({
 
         {/* Mobile Hamburger */}
         <button
+          ref={menuToggleRef}
           className="md:hidden transition-colors"
           onClick={toggleMenu}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -155,7 +170,7 @@ export function Navigation({
           aria-controls="mobile-menu"
           style={{ color: iconColor }}
         >
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {isMenuOpen ? <X size={28} aria-hidden="true" /> : <Menu size={28} aria-hidden="true" />}
         </button>
       </div>
 

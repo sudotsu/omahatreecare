@@ -20,9 +20,9 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
+            <h2 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
               Contact
-            </h4>
+            </h2>
             <div className="space-y-3 text-sm text-slate-400">
               <div className="flex items-center space-x-2">
                 <Phone size={16} aria-hidden="true" className="text-emerald-500" />
@@ -47,9 +47,9 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
+            <h2 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
               Our Services
-            </h4>
+            </h2>
             <ul className="space-y-2 text-sm text-slate-400">
               {(
                 [
@@ -74,9 +74,9 @@ export function Footer() {
 
           {/* Service Areas */}
           <div>
-            <h4 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
+            <h2 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
               Service Areas
-            </h4>
+            </h2>
             <ul className="space-y-2 text-sm text-slate-400">
               {displayCities.map((city) => (
                 <li key={city}>
@@ -94,9 +94,9 @@ export function Footer() {
 
           {/* About */}
           <div>
-            <h4 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
+            <h2 className="font-bold mb-4 text-sm tracking-wider uppercase text-slate-50">
               About This Site
-            </h4>
+            </h2>
             <p className="text-sm mb-3 text-slate-400">
               Free tree-care resources and preliminary screening tools for Omaha homeowners. <Link href="/privacy" className="underline">Privacy</Link>
             </p>

@@ -8,6 +8,7 @@
   --color-forest:         #11261B;  /* Primary dark green (hero, nav, card CTAs) */
   --color-forest-deep:    #0d1a0f;  /* Deepest dark (stats bar, contact section) */
   --color-gold:           #FFB800;  /* Accent gold (buttons, hover states, labels) */
+  --color-gold-ink:       #7a5c00;  /* Accessible gold-toned TEXT on light backgrounds (>=4.5:1); use instead of text-gold on cream/white (A11Y-001) */
   --color-cream:          #F7F6F2;  /* Page background / hero card background */
   --color-cream-warm:     #f0ede8;  /* Warm off-white — text on dark backgrounds */
   --color-link-dark:      #a8d4c8;  /* Muted teal — nav links over dark hero */
@@ -106,11 +107,6 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-body:has(.field-estimate-app) > nav,
-body:has(.field-estimate-app) > footer {
-  display: none;
 }
 
 @media print {

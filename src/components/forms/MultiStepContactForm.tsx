@@ -1,5 +1,6 @@
 "use client";
 
+import "@/lib/leads/client-validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { 
   AlertCircle, 
@@ -21,26 +22,27 @@ import {
   LucideIcon
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import * as z from "zod";
 import { FloatingLabelInput } from "@/components/ui/FloatingLabelInput";
 import { CONTACT } from "@/lib/constants";
 import { submitLead } from "@/lib/leads/client";
+import { emailField, nameField, phoneField } from "@/lib/leads/fields";
 import { cn } from "@/lib/utils";
 import { dmSerif } from "@/lib/fonts";
 
 // ── Env vars ────────────────────────────────────────────────────────────────
 
 // ── Types & Schemas ─────────────────────────────────────────────────────────
+// Name, email, and phone rules come from the shared client-safe lead contract
+// so both public forms and the API agree on boundaries (FUNC-001).
 const schema = z.object({
   service_type: z.string().min(1, { message: "Please select a service." }),
   address:      z.string().optional(),
   message:      z.string().optional(),
-  user_name:    z.string().trim().min(1, { message: "Name is required." }),
-  user_email:   z.string().trim().email({ message: "Please enter a valid email." }),
-  user_phone:   z.string()
-    .transform(val => val.replace(/\D/g, ""))
-    .refine(val => val.length >= 10, { message: "Please enter a valid 10-digit phone number." }),
+  user_name:    nameField,
+  user_email:   emailField,
+  user_phone:   phoneField,
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -87,6 +89,7 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
   const [step, setStep] = useState<Step>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [receiptId, setReceiptId] = useState("");
   const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
   const [isPreparing, setIsPreparing] = useState(false);
@@ -100,11 +103,11 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     trigger,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({ 
+  } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       service_type: initialValues?.service_type || "",
@@ -116,7 +119,9 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
     }
   });
 
-  const selectedService = watch("service_type");
+  // useWatch (not useForm's watch) keeps this component compatible with the
+  // React Compiler's memoization (BUILD-001).
+  const selectedService = useWatch({ control, name: "service_type" });
 
   const nextStep = async () => {
     let fieldsToValidate: (keyof FormValues)[] = [];
@@ -141,6 +146,7 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
+    setErrorMessage(null);
     try {
       const result = await submitLead({
           user_name:    data.user_name,
@@ -156,6 +162,7 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
       setSubmitStatus("success");
     } catch (err) {
       console.error("Submission error:", err);
+      setErrorMessage(err instanceof Error ? err.message : null);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -217,10 +224,11 @@ export function MultiStepContactForm({ initialValues, trackingData }: MultiStepC
         </div>
 
         {submitStatus === "error" && (
-          <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <div role="alert" className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
             <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
             <p className="text-sm text-red-700">
-              Something went wrong. Please call us at <strong>{CONTACT.phone}</strong>.
+              {errorMessage ? `${errorMessage} ` : "Something went wrong. "}
+              Please call us at <strong>{CONTACT.phone}</strong>.
             </p>
           </div>
         )}

@@ -34,6 +34,13 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
         .map(w => w.charAt(0).toUpperCase() + w.slice(1))
         .join(' ')
     : null
+  const contactHref = {
+    pathname: '/contact',
+    query: {
+      ...(zip ? { zip } : {}),
+      ...(service ? { service } : {}),
+    },
+  }
 
   return (
     <div className="bg-[#f8f6f1] min-h-screen">
@@ -102,6 +109,12 @@ export default async function FreeAssessmentPage({ searchParams }: PageProps) {
         <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6">
           <h3 className="font-bold text-amber-900 mb-4">Need to Reach Andrew Directly?</h3>
           <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              href={contactHref}
+              className="flex items-center justify-center px-6 py-3 bg-amber-400 text-[#11261B] rounded-xl font-semibold hover:bg-amber-300 transition-colors"
+            >
+              Open the contact form
+            </Link>
             <a
               href={`tel:${CONTACT.phoneRaw}`}
               className="flex items-center justify-center gap-2 px-6 py-3 bg-[#11261B] text-white rounded-xl font-semibold hover:bg-[#0d1a0f] transition-colors"

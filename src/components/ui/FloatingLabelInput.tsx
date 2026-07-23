@@ -76,7 +76,7 @@ export function FloatingLabelInput({
           "transition-all duration-200",
           // Empty + unfocused → push down to vertical center
           "peer-placeholder-shown:top-[1.05rem] peer-placeholder-shown:text-sm",
-          "peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-400",
+          "peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-500",
           // Focused (empty or filled) → float back up, teal
           "peer-focus:top-2 peer-focus:text-xs peer-focus:font-medium peer-focus:text-[#52796f]",
           // Error state label color

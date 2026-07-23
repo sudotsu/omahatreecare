@@ -53,8 +53,20 @@ export default async function ToolPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
   const { tool } = await params
-  const resolvedSearchParams = await searchParams
   if (!isToolSlug(tool)) notFound()
   const Tool = TOOL_MAP[tool]
-  return <><h1 className="sr-only">{TOOL_TITLES[tool]}</h1><ToolAnalytics tool={tool}><Tool searchParams={resolvedSearchParams} /></ToolAnalytics></>
+  // Only the hazard tool reads query input (a preselected species); the other
+  // tools take no props, so query params are not threaded through them.
+  return (
+    <>
+      <h1 className="sr-only">{TOOL_TITLES[tool]}</h1>
+      <ToolAnalytics tool={tool}>
+        {tool === 'hazard' ? (
+          <PremiumHazardAssessment searchParams={await searchParams} />
+        ) : (
+          <Tool />
+        )}
+      </ToolAnalytics>
+    </>
+  )
 }

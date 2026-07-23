@@ -24,7 +24,7 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
               <p className={`${dmSerif.className} text-xl leading-none text-forest`}>
                 {CONTACT.businessName}
               </p>
-              <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-gold">
+              <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-gold-ink">
                 Tools & Resources
               </p>
             </div>
@@ -43,9 +43,9 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
         </div>
       </header>
 
-      <div data-tools-shell-content="true" className="container mx-auto px-4 py-8 md:py-16 md:px-6">
+      <main id="main-content" data-tools-shell-content="true" className="container mx-auto px-4 py-8 md:py-16 md:px-6">
         {children}
-      </div>
+      </main>
 
       {/* Integrated Footer */}
       <footer data-tools-shell-footer="true" className="border-t border-stone-200 bg-white py-16">
@@ -70,7 +70,7 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
             </Link>
           </div>
           
-          <p className="mt-12 text-[10px] font-medium uppercase tracking-widest text-stone-400">
+          <p className="mt-12 text-[10px] font-medium uppercase tracking-widest text-stone-600">
             Preliminary homeowner guidance · Local service requests · Serving the Omaha area
           </p>
         </div>

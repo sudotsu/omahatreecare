@@ -1,10 +1,14 @@
 import { z } from "zod";
+import { MIN_PHONE_DIGITS, normalizePhone } from "./fields";
 
 export const leadSchema = z.object({
   idempotencyKey: z.string().trim().min(16).max(128).regex(/^[a-zA-Z0-9_-]+$/),
   user_name: z.string().trim().min(1).max(100),
   user_email: z.union([z.literal(""), z.string().trim().email().max(254)]).default(""),
-  user_phone: z.string().default("").transform((value) => value.replace(/\D/g, "")).refine((value) => value === "" || value.length >= 10, "Invalid phone number"),
+  // Permissive superset of the shared phoneField: a submission may omit the
+  // phone entirely (email-only fallback), but any provided phone must normalize
+  // to at least a full US local number, using the same normalizer as the forms.
+  user_phone: z.string().default("").transform(normalizePhone).refine((value) => value === "" || value.length >= MIN_PHONE_DIGITS, "Invalid phone number"),
   service_type: z.string().trim().min(1).max(100),
   message: z.string().trim().min(3).max(4000),
   address: z.string().trim().max(300).default(""),

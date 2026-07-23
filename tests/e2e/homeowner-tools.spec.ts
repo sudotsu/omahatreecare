@@ -4,6 +4,10 @@ test("legacy receipt URL cannot display success without accepted contact data", 
   await page.goto("/free-tree-assessment-omaha?zip=68104&service=tree-removal");
   await expect(page.getByRole("heading", { name: "Finish Your Estimate Request" })).toBeVisible();
   await expect(page.getByText("Request Received!", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Open the contact form" })).toHaveAttribute(
+    "href",
+    "/contact?zip=68104&service=tree-removal",
+  );
 });
 
 test("production lead acceptance fails closed without database configuration", async ({ request }) => {
@@ -109,7 +113,15 @@ test("storm cleanup explains the pricing boundary without showing an online aver
   await expect(page.getByRole("heading", { name: "Site-specific guidance is the honest answer" })).toBeFocused();
   await expect(page.getByText("No responsible online average", { exact: true })).toBeVisible();
   await expect(page.getByText("$1,040–$1,740", { exact: true })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Get site-specific guidance" })).toBeVisible();
+  await page.getByRole("button", { name: "Get site-specific guidance" }).click();
+  await expect(page).toHaveURL(/\/contact\?/);
+  const contactParams = new URL(page.url()).searchParams;
+  expect(Object.fromEntries(contactParams)).toMatchObject({
+    height: "large",
+    access: "open",
+    targets: "clear",
+    condition: "urgent",
+  });
 });
 
 test("uncertain height produces a transparent, contact-free worksheet", async ({ page }) => {

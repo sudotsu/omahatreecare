@@ -164,7 +164,7 @@ export default async function CityPage({ params }: PageProps) {
                 className="bg-white border-2 border-amber-200 rounded-2xl p-5 hover:border-amber-400 hover:shadow-md transition-all group"
               >
                 <h3 className="font-bold text-amber-900 group-hover:text-[#11261B] transition-colors mb-1">{displayName}</h3>
-                <p className="text-xs text-amber-600 font-medium uppercase tracking-wide mb-2">Property-specific planning</p>
+                <p className="text-xs text-amber-700 font-medium uppercase tracking-wide mb-2">Property-specific planning</p>
                 <p className="text-amber-700 text-sm leading-snug">Prepare access, target, utility, and cleanup details before requesting an estimate.</p>
               </Link>
             )
@@ -182,7 +182,7 @@ export default async function CityPage({ params }: PageProps) {
             </div>
             <p className="text-amber-800 leading-relaxed mb-4">Permit and right-of-way requirements can change and depend on the exact property and work. Confirm current requirements with the municipality before authorizing work.</p>
             <p className="text-sm font-semibold text-amber-700">{ordinance.contact}</p>
-            <p className="text-xs text-amber-600 mt-2">Source link last reviewed {ordinance.reviewedAt}; confirm its current guidance directly. Any permit coordination included in Midwest Roots&apos; scope must be stated in the written estimate.</p>
+            <p className="text-xs text-amber-700 mt-2">Source link last reviewed {ordinance.reviewedAt}; confirm its current guidance directly. Any permit coordination included in Midwest Roots&apos; scope must be stated in the written estimate.</p>
           </div>
         </section>
       )}
