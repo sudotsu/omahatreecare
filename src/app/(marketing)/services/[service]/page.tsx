@@ -69,6 +69,7 @@ export default async function ServicePage({ params }: PageProps) {
               <Phone className="w-5 h-5" />
               {CONTACT.phone}
             </a>
+            {' '}
             <Link
               href="/contact"
               className="inline-flex items-center justify-center px-8 py-4 bg-white/10 text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-colors"
@@ -114,6 +115,7 @@ export default async function ServicePage({ params }: PageProps) {
             >
               Call {CONTACT.phone}
             </a>
+            {' '}
             <Link
               href="/contact"
               className="px-8 py-4 bg-white/10 text-white border border-white/30 rounded-xl font-semibold hover:bg-white/20 transition-colors text-center"

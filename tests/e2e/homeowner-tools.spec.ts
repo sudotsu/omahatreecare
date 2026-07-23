@@ -168,6 +168,17 @@ test("location pages avoid unsupported neighborhood and permit promises", async 
   await expect(page.getByText(/handle all permit coordination/i)).toHaveCount(0);
 });
 
+test("service-page CTA labels retain readable text boundaries", async ({ page }) => {
+  await page.goto("/services/tree-removal");
+
+  await expect(page.getByRole("link", { name: "Get Free Assessment" }).locator("..")).toContainText(
+    "(402) 812-3294 Get Free Assessment",
+  );
+  await expect(page.getByRole("link", { name: "Send a Message" }).locator("..")).toContainText(
+    "Call (402) 812-3294 Send a Message",
+  );
+});
+
 test("mobile navigation and skip link remain available", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
