@@ -67,7 +67,10 @@ export function Navigation({
       style={{ backgroundColor: navBg, backdropFilter: "blur(8px)" }}
       aria-label="Main navigation"
     >
-      <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
+      <div
+        className="container mx-auto px-4 md:px-6 flex justify-between items-center"
+        data-nosnippet=""
+      >
         {/* Brand */}
         <Link href="/" className="flex flex-col gap-0.5">
           <span

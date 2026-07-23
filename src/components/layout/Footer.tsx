@@ -15,7 +15,7 @@ export function Footer() {
 
   return (
     <footer className="bg-slate-900 pt-12 pb-8 text-slate-300">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6" data-nosnippet="">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
 
           {/* Contact Info */}

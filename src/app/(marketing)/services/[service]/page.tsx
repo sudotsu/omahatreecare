@@ -61,7 +61,7 @@ export default async function ServicePage({ params }: PageProps) {
           </nav>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{data.hero_headline}</h1>
           <p className="text-xl text-green-100 max-w-2xl">{data.hero_sub}</p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
+          <div className="mt-8 flex flex-col sm:flex-row gap-3" data-nosnippet="">
             <a
               href={`tel:${CONTACT.phoneRaw}`}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-amber-400 text-[#11261B] rounded-xl font-bold hover:bg-amber-300 transition-colors"
@@ -105,7 +105,10 @@ export default async function ServicePage({ params }: PageProps) {
         </div>
 
         {/* CTA */}
-        <div className="bg-[#11261B] text-white rounded-2xl p-8 text-center">
+        <div
+          className="bg-[#11261B] text-white rounded-2xl p-8 text-center"
+          data-nosnippet=""
+        >
           <h2 className="text-2xl font-bold mb-3">Ready to Get Started?</h2>
           <p className="text-green-100 mb-6">Free on-site assessment — Andrew comes to you, no obligation.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

@@ -168,15 +168,25 @@ test("location pages avoid unsupported neighborhood and permit promises", async 
   await expect(page.getByText(/handle all permit coordination/i)).toHaveCount(0);
 });
 
-test("service-page CTA labels retain readable text boundaries", async ({ page }) => {
+test("service-page boilerplate stays out of search snippets", async ({ page }) => {
   await page.goto("/services/tree-removal");
 
-  await expect(page.getByRole("link", { name: "Get Free Assessment" }).locator("..")).toContainText(
+  const heroCta = page.getByRole("link", { name: "Get Free Assessment" }).locator("..");
+  const closingCta = page.getByRole("link", { name: "Send a Message" }).locator("..");
+
+  await expect(heroCta).toContainText(
     "(402) 812-3294 Get Free Assessment",
   );
-  await expect(page.getByRole("link", { name: "Send a Message" }).locator("..")).toContainText(
+  await expect(closingCta).toContainText(
     "Call (402) 812-3294 Send a Message",
   );
+  await expect(heroCta).toHaveAttribute("data-nosnippet", "");
+  await expect(closingCta.locator("..")).toHaveAttribute("data-nosnippet", "");
+  await expect(page.locator('nav[aria-label="Main navigation"] > div')).toHaveAttribute(
+    "data-nosnippet",
+    "",
+  );
+  await expect(page.locator("footer > div")).toHaveAttribute("data-nosnippet", "");
 });
 
 test("mobile navigation and skip link remain available", async ({ page }) => {
