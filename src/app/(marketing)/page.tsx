@@ -19,9 +19,14 @@ import { CONTACT } from "@/lib/constants";
 import { serviceIds, servicesData } from "@/data/services";
 
 export const metadata: Metadata = {
-  title: "Tree Hazard & Health Tools",
+  // Explicit absolute title (includes the business identity) and canonical for
+  // the site's most important page (META-001). An absolute title does not
+  // depend on the root layout's title template.
+  title: { absolute: "Tree Hazard & Health Tools | Midwest Roots Tree Services" },
   description:
     "Five free tree-care screening and planning tools for Omaha homeowners. No account required.",
+  // No trailing slash, matching trailingSlash:false and every other route's canonical.
+  alternates: { canonical: CONTACT.siteUrl },
   openGraph: {
     title: "Tree Hazard & Health Tools | Midwest Roots",
     description:
@@ -153,7 +158,7 @@ export default function HomePage() {
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mb-12 flex items-end justify-between border-b border-slate-200 pb-6">
             <div>
-              <span className="mb-2 block text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
+              <span className="mb-2 block text-sm font-bold uppercase tracking-[0.2em] text-slate-600">
                 Tree-Care Reference Library
               </span>
               <h2

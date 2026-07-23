@@ -253,7 +253,7 @@ function getSeverityGradient(severity: Severity) {
  *
  * @returns The rendered tree-problem browser or selected ailment details.
  */
-export function CommonAilments({ searchParams: _searchParams }: { searchParams?: Record<string, unknown> }) {
+export function CommonAilments() {
   const [selectedAilment, setSelectedAilment] = useState<Ailment | null>(null)
   const [filterType, setFilterType] = useState<AilmentType | 'all'>('all')
 
@@ -277,7 +277,7 @@ export function CommonAilments({ searchParams: _searchParams }: { searchParams?:
             onClick={() => setFilterType('all')}
             className={`px-6 py-2 rounded-lg font-semibold transition-all ${
               filterType === 'all'
-                ? 'bg-amber-600 text-white'
+                ? 'bg-amber-700 text-white'
                 : 'bg-white text-amber-800 border-2 border-amber-200 hover:border-amber-400'
             }`}
           >

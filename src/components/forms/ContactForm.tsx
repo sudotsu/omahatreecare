@@ -1,5 +1,6 @@
 "use client";
 
+import "@/lib/leads/client-validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle, Loader2, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +9,7 @@ import * as z from "zod";
 import { FloatingLabelInput } from "@/components/ui/FloatingLabelInput";
 import { CONTACT } from "@/lib/constants";
 import { submitLead } from "@/lib/leads/client";
+import { emailField, nameField, phoneField } from "@/lib/leads/fields";
 
 // ── Env vars (Next.js public prefix) ─────────────────────────────────────────
 
@@ -20,10 +22,12 @@ const SERVICE_OPTIONS = [
 ];
 
 // ── Zod schema ────────────────────────────────────────────────────────────────
+// Name, email, and phone rules come from the shared client-safe lead contract
+// so the homepage cannot accept a phone the API will reject (FUNC-001).
 const schema = z.object({
-  user_name:    z.string().min(1, { message: "Name is required." }),
-  user_email:   z.string().email({ message: "Please enter a valid email." }),
-  user_phone:   z.string().min(7, { message: "Phone number is required." }),
+  user_name:    nameField,
+  user_email:   emailField,
+  user_phone:   phoneField,
   service_type: z.string().optional(),
   message:      z.string().optional(),
   address:      z.string().optional(),
@@ -50,6 +54,7 @@ export interface ContactFormProps {
 export function ContactForm({ initialValues, trackingData }: ContactFormProps = {}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [receiptId, setReceiptId] = useState("");
   const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
   const successRef = useRef<HTMLDivElement>(null);
@@ -71,6 +76,7 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     setSubmitStatus(null);
+    setErrorMessage(null);
 
     try {
       const result = await submitLead({
@@ -88,6 +94,7 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
       reset();
     } catch (err) {
       console.error("Lead submission error:", err);
+      setErrorMessage(err instanceof Error ? err.message : null);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -126,8 +133,8 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
           <div>
             <h4 className="font-semibold text-red-900">Submission Failed</h4>
             <p className="text-sm text-red-700">
-              Something went wrong. Please call us at{" "}
-              <strong>{CONTACT.phone}</strong>.
+              {errorMessage ? `${errorMessage} ` : "Something went wrong. "}
+              Please call us at <strong>{CONTACT.phone}</strong>.
             </p>
           </div>
         </div>
@@ -186,7 +193,7 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
             className="block text-sm font-medium text-slate-700"
           >
             Service{" "}
-            <span className="font-normal text-slate-400">(Optional)</span>
+            <span className="font-normal text-slate-600">(Optional)</span>
           </label>
           <select
             id="service_type"
@@ -210,7 +217,7 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
             className="block text-sm font-medium text-slate-700"
           >
             How can we help?{" "}
-            <span className="font-normal text-slate-400">(Optional)</span>
+            <span className="font-normal text-slate-600">(Optional)</span>
           </label>
           <textarea
             id="message"
@@ -240,11 +247,11 @@ export function ContactForm({ initialValues, trackingData }: ContactFormProps = 
           )}
         </button>
 
-        <p className="mt-4 text-center text-xs text-slate-400">
+        <p className="mt-4 text-center text-xs text-slate-600">
           Or call us directly at{" "}
           <a
             href={`tel:${CONTACT.phoneRaw}`}
-            className="text-[#52796f] hover:underline"
+            className="text-[#3d5a54] underline"
           >
             {CONTACT.phone}
           </a>

@@ -5,10 +5,10 @@ export function HazardAssessmentHeroCard() {
   return (
     <div className="bg-cream text-slate-900 p-8 rounded-sm shadow-2xl border-t-8 border-gold">
       <div className="mb-6">
-        <h3 className="mb-2 flex items-center text-2xl font-bold text-forest">
-          <AlertTriangle size={24} className="mr-3 shrink-0 text-forest" />
+        <h2 className="mb-2 flex items-center text-2xl font-bold text-forest">
+          <AlertTriangle size={24} className="mr-3 shrink-0 text-forest" aria-hidden="true" />
           Hazard Assessment Tool
-        </h3>
+        </h2>
         <p className="text-sm leading-relaxed text-slate-600">
           Answer specific questions about your tree&apos;s structure to generate
           an immediate safety score.

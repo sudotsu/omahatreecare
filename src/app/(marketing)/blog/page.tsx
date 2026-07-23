@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: 'Tree Care Blog',
   description: 'Educational tree-care articles for Omaha homeowners covering common pests, symptoms, pruning questions, and storm preparation.',
   alternates: { canonical: `${CONTACT.siteUrl}/blog` },
+  // Withheld from search pending content review/migration to the Treehouse
+  // evidence gate (DOC-001). Reachable by direct link, not indexed.
+  robots: { index: false, follow: true },
   openGraph: {
     title: 'Tree Care Blog | Midwest Roots',
     description: 'Real tree care education for Omaha homeowners. No generic filler.',

@@ -13,5 +13,12 @@ export default defineConfig({
     url: "http://127.0.0.1:3200",
     reuseExistingServer: false,
   },
-  projects: [{ name: "chromium", use: { browserName: "chromium" } }],
+  projects: [
+    { name: "chromium", use: { browserName: "chromium" } },
+    // Focused cross-engine smoke coverage (TEST-001). Only tests tagged @smoke
+    // run here. These engines are installed in CI via `playwright install
+    // --with-deps`; a local run without them will skip these projects.
+    { name: "firefox", use: { browserName: "firefox" }, grep: /@smoke/ },
+    { name: "webkit", use: { browserName: "webkit" }, grep: /@smoke/ },
+  ],
 });

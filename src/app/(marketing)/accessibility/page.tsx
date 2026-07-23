@@ -40,12 +40,18 @@ export default function AccessibilityPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-amber-900 mb-3">What We Are Doing</h2>
+            <h2 className="text-2xl font-bold text-amber-900 mb-3">Accessibility Practices We Apply</h2>
+            <p className="text-amber-800 leading-relaxed mb-3">
+              These are the goals we design and build toward. We verify color
+              contrast and heading structure on representative pages with
+              automated tooling on every build; manual verification with real
+              assistive technology is ongoing (see Known Limitations).
+            </p>
             <ul className="list-disc pl-6 space-y-2 text-amber-800">
               <li>Using semantic HTML elements to communicate structure and meaning</li>
               <li>Providing text alternatives for non-text content</li>
-              <li>Ensuring sufficient color contrast between text and backgrounds</li>
-              <li>Making all functionality available via keyboard navigation</li>
+              <li>Working toward sufficient color contrast between text and backgrounds</li>
+              <li>Working toward full keyboard operability of interactive tools</li>
               <li>Avoiding content that flashes more than three times per second</li>
               <li>Writing descriptive link text that makes sense out of context</li>
             </ul>
@@ -61,7 +67,7 @@ export default function AccessibilityPage() {
           <div>
             <h2 className="text-2xl font-bold text-amber-900 mb-3">Report an Issue</h2>
             <p className="text-amber-800 leading-relaxed mb-4">
-              If you experience any accessibility barriers on our site, please contact us. We take all reports seriously and aim to respond within 2 business days.
+              If you experience any accessibility barriers on our site, please contact us. We take all reports seriously and aim to respond as promptly as we can.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
@@ -80,9 +86,11 @@ export default function AccessibilityPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-amber-900 mb-3">Compatibility</h2>
+            <h2 className="text-2xl font-bold text-amber-900 mb-3">Compatibility We Aim For</h2>
             <p className="text-amber-800 leading-relaxed">
-              This website is designed to be compatible with the following assistive technologies:
+              We design this website to work with the assistive technologies
+              below. We have not yet completed verification with each of these,
+              so we present them as targets rather than confirmed compatibility:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-amber-800 mt-3">
               <li>Screen readers including NVDA, JAWS, and VoiceOver</li>
@@ -94,7 +102,7 @@ export default function AccessibilityPage() {
 
           <div className="pt-4 border-t-2 border-amber-200">
             <p className="text-amber-700 text-sm">
-              This statement was last reviewed on March 31, 2026.{' '}
+              This statement was last reviewed on July 23, 2026.{' '}
               <Link href="/contact" className="underline hover:text-amber-900 transition-colors">
                 Return to contact page
               </Link>

@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AlertTriangle, BookOpen, DollarSign, Leaf, Wrench } from 'lucide-react'
 import { CONTACT } from '@/lib/constants'
+import { treeDatabase } from '@/data/tree-species'
+
+// Derived from the single species source so this count cannot drift (DOC-001).
+const SPECIES_COUNT = treeDatabase.length
 
 export const metadata: Metadata = {
   title: 'Five Free Tree-Care Tools',
@@ -27,7 +31,7 @@ const tools = [
   {
     slug: 'species',
     name: 'Species Identifier',
-    description: 'Browse 12 common Omaha-area trees with leaf, bark, and size characteristics. Find yours and learn the specific risks and maintenance needs for that species in Nebraska.',
+    description: `Browse ${SPECIES_COUNT} common Omaha-area trees with leaf, bark, and size characteristics. Find yours and learn the specific risks and maintenance needs for that species in Nebraska.`,
     icon: Leaf,
     color: 'text-green-700',
     bg: 'bg-green-50 border-green-200',

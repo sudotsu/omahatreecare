@@ -17,6 +17,6 @@ This directory houses previous versions of core components and logic. We keep "e
 
 ## Archive Log
 
-| File | Original Path | Retired On | Reason |
-| :--- | :--- | :--- | :--- |
-| ContactForm.v1.tsx | src/components/forms/ContactForm.tsx | 2026-04-02 | Replaced by MultiStepContactForm (v2) |
+| File | Original Path | Retired On | Reason | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| ContactForm.v1.tsx | src/components/forms/ContactForm.tsx | 2026-04-02 | Replaced by MultiStepContactForm (v2) | Discarded 2026-07-23 (CLEAN-001): unreferenced, superseded, owner-approved |

@@ -129,7 +129,7 @@ function ArticlePage({ article }: { article: TreehouseArticle }) {
             <p className="mt-3 leading-7 text-slate-600">Related article links are intentionally omitted until real Treehouse content exists.</p>
           </section>
           {/* Restore with a "Reviewed by [Name], ISA Certified Arborist #____" credit once the reviewer is secured. */}
-          <p className="mt-8 border-l-2 border-slate-300 pl-5 text-sm leading-6 text-slate-500">This article provides general educational information. Tree condition, property access, utilities, and work requirements vary by site. A photograph or online guide cannot replace an on-site evaluation when safety or structural condition is uncertain.</p>
+          <p className="mt-8 border-l-2 border-slate-300 pl-5 text-sm leading-6 text-slate-600">This article provides general educational information. Tree condition, property access, utilities, and work requirements vary by site. A photograph or online guide cannot replace an on-site evaluation when safety or structural condition is uncertain.</p>
         </div>
         <aside className="order-first space-y-5 lg:order-none lg:sticky lg:top-24" aria-label="Article resources"><TableOfContents article={article} /><EstimateRail /></aside>
       </div>

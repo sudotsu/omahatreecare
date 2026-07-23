@@ -1,12 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/layout/Footer";
-import { Navigation } from "@/components/layout/Navigation";
 import { CONTACT, SERVICE_AREAS } from "@/lib/constants";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { ServiceWorkerCleanup } from "@/components/ServiceWorkerCleanup";
+
+// Vercel Analytics and Speed Insights fetch scripts from Vercel-only endpoints
+// (/_vercel/*). Outside a Vercel deployment those requests 404 and spam the
+// console, masking real regressions (OBS-001). Vercel sets VERCEL=1 in its
+// build/runtime environment, so only mount them there.
+const onVercel = process.env.VERCEL === "1";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -114,11 +118,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
-        <Navigation />
-        <main id="main-content" className="flex-1">{children}</main>
-        <Footer />
-        <SpeedInsights />
-        <Analytics />
+        {children}
+        {onVercel && (
+          <>
+            <SpeedInsights />
+            <Analytics />
+          </>
+        )}
         <ServiceWorkerCleanup />
       </body>
     </html>

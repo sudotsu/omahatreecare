@@ -522,7 +522,7 @@ export function CostEstimator({ searchParams: _searchParams }: { searchParams?: 
             <DollarSign size={22} />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold">Tree removal · planning only</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-ink">Tree removal · planning only</p>
             <h2 className={`${dmSerif.className} text-3xl text-forest sm:text-4xl`}>
               Build a useful cost range
             </h2>

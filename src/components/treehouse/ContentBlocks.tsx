@@ -81,7 +81,7 @@ export function ContentRenderer({ blocks }: { blocks: ContentBlock[] }) {
       case "image":
         return <figure className="my-9" key={index}><Image alt={block.alt} className="h-auto w-full" height={block.height} sizes="(min-width: 1024px) 48rem, 100vw" src={block.src} width={block.width} />{block.caption && <figcaption className="mt-3 text-sm leading-6 text-slate-600">{block.caption}</figcaption>}</figure>;
       case "source-note":
-        return <p className="-mt-2 mb-6 text-sm text-slate-500" key={index}>Source: <a className="inline-flex items-center gap-1 font-medium underline underline-offset-4 hover:text-forest" href={block.url} target="_blank" rel="noreferrer">{block.label}<ExternalLink className="size-3.5" /></a></p>;
+        return <p className="-mt-2 mb-6 text-sm text-slate-600" key={index}>Source: <a className="inline-flex items-center gap-1 font-medium text-forest underline underline-offset-4 hover:text-primary" href={block.url} target="_blank" rel="noreferrer">{block.label}<ExternalLink className="size-3.5" aria-hidden="true" /></a></p>;
     }
   });
 }
@@ -118,7 +118,7 @@ export function ToolCta({ title, text, link }: { title: string; text: string; li
 export function EstimateChecklist({ title, items }: { title: string; items: string[] }) {
   return (
     <aside className="my-9 border-y border-forest/20 bg-stone p-6 md:p-8">
-      <h3 className="text-2xl font-bold text-forest">{title}</h3>
+      <h2 className="text-2xl font-bold text-forest">{title}</h2>
       <ol className="mt-6 grid gap-3 sm:grid-cols-2">
         {items.map((item, index) => <li className="flex items-start gap-3 bg-white p-4 leading-6 text-slate-700" key={item}><span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-forest text-xs font-bold text-gold">{index + 1}</span><RichText text={item} /></li>)}
       </ol>
@@ -154,7 +154,7 @@ export function Sources({ items }: { items: SourceReference[] }) {
         {items.map((source, index) => (
           <li className="grid grid-cols-[2rem_1fr] gap-3 border-b border-slate-200 pb-4" key={source.url}>
             <span className="font-mono text-sm text-primary">{String(index + 1).padStart(2, "0")}</span>
-            <div><a className="inline-flex items-start gap-1 font-semibold text-forest underline decoration-primary/30 underline-offset-4 hover:decoration-primary" href={source.url} target="_blank" rel="noreferrer">{source.title}<ExternalLink className="mt-1 size-3.5 shrink-0" /></a><span className="mt-1 block text-sm text-slate-500">{source.organization}{source.accessedDate ? ` · Accessed ${source.accessedDate}` : ""}</span></div>
+            <div><a className="inline-flex items-start gap-1 font-semibold text-forest underline decoration-primary/30 underline-offset-4 hover:decoration-primary" href={source.url} target="_blank" rel="noreferrer">{source.title}<ExternalLink className="mt-1 size-3.5 shrink-0" /></a><span className="mt-1 block text-sm text-slate-600">{source.organization}{source.accessedDate ? ` · Accessed ${source.accessedDate}` : ""}</span></div>
           </li>
         ))}
       </ol>

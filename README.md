@@ -1,6 +1,6 @@
 # Midwest Roots Tree Services — omahatreecare.com
 
-Next.js 16.2.6 App Router website for Midwest Roots Tree Services, including five no-account homeowner screening and planning tools.
+Next.js 16.2.11 App Router website for Midwest Roots Tree Services, including five no-account homeowner screening and planning tools.
 
 ## Local development
 
@@ -62,7 +62,7 @@ The structured editorial section lives at `/treehouse`. See [docs/TREEHOUSE_PUBL
 
 ## Tool and product boundaries
 
-The hazard tool is a preliminary screening based on self-reported observations, not an on-site inspection or diagnosis. Numeric cost output is an uncalibrated broad planning range, not a quote. The photo workflow opens a draft only; the homeowner must attach and send files manually.
+The hazard tool is a preliminary screening based on self-reported observations, not an on-site inspection or diagnosis. Numeric cost output is a planning range built from Midwest Roots' published 2025 height-based removal pricing (`src/data/tree-removal-pricing.ts`) with modifiers for access, condition, and site factors — a budgeting range shared with the Treehouse cost article, not a quote. The photo workflow opens a draft only; the homeowner must attach and send files manually.
 
 Business identity, routing policy, service area, pricing status, analytics identifiers, tool copy, authority disclaimers, and bounded feature flags live in `src/lib/site-config.ts`. Midwest Roots remains the default. This bounded configuration work is complete for the local website, but the tool rules are not fully tenant-neutral or licensing-ready. Extracting all five rule sets into router-free kernels is deferred and remains required before a managed-embed pilot or broader productization.
 

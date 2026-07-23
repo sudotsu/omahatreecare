@@ -20,6 +20,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: post.title,
     description: post.excerpt,
     alternates: { canonical: `${CONTACT.siteUrl}/blog/${slug}` },
+    // Withheld from search pending content review/migration (DOC-001).
+    robots: { index: false, follow: true },
     openGraph: {
       title: post.title,
       description: post.excerpt,

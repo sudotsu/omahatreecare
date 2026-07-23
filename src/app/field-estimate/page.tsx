@@ -8,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function FieldEstimatePage() {
-  return <FieldEstimate />;
+  return (
+    <main id="main-content" className="flex-1">
+      <FieldEstimate />
+    </main>
+  );
 }

@@ -17,7 +17,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      # All engines: Chromium runs the full suite; Firefox/WebKit run @smoke.
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run typecheck
       - run: npm test
       - run: npm run lint
